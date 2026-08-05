@@ -20,8 +20,8 @@
 | **22** | Lesson 4 One-Step Equations + terminal L1→L4 | `269df4c` |
 | **23** | L4 3D unlocks (beam / Operator / Delta Balance) | `5aea906` |
 | **24** | Lesson 5 Two-Step Equations + terminal L1→L5 | `5aea906` |
-| **25** | L5 3D unlocks (calibrator / Chief / Epsilon) | *shipping* |
-| **26** | Lesson 6 Both-Sides Equations + terminal L1→L6 | *shipping* |
+| **25** | L5 3D unlocks (calibrator / Chief / Epsilon) | `95af64a` |
+| **26** | Lesson 6 Both-Sides Equations + terminal L1→L6 | `95af64a` |
 
 Critics: W16–W24 → **PASS_WITH_GAPS**; W19 plateau → curriculum; **W25–W26 → PASS_WITH_GAPS** (W26 feedback/tag polish applied)
 
