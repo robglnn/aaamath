@@ -5,72 +5,75 @@
   "order": 2,
   "title": {
     "en": "Combining Like Terms",
-    "es": "Combinar términos semejantes",
-    "pl": "Łączenie podobnych wyrazów"
+    "es": "Reducción de términos semejantes",
+    "pl": "Redukcja wyrazów podobnych"
   },
   "objectives": [
     {
-      "en": "Identify like terms in an expression.",
-      "es": "Identificar términos semejantes en una expresión.",
-      "pl": "Rozpoznawać podobne wyrazy w wyrażeniu."
+      "en": "Identify terms, coefficients, and constant terms in an algebraic expression.",
+      "es": "Identificar términos, coeficientes y términos constantes en una expresión algebraica.",
+      "pl": "Wskazywać wyrazy, współczynniki i wyrazy wolne w wyrażeniu algebraicznym."
     },
     {
-      "en": "Combine coefficients of like terms.",
-      "es": "Combinar coeficientes de términos semejantes.",
-      "pl": "Łączyć współczynniki podobnych wyrazów."
+      "en": "Combine like terms by adding or subtracting their coefficients.",
+      "es": "Reducir términos semejantes sumando o restando sus coeficientes.",
+      "pl": "Redukować wyrazy podobne przez dodawanie lub odejmowanie ich współczynników."
     },
     {
-      "en": "Simplify expressions by merging all like terms.",
-      "es": "Simplificar expresiones fusionando todos los términos semejantes.",
-      "pl": "Upraszczać wyrażenia przez połączenie wszystkich podobnych wyrazów."
+      "en": "Simplify expressions with signed coefficients, constants, and several different variables.",
+      "es": "Simplificar expresiones con coeficientes con signo, constantes y varias variables distintas.",
+      "pl": "Upraszczać wyrażenia ze współczynnikami ze znakiem, wyrazami wolnymi i kilkoma różnymi zmiennymi."
     }
   ],
   "knowledgePointIds": [
-    "kp.like-terms.identify",
-    "kp.like-terms.combine",
-    "kp.simplify.like-terms"
+    "kp.term.structure",
+    "kp.combine.like-terms",
+    "kp.combine.constants-signed",
+    "kp.simplify.multi-var-expression"
   ],
   "knowledgePoints": [
     {
-      "id": "kp.variable.symbol",
+      "id": "kp.term.structure",
       "title": {
-        "en": "Variable as a symbol",
-        "es": "La variable como símbolo",
-        "pl": "Zmienna jako symbol"
+        "en": "Structure of a term",
+        "es": "Estructura de un término",
+        "pl": "Budowa wyrazu"
       },
       "description": {
-        "en": "A variable is a symbol (often a letter) that represents a number or quantity that can change.",
-        "es": "Una variable es un símbolo (a menudo una letra) que representa un número o cantidad que puede cambiar.",
-        "pl": "Zmienna to symbol (często litera), który reprezentuje liczbę lub wielkość, która może się zmieniać."
+        "en": "A term is a number, a variable, or a product of a number and variables. The coefficient is the numeric factor; terms are separated by + and - signs.",
+        "es": "Un término es un número, una variable o un producto de un número y variables. El coeficiente es el factor numérico; los términos se separan con signos + y -.",
+        "pl": "Wyraz to liczba, zmienna lub iloczyn liczby i zmiennych. Współczynnik to czynnik liczbowy; wyrazy oddzielają znaki + i -."
       },
-      "prerequisites": [],
+      "prerequisites": [
+        "algebra-i-01:kp.variable.symbol"
+      ],
       "successCriteria": {
-        "en": "Student can identify variables and state that they stand for numbers that may change.",
-        "es": "El estudiante puede identificar variables y afirmar que representan números que pueden cambiar.",
-        "pl": "Uczeń potrafi wskazać zmienne i stwierdzić, że oznaczają liczby, które mogą się zmieniać."
+        "en": "Student can name the coefficient and variable part of any term and count the terms in an expression.",
+        "es": "El estudiante puede nombrar el coeficiente y la parte variable de cualquier término y contar los términos de una expresión.",
+        "pl": "Uczeń potrafi nazwać współczynnik i część zmienną dowolnego wyrazu oraz policzyć wyrazy w wyrażeniu."
       },
       "misconceptions": [
         {
-          "en": "Thinking a variable is always unknown and fixed forever.",
-          "es": "Creer que una variable siempre es desconocida y fija.",
-          "pl": "Myślenie, że zmienna zawsze jest nieznana i stała."
+          "en": "Treating the coefficient and the variable as two separate terms.",
+          "es": "Tratar el coeficiente y la variable como dos términos separados.",
+          "pl": "Traktowanie współczynnika i zmiennej jako dwóch osobnych wyrazów."
         }
       ],
       "standards": {
         "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.6.EE.A.2.b",
           "CCSS.MATH.CONTENT.HSA.SSE.A.1"
         ],
         "CA": [
-          "6.EE.2",
+          "6.EE.2b",
           "A-SSE.1"
         ],
         "NJ": [
-          "6.EE.A.2",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "MI": [
-          "6.EE.2",
+          "6.EE.2b",
           "HSA-SSE.A.1"
         ],
         "TX": [
@@ -79,14 +82,14 @@
         ],
         "NY": [
           "AI-A.SSE.1",
-          "6.EE.2"
+          "6.EE.2b"
         ],
         "IL": [
-          "6.EE.A.2",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "MO": [
-          "6.EE.A.2",
+          "6.EE.A.2b",
           "A.SSE.A.1"
         ],
         "FL": [
@@ -94,15 +97,15 @@
           "MA.912.AR.1.1"
         ],
         "WA": [
-          "6.EE.A.2",
+          "6.EE.A.2b",
           "HSA-SSE.A.1"
         ],
         "DC": [
-          "6.EE.A.2",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "OH": [
-          "6.EE.2",
+          "6.EE.2b",
           "A.SSE.1"
         ],
         "MN": [
@@ -112,7 +115,7 @@
       },
       "irtPriors": {
         "a": 1,
-        "b": -1.2
+        "b": -0.9
       },
       "srDefaults": {
         "initialIntervalDays": 1,
@@ -121,289 +124,83 @@
       }
     },
     {
-      "id": "kp.orderops.with-vars",
+      "id": "kp.combine.like-terms",
       "title": {
-        "en": "Order of operations with variables",
-        "es": "Orden de operaciones con variables",
-        "pl": "Kolejność działań ze zmiennymi"
+        "en": "Combine like terms",
+        "es": "Reducir términos semejantes",
+        "pl": "Redukcja wyrazów podobnych"
       },
       "description": {
-        "en": "Apply order of operations after substituting values into expressions with variables.",
-        "es": "Aplicar el orden de operaciones tras sustituir valores en expresiones con variables.",
-        "pl": "Stosować kolejność działań po podstawieniu wartości do wyrażeń ze zmiennymi."
+        "en": "Like terms have the same variable part: same letters with the same exponents. Combine them by adding or subtracting their coefficients; the variable part stays unchanged.",
+        "es": "Los términos semejantes tienen la misma parte variable: las mismas letras con los mismos exponentes. Se reducen sumando o restando sus coeficientes; la parte variable no cambia.",
+        "pl": "Wyrazy podobne mają tę samą część zmienną: te same litery z tymi samymi wykładnikami. Redukujemy je, dodając lub odejmując współczynniki; część zmienna pozostaje bez zmian."
       },
       "prerequisites": [
-        "kp.variable.symbol"
+        "kp.term.structure"
       ],
       "successCriteria": {
-        "en": "Student evaluates expressions respecting parentheses, exponents, MD, AS.",
-        "es": "El estudiante evalúa respetando paréntesis, exponentes, multiplicación/división y suma/resta.",
-        "pl": "Uczeń oblicza z poszanowaniem nawiasów, potęg, mnożenia/dzielenia oraz dodawania/odejmowania."
+        "en": "Student simplifies a sum or difference of like terms to a single term with the correct coefficient.",
+        "es": "El estudiante simplifica una suma o resta de términos semejantes a un solo término con el coeficiente correcto.",
+        "pl": "Uczeń upraszcza sumę lub różnicę wyrazów podobnych do jednego wyrazu z poprawnym współczynnikiem."
       },
       "misconceptions": [
         {
-          "en": "Always computing left-to-right ignoring multiplication precedence.",
-          "es": "Calcular siempre de izquierda a derecha ignorando la multiplicación.",
-          "pl": "Zawsze od lewej do prawej, ignorując pierwszeństwo mnożenia."
+          "en": "Adding exponents or variable parts when combining (3x + 2x = 5x^2).",
+          "es": "Sumar exponentes o partes variables al reducir (3x + 2x = 5x^2).",
+          "pl": "Dodawanie wykładników lub części zmiennych przy redukcji (3x + 2x = 5x^2)."
         }
       ],
       "standards": {
         "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.2.c",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
         ],
         "CA": [
-          "6.EE.2c",
-          "A-SSE.1"
+          "6.EE.3",
+          "7.EE.1"
         ],
         "NJ": [
-          "6.EE.A.2c",
-          "A-SSE.A.1"
+          "6.EE.A.3",
+          "7.EE.A.1"
         ],
         "MI": [
-          "6.EE.2c",
-          "HSA-SSE.A.1"
+          "6.EE.3",
+          "7.EE.1"
         ],
         "TX": [
-          "A.10B",
+          "A.10A",
           "A.10D"
         ],
         "NY": [
-          "AI-A.SSE.1",
-          "6.EE.2c"
-        ],
-        "IL": [
-          "6.EE.A.2c",
-          "A-SSE.A.1"
-        ],
-        "MO": [
-          "6.EE.A.2c",
-          "A.SSE.A.1"
-        ],
-        "FL": [
-          "MA.6.AR.1.3",
-          "MA.912.AR.1.1"
-        ],
-        "WA": [
-          "6.EE.A.2c",
-          "HSA-SSE.A.1"
-        ],
-        "DC": [
-          "6.EE.A.2c",
-          "A-SSE.A.1"
-        ],
-        "OH": [
-          "6.EE.2c",
-          "A.SSE.1"
-        ],
-        "MN": [
-          "6.2.3.2",
-          "9.2.2.1"
-        ]
-      },
-      "irtPriors": {
-        "a": 1,
-        "b": 0
-      },
-      "srDefaults": {
-        "initialIntervalDays": 1,
-        "easeFactor": 2.5,
-        "masteryThreshold": 0.8
-      }
-    },
-    {
-      "id": "kp.like-terms.identify",
-      "title": {
-        "en": "Identify like terms",
-        "es": "Identificar términos semejantes",
-        "pl": "Rozpoznawanie podobnych wyrazów"
-      },
-      "description": {
-        "en": "Like terms have the same variable raised to the same power; only the coefficients may differ.",
-        "es": "Los términos semejantes tienen la misma variable con la misma potencia; solo los coeficientes pueden diferir.",
-        "pl": "Podobne wyrazy mają tę samą zmieną w tej samej potędze; różnią się tylko współczynnikami."
-      },
-      "prerequisites": [
-        "kp.variable.symbol"
-      ],
-      "successCriteria": {
-        "en": "Student correctly identifies which terms are like and explains why others are not.",
-        "es": "El estudiante identifica correctamente los términos semejantes y explica por qué otros no lo son.",
-        "pl": "Uczeń poprawnie wskazuje podobne wyrazy i wyjaśnia, dlaczego inne nie są podobne."
-      },
-      "misconceptions": [
-        {
-          "en": "Matching only the letter, ignoring the exponent (e.g. treating x and x² as like).",
-          "es": "Coincidir solo la letra, ignorando el exponente (tratar x y x² como semejantes).",
-          "pl": "Dopasowywanie tylko litery, ignorując wykładnik (np. traktowanie x i x² jako podobnych)."
-        }
-      ],
-      "standards": {
-        "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
-        ],
-        "CA": [
-          "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
-        ],
-        "NJ": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
-        ],
-        "MI": [
-          "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
-        ],
-        "TX": [
-          "A.10A",
-          "A.10B",
-          "A.12E"
-        ],
-        "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
         "IL": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MO": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
+          "7.EE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
         ],
         "WA": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
+          "7.EE.A.1"
         ],
         "DC": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "OH": [
-          "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
-        ],
-        "MN": [
-          "6.2.3.2",
-          "7.2.1.1",
-          "9.2.2.1"
-        ]
-      },
-      "irtPriors": {
-        "a": 1,
-        "b": -0.6
-      },
-      "srDefaults": {
-        "initialIntervalDays": 1,
-        "easeFactor": 2.5,
-        "masteryThreshold": 0.8
-      }
-    },
-    {
-      "id": "kp.like-terms.combine",
-      "title": {
-        "en": "Combine like terms",
-        "es": "Combinar términos semejantes",
-        "pl": "Łączenie podobnych wyrazów"
-      },
-      "description": {
-        "en": "Add or subtract coefficients of like terms to rewrite an expression with fewer terms.",
-        "es": "Sumar o restar coeficientes de términos semejantes para reescribir una expresión con menos términos.",
-        "pl": "Dodawaj lub odejmuj współczynniki podobnych wyrazów, aby uprościć wyrażenie."
-      },
-      "prerequisites": [
-        "kp.like-terms.identify"
-      ],
-      "successCriteria": {
-        "en": "Student combines like terms in expressions with two or more variable terms.",
-        "es": "El estudiante combina términos semejantes en expresiones con dos o más términos con variables.",
-        "pl": "Uczeń łączy podobne wyrazy w wyrażeniach z co najmniej dwoma wyrazami ze zmiennymi."
-      },
-      "misconceptions": [
-        {
-          "en": "Adding unlike terms (e.g. 2x + 3y → 5xy).",
-          "es": "Sumar términos no semejantes (ej. 2x + 3y → 5xy).",
-          "pl": "Dodawanie niespodobnych wyrazów (np. 2x + 3y → 5xy)."
-        }
-      ],
-      "standards": {
-        "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
-        ],
-        "CA": [
-          "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
-        ],
-        "NJ": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
-        ],
-        "MI": [
-          "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
-        ],
-        "TX": [
-          "A.10A",
-          "A.10B",
-          "A.12E"
-        ],
-        "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
-        "IL": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
-        ],
-        "MO": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
-        ],
-        "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
-        ],
-        "WA": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
-        ],
-        "DC": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
-        ],
-        "OH": [
-          "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
-        ],
         "MN": [
           "6.2.3.2",
-          "7.2.1.1",
           "9.2.2.1"
         ]
       },
@@ -418,102 +215,181 @@
       }
     },
     {
-      "id": "kp.simplify.like-terms",
+      "id": "kp.combine.constants-signed",
       "title": {
-        "en": "Simplify by combining like terms",
-        "es": "Simplificar combinando términos semejantes",
-        "pl": "Upraszczanie przez łączenie podobnych wyrazów"
+        "en": "Signed coefficients and constant terms",
+        "es": "Coeficientes con signo y términos constantes",
+        "pl": "Współczynniki ze znakiem i wyrazy wolne"
       },
       "description": {
-        "en": "Simplify multi-term expressions by combining like terms and respecting order of operations.",
-        "es": "Simplificar expresiones con varios términos combinando semejantes y respetando el orden de operaciones.",
-        "pl": "Upraszczaj wielowyrazowe wyrażenia przez łączenie podobnych wyrazów i kolejność działań."
+        "en": "A minus sign belongs to the term that follows it: subtracting a term means adding a negative coefficient. Constant terms (plain numbers) are like terms with each other.",
+        "es": "El signo menos pertenece al término que le sigue: restar un término es sumar un coeficiente negativo. Los términos constantes (números solos) son semejantes entre sí.",
+        "pl": "Znak minus należy do wyrazu za nim: odjęcie wyrazu to dodanie ujemnego współczynnika. Wyrazy wolne (same liczby) są do siebie podobne."
       },
       "prerequisites": [
-        "kp.like-terms.combine",
-        "kp.orderops.with-vars"
+        "kp.combine.like-terms"
       ],
       "successCriteria": {
-        "en": "Student produces a fully simplified expression with no remaining combinable like terms.",
-        "es": "El estudiante obtiene una expresión totalmente simplificada sin términos semejantes pendientes.",
-        "pl": "Uczeń podaje w pełni uproszczone wyrażenie bez pozostałych podobnych wyrazów do połączenia."
+        "en": "Student keeps the correct sign on every coefficient and combines constants correctly, including negative results.",
+        "es": "El estudiante conserva el signo correcto en cada coeficiente y reduce las constantes correctamente, incluso con resultados negativos.",
+        "pl": "Uczeń zachowuje właściwy znak każdego współczynnika i poprawnie redukuje wyrazy wolne, także gdy wynik jest ujemny."
       },
       "misconceptions": [
         {
-          "en": "Leaving constants uncombined or stopping before all like terms are merged.",
-          "es": "Dejar constantes sin combinar o detenerse antes de fusionar todos los semejantes.",
-          "pl": "Pozostawianie niespołączonych stałych lub zatrzymanie przed połączeniem wszystkich podobnych wyrazów."
+          "en": "Dropping the minus sign when combining constants (2 - 5 combined as +3).",
+          "es": "Perder el signo menos al reducir constantes (2 - 5 reducido como +3).",
+          "pl": "Gubienie minusa przy redukcji wyrazów wolnych (2 - 5 zredukowane jako +3)."
         }
       ],
       "standards": {
         "CCSS": [
           "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+          "CCSS.MATH.CONTENT.7.EE.A.1"
         ],
         "CA": [
           "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
+          "7.EE.1"
         ],
         "NJ": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MI": [
           "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
+          "7.EE.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10D"
         ],
         "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
         "IL": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MO": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
+          "7.EE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
         ],
         "WA": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
+          "7.EE.A.1"
         ],
         "DC": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "OH": [
           "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
+          "7.EE.1"
         ],
         "MN": [
           "6.2.3.2",
-          "7.2.1.1",
           "9.2.2.1"
         ]
       },
       "irtPriors": {
         "a": 1,
         "b": 0.2
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.simplify.multi-var-expression",
+      "title": {
+        "en": "Simplify expressions with several variable parts",
+        "es": "Simplificar expresiones con varias partes variables",
+        "pl": "Upraszczanie wyrażeń z kilkoma częściami zmiennymi"
+      },
+      "description": {
+        "en": "Group only like terms: x with x, y with y, x^2 with x^2. Unlike terms cannot be merged, so a fully simplified expression can still contain several different terms.",
+        "es": "Agrupa solo términos semejantes: x con x, y con y, x^2 con x^2. Los términos no semejantes no se pueden fusionar, así que una expresión ya simplificada puede contener varios términos distintos.",
+        "pl": "Grupuj tylko wyrazy podobne: x z x, y z y, x^2 z x^2. Wyrazów niepodobnych nie można połączyć, więc w pełni uproszczone wyrażenie może nadal zawierać kilka różnych wyrazów."
+      },
+      "prerequisites": [
+        "kp.combine.like-terms",
+        "kp.combine.constants-signed"
+      ],
+      "successCriteria": {
+        "en": "Student simplifies mixed expressions by combining each family of like terms and leaving unlike terms separate.",
+        "es": "El estudiante simplifica expresiones mixtas reduciendo cada familia de términos semejantes y dejando separados los términos no semejantes.",
+        "pl": "Uczeń upraszcza wyrażenia mieszane, redukując każdą rodzinę wyrazów podobnych i pozostawiając wyrazy niepodobne osobno."
+      },
+      "misconceptions": [
+        {
+          "en": "Merging unlike terms into one (2x + 3y = 5xy).",
+          "es": "Fusionar términos no semejantes en uno solo (2x + 3y = 5xy).",
+          "pl": "Łączenie wyrazów niepodobnych w jeden (2x + 3y = 5xy)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.A.1",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.2"
+        ],
+        "CA": [
+          "7.EE.1",
+          "A-SSE.2"
+        ],
+        "NJ": [
+          "7.EE.A.1",
+          "A-SSE.A.2"
+        ],
+        "MI": [
+          "7.EE.1",
+          "HSA-SSE.A.2"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "AI-A.SSE.2",
+          "7.EE.1"
+        ],
+        "IL": [
+          "7.EE.A.1",
+          "A-SSE.A.2"
+        ],
+        "MO": [
+          "7.EE.A.1",
+          "A.SSE.A.2"
+        ],
+        "FL": [
+          "MA.7.AR.1.1",
+          "MA.912.AR.1.2"
+        ],
+        "WA": [
+          "7.EE.A.1",
+          "HSA-SSE.A.2"
+        ],
+        "DC": [
+          "7.EE.A.1",
+          "A-SSE.A.2"
+        ],
+        "OH": [
+          "7.EE.1",
+          "A.SSE.2"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.5
       },
       "srDefaults": {
         "initialIntervalDays": 1,
@@ -528,24 +404,24 @@
       "kind": "objectives",
       "title": {
         "en": "Mission briefing",
-        "es": "Sesión informativa",
+        "es": "Informe de misión",
         "pl": "Briefing misji"
       },
       "body": {
-        "en": "Success criteria: identify like terms, combine their coefficients, and fully simplify expressions. Mastery unlocks a rail blueprint, Riser Adept rank, and the Cyan Beacon zone.",
-        "es": "Criterios de éxito: identificar términos semejantes, combinar coeficientes y simplificar expresiones por completo. El dominio desbloquea un plano de riel, rango Ascendente Experto y la Zona Baliza Cian.",
-        "pl": "Kryteria sukcesu: rozpoznawać podobne wyrazy, łączyć współczynniki i w pełni upraszczać wyrażenia. Mistrzostwo odblokowuje plan szyny, rangę Wznoszącego Adepta i Strefę Beacon Cyjan."
+        "en": "Success criteria: name the parts of a term, combine like terms with correct signs, and simplify expressions with several variables. Mastery unlocks a pad rail blueprint, the Riser Adept rank, and the Zone Beta Annex.",
+        "es": "Criterios de éxito: nombrar las partes de un término, reducir términos semejantes con los signos correctos y simplificar expresiones con varias variables. El dominio desbloquea un plano de riel, el rango Ascendente Adepto y el Anexo de la Zona Beta.",
+        "pl": "Kryteria sukcesu: nazywać części wyrazu, redukować wyrazy podobne z poprawnymi znakami i upraszczać wyrażenia z kilkoma zmiennymi. Mistrzostwo odblokowuje plan relingu, rangę Wznoszący Adept i Aneks Strefy Beta."
       },
       "bodyLatex": [
-        "3x + 2x",
-        "5x",
-        "2a + 7a = 9a"
+        "5x + 3",
+        "4x + 3x = 7x",
+        "2x + 3y - x + 4y = x + 7y"
       ],
       "itemIds": [],
       "tutorScript": {
-        "en": "Riser, Compact rails only stay aligned when like terms combine cleanly. Today you learn that discipline.",
-        "es": "Ascendente, los rieles del Compacto solo se mantienen alineados cuando los términos semejantes se combinan bien. Hoy aprendes esa disciplina.",
-        "pl": "Wznoszący, szyny Kompaktu trzymają linię tylko gdy podobne wyrazy łączą się poprawnie. Dziś uczysz się tej dyscypliny."
+        "en": "Riser, Lesson 1 gave you the alphabet. Today you learn to compress blueprints: shorter expressions, same meaning.",
+        "es": "Ascendente, la Lección 1 te dio el alfabeto. Hoy aprenderás a comprimir planos: expresiones más cortas, mismo significado.",
+        "pl": "Wznoszący, Lekcja 1 dała ci alfabet. Dziś nauczysz się kompresować plany: krótsze wyrażenia, to samo znaczenie."
       }
     },
     {
@@ -557,22 +433,22 @@
         "pl": "Ja robię — obserwuj model"
       },
       "body": {
-        "en": "Like terms share the same variable and power. Combine by adding or subtracting coefficients: 3x + 2x = 5x. Different variables or powers stay separate.",
-        "es": "Los términos semejantes comparten variable y potencia. Combina sumando o restando coeficientes: 3x + 2x = 5x. Variables o potencias distintas permanecen separadas.",
-        "pl": "Podobne wyrazy mają tę samą zmieną i potęgę. Łącz przez dodawanie lub odejmowanie współczynników: 3x + 2x = 5x. Różne zmienne lub potęgi pozostają osobno."
+        "en": "Only terms with the same variable part combine. I add the coefficients 4 + 3 and keep the x: 4x + 3x = 7x. The term 3x^2 is not like 5x because the exponents differ.",
+        "es": "Solo se combinan los términos con la misma parte variable. Sumo los coeficientes 4 + 3 y conservo la x: 4x + 3x = 7x. El término 3x^2 no es semejante a 5x porque los exponentes son distintos.",
+        "pl": "Łączą się tylko wyrazy o tej samej części zmiennej. Dodaję współczynniki 4 + 3 i zostawiam x: 4x + 3x = 7x. Wyraz 3x^2 nie jest podobny do 5x, bo wykładniki są różne."
       },
       "bodyLatex": [
-        "3x + 2x = 5x",
-        "2a + 7a = 9a"
+        "4x + 3x = (4 + 3)x = 7x",
+        "3x^2 + 5x"
       ],
       "itemIds": [
         "item.ido.1",
         "item.ido.2"
       ],
       "tutorScript": {
-        "en": "Watch: I match variable parts first, then add coefficients. I never merge unlike terms.",
-        "es": "Observa: primero igualo las partes variables, luego sumo coeficientes. Nunca fusiono términos no semejantes.",
-        "pl": "Patrz: najpierw dopasowuję części zmienne, potem dodaję współczynniki. Nigdy nie łączę niespodobnych wyrazów."
+        "en": "Watch my eyes: I compare variable parts first, then I touch only the coefficients.",
+        "es": "Observa: primero comparo las partes variables, luego toco solo los coeficientes.",
+        "pl": "Patrz: najpierw porównuję części zmienne, potem ruszam tylko współczynniki."
       }
     },
     {
@@ -584,19 +460,20 @@
         "pl": "Robimy — ćwiczenia z prowadzeniem"
       },
       "body": {
-        "en": "Answer with me. Group like terms before you combine.",
-        "es": "Responde conmigo. Agrupa términos semejantes antes de combinar.",
-        "pl": "Odpowiadaj ze mną. Grupuj podobne wyrazy przed łączeniem."
+        "en": "Answer with me. Mark like terms in the same color before you combine — the feedback will catch sign slips.",
+        "es": "Responde conmigo. Marca los términos semejantes con el mismo color antes de reducir — la retroalimentación atrapará los errores de signo.",
+        "pl": "Odpowiadaj ze mną. Oznacz wyrazy podobne tym samym kolorem przed redukcją — informacja zwrotna wyłapie błędy znaków."
       },
       "itemIds": [
         "item.wedo.1",
         "item.wedo.2",
-        "item.wedo.3"
+        "item.wedo.3",
+        "item.wedo.4"
       ],
       "tutorScript": {
-        "en": "Your turn with support. Name the like pairs, then combine.",
-        "es": "Tu turno con apoyo. Nombra los pares semejantes y luego combina.",
-        "pl": "Twoja kolej ze wsparciem. Wskaż podobne pary, potem połącz."
+        "en": "Together: same variable part? Then coefficients only. Different variable parts? They stay separate.",
+        "es": "Juntos: ¿misma parte variable? Entonces solo coeficientes. ¿Partes variables distintas? Quedan separados.",
+        "pl": "Razem: ta sama część zmienna? Wtedy tylko współczynniki. Różne części zmienne? Zostają osobno."
       }
     },
     {
@@ -619,9 +496,9 @@
         "item.youdo.4"
       ],
       "tutorScript": {
-        "en": "Show what you know. Simplify fully — no stray like terms left.",
-        "es": "Demuestra lo que sabes. Simplifica por completo — sin semejantes pendientes.",
-        "pl": "Pokaż, co umiesz. Uprość w pełni — bez pozostałych podobnych wyrazów."
+        "en": "No hints now — the Compact is watching how you compress.",
+        "es": "Sin pistas ahora — el Compacto observa cómo comprimes.",
+        "pl": "Bez podpowiedzi — Kompakt obserwuje, jak kompresujesz."
       }
     },
     {
@@ -633,17 +510,18 @@
         "pl": "Szybkie przypomnienie"
       },
       "body": {
-        "en": "Short arithmetic check that supports combining coefficients.",
-        "es": "Breve comprobación aritmética que apoya combinar coeficientes.",
-        "pl": "Krótki test arytmetyczny wspierający łączenie współczynników."
+        "en": "Two fast checks: term anatomy and the invisible coefficient 1.",
+        "es": "Dos comprobaciones rápidas: anatomía del término y el coeficiente invisible 1.",
+        "pl": "Dwa szybkie testy: anatomia wyrazu i niewidzialny współczynnik 1."
       },
       "itemIds": [
-        "item.retr.1"
+        "item.retr.1",
+        "item.retr.2"
       ],
       "tutorScript": {
-        "en": "Keep coefficient arithmetic fluent — rails depend on it.",
-        "es": "Mantén fluida la aritmética de coeficientes — los rieles dependen de ella.",
-        "pl": "Utrzymaj biegłość arytmetyki współczynników — szyny na tym polegają."
+        "en": "Fluency first — rusty parts slow down every build.",
+        "es": "Fluidez primero — las piezas oxidadas frenan cada construcción.",
+        "pl": "Biegłość najpierw — zardzewiałe części spowalniają każdą budowę."
       }
     },
     {
@@ -651,19 +529,19 @@
       "kind": "complete",
       "title": {
         "en": "Rank advanced",
-        "es": "Ascenso de rango",
+        "es": "Rango avanzado",
         "pl": "Awans rangi"
       },
       "body": {
-        "en": "Lesson complete. Place your rail blueprint and access the Cyan Beacon zone.",
-        "es": "Lección completa. Coloca tu plano de riel y accede a la Zona Baliza Cian.",
-        "pl": "Lekcja ukończona. Umieść plan szyny i wejdź do Strefy Beacon Cyjan."
+        "en": "Lesson complete. Mount your pad rail and walk the Zone Beta Annex.",
+        "es": "Lección completa. Monta tu riel de plataforma y recorre el Anexo de la Zona Beta.",
+        "pl": "Lekcja ukończona. Zamontuj reling platformy i przejdź po Aneksie Strefy Beta."
       },
       "itemIds": [],
       "tutorScript": {
-        "en": "Well earned, Adept. Your expressions — and your rails — run true.",
-        "es": "Bien ganado, Experto. Tus expresiones — y tus rieles — quedan alineados.",
-        "pl": "Zasłużone, Adept. Twoje wyrażenia — i szyny — są w linii."
+        "en": "Adept status earned. Shorter blueprints, faster builds — that is the Riser way.",
+        "es": "Estatus de Adepto ganado. Planos más cortos, construcciones más rápidas — ese es el camino del Ascendente.",
+        "pl": "Status Adepta zdobyty. Krótsze plany, szybsze budowy — taka jest droga Wznoszącego."
       }
     }
   ],
@@ -671,408 +549,407 @@
     {
       "id": "item.ido.1",
       "kpIds": [
-        "kp.like-terms.identify"
+        "kp.term.structure"
       ],
       "phase": "i_do",
       "type": "mcq",
       "stem": {
-        "en": "Which pair are like terms?",
-        "es": "¿Cuál pareja son términos semejantes?",
-        "pl": "Która para to podobne wyrazy?"
+        "en": "In the term 5x, what is the coefficient?",
+        "es": "En el término 5x, ¿cuál es el coeficiente?",
+        "pl": "W wyrazie 5x, jaki jest współczynnik?"
       },
+      "stemLatex": "5x",
       "choices": [
         {
           "id": "a",
           "text": {
-            "en": "5x and 3x",
-            "es": "5x y 3x",
-            "pl": "5x i 3x"
+            "en": "5",
+            "es": "5",
+            "pl": "5"
           },
           "isCorrect": true,
           "feedback": {
-            "en": "Correct — same variable and power.",
-            "es": "Correcto — misma variable y potencia.",
-            "pl": "Poprawnie — ta sama zmienna i potęga."
-          },
-          "latex": "5x,\\; 3x"
+            "en": "Correct — the numeric factor is the coefficient.",
+            "es": "Correcto — el factor numérico es el coeficiente.",
+            "pl": "Poprawnie — czynnik liczbowy to współczynnik."
+          }
         },
         {
           "id": "b",
           "text": {
-            "en": "5x and 5y",
-            "es": "5x y 5y",
-            "pl": "5x i 5y"
+            "en": "x",
+            "es": "x",
+            "pl": "x"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Different variables — not like.",
-            "es": "Variables distintas — no semejantes.",
-            "pl": "Różne zmienne — niepodobne."
+            "en": "x is the variable part, not the coefficient.",
+            "es": "x es la parte variable, no el coeficiente.",
+            "pl": "x to część zmienna, nie współczynnik."
           },
-          "diagnosticTag": "diff-var",
-          "latex": "5x,\\; 5y"
+          "diagnosticTag": "var-part"
         },
         {
           "id": "c",
           "text": {
-            "en": "5x and 5x²",
-            "es": "5x y 5x²",
-            "pl": "5x i 5x²"
+            "en": "5x",
+            "es": "5x",
+            "pl": "5x"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Different powers — not like.",
-            "es": "Potencias distintas — no semejantes.",
-            "pl": "Różne potęgi — niepodobne."
+            "en": "That is the whole term, not just its coefficient.",
+            "es": "Ese es el término completo, no solo su coeficiente.",
+            "pl": "To cały wyraz, nie tylko jego współczynnik."
           },
-          "diagnosticTag": "diff-power",
-          "latex": "5x,\\; 5x^2"
+          "diagnosticTag": "whole-term",
+          "latex": "5x"
         }
       ],
       "workedSolution": {
-        "en": "Like terms share the same variable part: 5x and 3x both have x.",
-        "es": "Los semejantes comparten la parte variable: 5x y 3x tienen x.",
-        "pl": "Podobne wyrazy mają tę samą część zmiennej: 5x i 3x mają x."
+        "en": "The coefficient is the number multiplying the variable: 5.",
+        "es": "El coeficiente es el número que multiplica a la variable: 5.",
+        "pl": "Współczynnik to liczba mnożąca zmienną: 5."
       },
-      "workedSolutionLatex": "5x + 3x",
+      "workedSolutionLatex": "5x = 5 \\cdot x",
       "standards": {
         "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
+          "CCSS.MATH.CONTENT.6.EE.A.2.b",
           "CCSS.MATH.CONTENT.HSA.SSE.A.1"
         ],
         "CA": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "A-SSE.1"
         ],
         "NJ": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "MI": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "HSA-SSE.A.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
-          "6.EE.3",
-          "7.EE.1"
+          "6.EE.2b"
         ],
         "IL": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "MO": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A.SSE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
         ],
         "WA": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "HSA-SSE.A.1"
         ],
         "DC": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "OH": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "A.SSE.1"
         ],
         "MN": [
-          "6.2.3.2",
-          "7.2.1.1",
+          "6.2.3.1",
           "9.2.2.1"
         ]
       },
       "irtPriors": {
         "a": 1,
-        "b": -0.8
+        "b": -1
       },
       "difficulty": "intro"
     },
     {
       "id": "item.ido.2",
       "kpIds": [
-        "kp.like-terms.identify"
+        "kp.combine.like-terms"
       ],
       "phase": "i_do",
       "type": "mcq",
       "stem": {
-        "en": "Why are 2a and 7a like terms?",
-        "es": "¿Por qué 2a y 7a son términos semejantes?",
-        "pl": "Dlaczego 2a i 7a są podobne?"
+        "en": "Watch the model: 4x + 3x combines into one term. Which term?",
+        "es": "Observa el modelo: 4x + 3x se reduce a un solo término. ¿Cuál?",
+        "pl": "Obserwuj model: 4x + 3x redukuje się do jednego wyrazu. Którego?"
       },
-      "stemLatex": "2a,\\; 7a",
+      "stemLatex": "4x + 3x",
       "choices": [
         {
           "id": "a",
           "text": {
-            "en": "Same variable a with exponent 1",
-            "es": "Misma variable a con exponente 1",
-            "pl": "Ta sama zmienna a z wykładnikiem 1"
+            "en": "7x",
+            "es": "7x",
+            "pl": "7x"
           },
           "isCorrect": true,
           "feedback": {
-            "en": "Exactly.",
-            "es": "Exacto.",
-            "pl": "Dokładnie."
-          }
+            "en": "4 + 3 = 7, and the variable part x stays.",
+            "es": "4 + 3 = 7, y la parte variable x se conserva.",
+            "pl": "4 + 3 = 7, a część zmienna x zostaje."
+          },
+          "latex": "7x"
         },
         {
           "id": "b",
           "text": {
-            "en": "Both are even numbers",
-            "es": "Ambos son números pares",
-            "pl": "Oba to liczby parzyste"
+            "en": "7x^2",
+            "es": "7x^2",
+            "pl": "7x^2"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Coefficients differ; variable part matches.",
-            "es": "Los coeficientes difieren; la parte variable coincide.",
-            "pl": "Współczynniki różne; część zmienna taka sama."
+            "en": "Coefficients add — exponents do not.",
+            "es": "Los coeficientes se suman — los exponentes no.",
+            "pl": "Współczynniki się dodaje — wykładników nie."
           },
-          "diagnosticTag": "coeff-only"
+          "diagnosticTag": "exp-add",
+          "latex": "7x^2"
         },
         {
           "id": "c",
           "text": {
-            "en": "They share the digit 2",
-            "es": "Comparten el dígito 2",
-            "pl": "Mają cyfrę 2"
+            "en": "43x",
+            "es": "43x",
+            "pl": "43x"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Digits are not the criterion.",
-            "es": "Los dígitos no son el criterio.",
-            "pl": "Cyfry nie są kryterium."
+            "en": "4 + 3 is 7, not the digits glued together.",
+            "es": "4 + 3 es 7, no los dígitos pegados.",
+            "pl": "4 + 3 to 7, nie sklejone cyfry."
           },
-          "diagnosticTag": "digit"
+          "diagnosticTag": "concat",
+          "latex": "43x"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x",
+            "es": "x",
+            "pl": "x"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The coefficients 4 and 3 do not cancel each other.",
+            "es": "Los coeficientes 4 y 3 no se cancelan entre sí.",
+            "pl": "Współczynniki 4 i 3 nie znoszą się wzajemnie."
+          },
+          "diagnosticTag": "cancel",
+          "latex": "x"
         }
       ],
       "workedSolution": {
-        "en": "Both terms use a to the first power.",
-        "es": "Ambos términos usan a a la primera potencia.",
-        "pl": "Oba wyrazy mają a w pierwszej potęgi."
+        "en": "Same variable part x, so add the coefficients: 4 + 3 = 7, giving 7x.",
+        "es": "Misma parte variable x, así que suma los coeficientes: 4 + 3 = 7, lo que da 7x.",
+        "pl": "Ta sama część zmienna x, więc dodaj współczynniki: 4 + 3 = 7, co daje 7x."
       },
-      "workedSolutionLatex": "2a + 7a",
+      "workedSolutionLatex": "(4 + 3)x = 7x",
       "standards": {
         "CCSS": [
           "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+          "CCSS.MATH.CONTENT.7.EE.A.1"
         ],
         "CA": [
           "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
+          "7.EE.1"
         ],
         "NJ": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MI": [
           "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
+          "7.EE.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10D"
         ],
         "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
         "IL": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MO": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
+          "7.EE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
         ],
         "WA": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
+          "7.EE.A.1"
         ],
         "DC": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "OH": [
           "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
+          "7.EE.1"
         ],
         "MN": [
           "6.2.3.2",
-          "7.2.1.1",
           "9.2.2.1"
         ]
       },
       "irtPriors": {
         "a": 1,
-        "b": -0.7
+        "b": -0.6
       },
       "difficulty": "intro"
     },
     {
       "id": "item.wedo.1",
       "kpIds": [
-        "kp.like-terms.identify"
+        "kp.term.structure"
       ],
       "phase": "we_do",
       "type": "mcq",
       "stem": {
-        "en": "In 4m + 2n + 3m, which terms are like?",
-        "es": "En 4m + 2n + 3m, ¿cuáles son semejantes?",
-        "pl": "W 4m + 2n + 3m, które wyrazy są podobne?"
+        "en": "Which pair is a pair of like terms?",
+        "es": "¿Qué par es un par de términos semejantes?",
+        "pl": "Która para to para wyrazów podobnych?"
       },
-      "stemLatex": "4m + 2n + 3m",
       "choices": [
         {
           "id": "a",
           "text": {
-            "en": "4m and 3m",
-            "es": "4m y 3m",
-            "pl": "4m i 3m"
+            "en": "3x and 5x",
+            "es": "3x y 5x",
+            "pl": "3x i 5x"
           },
           "isCorrect": true,
           "feedback": {
-            "en": "Both have m.",
-            "es": "Ambos tienen m.",
-            "pl": "Oba mają m."
+            "en": "Same variable part x — they combine.",
+            "es": "Misma parte variable x — se combinan.",
+            "pl": "Ta sama część zmienna x — można je połączyć."
           },
-          "latex": "4m,\\; 3m"
+          "latex": "3x,\\; 5x"
         },
         {
           "id": "b",
           "text": {
-            "en": "4m and 2n",
-            "es": "4m y 2n",
-            "pl": "4m i 2n"
+            "en": "3x and 3y",
+            "es": "3x y 3y",
+            "pl": "3x i 3y"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "m and n differ.",
-            "es": "m y n difieren.",
-            "pl": "m i n się różnią."
+            "en": "Different variables — not like terms.",
+            "es": "Variables distintas — no son semejantes.",
+            "pl": "Różne zmienne — niepodobne."
           },
-          "diagnosticTag": "diff-var"
+          "diagnosticTag": "var-mismatch",
+          "latex": "3x,\\; 3y"
         },
         {
           "id": "c",
           "text": {
-            "en": "2n and 3m",
-            "es": "2n y 3m",
-            "pl": "2n i 3m"
+            "en": "3x and 3",
+            "es": "3x y 3",
+            "pl": "3x i 3"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Different variables.",
-            "es": "Variables distintas.",
-            "pl": "Różne zmienne."
+            "en": "A constant pairs only with other constants.",
+            "es": "Una constante solo hace par con otras constantes.",
+            "pl": "Wyraz wolny łączy się tylko z innymi wyrazami wolnymi."
           },
-          "diagnosticTag": "diff-var"
+          "diagnosticTag": "const-mismatch",
+          "latex": "3x,\\; 3"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "3x and 3x^2",
+            "es": "3x y 3x^2",
+            "pl": "3x i 3x^2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Same letter, different exponents — not like terms.",
+            "es": "Misma letra, exponentes distintos — no son semejantes.",
+            "pl": "Ta sama litera, różne wykładniki — niepodobne."
+          },
+          "diagnosticTag": "exp-mismatch",
+          "latex": "3x,\\; 3x^2"
         }
       ],
       "workedSolution": {
-        "en": "4m and 3m share variable m.",
-        "es": "4m y 3m comparten la variable m.",
-        "pl": "4m i 3m mają zmienne m."
+        "en": "Like terms share the exact same variable part: 3x and 5x.",
+        "es": "Los términos semejantes comparten exactamente la misma parte variable: 3x y 5x.",
+        "pl": "Wyrazy podobne mają dokładnie tę samą część zmienną: 3x i 5x."
       },
-      "workedSolutionLatex": "4m + 3m",
+      "workedSolutionLatex": "3x + 5x = 8x",
       "standards": {
         "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
+          "CCSS.MATH.CONTENT.6.EE.A.2.b",
           "CCSS.MATH.CONTENT.HSA.SSE.A.1"
         ],
         "CA": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "A-SSE.1"
         ],
         "NJ": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "MI": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "HSA-SSE.A.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
-          "6.EE.3",
-          "7.EE.1"
+          "6.EE.2b"
         ],
         "IL": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "MO": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A.SSE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
         ],
         "WA": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "HSA-SSE.A.1"
         ],
         "DC": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "OH": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "A.SSE.1"
         ],
         "MN": [
-          "6.2.3.2",
-          "7.2.1.1",
+          "6.2.3.1",
           "9.2.2.1"
         ]
       },
@@ -1085,275 +962,80 @@
     {
       "id": "item.wedo.2",
       "kpIds": [
-        "kp.like-terms.combine"
+        "kp.combine.like-terms"
       ],
       "phase": "we_do",
-      "type": "mcq",
+      "type": "short",
       "stem": {
-        "en": "Combine like terms: 6y + 4y.",
-        "es": "Combina términos semejantes: 6y + 4y.",
-        "pl": "Połącz podobne wyrazy: 6y + 4y."
+        "en": "Simplify: 6a + 2a.",
+        "es": "Simplifica: 6a + 2a.",
+        "pl": "Uprość: 6a + 2a."
       },
-      "stemLatex": "6y + 4y",
-      "choices": [
-        {
-          "id": "a",
-          "text": {
-            "en": "10y",
-            "es": "10y",
-            "pl": "10y"
-          },
-          "isCorrect": true,
-          "feedback": {
-            "en": "6 + 4 = 10.",
-            "es": "6 + 4 = 10.",
-            "pl": "6 + 4 = 10."
-          },
-          "latex": "10y"
-        },
-        {
-          "id": "b",
-          "text": {
-            "en": "24y",
-            "es": "24y",
-            "pl": "24y"
-          },
-          "isCorrect": false,
-          "feedback": {
-            "en": "Multiply coefficients only when multiplying terms.",
-            "es": "Multiplica coeficientes solo al multiplicar términos.",
-            "pl": "Mnoż współczynniki tylko przy mnożeniu wyrazów."
-          },
-          "diagnosticTag": "multiply",
-          "latex": "24y"
-        },
-        {
-          "id": "c",
-          "text": {
-            "en": "10y²",
-            "es": "10y²",
-            "pl": "10y²"
-          },
-          "isCorrect": false,
-          "feedback": {
-            "en": "Do not change the power.",
-            "es": "No cambies la potencia.",
-            "pl": "Nie zmieniaj potęgi."
-          },
-          "diagnosticTag": "power",
-          "latex": "10y^2"
-        }
+      "stemLatex": "6a + 2a",
+      "answer": "8a",
+      "acceptableAnswers": [
+        "8a",
+        "8*a",
+        "8 a",
+        "a*8"
       ],
       "workedSolution": {
-        "en": "Add coefficients: 6 + 4 = 10, keep y.",
-        "es": "Suma coeficientes: 6 + 4 = 10, conserva y.",
-        "pl": "Dodaj współczynniki: 6 + 4 = 10, zostaw y."
+        "en": "Add the coefficients: 6 + 2 = 8, and keep the a: 8a.",
+        "es": "Suma los coeficientes: 6 + 2 = 8, y conserva la a: 8a.",
+        "pl": "Dodaj współczynniki: 6 + 2 = 8, i zostaw a: 8a."
       },
-      "workedSolutionLatex": "10y",
+      "workedSolutionLatex": "(6 + 2)a = 8a",
       "standards": {
         "CCSS": [
           "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+          "CCSS.MATH.CONTENT.7.EE.A.1"
         ],
         "CA": [
           "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
+          "7.EE.1"
         ],
         "NJ": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MI": [
           "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
+          "7.EE.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10D"
         ],
         "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
         "IL": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MO": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
+          "7.EE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
         ],
         "WA": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
+          "7.EE.A.1"
         ],
         "DC": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "OH": [
-          "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
-        ],
-        "MN": [
-          "6.2.3.2",
-          "7.2.1.1",
-          "9.2.2.1"
-        ]
-      },
-      "irtPriors": {
-        "a": 1,
-        "b": -0.3
-      },
-      "difficulty": "guided"
-    },
-    {
-      "id": "item.wedo.3",
-      "kpIds": [
-        "kp.like-terms.combine",
-        "kp.simplify.like-terms"
-      ],
-      "phase": "we_do",
-      "type": "mcq",
-      "stem": {
-        "en": "Simplify: 5 + 2x + 3 + x.",
-        "es": "Simplifica: 5 + 2x + 3 + x.",
-        "pl": "Uprość: 5 + 2x + 3 + x."
-      },
-      "stemLatex": "5 + 2x + 3 + x",
-      "choices": [
-        {
-          "id": "a",
-          "text": {
-            "en": "8 + 3x",
-            "es": "8 + 3x",
-            "pl": "8 + 3x"
-          },
-          "isCorrect": true,
-          "feedback": {
-            "en": "Constants 5+3=8; x-terms 2x+x=3x.",
-            "es": "Constantes 5+3=8; términos en x: 2x+x=3x.",
-            "pl": "Stałe 5+3=8; wyrazy z x: 2x+x=3x."
-          },
-          "latex": "8 + 3x"
-        },
-        {
-          "id": "b",
-          "text": {
-            "en": "8 + 2x",
-            "es": "8 + 2x",
-            "pl": "8 + 2x"
-          },
-          "isCorrect": false,
-          "feedback": {
-            "en": "Combine the x terms too.",
-            "es": "Combina también los términos en x.",
-            "pl": "Połącz też wyrazy z x."
-          },
-          "diagnosticTag": "partial-x",
-          "latex": "8 + 2x"
-        },
-        {
-          "id": "c",
-          "text": {
-            "en": "5x + 8",
-            "es": "5x + 8",
-            "pl": "5x + 8"
-          },
-          "isCorrect": false,
-          "feedback": {
-            "en": "Do not add unlike terms.",
-            "es": "No sumes términos no semejantes.",
-            "pl": "Nie dodawaj niespodobnych wyrazów."
-          },
-          "diagnosticTag": "unlike",
-          "latex": "5x + 8"
-        }
-      ],
-      "workedSolution": {
-        "en": "Group constants and x-terms separately.",
-        "es": "Agrupa constantes y términos en x por separado.",
-        "pl": "Grupuj stałe i wyrazy z x osobno."
-      },
-      "workedSolutionLatex": "8 + 3x",
-      "standards": {
-        "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
-        ],
-        "CA": [
-          "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
-        ],
-        "NJ": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
-        ],
-        "MI": [
-          "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
-        ],
-        "TX": [
-          "A.10A",
-          "A.10B",
-          "A.12E"
-        ],
-        "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
-        "IL": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
-        ],
-        "MO": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
-        ],
-        "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
-        ],
-        "WA": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
-        ],
-        "DC": [
-          "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
-        ],
-        "OH": [
-          "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
-        ],
         "MN": [
           "6.2.3.2",
-          "7.2.1.1",
           "9.2.2.1"
         ]
       },
@@ -1364,188 +1046,280 @@
       "difficulty": "guided"
     },
     {
-      "id": "item.youdo.1",
+      "id": "item.wedo.3",
       "kpIds": [
-        "kp.like-terms.identify"
+        "kp.combine.constants-signed"
       ],
-      "phase": "you_do",
+      "phase": "we_do",
       "type": "mcq",
       "stem": {
-        "en": "Which are NOT like terms?",
-        "es": "¿Cuáles NO son términos semejantes?",
-        "pl": "Które NIE są podobne?"
+        "en": "Simplify: 9m - 4m + 2 - 5.",
+        "es": "Simplifica: 9m - 4m + 2 - 5.",
+        "pl": "Uprość: 9m - 4m + 2 - 5."
       },
+      "stemLatex": "9m - 4m + 2 - 5",
       "choices": [
         {
           "id": "a",
           "text": {
-            "en": "3p and 7p",
-            "es": "3p y 7p",
-            "pl": "3p i 7p"
+            "en": "5m - 3",
+            "es": "5m - 3",
+            "pl": "5m - 3"
           },
-          "isCorrect": false,
+          "isCorrect": true,
           "feedback": {
-            "en": "These are like — same variable p.",
-            "es": "Estos son semejantes — misma variable p.",
-            "pl": "To podobne — ta sama zmienna p."
+            "en": "9 - 4 = 5 and 2 - 5 = -3. Correct.",
+            "es": "9 - 4 = 5 y 2 - 5 = -3. Correcto.",
+            "pl": "9 - 4 = 5 oraz 2 - 5 = -3. Poprawnie."
           },
-          "diagnosticTag": "like",
-          "latex": "3p,\\; 7p"
+          "latex": "5m - 3"
         },
         {
           "id": "b",
           "text": {
-            "en": "3p and 3p²",
-            "es": "3p y 3p²",
-            "pl": "3p i 3p²"
+            "en": "5m + 3",
+            "es": "5m + 3",
+            "pl": "5m + 3"
           },
-          "isCorrect": true,
+          "isCorrect": false,
           "feedback": {
-            "en": "Different powers of p.",
-            "es": "Potencias distintas de p.",
-            "pl": "Różne potęgi p."
+            "en": "2 - 5 is negative: -3, not +3.",
+            "es": "2 - 5 es negativo: -3, no +3.",
+            "pl": "2 - 5 jest ujemne: -3, nie +3."
           },
-          "latex": "3p,\\; 3p^2"
+          "diagnosticTag": "const-sign",
+          "latex": "5m + 3"
         },
         {
           "id": "c",
           "text": {
-            "en": "3p and -5p",
-            "es": "3p y -5p",
-            "pl": "3p i -5p"
+            "en": "13m - 3",
+            "es": "13m - 3",
+            "pl": "13m - 3"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Like terms — coefficients may differ.",
-            "es": "Semejantes — coeficientes pueden diferir.",
-            "pl": "Podobne — współczynniki mogą się różnić."
+            "en": "9m - 4m subtracts the coefficients: 5m.",
+            "es": "9m - 4m resta los coeficientes: 5m.",
+            "pl": "9m - 4m odejmuje współczynniki: 5m."
           },
-          "diagnosticTag": "like",
-          "latex": "3p,\\; -5p"
+          "diagnosticTag": "coeff-sign",
+          "latex": "13m - 3"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "5m - 7",
+            "es": "5m - 7",
+            "pl": "5m - 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Check the constants: 2 - 5 = -3, not -7.",
+            "es": "Revisa las constantes: 2 - 5 = -3, no -7.",
+            "pl": "Sprawdź wyrazy wolne: 2 - 5 = -3, nie -7."
+          },
+          "diagnosticTag": "const-arith",
+          "latex": "5m - 7"
         }
       ],
       "workedSolution": {
-        "en": "3p and 3p² differ in exponent.",
-        "es": "3p y 3p² difieren en exponente.",
-        "pl": "3p i 3p² różnią się wykładnikiem."
+        "en": "Combine the m-terms: 9m - 4m = 5m. Combine the constants: 2 - 5 = -3. Result: 5m - 3.",
+        "es": "Reduce los términos en m: 9m - 4m = 5m. Reduce las constantes: 2 - 5 = -3. Resultado: 5m - 3.",
+        "pl": "Zredukuj wyrazy z m: 9m - 4m = 5m. Zredukuj wyrazy wolne: 2 - 5 = -3. Wynik: 5m - 3."
       },
-      "workedSolutionLatex": "3p \\neq 3p^2",
+      "workedSolutionLatex": "(9 - 4)m + (2 - 5) = 5m - 3",
       "standards": {
         "CCSS": [
           "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+          "CCSS.MATH.CONTENT.7.EE.A.1"
         ],
         "CA": [
           "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
+          "7.EE.1"
         ],
         "NJ": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MI": [
           "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
+          "7.EE.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10D"
         ],
         "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
         "IL": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MO": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
+          "7.EE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
         ],
         "WA": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
+          "7.EE.A.1"
         ],
         "DC": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "OH": [
           "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
+          "7.EE.1"
         ],
         "MN": [
           "6.2.3.2",
-          "7.2.1.1",
           "9.2.2.1"
         ]
       },
       "irtPriors": {
         "a": 1,
-        "b": 0
+        "b": 0.2
       },
-      "difficulty": "independent"
+      "difficulty": "guided"
     },
     {
-      "id": "item.youdo.2",
+      "id": "item.wedo.4",
       "kpIds": [
-        "kp.like-terms.combine"
+        "kp.combine.like-terms",
+        "kp.combine.constants-signed"
+      ],
+      "phase": "we_do",
+      "type": "short",
+      "stem": {
+        "en": "Simplify: 3x + 7 + x - 2.",
+        "es": "Simplifica: 3x + 7 + x - 2.",
+        "pl": "Uprość: 3x + 7 + x - 2."
+      },
+      "stemLatex": "3x + 7 + x - 2",
+      "answer": "4x+5",
+      "acceptableAnswers": [
+        "4x+5",
+        "4x + 5",
+        "5+4x",
+        "5 + 4x"
+      ],
+      "workedSolution": {
+        "en": "x-terms: 3x + x = 4x (a lone x means 1x). Constants: 7 - 2 = 5. Result: 4x + 5.",
+        "es": "Términos en x: 3x + x = 4x (una x sola significa 1x). Constantes: 7 - 2 = 5. Resultado: 4x + 5.",
+        "pl": "Wyrazy z x: 3x + x = 4x (samotne x znaczy 1x). Wyrazy wolne: 7 - 2 = 5. Wynik: 4x + 5."
+      },
+      "workedSolutionLatex": "(3 + 1)x + (7 - 2) = 4x + 5",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.3
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.youdo.1",
+      "kpIds": [
+        "kp.combine.like-terms"
       ],
       "phase": "you_do",
       "type": "mcq",
       "stem": {
-        "en": "Combine: 9a - 4a.",
-        "es": "Combina: 9a - 4a.",
-        "pl": "Połącz: 9a - 4a."
+        "en": "Simplify: 8t - 3t.",
+        "es": "Simplifica: 8t - 3t.",
+        "pl": "Uprość: 8t - 3t."
       },
-      "stemLatex": "9a - 4a",
+      "stemLatex": "8t - 3t",
       "choices": [
         {
           "id": "a",
           "text": {
-            "en": "5a",
-            "es": "5a",
-            "pl": "5a"
+            "en": "5t",
+            "es": "5t",
+            "pl": "5t"
           },
           "isCorrect": true,
           "feedback": {
-            "en": "9 - 4 = 5.",
-            "es": "9 - 4 = 5.",
-            "pl": "9 - 4 = 5."
+            "en": "Correct.",
+            "es": "Correcto.",
+            "pl": "Poprawnie."
           },
-          "latex": "5a"
+          "latex": "5t"
         },
         {
           "id": "b",
           "text": {
-            "en": "13a",
-            "es": "13a",
-            "pl": "13a"
+            "en": "5t^2",
+            "es": "5t^2",
+            "pl": "5t^2"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Subtract coefficients.",
-            "es": "Resta coeficientes.",
-            "pl": "Odejmij współczynniki."
+            "en": "The variable part stays t — exponents never change.",
+            "es": "La parte variable sigue siendo t — los exponentes nunca cambian.",
+            "pl": "Część zmienna zostaje t — wykładniki nigdy się nie zmieniają."
           },
-          "diagnosticTag": "add",
-          "latex": "13a"
+          "diagnosticTag": "exp-add",
+          "latex": "5t^2"
         },
         {
           "id": "c",
@@ -1556,82 +1330,87 @@
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Keep the variable a.",
-            "es": "Conserva la variable a.",
-            "pl": "Zachowaj zmienne a."
+            "en": "Do not drop the variable: the answer is 5t.",
+            "es": "No elimines la variable: la respuesta es 5t.",
+            "pl": "Nie gub zmiennej: wynik to 5t."
           },
-          "diagnosticTag": "drop-var"
+          "diagnosticTag": "drop-var",
+          "latex": "5"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "11t",
+            "es": "11t",
+            "pl": "11t"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Minus means subtract the coefficients: 8 - 3 = 5.",
+            "es": "Menos significa restar los coeficientes: 8 - 3 = 5.",
+            "pl": "Minus znaczy odjąć współczynniki: 8 - 3 = 5."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "11t"
         }
       ],
       "workedSolution": {
-        "en": "Subtract like coefficients: 5a.",
-        "es": "Resta coeficientes semejantes: 5a.",
-        "pl": "Odejmij podobne współczynniki: 5a."
+        "en": "8 - 3 = 5; keep the t: 5t.",
+        "es": "8 - 3 = 5; conserva la t: 5t.",
+        "pl": "8 - 3 = 5; zostaw t: 5t."
       },
-      "workedSolutionLatex": "5a",
+      "workedSolutionLatex": "(8 - 3)t = 5t",
       "standards": {
         "CCSS": [
           "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+          "CCSS.MATH.CONTENT.7.EE.A.1"
         ],
         "CA": [
           "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
+          "7.EE.1"
         ],
         "NJ": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MI": [
           "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
+          "7.EE.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10D"
         ],
         "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
         "IL": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MO": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
+          "7.EE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
         ],
         "WA": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
+          "7.EE.A.1"
         ],
         "DC": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "OH": [
           "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
+          "7.EE.1"
         ],
         "MN": [
           "6.2.3.2",
-          "7.2.1.1",
           "9.2.2.1"
         ]
       },
@@ -1642,405 +1421,639 @@
       "difficulty": "independent"
     },
     {
-      "id": "item.youdo.3",
+      "id": "item.youdo.2",
       "kpIds": [
-        "kp.simplify.like-terms"
+        "kp.combine.constants-signed"
       ],
       "phase": "you_do",
       "type": "mcq",
       "stem": {
-        "en": "Simplify: 4x + 1 + 2x + 5.",
-        "es": "Simplifica: 4x + 1 + 2x + 5.",
-        "pl": "Uprość: 4x + 1 + 2x + 5."
+        "en": "Simplify: -2x + 7x.",
+        "es": "Simplifica: -2x + 7x.",
+        "pl": "Uprość: -2x + 7x."
       },
-      "stemLatex": "4x + 1 + 2x + 5",
+      "stemLatex": "-2x + 7x",
       "choices": [
         {
           "id": "a",
           "text": {
-            "en": "6x + 6",
-            "es": "6x + 6",
-            "pl": "6x + 6"
+            "en": "5x",
+            "es": "5x",
+            "pl": "5x"
           },
           "isCorrect": true,
           "feedback": {
-            "en": "x: 4+2=6; constants: 1+5=6.",
-            "es": "x: 4+2=6; constantes: 1+5=6.",
-            "pl": "x: 4+2=6; stałe: 1+5=6."
+            "en": "Correct — the signs differ, so subtract: 7 - 2 = 5, positive.",
+            "es": "Correcto — los signos difieren, así que resta: 7 - 2 = 5, positivo.",
+            "pl": "Poprawnie — znaki są różne, więc odejmij: 7 - 2 = 5, dodatnie."
           },
-          "latex": "6x + 6"
+          "latex": "5x"
         },
         {
           "id": "b",
           "text": {
-            "en": "6x + 5",
-            "es": "6x + 5",
-            "pl": "6x + 5"
+            "en": "9x",
+            "es": "9x",
+            "pl": "9x"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Combine constants 1 and 5.",
-            "es": "Combina constantes 1 y 5.",
-            "pl": "Połącz stałe 1 i 5."
+            "en": "-2 + 7 is not 9; with different signs you subtract, not add.",
+            "es": "-2 + 7 no es 9; con signos distintos se resta, no se suma.",
+            "pl": "-2 + 7 to nie 9; przy różnych znakach odejmujemy, nie dodajemy."
           },
-          "diagnosticTag": "const",
-          "latex": "6x + 5"
+          "diagnosticTag": "add-abs",
+          "latex": "9x"
         },
         {
           "id": "c",
           "text": {
-            "en": "8x + 6",
-            "es": "8x + 6",
-            "pl": "8x + 6"
+            "en": "-5x",
+            "es": "-5x",
+            "pl": "-5x"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Do not add 4x and 2x to constants.",
-            "es": "No sumes 4x y 2x a las constantes.",
-            "pl": "Nie dodawaj 4x i 2x do stałych."
+            "en": "The larger coefficient is +7, so the result is positive.",
+            "es": "El coeficiente mayor es +7, así que el resultado es positivo.",
+            "pl": "Większy współczynnik to +7, więc wynik jest dodatni."
           },
-          "diagnosticTag": "unlike",
-          "latex": "8x + 6"
+          "diagnosticTag": "sign-flip",
+          "latex": "-5x"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "5x^2",
+            "es": "5x^2",
+            "pl": "5x^2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Combining never changes the exponent.",
+            "es": "Reducir nunca cambia el exponente.",
+            "pl": "Redukcja nigdy nie zmienia wykładnika."
+          },
+          "diagnosticTag": "exp-add",
+          "latex": "5x^2"
         }
       ],
       "workedSolution": {
-        "en": "Fully simplified: 6x + 6.",
-        "es": "Totalmente simplificado: 6x + 6.",
-        "pl": "W pełni uproszczone: 6x + 6."
+        "en": "-2 + 7 = 5; keep the x: 5x.",
+        "es": "-2 + 7 = 5; conserva la x: 5x.",
+        "pl": "-2 + 7 = 5; zostaw x: 5x."
       },
-      "workedSolutionLatex": "6x + 6",
+      "workedSolutionLatex": "(-2 + 7)x = 5x",
       "standards": {
         "CCSS": [
           "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+          "CCSS.MATH.CONTENT.7.EE.A.1"
         ],
         "CA": [
           "6.EE.3",
-          "7.EE.1",
-          "A-SSE.1"
+          "7.EE.1"
         ],
         "NJ": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MI": [
           "6.EE.3",
-          "7.EE.1",
-          "HSA-SSE.A.1"
+          "7.EE.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10D"
         ],
         "NY": [
-          "AI-A.SSE.1",
           "6.EE.3",
           "7.EE.1"
         ],
         "IL": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "MO": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A.SSE.A.1"
+          "7.EE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
         ],
         "WA": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "HSA-SSE.A.1"
+          "7.EE.A.1"
         ],
         "DC": [
           "6.EE.A.3",
-          "7.EE.A.1",
-          "A-SSE.A.1"
+          "7.EE.A.1"
         ],
         "OH": [
           "6.EE.3",
-          "7.EE.1",
-          "A.SSE.1"
+          "7.EE.1"
         ],
         "MN": [
           "6.2.3.2",
-          "7.2.1.1",
           "9.2.2.1"
         ]
       },
       "irtPriors": {
         "a": 1,
-        "b": 0.2
+        "b": 0.4
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.3",
+      "kpIds": [
+        "kp.simplify.multi-var-expression"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Simplify: 2x + 3y - x + 4y.",
+        "es": "Simplifica: 2x + 3y - x + 4y.",
+        "pl": "Uprość: 2x + 3y - x + 4y."
+      },
+      "stemLatex": "2x + 3y - x + 4y",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x + 7y",
+            "es": "x + 7y",
+            "pl": "x + 7y"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "2x - x = x and 3y + 4y = 7y. Correct.",
+            "es": "2x - x = x y 3y + 4y = 7y. Correcto.",
+            "pl": "2x - x = x oraz 3y + 4y = 7y. Poprawnie."
+          },
+          "latex": "x + 7y"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "2x + 7y",
+            "es": "2x + 7y",
+            "pl": "2x + 7y"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Combine the x-terms too: 2x - x = x.",
+            "es": "Reduce también los términos en x: 2x - x = x.",
+            "pl": "Zredukuj też wyrazy z x: 2x - x = x."
+          },
+          "diagnosticTag": "partial-combine",
+          "latex": "2x + 7y"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "7xy",
+            "es": "7xy",
+            "pl": "7xy"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "x and y are not like terms — they cannot merge.",
+            "es": "x e y no son términos semejantes — no se pueden fusionar.",
+            "pl": "x i y nie są wyrazami podobnymi — nie można ich połączyć."
+          },
+          "diagnosticTag": "merge-unlike",
+          "latex": "7xy"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x + 7y^2",
+            "es": "x + 7y^2",
+            "pl": "x + 7y^2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Adding coefficients does not change the exponent.",
+            "es": "Sumar coeficientes no cambia el exponente.",
+            "pl": "Dodawanie współczynników nie zmienia wykładnika."
+          },
+          "diagnosticTag": "exp-add",
+          "latex": "x + 7y^2"
+        }
+      ],
+      "workedSolution": {
+        "en": "Group the families: (2x - x) + (3y + 4y) = x + 7y. Unlike terms stay separate.",
+        "es": "Agrupa las familias: (2x - x) + (3y + 4y) = x + 7y. Los términos no semejantes quedan separados.",
+        "pl": "Pogrupuj rodziny: (2x - x) + (3y + 4y) = x + 7y. Wyrazy niepodobne zostają osobno."
+      },
+      "workedSolutionLatex": "(2x - x) + (3y + 4y) = x + 7y",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.A.1",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.2"
+        ],
+        "CA": [
+          "7.EE.1",
+          "A-SSE.2"
+        ],
+        "NJ": [
+          "7.EE.A.1",
+          "A-SSE.A.2"
+        ],
+        "MI": [
+          "7.EE.1",
+          "HSA-SSE.A.2"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "AI-A.SSE.2",
+          "7.EE.1"
+        ],
+        "IL": [
+          "7.EE.A.1",
+          "A-SSE.A.2"
+        ],
+        "MO": [
+          "7.EE.A.1",
+          "A.SSE.A.2"
+        ],
+        "FL": [
+          "MA.7.AR.1.1",
+          "MA.912.AR.1.2"
+        ],
+        "WA": [
+          "7.EE.A.1",
+          "HSA-SSE.A.2"
+        ],
+        "DC": [
+          "7.EE.A.1",
+          "A-SSE.A.2"
+        ],
+        "OH": [
+          "7.EE.1",
+          "A.SSE.2"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.6
       },
       "difficulty": "independent"
     },
     {
       "id": "item.youdo.4",
       "kpIds": [
-        "kp.simplify.like-terms",
-        "kp.orderops.with-vars"
+        "kp.term.structure",
+        "kp.simplify.multi-var-expression"
       ],
       "phase": "you_do",
-      "type": "mcq",
+      "type": "short",
       "stem": {
-        "en": "Simplify: 3(2x) + 4x.",
-        "es": "Simplifica: 3(2x) + 4x.",
-        "pl": "Uprość: 3(2x) + 4x."
+        "en": "Simplify: x^2 + 3x + 2x^2 + x.",
+        "es": "Simplifica: x^2 + 3x + 2x^2 + x.",
+        "pl": "Uprość: x^2 + 3x + 2x^2 + x."
       },
-      "stemLatex": "3(2x) + 4x",
-      "choices": [
-        {
-          "id": "a",
-          "text": {
-            "en": "10x",
-            "es": "10x",
-            "pl": "10x"
-          },
-          "isCorrect": true,
-          "feedback": {
-            "en": "3(2x)=6x; 6x+4x=10x.",
-            "es": "3(2x)=6x; 6x+4x=10x.",
-            "pl": "3(2x)=6x; 6x+4x=10x."
-          },
-          "latex": "10x"
-        },
-        {
-          "id": "b",
-          "text": {
-            "en": "6x + 4x",
-            "es": "6x + 4x",
-            "pl": "6x + 4x"
-          },
-          "isCorrect": false,
-          "feedback": {
-            "en": "Combine to one term.",
-            "es": "Combina en un solo término.",
-            "pl": "Połącz w jeden wyraz."
-          },
-          "diagnosticTag": "partial",
-          "latex": "6x + 4x"
-        },
-        {
-          "id": "c",
-          "text": {
-            "en": "14x",
-            "es": "14x",
-            "pl": "14x"
-          },
-          "isCorrect": false,
-          "feedback": {
-            "en": "Multiply 3·2x first, then add 4x.",
-            "es": "Multiplica 3·2x primero, luego suma 4x.",
-            "pl": "Najpierw 3·2x, potem dodaj 4x."
-          },
-          "diagnosticTag": "order",
-          "latex": "14x"
-        }
+      "stemLatex": "x^2 + 3x + 2x^2 + x",
+      "answer": "3x^2+4x",
+      "acceptableAnswers": [
+        "3x^2+4x",
+        "3x^2 + 4x",
+        "3x²+4x",
+        "3x² + 4x",
+        "4x+3x^2",
+        "4x + 3x^2",
+        "4x+3x²",
+        "3x2+4x"
       ],
       "workedSolution": {
-        "en": "Distribute then combine: 10x.",
-        "es": "Distribuye y combina: 10x.",
-        "pl": "Rozdziel i połącz: 10x."
+        "en": "x^2-terms: x^2 + 2x^2 = 3x^2. x-terms: 3x + x = 4x. Result: 3x^2 + 4x — different exponents stay separate.",
+        "es": "Términos en x^2: x^2 + 2x^2 = 3x^2. Términos en x: 3x + x = 4x. Resultado: 3x^2 + 4x — los exponentes distintos quedan separados.",
+        "pl": "Wyrazy z x^2: x^2 + 2x^2 = 3x^2. Wyrazy z x: 3x + x = 4x. Wynik: 3x^2 + 4x — różne wykładniki zostają osobno."
       },
-      "workedSolutionLatex": "10x",
+      "workedSolutionLatex": "(1 + 2)x^2 + (3 + 1)x = 3x^2 + 4x",
       "standards": {
         "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.3",
           "CCSS.MATH.CONTENT.7.EE.A.1",
-          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+          "CCSS.MATH.CONTENT.HSA.SSE.A.2"
         ],
         "CA": [
-          "6.EE.3",
           "7.EE.1",
-          "A-SSE.1"
+          "A-SSE.2"
         ],
         "NJ": [
-          "6.EE.A.3",
           "7.EE.A.1",
-          "A-SSE.A.1"
+          "A-SSE.A.2"
         ],
         "MI": [
-          "6.EE.3",
           "7.EE.1",
-          "HSA-SSE.A.1"
+          "HSA-SSE.A.2"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10D"
         ],
         "NY": [
-          "AI-A.SSE.1",
-          "6.EE.3",
+          "AI-A.SSE.2",
           "7.EE.1"
         ],
         "IL": [
-          "6.EE.A.3",
           "7.EE.A.1",
-          "A-SSE.A.1"
+          "A-SSE.A.2"
         ],
         "MO": [
-          "6.EE.A.3",
           "7.EE.A.1",
-          "A.SSE.A.1"
+          "A.SSE.A.2"
         ],
         "FL": [
-          "MA.6.AR.1.2",
+          "MA.7.AR.1.1",
           "MA.912.AR.1.2"
         ],
         "WA": [
-          "6.EE.A.3",
           "7.EE.A.1",
-          "HSA-SSE.A.1"
+          "HSA-SSE.A.2"
         ],
         "DC": [
-          "6.EE.A.3",
           "7.EE.A.1",
-          "A-SSE.A.1"
+          "A-SSE.A.2"
         ],
         "OH": [
-          "6.EE.3",
           "7.EE.1",
-          "A.SSE.1"
+          "A.SSE.2"
         ],
         "MN": [
           "6.2.3.2",
-          "7.2.1.1",
           "9.2.2.1"
         ]
       },
       "irtPriors": {
         "a": 1,
-        "b": 0.3
+        "b": 0.8
       },
       "difficulty": "independent"
     },
     {
       "id": "item.retr.1",
       "kpIds": [
-        "kp.like-terms.combine"
+        "kp.term.structure"
       ],
       "phase": "retrieval",
       "type": "mcq",
       "stem": {
-        "en": "Quick check: 7 + 5 = ?",
-        "es": "Comprobación rápida: 7 + 5 = ?",
-        "pl": "Szybki test: 7 + 5 = ?"
+        "en": "How many terms are in 2x + 5y - 3?",
+        "es": "¿Cuántos términos hay en 2x + 5y - 3?",
+        "pl": "Ile wyrazów ma 2x + 5y - 3?"
       },
-      "stemLatex": "7 + 5",
+      "stemLatex": "2x + 5y - 3",
       "choices": [
         {
           "id": "a",
           "text": {
-            "en": "12",
-            "es": "12",
-            "pl": "12"
+            "en": "3",
+            "es": "3",
+            "pl": "3"
           },
           "isCorrect": true,
           "feedback": {
-            "en": "Correct.",
-            "es": "Correcto.",
-            "pl": "Poprawnie."
+            "en": "2x, 5y, and -3 — three terms.",
+            "es": "2x, 5y y -3 — tres términos.",
+            "pl": "2x, 5y i -3 — trzy wyrazy."
           }
         },
         {
           "id": "b",
           "text": {
-            "en": "35",
-            "es": "35",
-            "pl": "35"
+            "en": "2",
+            "es": "2",
+            "pl": "2"
           },
           "isCorrect": false,
           "feedback": {
-            "en": "That is multiplication.",
-            "es": "Eso es multiplicación.",
-            "pl": "To jest mnożenie."
+            "en": "The constant -3 is a term too.",
+            "es": "La constante -3 también es un término.",
+            "pl": "Wyraz wolny -3 też jest wyrazem."
           },
-          "diagnosticTag": "multiply"
+          "diagnosticTag": "const-term"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "5",
+            "es": "5",
+            "pl": "5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Count terms split by + and -, not single symbols.",
+            "es": "Cuenta términos separados por + y -, no símbolos sueltos.",
+            "pl": "Liczy się wyrazy oddzielone znakami + i -, nie pojedyncze symbole."
+          },
+          "diagnosticTag": "count-symbols"
         }
       ],
       "workedSolution": {
-        "en": "Adding constants supports combining coefficients.",
-        "es": "Sumar constantes apoya combinar coeficientes.",
-        "pl": "Dodawanie stałych wspiera łączenie współczynników."
+        "en": "Terms split at + and -: 2x | 5y | -3, so 3 terms.",
+        "es": "Los términos se separan en + y -: 2x | 5y | -3, así que 3 términos.",
+        "pl": "Wyrazy dzielimy wzdłuż + i -: 2x | 5y | -3, czyli 3 wyrazy."
       },
-      "workedSolutionLatex": "12",
       "standards": {
         "CCSS": [
-          "CCSS.MATH.CONTENT.6.EE.A.3",
-          "CCSS.MATH.CONTENT.7.EE.A.1",
+          "CCSS.MATH.CONTENT.6.EE.A.2.b",
           "CCSS.MATH.CONTENT.HSA.SSE.A.1"
         ],
         "CA": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "A-SSE.1"
         ],
         "NJ": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "MI": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "HSA-SSE.A.1"
         ],
         "TX": [
           "A.10A",
-          "A.10B",
-          "A.12E"
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
-          "6.EE.3",
-          "7.EE.1"
+          "6.EE.2b"
         ],
         "IL": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "MO": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A.SSE.A.1"
         ],
         "FL": [
-          "MA.6.AR.1.2",
-          "MA.912.AR.1.2"
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
         ],
         "WA": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "HSA-SSE.A.1"
         ],
         "DC": [
-          "6.EE.A.3",
-          "7.EE.A.1",
+          "6.EE.A.2b",
           "A-SSE.A.1"
         ],
         "OH": [
-          "6.EE.3",
-          "7.EE.1",
+          "6.EE.2b",
           "A.SSE.1"
         ],
         "MN": [
-          "6.2.3.2",
-          "7.2.1.1",
+          "6.2.3.1",
           "9.2.2.1"
         ]
       },
       "irtPriors": {
         "a": 1,
-        "b": -1.5
+        "b": -1.4
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.retr.2",
+      "kpIds": [
+        "kp.combine.like-terms"
+      ],
+      "phase": "retrieval",
+      "type": "evaluate",
+      "stem": {
+        "en": "Combine: 7n + n.",
+        "es": "Reduce: 7n + n.",
+        "pl": "Zredukuj: 7n + n."
+      },
+      "stemLatex": "7n + n",
+      "answer": "8n",
+      "acceptableAnswers": [
+        "8n",
+        "8*n",
+        "8 n"
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "8n",
+            "es": "8n",
+            "pl": "8n"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "n is 1n, so 7 + 1 = 8.",
+            "es": "n es 1n, así que 7 + 1 = 8.",
+            "pl": "n to 1n, więc 7 + 1 = 8."
+          },
+          "latex": "8n"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "7n",
+            "es": "7n",
+            "pl": "7n"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The lone n adds one more n.",
+            "es": "La n sola añade una n más.",
+            "pl": "Samotne n dodaje jeszcze jedno n."
+          },
+          "diagnosticTag": "coeff-1",
+          "latex": "7n"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "7n^2",
+            "es": "7n^2",
+            "pl": "7n^2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "n + n is 2n, not n^2.",
+            "es": "n + n es 2n, no n^2.",
+            "pl": "n + n to 2n, nie n^2."
+          },
+          "diagnosticTag": "exp-add",
+          "latex": "7n^2"
+        }
+      ],
+      "workedSolution": {
+        "en": "n has an invisible coefficient 1: 7n + 1n = 8n.",
+        "es": "n tiene un coeficiente invisible 1: 7n + 1n = 8n.",
+        "pl": "n ma niewidzialny współczynnik 1: 7n + 1n = 8n."
+      },
+      "workedSolutionLatex": "7n + 1n = 8n",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1.1
       },
       "difficulty": "intro"
     }
@@ -2049,9 +2062,10 @@
     "minIndependentCorrect": 3,
     "minIndependentTotal": 4,
     "requiredKpIds": [
-      "kp.like-terms.identify",
-      "kp.like-terms.combine",
-      "kp.simplify.like-terms"
+      "kp.term.structure",
+      "kp.combine.like-terms",
+      "kp.combine.constants-signed",
+      "kp.simplify.multi-var-expression"
     ]
   },
   "unlocks": [
@@ -2059,14 +2073,14 @@
       "id": "bp.pad.rail",
       "kind": "blueprint",
       "title": {
-        "en": "Rail blueprint",
-        "es": "Plano de riel",
-        "pl": "Plan szyny"
+        "en": "Pad rail blueprint",
+        "es": "Plano de riel de plataforma",
+        "pl": "Plan relingu platformy"
       },
       "description": {
-        "en": "Place a rail segment on the training pad.",
-        "es": "Coloca un segmento de riel en la plataforma de entrenamiento.",
-        "pl": "Umieść segment szyny na platformie treningowej."
+        "en": "A slim safety rail accent for pad edges — earned by compressing expressions to their shortest form.",
+        "es": "Un riel de seguridad delgado para los bordes de la plataforma — ganado al comprimir expresiones a su forma más corta.",
+        "pl": "Smukły reling ochronny na krawędzie platformy — zdobyty przez kompresję wyrażeń do najkrótszej postaci."
       }
     },
     {
@@ -2074,34 +2088,43 @@
       "kind": "rank",
       "title": {
         "en": "Riser Adept",
-        "es": "Ascendente Experto",
+        "es": "Ascendente Adepto",
         "pl": "Wznoszący Adept"
       },
       "description": {
-        "en": "Rank insignia earned by Lesson 2 mastery.",
-        "es": "Insignia de rango por dominio de la Lección 2.",
-        "pl": "Odznaka rangi za mistrzostwo Lekcji 2."
+        "en": "Second rung of the Riser ladder, earned by Lesson 2 mastery.",
+        "es": "Segundo peldaño de la escalera del Ascendente, ganado con el dominio de la Lección 2.",
+        "pl": "Drugi szczebel drabiny Wznoszącego, zdobyty mistrzostwem Lekcji 2."
       }
     },
     {
-      "id": "zone.beacon.cyan",
+      "id": "zone.beta.annex",
       "kind": "zone",
       "title": {
-        "en": "Cyan Beacon zone",
-        "es": "Zona Baliza Cian",
-        "pl": "Strefa Beacon Cyjan"
+        "en": "Zone Beta Annex",
+        "es": "Anexo de la Zona Beta",
+        "pl": "Aneks Strefy Beta"
       },
       "description": {
-        "en": "Access the cyan beacon training sector.",
-        "es": "Accede al sector de entrenamiento de la baliza cian.",
-        "pl": "Dostęp do sektora treningowego beacon cyjan."
+        "en": "A side platform off Zone Beta for rail-fit training.",
+        "es": "Una plataforma lateral de la Zona Beta para entrenar el ajuste de rieles.",
+        "pl": "Boczna platforma Strefy Beta do treningu montażu relingów."
       }
     }
   ],
   "worldIntegration": {
-    "terminalId": "terminal.algebra",
+    "terminalId": "terminal.lesson2",
     "unlockBlueprintId": "bp.pad.rail",
     "unlockRankId": "rank.riser.adept",
-    "unlockZoneId": "zone.beacon.cyan"
+    "unlockZoneId": "zone.beta.annex"
+  },
+  "_pipelineMeta": {
+    "stage": "Integration (authored by builder wave 12)",
+    "generatedAt": "2026-08-05T10:55:00.000Z",
+    "notes": [
+      "Replaces the KP-Spec skeleton stub with a full authored lesson (all 7 pipeline stages compressed into one builder pass).",
+      "Cross-lesson prerequisite on kp.term.structure uses the qualified ref algebra-i-01:kp.variable.symbol; the validator warns (does not fail) because prereqs starting with kp. must live in-package. Formalize cross-package refs in a future schema pass.",
+      "Unlocks are declared per schema but NOT wired into the game store; terminal.lesson2 has no in-world placement yet."
+    ]
   }
 }

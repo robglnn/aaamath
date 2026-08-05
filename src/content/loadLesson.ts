@@ -8,15 +8,28 @@ import type {
   LocalizedString,
 } from './types'
 
-export const LESSON_ID = 'algebra-i-01'
+export const LESSON_1_ID = 'algebra-i-01'
+export const LESSON_2_ID = 'algebra-i-02'
+/** Default lesson id (L1) for progress views and legacy call sites. */
+export const LESSON_ID = LESSON_1_ID
 
 export const lesson1 = lesson1Package as LessonPackage
 export const lesson2 = lesson2Package as LessonPackage
 
-/** All packaged lessons by id. The game still plays LESSON_ID only. */
+/** All packaged lessons by id. */
 export const LESSONS: Record<string, LessonPackage> = {
   [lesson1.id]: lesson1,
   [lesson2.id]: lesson2,
+}
+
+/** Terminal lesson: L2 after L1 mastery, otherwise L1. */
+export function resolveTerminalLessonId(
+  lessonStates: Record<string, { status?: string } | undefined>,
+): string {
+  if (lessonStates[LESSON_1_ID]?.status === 'mastered') {
+    return LESSON_2_ID
+  }
+  return LESSON_1_ID
 }
 
 /** Async loader used by LessonOverlay (same package, Promise wrapper). */
@@ -29,9 +42,17 @@ export function t(locale: Locale, value: LocalizedString): string {
 }
 
 export function getItem(itemId: string): ContentItem | undefined {
-  return lesson1.items.find((item) => item.id === itemId)
+  for (const pkg of Object.values(LESSONS)) {
+    const found = pkg.items.find((item) => item.id === itemId)
+    if (found) return found
+  }
+  return undefined
 }
 
 export function getKp(kpId: string): KnowledgePoint | undefined {
-  return lesson1.knowledgePoints.find((kp) => kp.id === kpId)
+  for (const pkg of Object.values(LESSONS)) {
+    const found = pkg.knowledgePoints.find((kp) => kp.id === kpId)
+    if (found) return found
+  }
+  return undefined
 }

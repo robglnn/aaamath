@@ -27,6 +27,27 @@ const PHASE_KINDS: LessonPhaseKind[] = [
 
 const LESSONS_DIR = resolve('content/lessons')
 
+/** Qualified cross-package KP ref, e.g. "algebra-i-01:kp.variable.symbol" */
+const EXTERNAL_PREREQ = /^([a-z0-9-]+):(kp\..+)$/
+
+const externalKpCache = new Map<string, Set<string> | null>()
+
+function loadExternalKpIds(lessonSlug: string): Set<string> | null {
+  if (externalKpCache.has(lessonSlug)) return externalKpCache.get(lessonSlug) ?? null
+  let kpIds: Set<string> | null = null
+  const path = join(LESSONS_DIR, lessonSlug, 'package.json')
+  if (existsSync(path)) {
+    try {
+      const pkg = JSON.parse(readFileSync(path, 'utf8')) as LessonPackage
+      kpIds = new Set((pkg.knowledgePoints ?? []).map((kp) => kp.id))
+    } catch {
+      kpIds = null
+    }
+  }
+  externalKpCache.set(lessonSlug, kpIds)
+  return kpIds
+}
+
 let packagePath = ''
 
 const errors: string[] = []
@@ -125,7 +146,15 @@ function validateKnowledgePoints(pkg: LessonPackage): Set<string> {
       fail(`knowledgePoints[${kp.id}].prerequisites must be an array`)
     } else {
       for (const prereq of kp.prerequisites) {
-        if (!prereq.startsWith('kp.')) {
+        const external = EXTERNAL_PREREQ.exec(prereq)
+        if (external) {
+          const kpIds = loadExternalKpIds(external[1])
+          if (!kpIds) {
+            fail(`KP ${kp.id} prerequisite "${prereq}": lesson package not found`)
+          } else if (!kpIds.has(external[2])) {
+            fail(`KP ${kp.id} prerequisite "${prereq}": KP not in ${external[1]} package`)
+          }
+        } else if (!prereq.startsWith('kp.')) {
           warn(`KP ${kp.id} prerequisite "${prereq}" does not start with kp.`)
         }
       }
@@ -158,6 +187,7 @@ function validateKnowledgePoints(pkg: LessonPackage): Set<string> {
 
   for (const kp of pkg.knowledgePoints) {
     for (const prereq of kp.prerequisites) {
+      if (EXTERNAL_PREREQ.test(prereq)) continue
       if (prereq.startsWith('kp.') && !kpIds.has(prereq)) {
         fail(`KP ${kp.id} prerequisite ${prereq} not found in package`)
       }

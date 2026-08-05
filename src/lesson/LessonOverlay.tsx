@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import 'katex/dist/katex.min.css'
 import type { LessonPackage, UnlockDefinition } from '@/content/types'
-import { loadLesson, LESSON_ID } from '@/content/loadLesson'
+import { loadLesson } from '@/content/loadLesson'
 import { MathText } from '@/lesson/MathText'
 import { useLessonSession } from '@/lesson/useLessonSession'
 import { ui, phaseLabel, unlockKindLabel } from '@/i18n/ui'
@@ -9,6 +9,7 @@ import { pickLocalized, useProgressStore } from '@/progress/store'
 import { canSTT, canTTS, listenOnce, speak } from '@/speech/webSpeech'
 
 interface LessonOverlayProps {
+  lessonId: string
   onClose: () => void
   onMastered: () => void
 }
@@ -23,7 +24,7 @@ function isTeachingPhase(kind: string): boolean {
   return kind === 'i_do' || kind === 'we_do' || kind === 'you_do'
 }
 
-export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
+export function LessonOverlay({ lessonId, onClose, onMastered }: LessonOverlayProps) {
   const locale = useProgressStore((s) => s.blob.locale)
   const thetaStub = useProgressStore((s) => s.blob.thetaStub)
   const recordAnswer = useProgressStore((s) => s.recordAnswer)
@@ -44,7 +45,11 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
 
   useEffect(() => {
     let cancelled = false
-    void loadLesson(LESSON_ID).then((lesson) => {
+    setLoading(true)
+    setPkg(null)
+    setMasteryDone(false)
+    prevIndependentCorrect.current = 0
+    void loadLesson(lessonId).then((lesson) => {
       if (cancelled) return
       setPkg(lesson)
       setLoading(false)
@@ -53,7 +58,7 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
     return () => {
       cancelled = true
     }
-  }, [introduceLessonKps])
+  }, [lessonId, introduceLessonKps])
 
   const handleMastery = useCallback(() => {
     if (!pkg || masteryDone) return

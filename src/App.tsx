@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
+import { resolveTerminalLessonId } from '@/content/loadLesson'
 import { useProgressStore } from '@/progress/store'
 import { LocaleSwitcher } from '@/components/LocaleSwitcher'
 import { ui } from '@/i18n/ui'
@@ -37,7 +38,9 @@ export default function App() {
   const hydrated = useProgressStore((s) => s.hydrated)
   const locale = useProgressStore((s) => s.blob.locale)
   const unlocks = useProgressStore((s) => s.blob.unlocks)
-  const lessonState = useProgressStore((s) => s.blob.lessonStates['algebra-i-01'])
+  const lessonStates = useProgressStore((s) => s.blob.lessonStates)
+  const lessonState = lessonStates['algebra-i-01']
+  const terminalLessonId = resolveTerminalLessonId(lessonStates)
 
   const [lessonOpen, setLessonOpen] = useState(false)
   const [progressOpen, setProgressOpen] = useState(false)
@@ -93,6 +96,7 @@ export default function App() {
           }
         >
           <LessonOverlay
+            lessonId={terminalLessonId}
             onClose={() => setLessonOpen(false)}
             onMastered={() => {
               /* unlocks applied in progress store; keep overlay until player closes */
