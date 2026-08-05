@@ -1,26 +1,19 @@
 # Progress
 
 ## What works
-- Vite+React+TS+R3F+KaTeX SPA; Pages live at `/aaamath/`
-- Algebra I Lesson 1 EN/ES/PL; mastery 3/4; adaptive θ + frozen you_do
-- Training range: pointer-lock, terminal, Zone Beta, blueprint, touch, audio stubs
-- Visual stack: beams, canvas signs, proc materials, densified decor, atmosphere, player silhouette
-- Lesson UI: phase rail, mastery bar motion, mastery-gated celebrate
-- Progress drawer: House Standing / Compact record seals + jurisdiction coverage
-- Content pipeline validate/generate; gauntlet reports under `docs/gauntlet/`
+- Live Pages: https://robglnn.github.io/aaamath/
+- Lesson 1 EN/ES/PL + mastery + adaptive freeze + KaTeX (lazy)
+- Training range past capsule era: signs, materials, density, motes, audio
+- Cold load shell ~20kB; Three/R3F/KaTeX split; katex not on first paint
+- Content validate green
 
-## Acceptance (Slice 0)
-All primary Slice 0 checklist items remain checked; overnight focused on AAA visual bar.
+## Overnight waves 1–10
+See `docs/gauntlet/workbench.md` morning summary.
 
-## Known gaps
-- Prop/material fidelity vs Fortnite AAA
-- Bundle size; Lesson 2; speech voice mapping
-- Unlock FX playthrough not fully critic-shot on camera
-
-## Overnight commits (selected)
-`2e6db91` W1 visuals · `ffab87d` W2 signs · `94d60a7` W3 materials · `06fa2b9` critic gaps · `ca415ab` audio CI · `354195a` W5 density · `56480ad` W6 atmosphere
+## Remaining gaps
+- Primitive mesh ceiling vs Fortnite AAA authored props
+- Lesson 2; speech voices; unlock FX not fully filmed
+- Three.js still large once range loads (~689kB)
 
 ## Next
-1. Material/prop fidelity wave
-2. Optional Three code-split
-3. Lesson 2 via pipeline when visual bar plateaus
+Lesson 2 pipeline; optional art pass beyond procedural kitbash

@@ -2,6 +2,7 @@ export {
   makeNoiseFloorTexture,
   makePanelTexture,
   makeHexPadTexture,
+  makeHazardStripeTexture,
   getProcTextureKit,
   disposeProcTextureKit,
 } from './canvasTextures'

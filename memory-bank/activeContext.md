@@ -1,20 +1,16 @@
 # Active Context
 
 ## Current focus
-Overnight Gauntlet Loop — AAA training-range visuals. Waves 1–6 shipped through `56480ad`. Next: prop/material fidelity (critic wave-5 largest remaining gap).
+Overnight Gauntlet complete through wave 10 (`7db51fa`). Visuals + load path substantially raised; remaining gap is authored GLTF-grade fidelity (out of Slice 0 primitive ceiling).
 
 ## Locked decisions
-See `docs/decisions.md`. ADR-004 standards honesty.
+See `docs/decisions.md`.
 
-## Recent changes
-- Canvas-baked zone labels (offline-safe; no troika CDN)
-- Procedural deck/sky/hex/panel; TerminalScreen; AtmosphereFx motes
-- Mid-field density: rails, conduits, holo pillars, dishes
-- Player silhouette + anim; Web Audio stubs; progress seals
-- Lesson overlay delight; mastery-only celebration; deferred gate FX
-- Live Pages: https://robglnn.github.io/aaamath/
+## Recent overnight
+Waves 1–10: range FX, canvas signs/materials, density, atmosphere, blueprint fidelity, code-split, KaTeX deferred off cold load, audio, lesson/progress polish.
 
-## Active considerations
-- Bundle ~1.45MB; prop fidelity still primitive-kitbash vs AAA
-- Lesson 2 not started
-- Keep pedagogy frozen (adaptive you_do queue, content package)
+## Next (human / next session)
+1. Lesson 2 via content pipeline
+2. Optional GLTF/prop authoring if AAA bar must climb further
+3. Full mastery→Beta unlock playthrough critic film
+4. Speech locale voice mapping

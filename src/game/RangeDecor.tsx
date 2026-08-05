@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending } from 'three'
 import type { Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
 import { ALPHA_RADIUS, PAD_TOP, TERMINAL_POS } from '@/game/world'
+import { getProcTextureKit, makeHazardStripeTexture } from '@/game/proc'
 
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
@@ -23,7 +24,6 @@ export function RangeDecor() {
   return (
     <group>
       <HorizonRing />
-      <GroundBreakup />
       <LightPosts />
       <ApproachRails />
       <EnergyConduits />
@@ -31,57 +31,116 @@ export function RangeDecor() {
       <AntennaDishes />
       <SupplyCrates />
       <DistantSpires />
+      <GroundBreakup />
     </group>
   )
 }
 
-/** Low floor plates / cable trays that break the infinite-grid read without blocking the walk. */
+/**
+ * Wave 9 ground breakup — low-profile deck hardware along the Alpha→terminal
+ * corridor. Flat service plates, cable trunks, and hazard stripe pads interrupt
+ * the hex-pad / infinite-grid read. Everything is <=6 cm proud of the deck and
+ * placed off the spawn→terminal walking diagonal, so the path stays clear.
+ * Budget: 17 meshes, 0 lights, 0 per-frame work, +1 small canvas bake.
+ * Seating discipline: on-pad pieces keep whole footprints inside r 5.6 (hex
+ * circle); off-pad pieces stay beyond r 6.5 so nothing straddles the pad skirt.
+ */
 function GroundBreakup() {
-  const plates: [number, number, number, number, number][] = [
-    // x, z, w, d, rotY — kept off the center WASD lane
-    [-2.4, 3.8, 1.6, 1.1, 0.2],
-    [2.6, 3.2, 1.4, 1.0, -0.15],
-    [-2.8, -1.2, 1.8, 0.9, 0.05],
-    [2.9, -0.6, 1.5, 1.2, -0.25],
-    [-1.8, -4.5, 1.3, 0.8, 0.1],
-  ]
-  const trays: [number, number, number, number][] = [
-    // x, z, len, rotY — flanking path
-    [-2.15, 1.2, 3.2, 0],
-    [2.15, 0.8, 2.8, 0],
+  return (
+    <group>
+      <FloorPlates />
+      <CableTrunks />
+      <HazardStripes />
+    </group>
+  )
+}
+
+function FloorPlates() {
+  const { panel } = useMemo(() => getProcTextureKit(), [])
+  // x, z, sizeX, sizeZ, rotY, stripSide (+1 = cyan edge strip faces the corridor)
+  const plates: [number, number, number, number, number, number][] = [
+    [-2.3, 0.6, 1.5, 2.2, 0.12, 1], // west corridor flank
+    [-1.9, -2.9, 1.6, 1.6, -0.2, 1], // SW, below the conduit run
+    [4.1, -2.3, 1.3, 1.5, 0.08, -1], // terminal service apron
+    [5.9, -6.6, 1.6, 2.0, 0.25, -1], // off-pad deck, flanks the gate approach
   ]
   return (
     <group>
-      {plates.map(([x, z, w, d, rot], i) => (
-        <group key={`p${i}`} position={[x, surfaceY(x, z) + 0.02, z]} rotation={[0, rot, 0]}>
-          <mesh>
-            <boxGeometry args={[w, 0.04, d]} />
-            <meshStandardMaterial color="#122636" metalness={0.35} roughness={0.7} />
+      {plates.map(([x, z, sx, sz, rot, side], i) => (
+        <group key={i} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
+          <mesh position={[0, 0.037, 0]}>
+            <boxGeometry args={[sx, 0.05, sz]} />
+            <meshStandardMaterial map={panel} color="#8fb8b4" metalness={0.4} roughness={0.5} />
           </mesh>
-          <mesh position={[0, 0.025, 0]}>
-            <boxGeometry args={[w * 0.92, 0.01, d * 0.92]} />
-            <meshStandardMaterial color={i % 2 === 0 ? CYAN : AMBER} emissive={i % 2 === 0 ? CYAN : AMBER} emissiveIntensity={0.2} transparent opacity={0.35} />
-          </mesh>
-        </group>
-      ))}
-      {trays.map(([x, z, len, rot], i) => (
-        <group key={`t${i}`} position={[x, surfaceY(x, z) + 0.03, z]} rotation={[0, rot, 0]}>
-          <mesh>
-            <boxGeometry args={[0.22, 0.05, len]} />
-            <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.4} />
-          </mesh>
-          <mesh position={[0, 0.03, 0]}>
-            <boxGeometry args={[0.06, 0.02, len * 0.95]} />
-            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.55} />
+          <mesh position={[side * (sx / 2 - 0.05), 0.063, 0]}>
+            <boxGeometry args={[0.07, 0.02, sz - 0.15]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.5} />
           </mesh>
         </group>
       ))}
-      {/* Hazard chevrons near gate threshold — visual “edge of Alpha” */}
-      {[-1.6, 1.6].map((x) => (
-        <mesh key={x} position={[x, 0.03, -6.6]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[0.7, 0.35]} />
-          <meshBasicMaterial color={AMBER} transparent opacity={0.45} toneMapped={false} />
-        </mesh>
+    </group>
+  )
+}
+
+function CableTrunks() {
+  // from [x,z] to [x,z] — steel channel + two steady cables (cyan feed, amber
+  // return). Deliberately static: the nearby EnergyConduits already pulse.
+  const runs: [number, number, number, number][] = [
+    [-4.5, 3.4, -4.5, -1.6], // west trunk, outside the guide rail
+    [4.9, 3.2, 4.9, -0.8], // east trunk, outside the guide rail
+  ]
+  return (
+    <group>
+      {runs.map(([fx, fz, tx, tz], i) => {
+        const mx = (fx + tx) / 2
+        const mz = (fz + tz) / 2
+        const len = Math.hypot(tx - fx, tz - fz)
+        const rot = Math.atan2(tx - fx, tz - fz)
+        return (
+          <group key={i} position={[mx, surfaceY(mx, mz), mz]} rotation={[0, rot, 0]}>
+            <mesh position={[0, 0.037, 0]}>
+              <boxGeometry args={[0.5, 0.05, len]} />
+              <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.45} />
+            </mesh>
+            <mesh position={[-0.11, 0.072, 0]}>
+              <boxGeometry args={[0.07, 0.024, len - 0.12]} />
+              <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.45} />
+            </mesh>
+            <mesh position={[0.11, 0.072, 0]}>
+              <boxGeometry args={[0.07, 0.024, len - 0.12]} />
+              <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.4} />
+            </mesh>
+          </group>
+        )
+      })}
+    </group>
+  )
+}
+
+function HazardStripes() {
+  const stripes = useMemo(() => makeHazardStripeTexture(256, 128), [])
+  // x, z, rotY — terminal base pair + one pad-rim threshold flanking the gate walk
+  const pads: [number, number, number][] = [
+    [1.3, -4.7, 0.55],
+    [3.7, -4.0, -0.5],
+    [2.0, -6.5, 0.15],
+  ]
+  return (
+    <group>
+      {pads.map(([x, z, rot], i) => (
+        <group key={i} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
+          <mesh position={[0, 0.023, 0]}>
+            <boxGeometry args={[1.2, 0.022, 0.45]} />
+            <meshStandardMaterial
+              map={stripes}
+              emissiveMap={stripes}
+              emissive="#ffffff"
+              emissiveIntensity={0.22}
+              metalness={0.2}
+              roughness={0.7}
+            />
+          </mesh>
+        </group>
       ))}
     </group>
   )

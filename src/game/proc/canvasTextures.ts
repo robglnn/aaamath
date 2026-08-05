@@ -247,6 +247,48 @@ export function makeHexPadTexture(size = 256): CanvasTexture {
   return bake(ctx)
 }
 
+/**
+ * Hazard / caution striping for floor pads: 45° amber-on-dark bands with
+ * light wear. Mapped 1:1 onto thin stripe boxes (no tiling requirement), so
+ * the rotated bands keep their angle at any pad aspect. Also usable as an
+ * emissiveMap — the dark bands are near-black and emit ~nothing.
+ */
+export function makeHazardStripeTexture(width = 256, height = 128): CanvasTexture {
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('proc textures: 2D canvas context unavailable')
+  const rand = mulberry32(0x5a7e)
+
+  ctx.fillStyle = '#171310'
+  ctx.fillRect(0, 0, width, height)
+
+  const diag = Math.hypot(width, height)
+  ctx.save()
+  ctx.translate(width / 2, height / 2)
+  ctx.rotate(Math.PI / 4)
+  const band = 30
+  let i = 0
+  for (let x = -diag / 2; x < diag / 2; x += band, i++) {
+    if (i % 2 === 0) {
+      ctx.fillStyle = '#f0a830'
+      ctx.fillRect(x, -diag / 2, band, diag)
+    }
+  }
+  ctx.restore()
+
+  // Wear: dark pits + faint teal grind so the pad reads deck-worn, not printed
+  speckle(ctx, rand, width, width, 'rgba(10,16,20,0.10)', 2)
+  speckle(ctx, rand, width, width >> 1, 'rgba(70,160,165,0.05)', 1)
+
+  const tex = new CanvasTexture(canvas)
+  tex.colorSpace = SRGBColorSpace
+  tex.wrapS = RepeatWrapping
+  tex.wrapT = RepeatWrapping
+  return tex
+}
+
 export interface ProcTextureKit {
   floor: CanvasTexture
   panel: CanvasTexture
