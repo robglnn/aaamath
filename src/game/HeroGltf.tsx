@@ -7,16 +7,21 @@ const base = import.meta.env.BASE_URL
 /** CDN Draco decoder — keeps GLB payloads iPhone-friendly without vendoring wasm. */
 const DRACO = 'https://www.gstatic.com/draco/versioned/decoders/1.5.7/'
 
+/** Cache-bust Meshy GLB ships so Pages clients don't keep stale primitives. */
+const MESHY_V = 'm31'
+
 export const HERO_URLS = {
-  player: `${base}models/riser-player.glb`,
-  terminal: `${base}models/algebra-terminal.glb`,
-  blueprint: `${base}models/blueprint-pad.glb`,
-  zone: `${base}models/zone-marker.glb`,
+  player: `${base}models/riser-player.glb?v=${MESHY_V}`,
+  terminal: `${base}models/algebra-terminal.glb?v=${MESHY_V}`,
+  blueprint: `${base}models/blueprint-pad.glb?v=${MESHY_V}`,
+  zone: `${base}models/zone-marker.glb?v=${MESHY_V}`,
+  arch: `${base}models/plaza-arch.glb?v=${MESHY_V}`,
+  banner: `${base}models/plaza-banner.glb?v=${MESHY_V}`,
 } as const
 
 type HeroKind = keyof typeof HERO_URLS
 
-/** Punch emissives so authored PBR reads under ACES without a bloom pass. */
+/** Punch emissives so authored / Meshy PBR reads under ACES without a bloom pass. */
 function boostHeroMaterials(root: Object3D) {
   root.traverse((obj) => {
     const mesh = obj as Mesh
@@ -26,6 +31,10 @@ function boostHeroMaterials(root: Object3D) {
       const std = m as MeshStandardMaterial
       if (!std || std.emissiveIntensity == null) continue
       const name = (std.name || '').toLowerCase()
+      // Loop 31+: Meshy single-mesh heroes — emission maps need ACES punch
+      if (std.emissiveMap) {
+        std.emissiveIntensity = Math.max(std.emissiveIntensity, 2.4)
+      }
       if (name.includes('piping')) {
         // Loop 17/28: Fortnite tech-suit cyan piping — punch emissive under ACES
         std.emissiveIntensity = Math.max(std.emissiveIntensity, 4.0)
@@ -66,9 +75,17 @@ function boostHeroMaterials(root: Object3D) {
         std.metalness = Math.max(std.metalness ?? 0, 0.35)
         std.roughness = Math.min(std.roughness ?? 0.15, 0.18)
         std.emissiveIntensity = Math.max(std.emissiveIntensity, 1.4)
-      } else {
+      } else if (!std.map && !std.emissiveMap) {
         std.metalness = Math.max(std.metalness ?? 0, 0.25)
         std.roughness = Math.min(Math.max(std.roughness ?? 0.5, 0.28), 0.62)
+      }
+      // Meshy textured mats: slight albedo lift so navy suit pops under golden hour
+      if (std.map && std.color) {
+        std.color.setRGB(
+          Math.min(1, std.color.r * 1.08),
+          Math.min(1, std.color.g * 1.08),
+          Math.min(1, std.color.b * 1.05),
+        )
       }
       std.needsUpdate = true
     }
@@ -124,4 +141,6 @@ export function preloadHeroModels() {
   useGLTF.preload(HERO_URLS.terminal, DRACO)
   useGLTF.preload(HERO_URLS.blueprint, DRACO)
   useGLTF.preload(HERO_URLS.zone, DRACO)
+  useGLTF.preload(HERO_URLS.arch, DRACO)
+  useGLTF.preload(HERO_URLS.banner, DRACO)
 }

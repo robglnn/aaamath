@@ -39,19 +39,22 @@
 | **28** | Reflective plaza floor + hero material boosts | PASS_WITH_GAPS |
 | **29** | Multi-sun + god-ray starburst + closer cam + fog push | PASS_WITH_GAPS (rays win; scene still nocturnal) |
 | **30** | Wireframe ability glyphs + minimap quadrants + crest/mote juice | PASS_WITH_GAPS (icons lateral; tints faint) |
+| **31** | Meshy organic Fortnite player → `riser-player.glb` Draco ~587 KB | PASS_WITH_GAPS |
+| **32** | Meshy algebra terminal upgrade | PASS_WITH_GAPS |
+| **33** | Meshy zone beacon + monolith emissive punch | PASS_WITH_GAPS |
+| **34** | Meshy plaza arch + banners (6×) | PASS_WITH_GAPS |
+| **35** | Golden-hour value/saturation (sky/fog/lights/exposure 1.52) | PASS_WITH_GAPS |
 
 Refs: `docs/gauntlet/bars/` (9 source + named HUD bars)  
-Shots: `docs/gauntlet/_critic-shots/loop1-*`, `loop2-3-landscape-*`, `loop6-10-*`, `loop11-15-*`, `loop16-25-*`, `loop26-30-*`  
-Reports: `critic-loop11-15-organic-character.md`, `critic-loop16-25-sculpt-plaza.md`, `builder-loop16-25-sculpt-plaza.md`, `critic-loop26-30-skyline-sculpt.md`, `builder-loop26-30-skyline-sculpt.md`
+Shots: `docs/gauntlet/_critic-shots/loop31-35-*`  
+Reports: `builder-loop31-35-meshy.md`, `critic-loop31-35-meshy.md` (+ prior loop reports)
 
 ## Plateau judgment
 
-Loops 16–25 closed the largest remaining gaps after organic wave: tech-suit piping + ORM, face/hair cards, plaza banners, daylight, HUD juice. Absolute AAA sculpted single-mesh skins remain the open ceiling. **No more Algebra. Stop after loop 25.**
-
-Loops 26–30 attacked that ceiling head-on: voxel fusion proved the single-mesh path (torso/hips), and the skyline gained real floating-island architecture + god-ray drama — best first-10s read yet. **The open gap is now the value/saturation ceiling**, not geometry: the bright floating-island refs live in a golden-hour palette this scene has never attempted, and the marquee ringed monolith doesn't read from spawn. Primitive-sculpt returns are diminishing. If one more night: golden-hour value/saturation pass + monolith beacon glow + chunky ability icons — then stop. **Still no Algebra.**
+Loops 31–35 broke the geometry plateau with **Meshy-authored** heroes/props (not another Blender primitive rebuild). First-10s now reads as a humanoid Fortnite-leaning riser + holographic terminal + crystal beacon + stone arch + crest banners under golden-hour light. Absolute Fortnite bars still win on skyline saturation / monolith spawn bloom / HUD icon chunkiness. **Still no Algebra.**
 
 ## Guards held
 
 - Pages `base: '/aaamath/'`; KaTeX deferred; L1–L7 pedagogy untouched; speech + text fallback intact
 - Curriculum frozen — no L8+
-- Draco decode via gstatic; iPhone-budget player GLB (~517 kB / 529192 B)
+- Draco decode via gstatic; Meshy player GLB ~600 KB / 600600 B (`?v=m31` cache-bust)

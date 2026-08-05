@@ -5,6 +5,7 @@ import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three
 import { ALPHA_RADIUS, PAD_TOP, TERMINAL_POS } from '@/game/world'
 import { getAuthoredGeoKit, getProcTextureKit, makeHazardStripeTexture, makeSteelPlateTexture } from '@/game/proc'
 import { AuthoredProps } from '@/game/AuthoredProps'
+import { HeroModel } from '@/game/HeroGltf'
 
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
@@ -33,6 +34,7 @@ export function RangeDecor() {
       <SupplyCrates />
       <DistantSpires />
       <PlazaBanners />
+      <PlazaMidArch />
       <FloatingIslands />
       <CrystalMonolith />
       <GroundBreakup />
@@ -42,52 +44,35 @@ export function RangeDecor() {
 }
 
 /**
- * Loop 22: Academy plaza banners — tall cloth verticals with gold crest plates
- * matching Fortnite floating-island ref density (no new lights, emissive trim).
- * Loop 27: cloth enriched toward the ref palette — red / blue / yellow / green.
+ * Loop 34: Meshy-authored plaza banners (replaces primitive cloth poles).
+ * Mobile-safe count — 6 instances of one Draco GLB.
  */
 function PlazaBanners() {
-  const banners: [number, number, number, string][] = [
-    // Near-pad flanks — readable in first 10s shoulder cam
-    [-4.6, 3.8, 0.25, '#c23a3a'],
-    [5.0, 3.4, -0.3, '#2f5fd0'],
-    [-6.8, 5.2, 0.35, '#e8b52a'],
-    [7.2, 4.8, -0.4, '#2fae5e'],
-    [-7.5, -8.5, 0.2, '#c23a3a'],
-    [6.8, -9.2, -0.25, '#2f5fd0'],
-    [-11, 1.5, 0.5, '#2fae5e'],
-    [11.2, -1.0, -0.55, '#e8b52a'],
+  const banners: [number, number, number, number][] = [
+    // x, z, rotY, scale — near-pad flanks readable in first 10s shoulder cam
+    [-4.6, 3.8, 0.25, 1],
+    [5.0, 3.4, -0.3, 1],
+    [-6.8, 5.2, 0.35, 0.95],
+    [7.2, 4.8, -0.4, 0.95],
+    [-7.5, -8.5, 0.2, 0.9],
+    [6.8, -9.2, -0.25, 0.9],
   ]
   return (
     <group>
-      {banners.map(([x, z, rot, cloth], i) => (
+      {banners.map(([x, z, rot, s], i) => (
         <group key={i} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
-          {/* Pole */}
-          <mesh position={[0, 2.1, 0]}>
-            <cylinderGeometry args={[0.045, 0.055, 4.2, 8]} />
-            <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.4} />
-          </mesh>
-          <mesh position={[0, 4.25, 0]}>
-            <sphereGeometry args={[0.07, 8, 8]} />
-            <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.85} metalness={0.8} roughness={0.25} />
-          </mesh>
-          {/* Banner cloth */}
-          <mesh position={[0.55, 2.6, 0]}>
-            <boxGeometry args={[1.05, 2.4, 0.04]} />
-            <meshStandardMaterial color={cloth} metalness={0.08} roughness={0.78} />
-          </mesh>
-          {/* Gold crest plate */}
-          <mesh position={[0.55, 3.15, 0.03]}>
-            <boxGeometry args={[0.42, 0.5, 0.03]} />
-            <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.55} metalness={0.85} roughness={0.28} />
-          </mesh>
-          {/* Cyan trim stripe */}
-          <mesh position={[0.55, 1.55, 0.03]}>
-            <boxGeometry args={[1.0, 0.08, 0.02]} />
-            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.7} />
-          </mesh>
+          <HeroModel kind="banner" scale={s} />
         </group>
       ))}
+    </group>
+  )
+}
+
+/** Loop 34: Meshy mid-field stone arch — plaza depth between spawn and terminal. */
+function PlazaMidArch() {
+  return (
+    <group position={[0.8, 0, -6.5]} rotation={[0, 0.08, 0]}>
+      <HeroModel kind="arch" scale={1.05} />
     </group>
   )
 }
@@ -674,7 +659,7 @@ function CrystalMonolith() {
         <meshStandardMaterial
           color="#134a52"
           emissive={CYAN}
-          emissiveIntensity={0.5}
+          emissiveIntensity={1.65}
           metalness={0.15}
           roughness={0.22}
           transparent
@@ -686,7 +671,7 @@ function CrystalMonolith() {
         <meshStandardMaterial
           color="#134a52"
           emissive={CYAN}
-          emissiveIntensity={0.65}
+          emissiveIntensity={1.85}
           metalness={0.15}
           roughness={0.22}
           transparent
@@ -695,7 +680,7 @@ function CrystalMonolith() {
       </mesh>
       <mesh position={[0, 21.4, 0]} rotation={[0, 1.5, 0]} scale={[1, 2, 1]}>
         <octahedronGeometry args={[0.8, 0]} />
-        <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.25} transparent opacity={0.95} />
+        <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.2} transparent opacity={0.95} />
       </mesh>
       {/* Counter-rotating tilted orbit rings */}
       <group
@@ -706,7 +691,7 @@ function CrystalMonolith() {
       >
         <mesh rotation={[Math.PI / 2 + 0.16, 0, 0]}>
           <torusGeometry args={[4.6, 0.07, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.1} transparent opacity={0.8} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.65} transparent opacity={0.8} />
         </mesh>
       </group>
       <group

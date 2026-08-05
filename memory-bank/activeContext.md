@@ -1,19 +1,21 @@
 # Active Context
 
 ## Current focus
-Fortnite **visual** Gauntlet loops 26–30 complete (skyline + sculpt wave). Curriculum frozen — no L8+.
+Fortnite **visual** Gauntlet loops 31–35 complete (MESHY-FIRST). Curriculum frozen — no L8+.
 
 ## Locked decisions
 - Mobile = **landscape-first** (rotate-to-play in portrait)
 - Live ceiling: L1–L7 already on `origin/main`; do not expand lessons
 - Visual spend > Algebra
+- Meshy Premium is the hero/env asset source for this wave (not Rodin/Hyper3D, not kitbash)
 
 ## Delivered (this pass)
-- Loops 26–30: voxel-fused torso/hips + cape/chest gem, floating islands + crystal monolith, reflective plaza materials, multi-sun/god rays/closer cam, wireframe HUD glyphs + crest/mote juice
-- Script: `tools/blender/rebuild_player_sculpt.py` (player GLB ~517 kB Draco)
+- Loops 31–35: Meshy player + terminal + zone beacon + plaza arch + banners; Blender Draco ship; golden-hour lighting
+- Script: `tools/blender/ship_meshy_hero.py`; raw: `tools/meshy_raw/`
+- Player GLB ~587 KB Draco; cache `?v=m31`
 
 ## Live
 https://robglnn.github.io/aaamath/
 
 ## Next
-Optional: golden-hour value/saturation pass + monolith spawn beacon + chunky filled ability icons; no curriculum. Geometry plateau — remaining gap is lighting/palette ceiling.
+Optional: skyline monolith spawn bloom + island saturation; chunky filled ability icons. No curriculum.
