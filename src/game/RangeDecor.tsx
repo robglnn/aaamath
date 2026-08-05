@@ -85,6 +85,7 @@ function FloorPlates() {
 }
 
 function CableTrunks() {
+  const { ductPipe } = useMemo(() => getAuthoredGeoKit(), [])
   // from [x,z] to [x,z] — steel channel + two steady cables (cyan feed, amber
   // return). Deliberately static: the nearby EnergyConduits already pulse.
   const runs: [number, number, number, number][] = [
@@ -100,8 +101,7 @@ function CableTrunks() {
         const rot = Math.atan2(tx - fx, tz - fz)
         return (
           <group key={i} position={[mx, surfaceY(mx, mz), mz]} rotation={[0, rot, 0]}>
-            <mesh position={[0, 0.037, 0]}>
-              <boxGeometry args={[0.5, 0.05, len]} />
+            <mesh geometry={ductPipe} position={[0, 0.032, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[4.8, len, 4.8]}>
               <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.45} />
             </mesh>
             <mesh position={[-0.11, 0.072, 0]}>
@@ -171,6 +171,7 @@ function HorizonRing() {
 }
 
 function LightPosts() {
+  const { mastFlange, mastLamp } = useMemo(() => getAuthoredGeoKit(), [])
   // [x, z, color, lit] — wave-5 approach posts run emissive-only to hold the
   // mobile light count flat; the original six keep their pools.
   const posts: [number, number, string, boolean][] = [
@@ -190,12 +191,10 @@ function LightPosts() {
     <group>
       {posts.map(([x, z, color, lit], i) => (
         <group key={i} position={[x, surfaceY(x, z), z]}>
-          <mesh position={[0, 1.4, 0]}>
-            <cylinderGeometry args={[0.06, 0.09, 2.8, 6]} />
+          <mesh geometry={mastFlange}>
             <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.4} />
           </mesh>
-          <mesh position={[0, 2.85, 0]}>
-            <boxGeometry args={[0.28, 0.12, 0.28]} />
+          <mesh geometry={mastLamp} position={[0, 2.85, 0]}>
             <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.2} />
           </mesh>
           {lit && <pointLight position={[0, 2.7, 0]} color={color} intensity={2.6} distance={6.5} decay={2} />}
@@ -234,6 +233,7 @@ function ApproachRails() {
 
 /** Thin emissive conduits snaking toward the Algebra Terminal. */
 function EnergyConduits() {
+  const { ductPipe } = useMemo(() => getAuthoredGeoKit(), [])
   const mats = useRef<(MeshStandardMaterial | null)[]>([])
   const paths = useMemo(
     () => [
@@ -262,8 +262,13 @@ function EnergyConduits() {
         const len = Math.hypot(dx, dz)
         const rot = Math.atan2(dx, dz)
         return (
-          <mesh key={i} position={[mx, PAD_TOP + 0.02, mz]} rotation={[0, rot, 0]}>
-            <boxGeometry args={[0.07, 0.03, len]} />
+          <mesh
+            key={i}
+            geometry={ductPipe}
+            position={[mx, PAD_TOP + 0.034, mz]}
+            rotation={[Math.PI / 2, rot, 0]}
+            scale={[0.62, len, 0.62]}
+          >
             <meshStandardMaterial
               ref={(m) => {
                 mats.current[i] = m

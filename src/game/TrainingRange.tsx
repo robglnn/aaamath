@@ -514,7 +514,7 @@ function BetaBarrier() {
   const groupRef = useRef<Group>(null)
   const paneMat = useRef<MeshStandardMaterial>(null)
   // Turned gate pillars — authored lathe profile (plinth → shaft → capital)
-  const { gatePillar } = useMemo(() => getAuthoredGeoKit(), [])
+  const { gatePillar, barrierPane } = useMemo(() => getAuthoredGeoKit(), [])
 
   useFrame((state, delta) => {
     const g = groupRef.current
@@ -536,8 +536,7 @@ function BetaBarrier() {
   return (
     <>
       <group ref={groupRef} position={[0, 0, GATE_Z]}>
-        <mesh position={[0, 0.95, 0]}>
-          <boxGeometry args={[5.8, 1.9, 0.14]} />
+        <mesh geometry={barrierPane} position={[0, 0.95, 0]}>
           <meshStandardMaterial
             ref={paneMat}
             color={accent}
