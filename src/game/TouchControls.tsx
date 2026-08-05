@@ -1,14 +1,19 @@
 import { useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 import { useGameStore } from '@/game/store'
+import { ui } from '@/i18n/ui'
+import { useProgressStore } from '@/progress/store'
 
 function detectCoarsePointer(): boolean {
   if (typeof window === 'undefined') return false
   return window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window
 }
 
+const YAW_STEP = 48
+
 export function TouchControls() {
   const [coarse] = useState(detectCoarsePointer)
+  const locale = useProgressStore((s) => s.blob.locale)
   const baseRef = useRef<HTMLDivElement>(null)
   const knobRef = useRef<HTMLDivElement>(null)
   const activeId = useRef<number | null>(null)
@@ -27,7 +32,7 @@ export function TouchControls() {
     }
     useGameStore.getState().setStick(dx, -dy)
     if (knobRef.current) {
-      knobRef.current.style.transform = `translate(${dx * 34}px, ${dy * 34}px)`
+      knobRef.current.style.transform = `translate(${dx * 40}px, ${dy * 40}px)`
     }
   }
 
@@ -61,6 +66,49 @@ export function TouchControls() {
       >
         <div ref={knobRef} className="gr-stick-knob" />
       </div>
+
+      <div className="gr-look-cluster">
+        <button
+          type="button"
+          className="gr-look"
+          aria-label={ui(locale, 'lookLeft')}
+          onPointerDown={(e) => {
+            e.stopPropagation()
+            useGameStore.getState().setLookDelta(-YAW_STEP, 0)
+          }}
+        >
+          {ui(locale, 'lookLeft')}
+        </button>
+        <button
+          type="button"
+          className="gr-look"
+          aria-label={ui(locale, 'lookRight')}
+          onPointerDown={(e) => {
+            e.stopPropagation()
+            useGameStore.getState().setLookDelta(YAW_STEP, 0)
+          }}
+        >
+          {ui(locale, 'lookRight')}
+        </button>
+      </div>
+
+      <button
+        type="button"
+        className="gr-sprint"
+        onPointerDown={(e) => {
+          e.stopPropagation()
+          e.currentTarget.setPointerCapture(e.pointerId)
+          useGameStore.getState().setTouchSprint(true)
+        }}
+        onPointerUp={(e) => {
+          e.stopPropagation()
+          useGameStore.getState().setTouchSprint(false)
+        }}
+        onPointerCancel={() => useGameStore.getState().setTouchSprint(false)}
+      >
+        {ui(locale, 'sprint')}
+      </button>
+
       <button
         type="button"
         className="gr-jump"

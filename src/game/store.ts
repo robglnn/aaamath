@@ -24,6 +24,7 @@ export interface GameState {
   activeZone: ZoneId
   stickX: number
   stickY: number
+  touchSprint: boolean
   jumpNonce: number
   placeNonce: number
   setMode: (mode: GameMode) => void
@@ -33,6 +34,7 @@ export interface GameState {
   setLookDelta: (dx: number, dy: number) => void
   setPointerLocked: (locked: boolean) => void
   setStick: (x: number, y: number) => void
+  setTouchSprint: (sprint: boolean) => void
   requestJump: () => void
   requestPlace: () => void
   applyMasteryUnlocks: (unlocks: UnlockFlags) => void
@@ -59,6 +61,7 @@ export const useGameStore = create<GameState>()((set) => ({
   activeZone: 'alpha',
   stickX: 0,
   stickY: 0,
+  touchSprint: false,
   jumpNonce: 0,
   placeNonce: 0,
   setMode: (mode) => set({ mode }),
@@ -73,6 +76,7 @@ export const useGameStore = create<GameState>()((set) => ({
     })),
   setPointerLocked: (pointerLocked) => set({ pointerLocked }),
   setStick: (stickX, stickY) => set({ stickX, stickY }),
+  setTouchSprint: (touchSprint) => set({ touchSprint }),
   requestJump: () => set((s) => ({ jumpNonce: s.jumpNonce + 1 })),
   requestPlace: () => set((s) => ({ placeNonce: s.placeNonce + 1 })),
   applyMasteryUnlocks: (unlocks) =>

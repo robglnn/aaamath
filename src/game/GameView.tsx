@@ -30,12 +30,18 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
   const { blueprint, rank, zoneBeta } = unlocked
   const pointerLocked = useGameStore((s) => s.pointerLocked)
   const [showLockHint, setShowLockHint] = useState(true)
+  const [brandPhase, setBrandPhase] = useState<'reveal' | 'watermark'>('reveal')
   const rootRef = useRef<HTMLDivElement>(null)
   const drag = useRef<{ id: number; x: number; y: number; moved: number } | null>(null)
 
   useEffect(() => {
     useGameStore.getState().applyMasteryUnlocks({ blueprint, rank, zoneBeta })
   }, [blueprint, rank, zoneBeta])
+
+  useEffect(() => {
+    const toWatermark = window.setTimeout(() => setBrandPhase('watermark'), 2400)
+    return () => window.clearTimeout(toWatermark)
+  }, [])
 
   useEffect(() => {
     if (lessonOpen) {
@@ -160,6 +166,14 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
       <Canvas dpr={[1, 1.75]} camera={{ fov: 55, near: 0.1, far: 140, position: [0, 4.5, 11] }}>
         <TrainingRange />
       </Canvas>
+
+      <div
+        className={`gr-brand${brandPhase === 'watermark' ? ' gr-brand-watermark' : ''}${lessonOpen ? ' gr-brand-hidden' : ''}`}
+        aria-hidden
+      >
+        <span className="gr-brand-title">Axiom Rising</span>
+      </div>
+
       <TouchControls />
       <Hud onOpenTerminal={openTerminal} pointerLocked={pointerLocked} />
       {showLockHint && !pointerLocked && !lessonOpen && !isCoarsePointer() && (

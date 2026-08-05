@@ -1,15 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
-import type { LessonPackage } from '@/content/types'
+import type { LessonPackage, UnlockDefinition } from '@/content/types'
 import { loadLesson, LESSON_ID } from '@/content/loadLesson'
 import { MathText } from '@/lesson/MathText'
 import { useLessonSession } from '@/lesson/useLessonSession'
-import { ui, phaseLabel } from '@/i18n/ui'
+import { ui, phaseLabel, unlockKindLabel } from '@/i18n/ui'
 import { pickLocalized, useProgressStore } from '@/progress/store'
 import { canSTT, canTTS, listenOnce, speak } from '@/speech/webSpeech'
 
 interface LessonOverlayProps {
   onClose: () => void
   onMastered: () => void
+}
+
+function unlockTone(kind: UnlockDefinition['kind']): string {
+  if (kind === 'blueprint') return 'unlock-card--blueprint'
+  if (kind === 'rank') return 'unlock-card--rank'
+  return 'unlock-card--zone'
 }
 
 export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
@@ -47,7 +53,6 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
     completeLessonMastery(pkg)
     markMasteryTriggered()
     setMasteryDone(true)
-    // Advance through remaining phases toward complete without closing overlay
     advance()
     onMastered()
   }, [pkg, masteryDone, completeLessonMastery, markMasteryTriggered, onMastered, advance])
@@ -125,32 +130,55 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
   const { phase, phaseKind, currentItem, lastResult, showSolution, independentCorrect, independentTotal } =
     state
   const masteryReq = pkg.mastery
+  const celebrating = masteryDone || phaseKind === 'complete'
+  const itemFocus = Boolean(currentItem) && !celebrating && phaseKind !== 'objectives'
+  const teachFocus =
+    !celebrating &&
+    !itemFocus &&
+    phase &&
+    phaseKind !== 'objectives'
+  const needed = Math.max(masteryReq.minIndependentCorrect - independentCorrect, 0)
+  const masteryPct = Math.min(
+    100,
+    Math.round((independentCorrect / Math.max(masteryReq.minIndependentCorrect, 1)) * 100),
+  )
 
   return (
     <div className="lesson-overlay" role="dialog" aria-modal="true" aria-label={pickLocalized(pkg.title, locale)}>
       <header className="lesson-header">
-        <div className="lesson-phase-tabs">
-          {phases.map((p, i) => (
-            <span
-              key={p.id}
-              className={`phase-tab ${i === state.phaseIndex ? 'active' : ''} ${i < state.phaseIndex ? 'done' : ''}`}
-            >
-              {phaseLabel(locale, p.kind)}
-            </span>
-          ))}
-        </div>
+        <nav className="phase-rail" aria-label={ui(locale, 'phaseRailLabel')}>
+          {phases.map((p, i) => {
+            const done = i < state.phaseIndex || (celebrating && i <= state.phaseIndex)
+            const active = i === state.phaseIndex && !celebrating
+            return (
+              <div key={p.id} className="phase-rail-step">
+                {i > 0 && <span className={`phase-rail-link ${done || active ? 'lit' : ''}`} aria-hidden />}
+                <span
+                  className={`phase-chip ${active ? 'active' : ''} ${done ? 'done' : ''}`}
+                  aria-current={active ? 'step' : undefined}
+                >
+                  <span className="phase-chip-dot" aria-hidden />
+                  <span className="phase-chip-label">{phaseLabel(locale, p.kind)}</span>
+                </span>
+              </div>
+            )
+          })}
+        </nav>
         <button type="button" className="btn ghost lesson-close" onClick={onClose} aria-label={ui(locale, 'close')}>
           ×
         </button>
       </header>
 
-      <main className="lesson-body">
-        <h1 className="lesson-title">
-          <MathText localized={pkg.title} locale={locale} />
-        </h1>
+      <main className={`lesson-body ${celebrating ? 'is-celebrate' : ''} ${itemFocus ? 'is-item-focus' : ''}`}>
+        {!celebrating && !itemFocus && (
+          <h1 className="lesson-title">
+            <MathText localized={pkg.title} locale={locale} />
+          </h1>
+        )}
 
-        {phaseKind === 'objectives' && (
-          <section className="lesson-section">
+        {phaseKind === 'objectives' && !celebrating && (
+          <section className="lesson-section focus-panel" aria-label={ui(locale, 'missionBrief')}>
+            <p className="focus-eyebrow">{ui(locale, 'missionBrief')}</p>
             <h2>{ui(locale, 'objectives')}</h2>
             <ul className="objective-list">
               {pkg.objectives.map((obj, i) => (
@@ -174,13 +202,16 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
           </section>
         )}
 
-        {phase && phaseKind !== 'objectives' && phaseKind !== 'complete' && (
-          <section className="lesson-section">
+        {teachFocus && (
+          <section className="lesson-section focus-panel">
+            <p className="focus-eyebrow">{phaseLabel(locale, phaseKind)}</p>
             <h2>{pickLocalized(phase.title, locale)}</h2>
-            <MathText localized={phase.body} locale={locale} />
-            {phase.bodyLatex?.map((tex, i) => (
-              <MathText key={i} latex={tex} block locale={locale} />
-            ))}
+            <div className="math-focus">
+              <MathText localized={phase.body} locale={locale} />
+              {phase.bodyLatex?.map((tex, i) => (
+                <MathText key={i} latex={tex} block locale={locale} />
+              ))}
+            </div>
             <div className="tutor-actions">
               <button type="button" className="btn secondary" onClick={handleSpeakTutor} disabled={!canTTS()}>
                 {ui(locale, 'speak')}
@@ -189,26 +220,55 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
           </section>
         )}
 
-        {phaseKind === 'you_do' && (
+        {phaseKind === 'you_do' && !celebrating && (
           <div className="mastery-gate" aria-live="polite">
-            <span className="mastery-label">{ui(locale, 'masteryGate')}</span>
-            <span className="mastery-score">
-              {ui(locale, 'independentScore')}: {independentCorrect}/{Math.max(independentTotal, masteryReq.minIndependentTotal)}{' '}
-              ({ui(locale, 'correct')}: {independentCorrect} / {masteryReq.minIndependentCorrect})
-            </span>
-            {state.masteryMet && (
-              <p className="mastery-unlocked">{ui(locale, 'masteryUnlocked')}</p>
-            )}
+            <div className="mastery-gate-head">
+              <span className="mastery-label">{ui(locale, 'masteryProgress')}</span>
+              <span className="mastery-score">
+                {independentCorrect}/{masteryReq.minIndependentCorrect}
+              </span>
+            </div>
+            <div className="mastery-bar" role="progressbar" aria-valuenow={masteryPct} aria-valuemin={0} aria-valuemax={100}>
+              <div className="mastery-bar-fill" style={{ width: `${masteryPct}%` }} />
+            </div>
+            <p className="mastery-hint">
+              {ui(locale, 'independentScore')} · {independentTotal}/{masteryReq.minIndependentTotal}
+              {needed > 0 ? ` · ${needed}` : ''}
+            </p>
+            {state.masteryMet && <p className="mastery-unlocked">{ui(locale, 'masteryUnlocked')}</p>}
           </div>
         )}
 
-        {currentItem && phaseKind !== 'objectives' && phaseKind !== 'complete' && (
-          <section className="item-panel">
-            <div className="item-stem">
+        {itemFocus && currentItem && (
+          <section className="item-panel focus-panel" aria-label={ui(locale, 'challengeFocus')}>
+            <div className="item-panel-head">
+              <p className="focus-eyebrow">{ui(locale, 'challengeFocus')}</p>
+              {phase && (
+                <button
+                  type="button"
+                  className="btn ghost coach-speak"
+                  onClick={handleSpeakTutor}
+                  disabled={!canTTS()}
+                >
+                  {ui(locale, 'speak')}
+                </button>
+              )}
+            </div>
+            {phase && state.itemIndex === 0 && !lastResult && (
+              <details className="coach-note">
+                <summary>{pickLocalized(phase.title, locale)}</summary>
+                <div className="math-focus">
+                  <MathText localized={phase.body} locale={locale} />
+                  {phase.bodyLatex?.map((tex, i) => (
+                    <MathText key={i} latex={tex} block locale={locale} />
+                  ))}
+                </div>
+              </details>
+            )}
+            <div className="item-stem math-focus">
               <MathText localized={currentItem.stem} locale={locale} latex={currentItem.stemLatex} />
             </div>
 
-            {/* Render choices whenever authored — dual-mode items must not lose diagnostic distractors */}
             {currentItem.choices && currentItem.choices.length > 0 ? (
               <div className="choice-grid">
                 {currentItem.choices.map((choice) => (
@@ -270,14 +330,33 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
             {micError && <p className="feedback incorrect">{micError}</p>}
 
             {lastResult && (
-              <div className={`feedback-banner ${lastResult.correct ? 'correct' : 'incorrect'}`}>
-                <strong>{ui(locale, lastResult.correct ? 'correct' : 'incorrect')}</strong>
-                <MathText text={lastResult.feedback} locale={locale} />
+              <div className={`feedback-banner ${lastResult.correct ? 'correct' : 'incorrect'}`} aria-live="assertive">
+                <div className="feedback-punch">
+                  <span className="feedback-glyph" aria-hidden>
+                    {lastResult.correct ? '◆' : '◇'}
+                  </span>
+                  <div>
+                    <strong className="feedback-lead">
+                      {ui(locale, lastResult.correct ? 'correct' : 'incorrect')}
+                    </strong>
+                    <p className="feedback-sub">
+                      {ui(locale, lastResult.correct ? 'feedbackCorrectLead' : 'feedbackIncorrectLead')}
+                    </p>
+                  </div>
+                </div>
+                <div className="feedback-body math-focus">
+                  <MathText text={lastResult.feedback} locale={locale} />
+                </div>
+                {!lastResult.correct && (
+                  <p className="feedback-action">
+                    {showSolution ? ui(locale, 'reviewSolutionHint') : ui(locale, 'tryAgainHint')}
+                  </p>
+                )}
               </div>
             )}
 
             {showSolution && currentItem && (
-              <div className="worked-solution">
+              <div className="worked-solution math-focus">
                 <h3>{ui(locale, 'workedSolution')}</h3>
                 <MathText
                   localized={currentItem.workedSolution}
@@ -289,15 +368,28 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
           </section>
         )}
 
-        {(phaseKind === 'complete' || masteryDone) && (
-          <section className="lesson-section complete-panel">
-            <h2>{ui(locale, 'lessonComplete')}</h2>
-            <p>{ui(locale, 'masteryUnlocked')}</p>
-            <ul className="unlock-list">
-              {pkg.unlocks.map((u) => (
-                <li key={u.id}>
-                  <MathText localized={u.title} locale={locale} /> —{' '}
-                  <MathText localized={u.description} locale={locale} />
+        {celebrating && (
+          <section className="celebrate-panel" aria-live="polite">
+            <p className="celebrate-flare" aria-hidden>
+              ✦
+            </p>
+            <h2 className="celebrate-title">{ui(locale, 'celebrationTitle')}</h2>
+            <p className="celebrate-sub">{ui(locale, 'celebrationSub')}</p>
+            <p className="unlocks-earned-label">{ui(locale, 'unlocksEarned')}</p>
+            <ul className="unlock-reveal">
+              {pkg.unlocks.map((u, i) => (
+                <li
+                  key={u.id}
+                  className={`unlock-card ${unlockTone(u.kind)}`}
+                  style={{ animationDelay: `${120 + i * 160}ms` }}
+                >
+                  <span className="unlock-kind">{unlockKindLabel(locale, u.kind)}</span>
+                  <strong className="unlock-title">
+                    <MathText localized={u.title} locale={locale} />
+                  </strong>
+                  <span className="unlock-desc">
+                    <MathText localized={u.description} locale={locale} />
+                  </span>
                 </li>
               ))}
             </ul>
@@ -306,21 +398,27 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
       </main>
 
       <footer className="lesson-footer">
-        {phaseKind === 'objectives' && (
+        {phaseKind === 'objectives' && !celebrating && (
           <button type="button" className="btn primary large" onClick={advance}>
             {ui(locale, 'startLesson')}
           </button>
         )}
 
-        {lastResult && phaseKind !== 'objectives' && phaseKind !== 'complete' && !masteryDone && (
+        {lastResult && phaseKind !== 'objectives' && !celebrating && (
           <button type="button" className="btn primary large" onClick={advance}>
             {ui(locale, 'continue')}
           </button>
         )}
 
-        {(masteryDone || phaseKind === 'complete') && (
-          <button type="button" className="btn primary large" onClick={onClose}>
-            {ui(locale, 'close')}
+        {teachFocus && !currentItem && !lastResult && phaseKind !== 'you_do' && (
+          <button type="button" className="btn primary large" onClick={advance}>
+            {ui(locale, 'continue')}
+          </button>
+        )}
+
+        {celebrating && (
+          <button type="button" className="btn primary large celebrate-cta" onClick={onClose}>
+            {ui(locale, 'continueToRange')}
           </button>
         )}
       </footer>

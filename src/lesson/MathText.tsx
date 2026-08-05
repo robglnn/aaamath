@@ -21,35 +21,39 @@ export function MathText({
 }: MathTextProps) {
   const content = text ?? (localized ? pickLocalized(localized, locale) : '')
 
+  const rootClass = ['math-text', className].filter(Boolean).join(' ')
+
   // Prefer prose + LaTeX twin so instruction verbs are not dropped (gauntlet seam fix).
   if (latex?.trim()) {
     const MathComponent = block ? BlockMath : InlineMath
     const prose = content.trim()
     const latexOnly = !prose || prose === latex.trim()
     return (
-      <span className={className}>
+      <span className={rootClass}>
         {!latexOnly && <span className="math-prose">{prose} </span>}
-        <MathComponent math={latex} />
+        <span className={block ? 'math-block' : 'math-inline'}>
+          <MathComponent math={latex} />
+        </span>
       </span>
     )
   }
 
   const parts = splitMathSegments(content)
   if (parts.length === 1 && parts[0]?.type === 'text') {
-    return <span className={className}>{content}</span>
+    return <span className={rootClass}>{content}</span>
   }
 
   return (
-    <span className={className}>
+    <span className={rootClass}>
       {parts.map((part, i) =>
         part.type === 'math' ? (
-          part.block ? (
-            <BlockMath key={i} math={part.value} />
-          ) : (
-            <InlineMath key={i} math={part.value} />
-          )
+          <span key={i} className={part.block ? 'math-block' : 'math-inline'}>
+            {part.block ? <BlockMath math={part.value} /> : <InlineMath math={part.value} />}
+          </span>
         ) : (
-          <span key={i}>{part.value}</span>
+          <span key={i} className="math-prose">
+            {part.value}
+          </span>
         ),
       )}
     </span>

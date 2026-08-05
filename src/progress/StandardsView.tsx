@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Jurisdiction, LessonPackage } from '@/content/types'
 import { loadLesson, LESSON_ID } from '@/content/loadLesson'
 import { MathText } from '@/lesson/MathText'
@@ -24,9 +24,9 @@ const JURISDICTIONS: Jurisdiction[] = [
 export function StandardsView() {
   const locale = useProgressStore((s) => s.blob.locale)
   const jurisdiction = useProgressStore((s) => s.blob.jurisdiction)
-  // Subscribe to kpStates so mastery updates re-render (functions alone are stable refs).
   const kpStates = useProgressStore((s) => s.blob.kpStates)
   const lessonStates = useProgressStore((s) => s.blob.lessonStates)
+  const unlocks = useProgressStore((s) => s.blob.unlocks)
   const thetaStub = useProgressStore((s) => s.blob.thetaStub)
   const setJurisdiction = useProgressStore((s) => s.setJurisdiction)
   const getKpStatus = useProgressStore((s) => s.getKpStatus)
@@ -39,10 +39,22 @@ export function StandardsView() {
     void loadLesson(LESSON_ID).then(setPkg)
   }, [])
 
-  // Depend on kpStates/lessonStates so coverage recomputes after answers/mastery.
   const standards = getStandardsCoverage(pkg, jurisdiction)
   void kpStates
   void lessonStates
+
+  const lessonMastered = Boolean(pkg && lessonStates[pkg.id]?.status === 'mastered')
+  const rankLabel = unlocks.ranks[0] ?? null
+
+  const kpGlance = useMemo(() => {
+    if (!pkg) return { cleared: 0, total: 0 }
+    let cleared = 0
+    for (const kp of pkg.knowledgePoints) {
+      const status = getKpStatus(kp.id)
+      if (status === 'mastered' || status === 'due_review') cleared += 1
+    }
+    return { cleared, total: pkg.knowledgePoints.length }
+  }, [pkg, kpStates, getKpStatus])
 
   const standardStatusLabel = (status: string) => {
     if (status === 'evidenced') return ui(locale, 'standardEvidenced')
@@ -52,8 +64,30 @@ export function StandardsView() {
 
   return (
     <div className="standards-view">
+      <section className="standing-card" aria-label={ui(locale, 'rankStanding')}>
+        <p className="standing-eyebrow">{ui(locale, 'rankStanding')}</p>
+        <h3 className="standing-rank">
+          {rankLabel || (lessonMastered ? 'Riser Initiate' : 'Recruit')}
+        </h3>
+        <p className="standing-meta">
+          {lessonMastered ? ui(locale, 'lessonMasteredStanding') : ui(locale, 'houseStanding')}
+          {kpGlance.total > 0 && (
+            <span className="standing-theorems">
+              {' '}
+              · {kpGlance.cleared}/{kpGlance.total}
+            </span>
+          )}
+        </p>
+        <details className="ability-detail">
+          <summary>{ui(locale, 'abilityDetail')}</summary>
+          <p className="ability-hint" aria-live="polite">
+            θ ≈ {thetaStub.toFixed(2)}
+          </p>
+        </details>
+      </section>
+
       <label className="field-label" htmlFor="jurisdiction-select">
-        {ui(locale, 'jurisdiction')}
+        {ui(locale, 'academySelect')}
       </label>
       <select
         id="jurisdiction-select"
@@ -68,26 +102,8 @@ export function StandardsView() {
         ))}
       </select>
 
-      <p className="ability-hint" aria-live="polite">
-        θ ≈ {thetaStub.toFixed(2)}
-        {pkg && lessonStates[pkg.id]?.status === 'mastered' ? ' · lesson mastered' : ''}
-      </p>
-
-      <h3>{ui(locale, 'standardsTitle')}</h3>
-      {!pkg && <p className="empty-hint">{ui(locale, 'lessonUnavailable')}</p>}
-      {pkg && standards.length === 0 && (
-        <p className="empty-hint">No standards mapped for {jurisdiction} in this lesson.</p>
-      )}
-      <ul className="standards-list">
-        {standards.map((row) => (
-          <li key={row.code} className={`standard-row status-${row.status}`}>
-            <span className="standard-code">{row.code}</span>
-            <span className={`badge ${row.status}`}>{standardStatusLabel(row.status)}</span>
-          </li>
-        ))}
-      </ul>
-
-      <h3>{ui(locale, 'kpStatusTitle')}</h3>
+      <h3>{ui(locale, 'theoremsTitle')}</h3>
+      <p className="section-hint">{ui(locale, 'theoremCompleteness')}</p>
       {!pkg && <p className="empty-hint">{ui(locale, 'lessonUnavailable')}</p>}
       <ul className="kp-list">
         {pkg?.knowledgePoints.map((kp) => {
@@ -95,8 +111,11 @@ export function StandardsView() {
           const kpState = kpStates[kp.id]
           return (
             <li key={kp.id} className={`kp-row status-${status}`}>
-              <div className="kp-title">
-                <MathText localized={kp.title} locale={locale} />
+              <div className="kp-main">
+                <span className={`status-pip status-${status}`} aria-hidden />
+                <div className="kp-title">
+                  <MathText localized={kp.title} locale={locale} />
+                </div>
               </div>
               <span className={`badge ${status}`}>{masteryStatusLabel(locale, status)}</span>
               {kpState?.nextReviewAt && status === 'due_review' && (
@@ -106,6 +125,25 @@ export function StandardsView() {
           )
         })}
       </ul>
+
+      <details className="academy-audit">
+        <summary>
+          {ui(locale, 'academyAudit')} · {ui(locale, 'compactStandards')}
+        </summary>
+        <h4 className="audit-subhead">{ui(locale, 'standardsTitle')}</h4>
+        {!pkg && <p className="empty-hint">{ui(locale, 'lessonUnavailable')}</p>}
+        {pkg && standards.length === 0 && (
+          <p className="empty-hint">{ui(locale, 'noStandardsMapped')}</p>
+        )}
+        <ul className="standards-list">
+          {standards.map((row) => (
+            <li key={row.code} className={`standard-row status-${row.status}`}>
+              <span className="standard-code">{row.code}</span>
+              <span className={`badge ${row.status}`}>{standardStatusLabel(row.status)}</span>
+            </li>
+          ))}
+        </ul>
+      </details>
 
       {pkg && (
         <details className="kp-details">

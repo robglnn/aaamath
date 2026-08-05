@@ -83,7 +83,11 @@ export function Player() {
     }
 
     const sprinting =
-      s.canSprint && (k['ShiftLeft'] === true || k['ShiftRight'] === true || mag > 0.92)
+      s.canSprint &&
+      (k['ShiftLeft'] === true ||
+        k['ShiftRight'] === true ||
+        s.touchSprint ||
+        mag > 0.92)
     const speed = sprinting ? SPRINT_SPEED : WALK_SPEED
 
     const yaw = s.playerYaw

@@ -23,8 +23,11 @@ export default function App() {
   if (!hydrated) {
     return (
       <div className="boot-screen">
-        <p className="brand">Axiom Rising</p>
-        <p>Initializing local progress…</p>
+        <div className="boot-brand-wrap">
+          <p className="brand brand-hero">Axiom Rising</p>
+          <div className="boot-scanline" aria-hidden />
+        </div>
+        <p className="boot-status">Initializing local progress…</p>
       </div>
     )
   }
@@ -38,24 +41,23 @@ export default function App() {
 
   return (
     <div className="app-root">
-      <header className="top-bar">
-        <div className="brand-block">
-          <span className="brand">Axiom Rising</span>
-          <span className="brand-sub">Training Range · Slice 0</span>
-        </div>
-        <div className="top-actions">
-          <LocaleSwitcher />
-          <button type="button" className="btn ghost" onClick={() => setProgressOpen((v) => !v)}>
-            {ui(locale, 'progress')}
-          </button>
-        </div>
-      </header>
-
       <GameView
         unlocked={unlocked}
         lessonOpen={lessonOpen}
         onOpenTerminal={() => setLessonOpen(true)}
       />
+
+      <div className="app-chrome" aria-label="Game menu">
+        <LocaleSwitcher />
+        <button
+          type="button"
+          className="btn chrome-btn"
+          onClick={() => setProgressOpen((v) => !v)}
+          aria-expanded={progressOpen}
+        >
+          {ui(locale, 'progress')}
+        </button>
+      </div>
 
       {lessonOpen && (
         <LessonOverlay
@@ -67,9 +69,12 @@ export default function App() {
       )}
 
       {progressOpen && (
-        <aside className="progress-drawer" aria-label="Progress">
+        <aside className="progress-drawer" aria-label={ui(locale, 'houseStanding')}>
           <div className="drawer-head">
-            <h2>{ui(locale, 'progress')}</h2>
+            <div>
+              <p className="drawer-eyebrow">{ui(locale, 'houseStanding')}</p>
+              <h2>{ui(locale, 'progress')}</h2>
+            </div>
             <button type="button" className="btn ghost" onClick={() => setProgressOpen(false)}>
               {ui(locale, 'close')}
             </button>
