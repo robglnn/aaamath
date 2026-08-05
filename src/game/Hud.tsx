@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { playBlip } from '@/game/audio'
 import { useGameStore } from '@/game/store'
-import { lesson1, lesson2, lesson3, lesson4, lesson5 } from '@/content/loadLesson'
+import { lesson1, lesson2, lesson3, lesson4, lesson5, lesson6 } from '@/content/loadLesson'
 import type { Locale } from '@/content/types'
 import { pickLocalized, useProgressStore } from '@/progress/store'
 import { ui } from '@/i18n/ui'
@@ -21,6 +21,10 @@ const L4_ZONE_ID = 'zone.delta.balance'
 const L5_BLUEPRINT_ID = 'bp.balance.calibrator'
 const L5_RANK_ID = 'rank.riser.chief'
 const L5_ZONE_ID = 'zone.epsilon.cal'
+
+const L6_BLUEPRINT_ID = 'bp.balance.mirror'
+const L6_RANK_ID = 'rank.riser.vanguard'
+const L6_ZONE_ID = 'zone.zeta.mirror'
 
 function resolveL2ZoneId(zones: string[]): (typeof L2_ZONE_IDS)[number] | null {
   for (const id of L2_ZONE_IDS) {
@@ -51,6 +55,11 @@ function l4UnlockTitle(id: string, locale: Locale): string {
 
 function l5UnlockTitle(id: string, locale: Locale): string {
   const def = lesson5.unlocks.find((u) => u.id === id)
+  return def ? pickLocalized(def.title, locale) : id
+}
+
+function l6UnlockTitle(id: string, locale: Locale): string {
+  const def = lesson6.unlocks.find((u) => u.id === id)
   return def ? pickLocalized(def.title, locale) : id
 }
 
@@ -89,13 +98,16 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const hasBalanceCalibrator = useGameStore((s) => s.hasBalanceCalibrator)
   const hasChiefRank = useGameStore((s) => s.hasChiefRank)
   const hasEpsilonCal = useGameStore((s) => s.hasEpsilonCal)
+  const hasBalanceMirror = useGameStore((s) => s.hasBalanceMirror)
+  const hasVanguardRank = useGameStore((s) => s.hasVanguardRank)
+  const hasZetaMirror = useGameStore((s) => s.hasZetaMirror)
   const activeZone = useGameStore((s) => s.activeZone)
   const mode = useGameStore((s) => s.mode)
   const setMode = useGameStore((s) => s.setMode)
   const requestPlace = useGameStore((s) => s.requestPlace)
 
   const [unlockFlash, setUnlockFlash] = useState<UnlockFlash>(null)
-  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal })
+  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal, hasBalanceMirror, hasVanguardRank, hasZetaMirror })
   const prevNearTerminal = useRef(nearTerminal)
   const syncReady = useRef(false)
   const pendingFlash = useRef<UnlockFlash>(null)
@@ -141,7 +153,11 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     else if (!prev.hasChiefRank && hasChiefRank) flash = 'rank'
     else if (!prev.hasBalanceCalibrator && hasBalanceCalibrator) flash = 'blueprint'
     else if (!prev.hasEpsilonCal && hasEpsilonCal) flash = 'zone'
-    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal }
+    // L6 transitions (vanguard → rank, mirror → blueprint, zeta → zone)
+    else if (!prev.hasVanguardRank && hasVanguardRank) flash = 'rank'
+    else if (!prev.hasBalanceMirror && hasBalanceMirror) flash = 'blueprint'
+    else if (!prev.hasZetaMirror && hasZetaMirror) flash = 'zone'
+    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal, hasBalanceMirror, hasVanguardRank, hasZetaMirror }
 
     if (!syncReady.current) {
       syncReady.current = true
@@ -156,7 +172,7 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     }
 
     showFlash(flash)
-  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal, mode])
+  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal, hasBalanceMirror, hasVanguardRank, hasZetaMirror, mode])
 
   useEffect(() => {
     if (mode === 'lesson' || !pendingFlash.current) return
@@ -213,7 +229,16 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const l5RankTitle = l5UnlockTitle(L5_RANK_ID, locale)
   const l5ZoneTitle = l5UnlockTitle(L5_ZONE_ID, locale)
 
-  const objectiveText = hasEpsilonCal
+  const hasL6Blueprint = progressUnlocks.blueprints.includes(L6_BLUEPRINT_ID)
+  const hasL6Rank = progressUnlocks.ranks.includes(L6_RANK_ID)
+  const hasL6Zone = progressUnlocks.zones.includes(L6_ZONE_ID)
+  const l6BlueprintTitle = l6UnlockTitle(L6_BLUEPRINT_ID, locale)
+  const l6RankTitle = l6UnlockTitle(L6_RANK_ID, locale)
+  const l6ZoneTitle = l6UnlockTitle(L6_ZONE_ID, locale)
+
+  const objectiveText = hasZetaMirror
+    ? ui(locale, 'objectiveZetaMirrorOpen')
+    : hasEpsilonCal
     ? ui(locale, 'objectiveEpsilonCalOpen')
     : hasDeltaBalance
       ? ui(locale, 'objectiveDeltaBalanceOpen')
@@ -340,6 +365,30 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
               ◎
             </span>
             {l5ZoneTitle}
+          </span>
+        )}
+        {hasL6Rank && (
+          <span className="gr-l2-chip gr-l6-chip gr-l6-chip--rank" data-tier="vanguard">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◆
+            </span>
+            {l6RankTitle}
+          </span>
+        )}
+        {hasL6Blueprint && (
+          <span className="gr-l2-chip gr-l6-chip gr-l6-chip--blueprint" data-tier="vanguard">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ⬡
+            </span>
+            {l6BlueprintTitle}
+          </span>
+        )}
+        {hasL6Zone && (
+          <span className="gr-l2-chip gr-l6-chip gr-l6-chip--zone" data-tier="vanguard">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◎
+            </span>
+            {l6ZoneTitle}
           </span>
         )}
       </div>

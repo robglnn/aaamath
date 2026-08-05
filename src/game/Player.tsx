@@ -28,6 +28,7 @@ const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
 const GOLD = '#e8c56a'
 const MINT = '#5ecf9a'
+const ICE = '#7eb8e8'
 
 const MAT = { roughness: 0.55, metalness: 0.25 }
 const MAT_BODY = { roughness: 0.5, metalness: 0.3, emissive: '#0e3a42', emissiveIntensity: 0.4 }
@@ -58,6 +59,7 @@ export function Player() {
   const hasExpertRank = useGameStore((s) => s.hasExpertRank)
   const hasOperatorRank = useGameStore((s) => s.hasOperatorRank)
   const hasChiefRank = useGameStore((s) => s.hasChiefRank)
+  const hasVanguardRank = useGameStore((s) => s.hasVanguardRank)
   const { panel } = useMemo(() => getProcTextureKit(), [])
   const geo = useMemo(() => getAuthoredGeoKit(), [])
   // Extrude UVs are shape-space (~0.45 wide), so rescale a clone of the shared
@@ -140,7 +142,7 @@ export function Player() {
     p.x += mx * speed * dt
     p.z += mz * speed * dt
 
-    const gy = groundHeight(p.x, p.z, s.hasZoneBeta, s.blueprintPosition, s.hasBetaAnnex, s.hasGammaRelay, s.hasDeltaBalance, s.hasEpsilonCal)
+    const gy = groundHeight(p.x, p.z, s.hasZoneBeta, s.blueprintPosition, s.hasBetaAnnex, s.hasGammaRelay, s.hasDeltaBalance, s.hasEpsilonCal, s.hasZetaMirror)
     if (rig.jumpQueued) {
       if (grounded.current && s.mode !== 'lesson') {
         velY.current = JUMP_SPEED
@@ -316,6 +318,20 @@ export function Player() {
               </mesh>
               <mesh geometry={geo.playerPip} position={[0, 1.032, 0.14]} scale={0.26}>
                 <meshStandardMaterial color={MINT} emissive={MINT} emissiveIntensity={1.8} />
+              </mesh>
+            </>
+          )}
+          {/* Riser Vanguard (L6 rank): ice sixth chevrons over the mint tier + centered ice chest mark */}
+          {hasVanguardRank && (
+            <>
+              <mesh geometry={geo.playerPip} position={[-0.35, 1.18, -0.038]} rotation={[-1.05, 0, 0]} scale={[0.65, 0.36, 1]}>
+                <meshStandardMaterial color={ICE} emissive={ICE} emissiveIntensity={1.6} />
+              </mesh>
+              <mesh geometry={geo.playerPip} position={[0.35, 1.18, -0.038]} rotation={[-1.05, 0, 0]} scale={[0.65, 0.36, 1]}>
+                <meshStandardMaterial color={ICE} emissive={ICE} emissiveIntensity={1.6} />
+              </mesh>
+              <mesh geometry={geo.playerPip} position={[0, 1.058, 0.136]} scale={0.22}>
+                <meshStandardMaterial color={ICE} emissive={ICE} emissiveIntensity={1.85} />
               </mesh>
             </>
           )}

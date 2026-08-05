@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { LESSON_1_ID, LESSON_2_ID, LESSON_3_ID, LESSON_4_ID, LESSON_5_ID, resolveTerminalLessonId } from '@/content/loadLesson'
+import { LESSON_1_ID, LESSON_2_ID, LESSON_3_ID, LESSON_4_ID, LESSON_5_ID, LESSON_6_ID, resolveTerminalLessonId } from '@/content/loadLesson'
 import { useProgressStore } from '@/progress/store'
 import { LocaleSwitcher } from '@/components/LocaleSwitcher'
 import { ui } from '@/i18n/ui'
@@ -44,6 +44,7 @@ export default function App() {
   const lesson3State = lessonStates[LESSON_3_ID]
   const lesson4State = lessonStates[LESSON_4_ID]
   const lesson5State = lessonStates[LESSON_5_ID]
+  const lesson6State = lessonStates[LESSON_6_ID]
   const terminalLessonId = resolveTerminalLessonId(lessonStates)
 
   const [lessonOpen, setLessonOpen] = useState(false)
@@ -62,6 +63,7 @@ export default function App() {
   const mastered3 = lesson3State?.status === 'mastered'
   const mastered4 = lesson4State?.status === 'mastered'
   const mastered5 = lesson5State?.status === 'mastered'
+  const mastered6 = lesson6State?.status === 'mastered'
   const unlocked = {
     blueprint: unlocks.blueprints.includes('bp.pad.ramp') || mastered,
     rank: unlocks.ranks.includes('rank.riser.initiate') || mastered,
@@ -82,6 +84,9 @@ export default function App() {
     balanceCalibrator: unlocks.blueprints.includes('bp.balance.calibrator') || mastered5,
     chiefRank: unlocks.ranks.includes('rank.riser.chief') || mastered5,
     epsilonCal: unlocks.zones.includes('zone.epsilon.cal') || mastered5,
+    balanceMirror: unlocks.blueprints.includes('bp.balance.mirror') || mastered6,
+    vanguardRank: unlocks.ranks.includes('rank.riser.vanguard') || mastered6,
+    zetaMirror: unlocks.zones.includes('zone.zeta.mirror') || mastered6,
   }
 
   const openTerminal = () => {

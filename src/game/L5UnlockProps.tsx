@@ -16,11 +16,15 @@ const STEEL = '#1a3344'
 const CAL_POS: [number, number, number] = [-2.8, PAD_TOP, 1.2]
 const CAL_YAW = -0.4
 
-/** Pentagon body: apothem → circumradius for 5-gon cylinder (flat side east). */
+/** Pentagon body: apothem → circumradius for 5-gon (flat side east). */
 const COS_PI5 = Math.cos(Math.PI / 5)
 const EPSILON_BODY_R = EPSILON_RADIUS / COS_PI5
-/** thetaStart so a flat side faces +X (east / bridge). Midpoint between verts at ±π/5. */
-const PENTA_THETA = Math.PI / 5
+/**
+ * CircleGeometry θ from +X; CylinderGeometry θ from +Z. Disc π/5 → flat east.
+ * Cylinder needs π/5 − π/2 so the same flat faces east (else 18° skirt skew).
+ */
+const PENTA_DISC_THETA = Math.PI / 5
+const PENTA_CYL_THETA = Math.PI / 5 - Math.PI / 2
 
 /**
  * Wave 25 — Lesson 5 mastery unlocks as real range props.
@@ -244,11 +248,11 @@ function EpsilonCal() {
       <group position={[EPSILON_CENTER[0], 0, EPSILON_CENTER[1]]}>
         {/* Pentagon pad — flat side east toward the bridge */}
         <mesh position={[0, 0.05, 0]}>
-          <cylinderGeometry args={[EPSILON_BODY_R, (EPSILON_RADIUS + 0.3) / COS_PI5, 0.14, 5, 1, false, PENTA_THETA]} />
+          <cylinderGeometry args={[EPSILON_BODY_R, (EPSILON_RADIUS + 0.3) / COS_PI5, 0.14, 5, 1, false, PENTA_CYL_THETA]} />
           <meshStandardMaterial color="#1a2e24" metalness={0.35} roughness={0.55} />
         </mesh>
         <mesh position={[0, 0.13, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <circleGeometry args={[(EPSILON_RADIUS - 0.3) / COS_PI5, 5, PENTA_THETA]} />
+          <circleGeometry args={[(EPSILON_RADIUS - 0.3) / COS_PI5, 5, PENTA_DISC_THETA]} />
           <meshStandardMaterial map={hexPad} color="#b8e8d0" metalness={0.25} roughness={0.7} />
         </mesh>
         {/* Edge glow bars at five flat midpoints — mint L5 accent */}
@@ -273,7 +277,7 @@ function EpsilonCal() {
             </mesh>
           )
         })}
-        <mesh position={[0, 0.135, 0]} rotation={[-Math.PI / 2, 0, PENTA_THETA]}>
+        <mesh position={[0, 0.135, 0]} rotation={[-Math.PI / 2, 0, PENTA_DISC_THETA]}>
           <ringGeometry args={[0.65, 0.85, 5]} />
           <meshStandardMaterial
             ref={markerMat}

@@ -1,0 +1,638 @@
+/**
+ * Wave 28 — emit algebra-i-07 (solving linear inequalities).
+ * Run: npx tsx scripts/gen-lesson7-wave28.ts
+ */
+import { mkdirSync, writeFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const outPath = join(__dirname, '../content/lessons/algebra-i-07/package.json')
+
+const L = (en: string, es: string, pl: string) => ({ en, es, pl })
+
+const stdIneq = {
+  CCSS: ['CCSS.MATH.CONTENT.7.EE.B.4'],
+  CA: ['7.EE.4'],
+  NJ: ['7.EE.B.4'],
+  MI: ['7.EE.4'],
+  TX: ['7.11A', 'A.5B'],
+  NY: ['7.EE.4'],
+  IL: ['7.EE.B.4'],
+  MO: ['7.EE.B.4'],
+  FL: ['MA.7.AR.2.2', 'MA.912.AR.2.6'],
+  WA: ['7.EE.B.4'],
+  DC: ['7.EE.B.4'],
+  OH: ['7.EE.4'],
+  MN: ['7.2.4.1'],
+}
+
+const stdIneqAdv = {
+  CCSS: ['CCSS.MATH.CONTENT.7.EE.B.4', 'CCSS.MATH.CONTENT.HSA.CED.A.1'],
+  CA: ['7.EE.4', 'A-CED.1'],
+  NJ: ['7.EE.B.4', 'A.CED.A.1'],
+  MI: ['7.EE.4', 'A-CED.1'],
+  TX: ['7.11A', 'A.5B'],
+  NY: ['7.EE.4', 'AI-A.CED.1'],
+  IL: ['7.EE.B.4', 'A.CED.A.1'],
+  MO: ['7.EE.B.4', 'A1.CED.A.1'],
+  FL: ['MA.7.AR.2.2', 'MA.912.AR.2.6'],
+  WA: ['7.EE.B.4', 'HSA-CED.A.1'],
+  DC: ['7.EE.B.4', 'A.CED.A.1'],
+  OH: ['7.EE.4', 'A.CED.1'],
+  MN: ['7.2.4.1', '9.2.3.7'],
+}
+
+const stdVerify = {
+  CCSS: ['CCSS.MATH.CONTENT.6.EE.B.8', 'CCSS.MATH.CONTENT.7.EE.B.4'],
+  CA: ['6.EE.8', '7.EE.4'],
+  NJ: ['6.EE.B.8', '7.EE.B.4'],
+  MI: ['6.EE.8', '7.EE.4'],
+  TX: ['6.10A', 'A.5B'],
+  NY: ['6.EE.8', '7.EE.4'],
+  IL: ['6.EE.B.8', '7.EE.B.4'],
+  MO: ['6.EE.B.8', '7.EE.B.4'],
+  FL: ['MA.6.AR.2.4', 'MA.7.AR.2.2'],
+  WA: ['6.EE.B.8', '7.EE.B.4'],
+  DC: ['6.EE.B.8', '7.EE.B.4'],
+  OH: ['6.EE.8', '7.EE.4'],
+  MN: ['6.2.3.3', '7.2.4.1'],
+}
+
+const sr = { initialIntervalDays: 1, easeFactor: 2.5, masteryThreshold: 0.8 }
+
+function choice(
+  id: string,
+  latex: string,
+  correct: boolean,
+  tag: string | undefined,
+  fb: ReturnType<typeof L>,
+) {
+  return {
+    id,
+    text: L(latex, latex, latex),
+    latex,
+    isCorrect: correct,
+    ...(tag ? { diagnosticTag: tag } : {}),
+    feedback: fb,
+  }
+}
+
+const pkg = {
+  schemaVersion: '1.0.0',
+  id: 'algebra-i-07',
+  courseId: 'algebra-i',
+  order: 7,
+  title: L(
+    'Solving Linear Inequalities',
+    'Resolución de desigualdades lineales',
+    'Rozwiązywanie nierówności liniowych',
+  ),
+  objectives: [
+    L(
+      'Solve one-step inequalities, keeping the direction when adding, subtracting, or multiplying/dividing by a positive.',
+      'Resolver desigualdades de un paso, manteniendo la dirección al sumar, restar o multiplicar/dividir por un positivo.',
+      'Rozwiązywać nierówności jednokrokowe, zachowując kierunek przy dodawaniu, odejmowaniu lub mnożeniu/dzieleniu przez liczbę dodatnią.',
+    ),
+    L(
+      'Flip the inequality direction exactly when multiplying or dividing both sides by a negative.',
+      'Invertir la dirección de la desigualdad exactamente al multiplicar o dividir ambos lados por un negativo.',
+      'Odwracać kierunek nierówności dokładnie przy mnożeniu lub dzieleniu obu stron przez liczbę ujemną.',
+    ),
+    L(
+      'Chain two-step inequalities to a solution ray and verify membership by testing values.',
+      'Encadenar desigualdades de dos pasos hasta un rayo solución y verificar la pertenencia probando valores.',
+      'Łączyć nierówności dwukrokowe w promień rozwiązań i weryfikować przynależność przez testowanie wartości.',
+    ),
+  ],
+  knowledgePointIds: [
+    'kp.inequality.one-step',
+    'kp.inequality.flip',
+    'kp.inequality.two-step',
+    'kp.inequality.verify',
+  ],
+  knowledgePoints: [
+    {
+      id: 'kp.inequality.one-step',
+      title: L(
+        'Solve one-step inequalities',
+        'Resuelve desigualdades de un paso',
+        'Rozwiąż nierówności jednokrokowe',
+      ),
+      description: L(
+        'For x + b < c or ax ≥ c with a > 0, use the same inverse operations as equations — the direction stays.',
+        'Para x + b < c o ax ≥ c con a > 0, usa las mismas operaciones inversas que en ecuaciones — la dirección se mantiene.',
+        'Dla x + b < c lub ax ≥ c przy a > 0 użyj tych samych operacji odwrotnych co w równaniach — kierunek zostaje.',
+      ),
+      prerequisites: ['algebra-i-05:kp.equation.two-step-mult-then-add'],
+      successCriteria: L(
+        'Student solves one-step inequalities without flipping the sign on add/subtract or positive multiply/divide.',
+        'El estudiante resuelve desigualdades de un paso sin invertir el signo al sumar/restar o multiplicar/dividir por positivos.',
+        'Uczeń rozwiązuje nierówności jednokrokowe bez odwracania znaku przy dodawaniu/odejmowaniu lub mnożeniu/dzieleniu przez dodatnie.',
+      ),
+      misconceptions: [
+        L(
+          'Flipping the inequality when only adding or subtracting (false-flip).',
+          'Invertir la desigualdad al solo sumar o restar (giro falso).',
+          'Odwracanie nierówności przy samym dodawaniu lub odejmowaniu (fałszywe odwrócenie).',
+        ),
+      ],
+      standards: stdIneq,
+      irtPriors: { a: 1, b: -0.2 },
+      srDefaults: sr,
+    },
+    {
+      id: 'kp.inequality.flip',
+      title: L(
+        'Flip the inequality for negatives',
+        'Invierte la desigualdad con negativos',
+        'Odwróć nierówność dla liczb ujemnych',
+      ),
+      description: L(
+        'Multiplying or dividing both sides by a negative reverses the order, so the inequality sign flips.',
+        'Multiplicar o dividir ambos lados por un negativo invierte el orden, así que el signo de la desigualdad se invierte.',
+        'Mnożenie lub dzielenie obu stron przez liczbę ujemną odwraca porządek, więc znak nierówności się odwraca.',
+      ),
+      prerequisites: [
+        'kp.inequality.one-step',
+        'algebra-i-05:kp.equation.two-step-signed',
+      ],
+      successCriteria: L(
+        'Student flips the inequality exactly when multiplying or dividing by a negative.',
+        'El estudiante invierte la desigualdad exactamente al multiplicar o dividir por un negativo.',
+        'Uczeń odwraca nierówność dokładnie przy mnożeniu lub dzieleniu przez liczbę ujemną.',
+      ),
+      misconceptions: [
+        L(
+          'Forgetting to flip when dividing by a negative (flip-miss).',
+          'Olvidar invertir al dividir por un negativo (giro omitido).',
+          'Zapominanie odwrócenia przy dzieleniu przez liczbę ujemną (pominięte odwrócenie).',
+        ),
+      ],
+      standards: stdIneq,
+      irtPriors: { a: 1, b: 0.1 },
+      srDefaults: sr,
+    },
+    {
+      id: 'kp.inequality.two-step',
+      title: L(
+        'Solve two-step inequalities',
+        'Resuelve desigualdades de dos pasos',
+        'Rozwiąż nierówności dwukrokowe',
+      ),
+      description: L(
+        'Undo the constant first, then the coefficient — flipping the direction if the coefficient is negative.',
+        'Deshaz primero la constante, luego el coeficiente — invirtiendo la dirección si el coeficiente es negativo.',
+        'Najpierw cofnij stałą, potem współczynnik — odwracając kierunek, gdy współczynnik jest ujemny.',
+      ),
+      prerequisites: [
+        'kp.inequality.flip',
+        'algebra-i-06:kp.equation.both-sides-isolate',
+      ],
+      successCriteria: L(
+        'Student chains both inverse steps in order and lands the correct direction.',
+        'El estudiante encadena ambos pasos inversos en orden y acierta la dirección.',
+        'Uczeń łączy oba kroki odwrotne w kolejności i trafia we właściwy kierunek.',
+      ),
+      misconceptions: [
+        L(
+          'Dividing before undoing the constant, or flipping when the final divisor is positive (wrong-order / false-flip).',
+          'Dividir antes de deshacer la constante, o invertir cuando el divisor final es positivo (orden incorrecto / giro falso).',
+          'Dzielenie przed cofnięciem stałej lub odwracanie, gdy końcowy dzielnik jest dodatni (zła kolejność / fałszywe odwrócenie).',
+        ),
+      ],
+      standards: stdIneqAdv,
+      irtPriors: { a: 1, b: 0.4 },
+      srDefaults: sr,
+    },
+    {
+      id: 'kp.inequality.verify',
+      title: L(
+        'Verify inequality solution sets',
+        'Verifica conjuntos solución de desigualdades',
+        'Weryfikuj zbiory rozwiązań nierówności',
+      ),
+      description: L(
+        'Test the boundary with equality and test a value inside the candidate ray to confirm the solution set.',
+        'Prueba la frontera con igualdad y prueba un valor dentro del rayo candidato para confirmar el conjunto solución.',
+        'Sprawdź próg z równością i wartość wewnątrz kandydującego promienia, by potwierdzić zbiór rozwiązań.',
+      ),
+      prerequisites: [
+        'kp.inequality.two-step',
+        'algebra-i-06:kp.equation.both-sides-verify',
+      ],
+      successCriteria: L(
+        'Student confirms membership by substitution, including edge cases at the boundary.',
+        'El estudiante confirma la pertenencia por sustitución, incluyendo casos en la frontera.',
+        'Uczeń potwierdza przynależność przez podstawienie, w tym przypadki na progu.',
+      ),
+      misconceptions: [
+        L(
+          'Accepting a value without substitution, or checking the boundary only (verify-skip).',
+          'Aceptar un valor sin sustituir, o comprobar solo la frontera (omitir verificación).',
+          'Akceptowanie wartości bez podstawienia lub sprawdzanie tylko progu (pominięcie weryfikacji).',
+        ),
+      ],
+      standards: stdVerify,
+      irtPriors: { a: 1, b: 0.6 },
+      srDefaults: sr,
+    },
+  ],
+  phases: [
+    {
+      id: 'phase.objectives',
+      kind: 'objectives',
+      title: L('Mission briefing', 'Informe de misión', 'Briefing misji'),
+      body: L(
+        'Every gate has a threshold — cross it one way and the inequality holds. Learn when the direction stays and when it flips, and the Eta Threshold Gate opens.',
+        'Cada puerta tiene un umbral — crúzalo en un sentido y la desigualdad se cumple. Aprende cuándo la dirección se mantiene y cuándo se invierte, y la Puerta Umbral Eta se abrirá.',
+        'Każda brama ma próg — przekrocz go w jedną stronę, a nierówność zachodzi. Naucz się, kiedy kierunek zostaje, a kiedy się odwraca, a Brama Progowa Eta się otworzy.',
+      ),
+      bodyLatex: ['ax + b < c', 'a<0 \\Rightarrow \\text{flip the inequality}'],
+      itemIds: [],
+      tutorScript: L(
+        'Today we solve inequalities like equations — with one new rule: multiplying or dividing by a negative flips the sign.',
+        'Hoy resolvemos desigualdades como ecuaciones — con una regla nueva: multiplicar o dividir por un negativo invierte el signo.',
+        'Dziś rozwiązujemy nierówności jak równania — z jedną nową zasadą: mnożenie lub dzielenie przez liczbę ujemną odwraca znak.',
+      ),
+    },
+    {
+      id: 'phase.i_do',
+      kind: 'i_do',
+      title: L('I do — open the gate', 'Yo hago — abre la puerta', 'Ja robię — otwórz bramę'),
+      body: L(
+        'Watch me keep the direction on a subtraction, then flip it on a negative division.',
+        'Observa cómo mantengo la dirección en una resta y luego la invierto en una división negativa.',
+        'Patrz, jak zachowuję kierunek przy odejmowaniu, a potem odwracam go przy dzieleniu przez liczbę ujemną.',
+      ),
+      bodyLatex: ['x + 5 < 12', '-3x \\ge 12'],
+      itemIds: ['item.ido.1', 'item.ido.2'],
+      tutorScript: L(
+        'Same moves as equations — but when the divisor is negative, the inequality turns around.',
+        'Los mismos pasos que en ecuaciones — pero cuando el divisor es negativo, la desigualdad se da vuelta.',
+        'Te same ruchy co w równaniach — ale gdy dzielnik jest ujemny, nierówność się odwraca.',
+      ),
+    },
+    {
+      id: 'phase.we_do',
+      kind: 'we_do',
+      title: L('We do — set the threshold', 'Hacemos juntos — fijamos el umbral', 'Robimy razem — ustawiamy próg'),
+      body: L(
+        'Work with me: one-step, flip, then a two-step chain. Two items are typed.',
+        'Trabaja conmigo: un paso, giro y una cadena de dos pasos. Dos ítems son escritos.',
+        'Pracuj ze mną: jeden krok, odwrócenie i łańcuch dwukrokowy. Dwa zadania są wpisywane.',
+      ),
+      bodyLatex: ['x - 3 > 2', '5 - 2x > 17'],
+      itemIds: ['item.wedo.1', 'item.wedo.2', 'item.wedo.3', 'item.wedo.4'],
+      tutorScript: L(
+        'Say the inverse out loud, then check whether the divisor is negative before you write the sign.',
+        'Di el inverso en voz alta y luego revisa si el divisor es negativo antes de escribir el signo.',
+        'Powiedz odwrotność na głos, a potem sprawdź, czy dzielnik jest ujemny, zanim zapiszesz znak.',
+      ),
+    },
+    {
+      id: 'phase.you_do',
+      kind: 'you_do',
+      title: L('You do — aim the ray', 'Tú haces — apunta el rayo', 'Ty robisz — nakieruj promień'),
+      body: L(
+        'Four independent items. Mastery needs 3 of 4 correct across the required knowledge points.',
+        'Cuatro ítems independientes. El dominio requiere 3 de 4 correctos en los puntos de conocimiento requeridos.',
+        'Cztery samodzielne zadania. Mistrzostwo wymaga 3 z 4 poprawnych na wymaganych punktach wiedzy.',
+      ),
+      bodyLatex: ['\\frac{x}{3} \\ge 3', '-2x + 7 > 1'],
+      itemIds: ['item.youdo.1', 'item.youdo.2', 'item.youdo.3', 'item.youdo.4'],
+      tutorScript: L(
+        'Undo the constant first, then the coefficient. Flip only when you multiply or divide by a negative.',
+        'Deshaz primero la constante, luego el coeficiente. Invierte solo al multiplicar o dividir por un negativo.',
+        'Najpierw cofnij stałą, potem współczynnik. Odwracaj tylko przy mnożeniu lub dzieleniu przez liczbę ujemną.',
+      ),
+    },
+    {
+      id: 'phase.retrieval',
+      kind: 'retrieval',
+      title: L('Retrieval pulse', 'Pulso de recuperación', 'Puls odzyskiwania'),
+      body: L(
+        'Quick threshold checks to lock the flip habit.',
+        'Comprobaciones rápidas de umbral para fijar el hábito del giro.',
+        'Szybkie sprawdzenia progu, by utrwalić nawyk odwracania.',
+      ),
+      bodyLatex: ['x + 8 \\le 14'],
+      itemIds: ['item.retr.1', 'item.retr.2'],
+      tutorScript: L(
+        'Same moves, faster. Ask every time: did I just divide by a negative?',
+        'Los mismos pasos, más rápido. Pregunta siempre: ¿acabo de dividir por un negativo?',
+        'Te same ruchy, szybciej. Pytaj za każdym razem: czy właśnie dzieliłem przez liczbę ujemną?',
+      ),
+    },
+    {
+      id: 'phase.complete',
+      kind: 'complete',
+      title: L('Gate aligned', 'Puerta alineada', 'Brama wyrównana'),
+      body: L(
+        'You can solve and verify linear inequalities. Unlock the threshold gate blueprint, Marshal rank, and the Eta Threshold Gate.',
+        'Puedes resolver y verificar desigualdades lineales. Desbloquea el plano de puerta umbral, el rango Mariscal y la Puerta Umbral Eta.',
+        'Potrafisz rozwiązywać i weryfikować nierówności liniowe. Odblokuj plan bramy progowej, rangę Marszałka i Bramę Progową Eta.',
+      ),
+      bodyLatex: [
+        'ax + b < c \\Rightarrow x < \\frac{c - b}{a}\\;\\;(a > 0)',
+        'a < 0 \\Rightarrow \\text{flip the inequality}',
+      ],
+      itemIds: [],
+      tutorScript: L(
+        'Outstanding — the gate opens your way. Inequality rays are yours to aim.',
+        'Excelente — la puerta se abre a tu paso. Los rayos de desigualdad son tuyos.',
+        'Świetnie — brama otwiera się przed tobą. Promienie nierówności są twoje.',
+      ),
+    },
+  ],
+  items: [
+    {
+      id: 'item.ido.1',
+      kpIds: ['kp.inequality.one-step'],
+      phase: 'i_do',
+      type: 'mcq',
+      stem: L('Solve: $x + 5 < 12$', 'Resuelve: $x + 5 < 12$', 'Rozwiąż: $x + 5 < 12$'),
+      stemLatex: 'x + 5 < 12',
+      choices: [
+        choice('a', 'x < 17', false, 'wrong-inverse', L('Adding 5 gives 17 — undo +5 by subtracting 5 from both sides.', 'Sumar 5 da 17 — deshaz +5 restando 5 en ambos lados.', 'Dodanie 5 daje 17 — cofnij +5, odejmując 5 po obu stronach.')),
+        choice('b', 'x > 7', false, 'false-flip', L('Subtracting never flips the inequality — the direction stays <.', 'Restar nunca invierte la desigualdad — la dirección sigue <.', 'Odejmowanie nigdy nie odwraca nierówności — kierunek zostaje <.')),
+        choice('c', 'x > 17', false, 'wrong-inverse', L('Two errors: 12 + 5 is not the inverse, and subtracting does not flip the sign.', 'Dos errores: 12 + 5 no es el inverso, y restar no invierte el signo.', 'Dwa błędy: 12 + 5 to nie operacja odwrotna, a odejmowanie nie odwraca znaku.')),
+        choice('d', 'x < 7', true, undefined, L('Correct: subtract 5 from both sides — x < 7, direction unchanged.', 'Correcto: resta 5 en ambos lados — x < 7, dirección sin cambio.', 'Poprawnie: odejmij 5 po obu stronach — x < 7, kierunek bez zmian.')),
+      ],
+      workedSolution: L('Subtract 5 from both sides: x < 7. The direction stays because we only subtracted.', 'Resta 5 en ambos lados: x < 7. La dirección se mantiene porque solo restamos.', 'Odejmij 5 po obu stronach: x < 7. Kierunek zostaje, bo tylko odejmowaliśmy.'),
+      workedSolutionLatex: 'x+5<12 \\Rightarrow x<7',
+      standards: stdIneq,
+      irtPriors: { a: 1, b: -0.8 },
+      difficulty: 'intro',
+    },
+    {
+      id: 'item.ido.2',
+      kpIds: ['kp.inequality.flip'],
+      phase: 'i_do',
+      type: 'mcq',
+      stem: L('Solve: $-3x \\ge 12$', 'Resuelve: $-3x \\ge 12$', 'Rozwiąż: $-3x \\ge 12$'),
+      stemLatex: '-3x \\ge 12',
+      choices: [
+        choice('a', 'x \\ge -4', false, 'flip-miss', L('Right boundary, wrong direction: dividing by −3 flips ≥ to ≤, so x ≤ −4.', 'Frontera correcta, dirección incorrecta: dividir entre −3 invierte ≥ a ≤, así que x ≤ −4.', 'Dobry próg, zły kierunek: dzielenie przez −3 odwraca ≥ na ≤, więc x ≤ −4.')),
+        choice('b', 'x \\le -4', true, undefined, L('Correct: divide both sides by −3 and flip — x ≤ −4.', 'Correcto: divide ambos lados entre −3 e invierte — x ≤ −4.', 'Poprawnie: podziel obie strony przez −3 i odwróć — x ≤ −4.')),
+        choice('c', 'x \\le 4', false, 'sign-slip', L('Right flip, lost sign: 12 ÷ (−3) = −4, not 4.', 'Bien el giro, signo perdido: 12 ÷ (−3) = −4, no 4.', 'Dobre odwrócenie, zgubiony znak: 12 ÷ (−3) = −4, nie 4.')),
+        choice('d', 'x \\ge 4', false, 'wrong-inverse', L('Two fixes: keep the negative (12 ÷ −3 = −4) and flip the inequality.', 'Dos arreglos: conserva el negativo (12 ÷ −3 = −4) e invierte la desigualdad.', 'Dwie poprawki: zachowaj minus (12 ÷ −3 = −4) i odwróć nierówność.')),
+      ],
+      workedSolution: L('Divide both sides by −3. Because −3 is negative, flip ≥ to ≤: x ≤ −4.', 'Divide ambos lados entre −3. Como −3 es negativo, invierte ≥ a ≤: x ≤ −4.', 'Podziel obie strony przez −3. Ponieważ −3 jest ujemne, odwróć ≥ na ≤: x ≤ −4.'),
+      workedSolutionLatex: '-3x \\ge 12 \\Rightarrow x \\le -4',
+      standards: stdIneq,
+      irtPriors: { a: 1, b: -0.5 },
+      difficulty: 'intro',
+    },
+    {
+      id: 'item.wedo.1',
+      kpIds: ['kp.inequality.one-step'],
+      phase: 'we_do',
+      type: 'short',
+      stem: L('Solve: $x - 3 > 2$. Enter the solution as an inequality.', 'Resuelve: $x - 3 > 2$. Escribe la solución como desigualdad.', 'Rozwiąż: $x - 3 > 2$. Wpisz rozwiązanie jako nierówność.'),
+      stemLatex: 'x - 3 > 2',
+      answer: 'x>5',
+      acceptableAnswers: ['x>5', 'x > 5', '5<x'],
+      workedSolution: L('Add 3 to both sides: x > 5. Addition keeps the direction.', 'Suma 3 en ambos lados: x > 5. La suma mantiene la dirección.', 'Dodaj 3 po obu stronach: x > 5. Dodawanie zachowuje kierunek.'),
+      workedSolutionLatex: 'x-3>2 \\Rightarrow x>5',
+      standards: stdIneq,
+      irtPriors: { a: 1, b: -0.3 },
+      difficulty: 'guided',
+    },
+    {
+      id: 'item.wedo.2',
+      kpIds: ['kp.inequality.flip'],
+      phase: 'we_do',
+      type: 'mcq',
+      stem: L('Solve: $-2x < 4$', 'Resuelve: $-2x < 4$', 'Rozwiąż: $-2x < 4$'),
+      stemLatex: '-2x < 4',
+      choices: [
+        choice('a', 'x > -2', true, undefined, L('Correct: divide by −2 and flip < to > — x > −2.', 'Correcto: divide entre −2 e invierte < a > — x > −2.', 'Poprawnie: podziel przez −2 i odwróć < na > — x > −2.')),
+        choice('b', 'x < -2', false, 'flip-miss', L('Right boundary, wrong direction — dividing by −2 flips < to >.', 'Frontera correcta, dirección incorrecta — dividir entre −2 invierte < a >.', 'Dobry próg, zły kierunek — dzielenie przez −2 odwraca < na >.')),
+        choice('c', 'x > 2', false, 'sign-slip', L('Right flip, lost sign: 4 ÷ (−2) = −2.', 'Bien el giro, signo perdido: 4 ÷ (−2) = −2.', 'Dobre odwrócenie, zgubiony znak: 4 ÷ (−2) = −2.')),
+        choice('d', 'x < 2', false, 'sign-slip', L('Two fixes: 4 ÷ (−2) = −2 and flip to >.', 'Dos arreglos: 4 ÷ (−2) = −2 e invierte a >.', 'Dwie poprawki: 4 ÷ (−2) = −2 i odwróć na >.')),
+      ],
+      workedSolution: L('Divide both sides by −2 and flip the inequality: x > −2.', 'Divide ambos lados entre −2 e invierte la desigualdad: x > −2.', 'Podziel obie strony przez −2 i odwróć nierówność: x > −2.'),
+      workedSolutionLatex: '-2x<4 \\Rightarrow x>-2',
+      standards: stdIneq,
+      irtPriors: { a: 1, b: 0.2 },
+      difficulty: 'guided',
+    },
+    {
+      id: 'item.wedo.3',
+      kpIds: ['kp.inequality.two-step'],
+      phase: 'we_do',
+      type: 'mcq',
+      stem: L('Solve: $2x + 3 < 11$', 'Resuelve: $2x + 3 < 11$', 'Rozwiąż: $2x + 3 < 11$'),
+      stemLatex: '2x + 3 < 11',
+      choices: [
+        choice('a', 'x < 7', false, 'wrong-inverse', L('Undo +3 by subtracting: 11 − 3 = 8, not 14.', 'Deshaz +3 restando: 11 − 3 = 8, no 14.', 'Cofnij +3 odejmując: 11 − 3 = 8, nie 14.')),
+        choice('b', 'x > 4', false, 'false-flip', L('Dividing by positive 2 never flips the inequality.', 'Dividir entre 2 positivo nunca invierte la desigualdad.', 'Dzielenie przez dodatnie 2 nigdy nie odwraca nierówności.')),
+        choice('c', 'x < 4', true, undefined, L('Correct: subtract 3 → 2x < 8 → divide by 2 → x < 4.', 'Correcto: resta 3 → 2x < 8 → divide entre 2 → x < 4.', 'Poprawnie: odejmij 3 → 2x < 8 → podziel przez 2 → x < 4.')),
+        choice('d', 'x < 8', false, 'partial-solve', L('2x < 8 is only the middle step — divide by 2.', '2x < 8 es solo el paso intermedio — divide entre 2.', '2x < 8 to tylko krok pośredni — podziel przez 2.')),
+      ],
+      workedSolution: L('Subtract 3: 2x < 8. Divide by 2: x < 4. Direction stays.', 'Resta 3: 2x < 8. Divide entre 2: x < 4. La dirección se mantiene.', 'Odejmij 3: 2x < 8. Podziel przez 2: x < 4. Kierunek zostaje.'),
+      workedSolutionLatex: '2x+3<11 \\Rightarrow 2x<8 \\Rightarrow x<4',
+      standards: stdIneqAdv,
+      irtPriors: { a: 1, b: -0.1 },
+      difficulty: 'guided',
+    },
+    {
+      id: 'item.wedo.4',
+      kpIds: ['kp.inequality.two-step'],
+      phase: 'we_do',
+      type: 'short',
+      stem: L('Solve: $5 - 2x > 17$. Enter the solution as an inequality.', 'Resuelve: $5 - 2x > 17$. Escribe la solución como desigualdad.', 'Rozwiąż: $5 - 2x > 17$. Wpisz rozwiązanie jako nierówność.'),
+      stemLatex: '5 - 2x > 17',
+      answer: 'x<-6',
+      acceptableAnswers: ['x<-6', 'x < -6', '-6>x'],
+      workedSolution: L('Subtract 5: −2x > 12. Divide by −2 and flip: x < −6.', 'Resta 5: −2x > 12. Divide entre −2 e invierte: x < −6.', 'Odejmij 5: −2x > 12. Podziel przez −2 i odwróć: x < −6.'),
+      workedSolutionLatex: '5-2x>17 \\Rightarrow -2x>12 \\Rightarrow x<-6',
+      standards: stdIneqAdv,
+      irtPriors: { a: 1, b: 0.35 },
+      difficulty: 'guided',
+    },
+    {
+      id: 'item.youdo.1',
+      kpIds: ['kp.inequality.one-step'],
+      phase: 'you_do',
+      type: 'mcq',
+      stem: L('Solve: $\\frac{x}{3} \\ge 3$', 'Resuelve: $\\frac{x}{3} \\ge 3$', 'Rozwiąż: $\\frac{x}{3} \\ge 3$'),
+      stemLatex: '\\frac{x}{3} \\ge 3',
+      choices: [
+        choice('a', 'x \\ge 1', false, 'wrong-inverse', L('Undo ÷3 by multiplying: 3 × 3 = 9, not 3 ÷ 3 = 1.', 'Deshaz ÷3 multiplicando: 3 × 3 = 9, no 3 ÷ 3 = 1.', 'Cofnij ÷3 mnożąc: 3 × 3 = 9, nie 3 ÷ 3 = 1.')),
+        choice('b', 'x \\ge 9', true, undefined, L('Correct: multiply both sides by 3 — x ≥ 9, direction unchanged.', 'Correcto: multiplica ambos lados por 3 — x ≥ 9, dirección sin cambio.', 'Poprawnie: pomnóż obie strony przez 3 — x ≥ 9, kierunek bez zmian.')),
+        choice('c', 'x \\le 9', false, 'false-flip', L('Multiplying by positive 3 never flips the inequality.', 'Multiplicar por 3 positivo nunca invierte la desigualdad.', 'Mnożenie przez dodatnie 3 nigdy nie odwraca nierówności.')),
+        choice('d', 'x \\ge 6', false, 'wrong-inverse', L('Adding 3 undoes nothing — multiply both sides by 3: 3 × 3 = 9.', 'Sumar 3 no deshace nada — multiplica ambos lados por 3: 3 × 3 = 9.', 'Dodanie 3 nic nie cofa — pomnóż obie strony przez 3: 3 × 3 = 9.')),
+      ],
+      workedSolution: L('Multiply both sides by 3: x ≥ 9. The multiplier is positive, so no flip.', 'Multiplica ambos lados por 3: x ≥ 9. El multiplicador es positivo, así que no hay giro.', 'Pomnóż obie strony przez 3: x ≥ 9. Mnożnik jest dodatni, więc bez odwracania.'),
+      workedSolutionLatex: '\\frac{x}{3} \\ge 3 \\Rightarrow x \\ge 9',
+      standards: stdIneq,
+      irtPriors: { a: 1, b: 0.3 },
+      difficulty: 'independent',
+    },
+    {
+      id: 'item.youdo.2',
+      kpIds: ['kp.inequality.flip'],
+      phase: 'you_do',
+      type: 'mcq',
+      stem: L('Solve: $-4x \\le 20$', 'Resuelve: $-4x \\le 20$', 'Rozwiąż: $-4x \\le 20$'),
+      stemLatex: '-4x \\le 20',
+      choices: [
+        choice('a', 'x \\le -5', false, 'flip-miss', L('Right boundary, wrong direction — dividing by −4 flips ≤ to ≥.', 'Frontera correcta, dirección incorrecta — dividir entre −4 invierte ≤ a ≥.', 'Dobry próg, zły kierunek — dzielenie przez −4 odwraca ≤ na ≥.')),
+        choice('b', 'x \\ge 5', false, 'sign-slip', L('Right flip, lost sign: 20 ÷ (−4) = −5.', 'Bien el giro, signo perdido: 20 ÷ (−4) = −5.', 'Dobre odwrócenie, zgubiony znak: 20 ÷ (−4) = −5.')),
+        choice('c', 'x \\le 5', false, 'wrong-inverse', L('Two fixes: keep −5 and flip to ≥.', 'Dos arreglos: conserva −5 e invierte a ≥.', 'Dwie poprawki: zachowaj −5 i odwróć na ≥.')),
+        choice('d', 'x \\ge -5', true, undefined, L('Correct: divide by −4 and flip — x ≥ −5.', 'Correcto: divide entre −4 e invierte — x ≥ −5.', 'Poprawnie: podziel przez −4 i odwróć — x ≥ −5.')),
+      ],
+      workedSolution: L('Divide both sides by −4. Negative divisor flips ≤ to ≥: x ≥ −5.', 'Divide ambos lados entre −4. El divisor negativo invierte ≤ a ≥: x ≥ −5.', 'Podziel obie strony przez −4. Ujemny dzielnik odwraca ≤ na ≥: x ≥ −5.'),
+      workedSolutionLatex: '-4x \\le 20 \\Rightarrow x \\ge -5',
+      standards: stdIneq,
+      irtPriors: { a: 1, b: 0.55 },
+      difficulty: 'independent',
+    },
+    {
+      id: 'item.youdo.3',
+      kpIds: ['kp.inequality.two-step'],
+      phase: 'you_do',
+      type: 'mcq',
+      stem: L('Solve: $-2x + 7 > 1$', 'Resuelve: $-2x + 7 > 1$', 'Rozwiąż: $-2x + 7 > 1$'),
+      stemLatex: '-2x + 7 > 1',
+      choices: [
+        choice('a', 'x < 3', true, undefined, L('Correct: subtract 7 → −2x > −6 → divide by −2, flip → x < 3.', 'Correcto: resta 7 → −2x > −6 → divide entre −2 e invierte → x < 3.', 'Poprawnie: odejmij 7 → −2x > −6 → podziel przez −2 i odwróć → x < 3.')),
+        choice('b', 'x > 3', false, 'flip-miss', L('Right boundary, wrong direction — dividing by −2 flips > to <.', 'Frontera correcta, dirección incorrecta — dividir entre −2 invierte > a <.', 'Dobry próg, zły kierunek — dzielenie przez −2 odwraca > na <.')),
+        choice('c', 'x < -4', false, 'wrong-inverse', L('Undo +7 by subtracting: −2x > 1 − 7 = −6, not 8.', 'Deshaz +7 restando: −2x > 1 − 7 = −6, no 8.', 'Cofnij +7 odejmując: −2x > 1 − 7 = −6, nie 8.')),
+        choice('d', 'x < -3', false, 'sign-slip', L('(−6) ÷ (−2) = 3, positive — x < 3.', '(−6) ÷ (−2) = 3, positivo — x < 3.', '(−6) ÷ (−2) = 3, dodatnie — x < 3.')),
+      ],
+      workedSolution: L('Subtract 7: −2x > −6. Divide by −2 and flip: x < 3.', 'Resta 7: −2x > −6. Divide entre −2 e invierte: x < 3.', 'Odejmij 7: −2x > −6. Podziel przez −2 i odwróć: x < 3.'),
+      workedSolutionLatex: '-2x+7>1 \\Rightarrow -2x>-6 \\Rightarrow x<3',
+      standards: stdIneqAdv,
+      irtPriors: { a: 1, b: 0.7 },
+      difficulty: 'independent',
+    },
+    {
+      id: 'item.youdo.4',
+      kpIds: ['kp.inequality.verify'],
+      phase: 'you_do',
+      type: 'mcq',
+      stem: L(
+        'Which value of x is in the solution set of $3x - 4 \\le 20$?',
+        '¿Qué valor de x está en el conjunto solución de $3x - 4 \\le 20$?',
+        'Która wartość x należy do zbioru rozwiązań $3x - 4 \\le 20$?',
+      ),
+      stemLatex: '3x - 4 \\le 20',
+      choices: [
+        choice('a', 'x = 9', false, 'verify-skip', L('3(9) − 4 = 23, and 23 > 20 — not in the set.', '3(9) − 4 = 23, y 23 > 20 — no está en el conjunto.', '3(9) − 4 = 23, a 23 > 20 — nie należy do zbioru.')),
+        choice('b', 'x = 12', false, 'verify-skip', L('3(12) − 4 = 32, and 32 > 20 — not in the set.', '3(12) − 4 = 32, y 32 > 20 — no está en el conjunto.', '3(12) − 4 = 32, a 32 > 20 — nie należy do zbioru.')),
+        choice('c', 'x = 10', false, 'verify-skip', L('3(10) − 4 = 26, and 26 > 20 — not in the set.', '3(10) − 4 = 26, y 26 > 20 — no está en el conjunto.', '3(10) − 4 = 26, a 26 > 20 — nie należy do zbioru.')),
+        choice('d', 'x = 8', true, undefined, L('Correct: 3(8) − 4 = 20, and 20 ≤ 20 — x = 8 works.', 'Correcto: 3(8) − 4 = 20, y 20 ≤ 20 — x = 8 funciona.', 'Poprawnie: 3(8) − 4 = 20, a 20 ≤ 20 — x = 8 działa.')),
+      ],
+      workedSolution: L('Solve: add 4 → 3x ≤ 24 → x ≤ 8. Check x = 8: 3(8) − 4 = 20 ≤ 20 — the only choice that works.', 'Resuelve: suma 4 → 3x ≤ 24 → x ≤ 8. Comprueba x = 8: 3(8) − 4 = 20 ≤ 20 — la única opción que funciona.', 'Rozwiąż: dodaj 4 → 3x ≤ 24 → x ≤ 8. Sprawdź x = 8: 3(8) − 4 = 20 ≤ 20 — jedyna opcja, która działa.'),
+      workedSolutionLatex: '3x-4 \\le 20 \\Rightarrow 3x \\le 24 \\Rightarrow x \\le 8;\\; 3(8)-4=20 \\le 20',
+      standards: stdVerify,
+      irtPriors: { a: 1, b: 0.75 },
+      difficulty: 'independent',
+    },
+    {
+      id: 'item.retr.1',
+      kpIds: ['kp.inequality.one-step'],
+      phase: 'retrieval',
+      type: 'mcq',
+      stem: L('Solve: $x + 8 \\le 14$', 'Resuelve: $x + 8 \\le 14$', 'Rozwiąż: $x + 8 \\le 14$'),
+      stemLatex: 'x + 8 \\le 14',
+      choices: [
+        choice('a', 'x \\le 22', false, 'wrong-inverse', L('Undo +8 by subtracting: 14 − 8 = 6, not 22.', 'Deshaz +8 restando: 14 − 8 = 6, no 22.', 'Cofnij +8 odejmując: 14 − 8 = 6, nie 22.')),
+        choice('b', 'x \\ge 6', false, 'false-flip', L('Subtracting never flips the inequality.', 'Restar nunca invierte la desigualdad.', 'Odejmowanie nigdy nie odwraca nierówności.')),
+        choice('c', 'x \\le 6', true, undefined, L('Correct: subtract 8 — x ≤ 6, direction unchanged.', 'Correcto: resta 8 — x ≤ 6, dirección sin cambio.', 'Poprawnie: odejmij 8 — x ≤ 6, kierunek bez zmian.')),
+        choice('d', 'x \\le 8', false, 'partial-solve', L('That copies the constant 8 — finish: 14 − 8 = 6.', 'Eso copia la constante 8 — termina: 14 − 8 = 6.', 'To kopiuje stałą 8 — dokończ: 14 − 8 = 6.')),
+      ],
+      workedSolution: L('Subtract 8 from both sides: x ≤ 6.', 'Resta 8 en ambos lados: x ≤ 6.', 'Odejmij 8 po obu stronach: x ≤ 6.'),
+      workedSolutionLatex: 'x+8 \\le 14 \\Rightarrow x \\le 6',
+      standards: stdIneq,
+      irtPriors: { a: 1, b: -1.0 },
+      difficulty: 'intro',
+    },
+    {
+      id: 'item.retr.2',
+      kpIds: ['kp.inequality.two-step'],
+      phase: 'retrieval',
+      type: 'evaluate',
+      stem: L('Solve: $4 - 3x \\ge 13$. Enter the solution as an inequality.', 'Resuelve: $4 - 3x \\ge 13$. Escribe la solución como desigualdad.', 'Rozwiąż: $4 - 3x \\ge 13$. Wpisz rozwiązanie jako nierówność.'),
+      stemLatex: '4 - 3x \\ge 13',
+      answer: 'x<=-3',
+      acceptableAnswers: ['x<=-3', 'x <= -3', 'x≤-3'],
+      choices: [
+        choice('a', 'x \\ge -3', false, 'flip-miss', L('Right boundary — flip ≥ to ≤ after dividing by −3.', 'Frontera correcta — invierte ≥ a ≤ tras dividir entre −3.', 'Dobry próg — odwróć ≥ na ≤ po dzieleniu przez −3.')),
+        choice('b', 'x \\le 3', false, 'sign-slip', L('Right flip, lost sign: 9 ÷ (−3) = −3.', 'Bien el giro, signo perdido: 9 ÷ (−3) = −3.', 'Dobre odwrócenie, zgubiony znak: 9 ÷ (−3) = −3.')),
+        choice('c', 'x \\le -3', true, undefined, L('Correct.', 'Correcto.', 'Poprawnie.')),
+        choice('d', 'x \\ge 3', false, 'wrong-inverse', L('Two fixes: 9 ÷ (−3) = −3 and flip to ≤.', 'Dos arreglos: 9 ÷ (−3) = −3 e invierte a ≤.', 'Dwie poprawki: 9 ÷ (−3) = −3 i odwróć na ≤.')),
+      ],
+      workedSolution: L('Subtract 4: −3x ≥ 9. Divide by −3 and flip: x ≤ −3.', 'Resta 4: −3x ≥ 9. Divide entre −3 e invierte: x ≤ −3.', 'Odejmij 4: −3x ≥ 9. Podziel przez −3 i odwróć: x ≤ −3.'),
+      workedSolutionLatex: '4-3x \\ge 13 \\Rightarrow -3x \\ge 9 \\Rightarrow x \\le -3',
+      standards: stdIneqAdv,
+      irtPriors: { a: 1, b: -0.6 },
+      difficulty: 'intro',
+    },
+  ],
+  mastery: {
+    minIndependentCorrect: 3,
+    minIndependentTotal: 4,
+    requiredKpIds: [
+      'kp.inequality.one-step',
+      'kp.inequality.flip',
+      'kp.inequality.two-step',
+      'kp.inequality.verify',
+    ],
+  },
+  unlocks: [
+    {
+      id: 'bp.inequality.gate',
+      kind: 'blueprint',
+      title: L('Threshold gate blueprint', 'Plano de puerta umbral', 'Plan bramy progowej'),
+      description: L(
+        'A one-way threshold gate — earned by keeping or flipping the inequality at the right moments.',
+        'Una puerta umbral de un solo sentido — ganada al mantener o invertir la desigualdad en los momentos correctos.',
+        'Brama progowa jednokierunkowa — zdobyta przez zachowanie lub odwrócenie nierówności we właściwych momentach.',
+      ),
+    },
+    {
+      id: 'rank.riser.marshal',
+      kind: 'rank',
+      title: L('Riser Marshal', 'Ascendente Mariscal', 'Wznoszący Marszałek'),
+      description: L(
+        'Seventh rung of the Riser ladder, earned by Lesson 7 mastery.',
+        'Séptimo peldaño de la escalera del Ascendente, ganado con el dominio de la Lección 7.',
+        'Siódmy szczebel drabiny Wznoszącego, zdobyty mistrzostwem Lekcji 7.',
+      ),
+    },
+    {
+      id: 'zone.eta.gate',
+      kind: 'zone',
+      title: L('Eta Threshold Gate', 'Puerta Umbral Eta', 'Brama Progowa Eta'),
+      description: L(
+        'A gate district where solution rays are aimed before relay duty.',
+        'Un distrito de puertas donde se apuntan los rayos solución antes del servicio de relevo.',
+        'Dzielnica bram, gdzie promienie rozwiązań są nakierowywane przed służbą przekaźnika.',
+      ),
+    },
+  ],
+  worldIntegration: {
+    terminalId: 'terminal.lesson7',
+    unlockBlueprintId: 'bp.inequality.gate',
+    unlockRankId: 'rank.riser.marshal',
+    unlockZoneId: 'zone.eta.gate',
+  },
+  _pipelineMeta: {
+    stage: 'Integration (authored by builder wave 28)',
+    generatedAt: '2026-08-05T15:00:00.000Z',
+    notes: [
+      'Linear inequalities after L6 both-sides equations; core new rule: flip on negative multiply/divide.',
+      'Cross-lesson prereqs from algebra-i-05 (two-step mult-then-add, two-step signed) and algebra-i-06 (both-sides isolate, both-sides verify).',
+      'Answer keys distinct: 7,-4,5,-2,4,-6,9,-5,3,8,6,-3. MCQ correct positions mixed (d,b,a,c,b,d,a,d,c,c).',
+      'GameView 3D props deferred (wave-27 owns L6 props in parallel).',
+    ],
+  },
+}
+
+mkdirSync(dirname(outPath), { recursive: true })
+writeFileSync(outPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8')
+console.log('Wrote', outPath)

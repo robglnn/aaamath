@@ -69,6 +69,24 @@ export const EPSILON_BRIDGE = {
   halfWidth: 0.95,
 }
 
+/**
+ * L6 Zeta Mirror Yard — flat-top hexagon east of Alpha (flat side west toward
+ * the bridge). ZETA_RADIUS is apothem (center→flat on ±X). Walk/disc use flat ±X;
+ * cylinder body uses circumradius apothem/cos(π/6) with CylinderGeometry θ from +Z
+ * (thetaStart 0 → flat ±X). Distinct from Gamma's pointy-east hex. East site clears
+ * Delta/Epsilon corridors and Beta south zMin; bridge ties Alpha east rim to yard
+ * west edge inside BOUNDS.
+ */
+export const ZETA_RADIUS = 2.6
+export const ZETA_CENTER: [number, number] = [9.2, 0]
+/** Walkway slab bridging the Alpha east rim to the yard west edge. */
+export const ZETA_BRIDGE = {
+  x0: 5.8,
+  x1: ZETA_CENTER[0] - ZETA_RADIUS + 0.3,
+  z: 0,
+  halfWidth: 0.95,
+}
+
 export const BOUNDS = { x: 12, zMin: -20.5, zMax: 10 }
 
 export const WALK_SPEED = 4.6
@@ -100,6 +118,7 @@ export function groundHeight(
   hasGammaRelay = false,
   hasDeltaBalance = false,
   hasEpsilonCal = false,
+  hasZetaMirror = false,
 ): number {
   let gy = 0
   if (x * x + z * z <= ALPHA_RADIUS * ALPHA_RADIUS) gy = PAD_TOP
@@ -154,6 +173,25 @@ export function groundHeight(
     }
     if (inside) gy = Math.max(gy, PAD_TOP)
     if (x >= EPSILON_BRIDGE.x0 && x <= EPSILON_BRIDGE.x1 && Math.abs(z - EPSILON_BRIDGE.z) <= EPSILON_BRIDGE.halfWidth) {
+      gy = Math.max(gy, PAD_TOP)
+    }
+  }
+  if (hasZetaMirror) {
+    // Yard is a regular hexagon with flat sides on ±X (flat west toward bridge):
+    // six half-plane tests at outward normals every 60° starting east.
+    const dx = x - ZETA_CENTER[0]
+    const dz = z - ZETA_CENTER[1]
+    const h = ZETA_RADIUS - 0.15
+    let inside = true
+    for (let k = 0; k < 6; k++) {
+      const a = (k * Math.PI) / 3
+      if (dx * Math.cos(a) + dz * Math.sin(a) > h) {
+        inside = false
+        break
+      }
+    }
+    if (inside) gy = Math.max(gy, PAD_TOP)
+    if (x >= ZETA_BRIDGE.x0 && x <= ZETA_BRIDGE.x1 && Math.abs(z - ZETA_BRIDGE.z) <= ZETA_BRIDGE.halfWidth) {
       gy = Math.max(gy, PAD_TOP)
     }
   }

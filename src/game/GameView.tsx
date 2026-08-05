@@ -28,7 +28,7 @@ function isCoarsePointer(): boolean {
 }
 
 export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameViewProps) {
-  const { blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex, relaySplitter, expertRank, gammaRelay, balanceBeam, operatorRank, deltaBalance, balanceCalibrator, chiefRank, epsilonCal } = unlocked
+  const { blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex, relaySplitter, expertRank, gammaRelay, balanceBeam, operatorRank, deltaBalance, balanceCalibrator, chiefRank, epsilonCal, balanceMirror, vanguardRank, zetaMirror } = unlocked
   const pointerLocked = useGameStore((s) => s.pointerLocked)
   const [showLockHint, setShowLockHint] = useState(true)
   const [brandPhase, setBrandPhase] = useState<'reveal' | 'watermark'>('reveal')
@@ -38,8 +38,8 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
   useEffect(() => {
     useGameStore
       .getState()
-      .applyMasteryUnlocks({ blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex, relaySplitter, expertRank, gammaRelay, balanceBeam, operatorRank, deltaBalance, balanceCalibrator, chiefRank, epsilonCal })
-  }, [blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex, relaySplitter, expertRank, gammaRelay, balanceBeam, operatorRank, deltaBalance, balanceCalibrator, chiefRank, epsilonCal])
+      .applyMasteryUnlocks({ blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex, relaySplitter, expertRank, gammaRelay, balanceBeam, operatorRank, deltaBalance, balanceCalibrator, chiefRank, epsilonCal, balanceMirror, vanguardRank, zetaMirror })
+  }, [blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex, relaySplitter, expertRank, gammaRelay, balanceBeam, operatorRank, deltaBalance, balanceCalibrator, chiefRank, epsilonCal, balanceMirror, vanguardRank, zetaMirror])
 
   useEffect(() => {
     const toWatermark = window.setTimeout(() => setBrandPhase('watermark'), 2400)

@@ -227,9 +227,9 @@ function GammaRelay() {
   return (
     <group>
       <group position={[GAMMA_CENTER[0], 0, GAMMA_CENTER[1]]}>
-        {/* Hex pad — thetaStart 0 = vertex at +X (east toward bridge); matches walk test, top disc, edge bars */}
+        {/* Hex pad — Circle θ from +X (default 0 = vertex east); Cylinder θ from +Z so π/2 = vertex east */}
         <mesh position={[0, 0.05, 0]}>
-          <cylinderGeometry args={[GAMMA_RADIUS, GAMMA_RADIUS + 0.3, 0.14, 6, 1, false, 0]} />
+          <cylinderGeometry args={[GAMMA_RADIUS, GAMMA_RADIUS + 0.3, 0.14, 6, 1, false, Math.PI / 2]} />
           <meshStandardMaterial color="#16283c" metalness={0.35} roughness={0.55} />
         </mesh>
         <mesh position={[0, 0.13, 0]} rotation={[-Math.PI / 2, 0, 0]}>

@@ -15,8 +15,9 @@ import { L2UnlockProps } from '@/game/L2UnlockProps'
 import { L3UnlockProps } from '@/game/L3UnlockProps'
 import { L4UnlockProps } from '@/game/L4UnlockProps'
 import { L5UnlockProps } from '@/game/L5UnlockProps'
+import { L6UnlockProps } from '@/game/L6UnlockProps'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
-import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, EPSILON_BRIDGE, EPSILON_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, groundHeight, rig } from '@/game/world'
+import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, EPSILON_BRIDGE, EPSILON_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, ZETA_BRIDGE, ZETA_CENTER, groundHeight, rig } from '@/game/world'
 
 const SKY = '#0b1a24'
 const CYAN = '#3dd6c6'
@@ -24,6 +25,7 @@ const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
 const GOLD = '#e8c56a'
 const MINT = '#5ecf9a'
+const ICE = '#7eb8e8'
 
 /* ---------- Canvas-baked textures: procedural, offline-safe, zero font/CDN fetches ---------- */
 
@@ -600,17 +602,25 @@ const DELTA_STUD_XS = Array.from({ length: 6 }, (_, i) => 1.2 + (i * (DELTA_CENT
  */
 const EPSILON_STUD_XS = Array.from({ length: 6 }, (_, i) => -1.2 + (i * (EPSILON_CENTER[0] + 1.1 + 1.2)) / 5)
 
+/**
+ * L6 zeta branch — stud x positions from inside Alpha east, across the bridge,
+ * to just inside the mirror yard. Tracks ZETA_CENTER along z = 0.
+ */
+const ZETA_STUD_XS = Array.from({ length: 6 }, (_, i) => 1.2 + (i * (ZETA_CENTER[0] - 1.1 - 1.2)) / 5)
+
 function GatePathLights() {
   const unlocked = useGameStore((s) => s.hasZoneBeta)
   const hasAnnex = useGameStore((s) => s.hasBetaAnnex)
   const hasGamma = useGameStore((s) => s.hasGammaRelay)
   const hasDelta = useGameStore((s) => s.hasDeltaBalance)
   const hasEpsilon = useGameStore((s) => s.hasEpsilonCal)
+  const hasZeta = useGameStore((s) => s.hasZetaMirror)
   const mats = useRef<(MeshStandardMaterial | null)[]>([])
   const annexMats = useRef<(MeshStandardMaterial | null)[]>([])
   const gammaMats = useRef<(MeshStandardMaterial | null)[]>([])
   const deltaMats = useRef<(MeshStandardMaterial | null)[]>([])
   const epsilonMats = useRef<(MeshStandardMaterial | null)[]>([])
+  const zetaMats = useRef<(MeshStandardMaterial | null)[]>([])
   const studs = [-8.9, -10, -11.1, -12.2, -13.3]
 
   useFrame((state) => {
@@ -652,6 +662,17 @@ function GatePathLights() {
       if (!m) continue
       const wave = Math.sin(
         t * 4.2 - (studs.length + ANNEX_STUD_XS.length + GAMMA_STUD_XS.length + DELTA_STUD_XS.length + i) * 1.1,
+      )
+      m.emissiveIntensity = 0.55 + Math.max(0, wave) * 1.5
+    }
+    // Zeta studs follow the epsilon indices — ice L6 accent
+    for (let i = 0; i < zetaMats.current.length; i++) {
+      const m = zetaMats.current[i]
+      if (!m) continue
+      const wave = Math.sin(
+        t * 4.2 -
+          (studs.length + ANNEX_STUD_XS.length + GAMMA_STUD_XS.length + DELTA_STUD_XS.length + EPSILON_STUD_XS.length + i) *
+            1.1,
       )
       m.emissiveIntensity = 0.55 + Math.max(0, wave) * 1.5
     }
@@ -743,6 +764,23 @@ function GatePathLights() {
             </mesh>
           )
         })}
+      {hasZeta &&
+        ZETA_STUD_XS.map((x, i) => {
+          const y = groundHeight(x, ZETA_BRIDGE.z, true, null, false, false, false, false, true) + 0.045
+          return (
+            <mesh key={`zeta-${x}`} position={[x, y, ZETA_BRIDGE.z]}>
+              <cylinderGeometry args={[0.1, 0.13, 0.07, 8]} />
+              <meshStandardMaterial
+                ref={(m) => {
+                  zetaMats.current[i] = m
+                }}
+                color={ICE}
+                emissive={ICE}
+                emissiveIntensity={0.3}
+              />
+            </mesh>
+          )
+        })}
     </group>
   )
 }
@@ -791,6 +829,7 @@ export function TrainingRange() {
       <L3UnlockProps />
       <L4UnlockProps />
       <L5UnlockProps />
+      <L6UnlockProps />
       <Player />
       <BlueprintGhost />
       <CameraRig />

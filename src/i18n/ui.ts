@@ -83,6 +83,7 @@ export type UiKey =
   | 'objectiveGammaRelayOpen'
   | 'objectiveDeltaBalanceOpen'
   | 'objectiveEpsilonCalOpen'
+  | 'objectiveZetaMirrorOpen'
   | 'objectivePlaceBlueprint'
   | 'objectiveReachTerminal'
   | 'blueprintOnline'
@@ -172,6 +173,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     objectiveGammaRelayOpen: 'Gamma Relay open — cross the bridge west of Beta',
     objectiveDeltaBalanceOpen: 'Delta Balance Yard open — cross the bridge northeast of Beta',
     objectiveEpsilonCalOpen: 'Epsilon Calibration Forge open — cross the bridge northwest of Beta',
+    objectiveZetaMirrorOpen: 'Zeta Mirror Yard open — cross the bridge east of Alpha',
     objectivePlaceBlueprint: 'Place your blueprint pad (B)',
     objectiveReachTerminal: 'Objective · Reach the Algebra Terminal',
     blueprintOnline: 'Blueprint online',
@@ -260,6 +262,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     objectiveGammaRelayOpen: 'Relé Gamma abierto — cruza el puente al oeste de Beta',
     objectiveDeltaBalanceOpen: 'Patio Delta abierto — cruza el puente al noreste de Beta',
     objectiveEpsilonCalOpen: 'Forja Épsilon abierta — cruza el puente al noroeste de Beta',
+    objectiveZetaMirrorOpen: 'Patio Zeta Espejo abierto — cruza el puente al este de Alfa',
     objectivePlaceBlueprint: 'Coloca tu plataforma de plano (B)',
     objectiveReachTerminal: 'Objetivo · Llega al Terminal de Álgebra',
     blueprintOnline: 'Plano en línea',
@@ -348,6 +351,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     objectiveGammaRelayOpen: 'Przekaźnik Gamma otwarty — przejdź mostem na zachód od Bety',
     objectiveDeltaBalanceOpen: 'Dziedziniec Delta otwarty — przejdź mostem na północny wschód od Bety',
     objectiveEpsilonCalOpen: 'Kuźnia Epsilon otwarta — przejdź mostem na północny zachód od Bety',
+    objectiveZetaMirrorOpen: 'Dziedziniec Zeta Lustro otwarty — przejdź mostem na wschód od Alfy',
     objectivePlaceBlueprint: 'Umieść platformę planu (B)',
     objectiveReachTerminal: 'Cel · Dotrzyj do Terminala Algebry',
     blueprintOnline: 'Plan online',
