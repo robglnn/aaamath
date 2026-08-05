@@ -23,6 +23,7 @@ export function RangeDecor() {
   return (
     <group>
       <HorizonRing />
+      <GroundBreakup />
       <LightPosts />
       <ApproachRails />
       <EnergyConduits />
@@ -30,6 +31,58 @@ export function RangeDecor() {
       <AntennaDishes />
       <SupplyCrates />
       <DistantSpires />
+    </group>
+  )
+}
+
+/** Low floor plates / cable trays that break the infinite-grid read without blocking the walk. */
+function GroundBreakup() {
+  const plates: [number, number, number, number, number][] = [
+    // x, z, w, d, rotY — kept off the center WASD lane
+    [-2.4, 3.8, 1.6, 1.1, 0.2],
+    [2.6, 3.2, 1.4, 1.0, -0.15],
+    [-2.8, -1.2, 1.8, 0.9, 0.05],
+    [2.9, -0.6, 1.5, 1.2, -0.25],
+    [-1.8, -4.5, 1.3, 0.8, 0.1],
+  ]
+  const trays: [number, number, number, number][] = [
+    // x, z, len, rotY — flanking path
+    [-2.15, 1.2, 3.2, 0],
+    [2.15, 0.8, 2.8, 0],
+  ]
+  return (
+    <group>
+      {plates.map(([x, z, w, d, rot], i) => (
+        <group key={`p${i}`} position={[x, surfaceY(x, z) + 0.02, z]} rotation={[0, rot, 0]}>
+          <mesh>
+            <boxGeometry args={[w, 0.04, d]} />
+            <meshStandardMaterial color="#122636" metalness={0.35} roughness={0.7} />
+          </mesh>
+          <mesh position={[0, 0.025, 0]}>
+            <boxGeometry args={[w * 0.92, 0.01, d * 0.92]} />
+            <meshStandardMaterial color={i % 2 === 0 ? CYAN : AMBER} emissive={i % 2 === 0 ? CYAN : AMBER} emissiveIntensity={0.2} transparent opacity={0.35} />
+          </mesh>
+        </group>
+      ))}
+      {trays.map(([x, z, len, rot], i) => (
+        <group key={`t${i}`} position={[x, surfaceY(x, z) + 0.03, z]} rotation={[0, rot, 0]}>
+          <mesh>
+            <boxGeometry args={[0.22, 0.05, len]} />
+            <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.4} />
+          </mesh>
+          <mesh position={[0, 0.03, 0]}>
+            <boxGeometry args={[0.06, 0.02, len * 0.95]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.55} />
+          </mesh>
+        </group>
+      ))}
+      {/* Hazard chevrons near gate threshold — visual “edge of Alpha” */}
+      {[-1.6, 1.6].map((x) => (
+        <mesh key={x} position={[x, 0.03, -6.6]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[0.7, 0.35]} />
+          <meshBasicMaterial color={AMBER} transparent opacity={0.45} toneMapped={false} />
+        </mesh>
+      ))}
     </group>
   )
 }
