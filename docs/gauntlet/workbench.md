@@ -3,53 +3,46 @@
 **Repo:** `C:\dev\aaamath` → `origin/main`  
 **Live:** https://robglnn.github.io/aaamath/  
 **Started:** 2026-08-05 ~05:36 EDT  
-**Bars:** Fortnite training-range · Valerian readability · Math Academy lesson clarity
+**Latest:** `1609f67` (wave 11 + overnight critic wrap)
 
 ## Status board
 
 | Wave | Focus | Commit | Critic |
 |------|-------|--------|--------|
 | 1 | Terminal beam, gate FX, blueprint pop | `2e6db91` | PASS_WITH_GAPS |
-| 2 | Signs, decor, player, mobile/celebrate | `ffab87d` | PASS_WITH_GAPS (troika CDN) |
-| 3 | Canvas materials, TerminalScreen, deferred gate FX | `94d60a7` | PASS_WITH_GAPS (density) |
-| 3b | Brand cross-fade, i18n HUD, gate timing | `06fa2b9` | — |
-| 4 | Audio + progress seals (+ CI fix) | `ca415ab` | — |
-| 5 | Mid-field density + lesson delight | `354195a` | PASS_WITH_GAPS (fidelity) |
-| 6 | Atmosphere motes + light budget | `56480ad` | PASS_WITH_GAPS |
-| 7 | Blueprint material layers | `dbf500f` | — |
-| 8 | Code-split Three/KaTeX + player panel | `783e8f6` | PASS_WITH_GAPS (katex preload) |
-| 9 | Ground breakup + chunk graph hygiene | `9334331` | — |
-| 10 | True KaTeX off cold load | **shipping** | pending |
+| 2 | Signs, decor, player, mobile/celebrate | `ffab87d` | PASS_WITH_GAPS |
+| 3 | Canvas materials, TerminalScreen, deferred gate FX | `94d60a7` | PASS_WITH_GAPS |
+| 3b–4 | Brand/i18n/gate + audio/progress + CI fix | `06fa2b9`…`ca415ab` | — |
+| 5–7 | Density, motes, blueprint materials | `354195a`…`dbf500f` | PASS_WITH_GAPS |
+| 8–10 | Code-split, ground breakup, KaTeX off cold load | `783e8f6`…`7db51fa` | PASS (load) |
+| 11 | Terminal pedestal detail + wrap critic | `1609f67` | **overnight PASS_WITH_GAPS** |
 
-## Pedagogy guards
-- Content validate PASSED; `celebrating = masteryDone`; you_do freeze intact
+Full wrap: `docs/gauntlet/critic-overnight-final.md`
+
+## Pedagogy
+Content validate PASSED · `celebrating = masteryDone` · you_do freeze intact · Lesson 1 only
 
 ## Pages
-https://robglnn.github.io/aaamath/ — Actions green after CI recovery (`ca415ab`)
+https://robglnn.github.io/aaamath/ — Actions green; cold shell ~20kB; no KaTeX on first paint
 
 ---
 
 ## Morning summary
 
 ### Waves / commits
-Waves 1–10 across overnight pushes to `origin/main`. Landmark commits: `2e6db91`, `ffab87d`, `94d60a7`, `354195a`, `56480ad`, `dbf500f`, `783e8f6`, `9334331`, plus wave 10 (this push).
+11 visual/load waves + CI recovery + critic docs on `origin/main`. Landmark: `2e6db91` → `1609f67`.
 
 ### Before → after
-| Before (capsule era) | After (overnight) |
-|----------------------|-------------------|
-| Flat cyan grid + capsule | Proc deck/sky, hex pads, densified mid-field, motes |
-| Glyph zone bars | Readable canvas ZONE ALPHA/BETA signs |
-| Dead terminal quad | Live math-glyph TerminalScreen + beam/diamond |
-| No mission literacy | HUD objective strip + unlock celebration |
-| Monolithic ~1.45MB JS | Split chunks; cold shell ~20kB; KaTeX deferred |
-| No audio | Web Audio blips + ambient pad |
-| Celebrate could lie | Unlock cards only when masteryDone |
+Capsule cyan-grid → densified Valerian training range with readable signs, live terminal, proc materials, audio, mastery-gated celebrate, and a thin cold-load shell.
 
 ### Pages health
-Live URL 200; Deploy GitHub Pages succeeding; `base: '/aaamath/'` correct.
+**Green.** Deploy workflow succeeding; assets under `/aaamath/`.
 
 ### Remaining gaps vs Fortnite AAA
-- Authored GLTF-grade props still out of scope (primitives + proc textures ceiling)
-- Full mastery→Beta unlock not fully critic-filmed in-camera
-- Lesson 2 not started; speech locale voices thin
-- Bundle still heavy once 3D loads (Three ~689kB) — expected
+1. **Authored GLTF prop/material fidelity** (primitive + proc ceiling)
+2. Lesson 2 not started
+3. Mastery→Beta unlock not fully critic-filmed end-to-end
+4. Speech locale voice mapping thin
+
+### Next recommended
+Lesson 2 via content pipeline; optional art-authoring pass if AAA bar must climb past kitbash.
