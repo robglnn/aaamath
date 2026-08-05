@@ -1,16 +1,17 @@
 # Active Context
 
 ## Current focus
-Overnight Gauntlet complete through wave 10 (`7db51fa`). Visuals + load path substantially raised; remaining gap is authored GLTF-grade fidelity (out of Slice 0 primitive ceiling).
+Overnight Gauntlet through wave 12 (`cb67008`). Visual AAA bar substantially raised; Lesson 2 content package validated but not yet playable in-range.
 
 ## Locked decisions
 See `docs/decisions.md`.
 
-## Recent overnight
-Waves 1–10: range FX, canvas signs/materials, density, atmosphere, blueprint fidelity, code-split, KaTeX deferred off cold load, audio, lesson/progress polish.
+## Overnight delivered
+- Waves 1–11 visuals/load/audio/UI; overnight critic PASS_WITH_GAPS (mandate succeeded)
+- Wave 12: `algebra-i-02` Combining Like Terms (EN/ES/PL), validate discovers all lessons
+- Live: https://robglnn.github.io/aaamath/
 
-## Next (human / next session)
-1. Lesson 2 via content pipeline
-2. Optional GLTF/prop authoring if AAA bar must climb further
-3. Full mastery→Beta unlock playthrough critic film
-4. Speech locale voice mapping
+## Next
+1. Wire Lesson 2 into terminal after L1 mastery
+2. Optional GLTF art pass beyond kitbash
+3. Speech locale voices; unlock FX playthrough film

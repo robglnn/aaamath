@@ -15,7 +15,8 @@
 | 3b–4 | Brand/i18n/gate + audio/progress + CI fix | `06fa2b9`…`ca415ab` | — |
 | 5–7 | Density, motes, blueprint materials | `354195a`…`dbf500f` | PASS_WITH_GAPS |
 | 8–10 | Code-split, ground breakup, KaTeX off cold load | `783e8f6`…`7db51fa` | PASS (load) |
-| 11 | Terminal pedestal detail + wrap critic | `1609f67` | **overnight PASS_WITH_GAPS** |
+| 11 | Terminal pedestal detail + wrap critic | `1609f67` | overnight PASS_WITH_GAPS |
+| 12 | Algebra I Lesson 2 content (Combining Like Terms) | `cb67008` | validate PASSED |
 
 Full wrap: `docs/gauntlet/critic-overnight-final.md`
 
@@ -40,9 +41,9 @@ Capsule cyan-grid → densified Valerian training range with readable signs, liv
 
 ### Remaining gaps vs Fortnite AAA
 1. **Authored GLTF prop/material fidelity** (primitive + proc ceiling)
-2. Lesson 2 not started
+2. Lesson 2 content exists but **not yet playable** in the range terminal (still Lesson 1)
 3. Mastery→Beta unlock not fully critic-filmed end-to-end
 4. Speech locale voice mapping thin
 
 ### Next recommended
-Lesson 2 via content pipeline; optional art-authoring pass if AAA bar must climb past kitbash.
+Wire Lesson 2 into terminal progression after L1 mastery; optional art-authoring pass if AAA bar must climb past kitbash.

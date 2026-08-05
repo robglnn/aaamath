@@ -1,19 +1,19 @@
 # Progress
 
 ## What works
-- Live Pages: https://robglnn.github.io/aaamath/
-- Lesson 1 EN/ES/PL + mastery + adaptive freeze + KaTeX (lazy)
-- Training range past capsule era: signs, materials, density, motes, audio
-- Cold load shell ~20kB; Three/R3F/KaTeX split; katex not on first paint
-- Content validate green
+- Live Pages https://robglnn.github.io/aaamath/ (cold shell ~20kB, KaTeX deferred)
+- Lesson 1 playable EN/ES/PL + mastery + adaptive freeze
+- Lesson 2 content package validated (Combining Like Terms) — not yet in terminal
+- Training range past capsule era (signs, materials, density, motes, audio)
+- `npm run content:validate` checks all lesson packages
 
-## Overnight waves 1–10
-See `docs/gauntlet/workbench.md` morning summary.
+## Overnight
+See `docs/gauntlet/workbench.md` + `docs/gauntlet/critic-overnight-final.md`
 
 ## Remaining gaps
-- Primitive mesh ceiling vs Fortnite AAA authored props
-- Lesson 2; speech voices; unlock FX not fully filmed
-- Three.js still large once range loads (~689kB)
+- GLTF-grade authored props
+- L2 not wired to game terminal
+- Speech voices; unlock FX filming
 
 ## Next
-Lesson 2 pipeline; optional art pass beyond procedural kitbash
+Wire L2 progression; optional art pass
