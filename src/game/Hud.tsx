@@ -1,9 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
 import { playBlip } from '@/game/audio'
 import { useGameStore } from '@/game/store'
-import { lesson1 } from '@/content/loadLesson'
+import { lesson1, lesson2 } from '@/content/loadLesson'
+import type { Locale } from '@/content/types'
 import { pickLocalized, useProgressStore } from '@/progress/store'
 import { ui } from '@/i18n/ui'
+
+const L2_BLUEPRINT_ID = 'bp.pad.rail'
+const L2_RANK_ID = 'rank.riser.adept'
+const L2_ZONE_IDS = ['zone.beacon.cyan', 'zone.beta.annex'] as const
+
+function resolveL2ZoneId(zones: string[]): (typeof L2_ZONE_IDS)[number] | null {
+  for (const id of L2_ZONE_IDS) {
+    if (zones.includes(id)) return id
+  }
+  return null
+}
+
+function l2UnlockTitle(id: string, locale: Locale): string {
+  const def = lesson2.unlocks.find((u) => u.id === id)
+  if (def) return pickLocalized(def.title, locale)
+  if (id === 'zone.beacon.cyan') {
+    const zoneDef = lesson2.unlocks.find((u) => u.kind === 'zone')
+    if (zoneDef) return pickLocalized(zoneDef.title, locale)
+  }
+  return id
+}
 
 interface HudProps {
   onOpenTerminal: () => void
@@ -22,6 +44,7 @@ function unlockGlyph(kind: Exclude<UnlockFlash, null>): string {
 
 export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const locale = useProgressStore((s) => s.blob.locale)
+  const progressUnlocks = useProgressStore((s) => s.blob.unlocks)
   const nearTerminal = useGameStore((s) => s.nearTerminal)
   const hasRank = useGameStore((s) => s.hasRank)
   const hasBlueprint = useGameStore((s) => s.hasBlueprint)
@@ -107,6 +130,13 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const rankTitle = rankUnlock ? pickLocalized(rankUnlock.title, locale) : ui(locale, 'recruitRank')
   const zoneTitle = zoneUnlock ? pickLocalized(zoneUnlock.title, locale) : ui(locale, 'zoneUnlocked')
 
+  const hasL2Blueprint = progressUnlocks.blueprints.includes(L2_BLUEPRINT_ID)
+  const hasL2Rank = progressUnlocks.ranks.includes(L2_RANK_ID)
+  const l2ZoneId = resolveL2ZoneId(progressUnlocks.zones)
+  const l2BlueprintTitle = l2UnlockTitle(L2_BLUEPRINT_ID, locale)
+  const l2RankTitle = l2UnlockTitle(L2_RANK_ID, locale)
+  const l2ZoneTitle = l2ZoneId ? l2UnlockTitle(l2ZoneId, locale) : ''
+
   const objectiveText = hasZoneBeta
     ? ui(locale, 'objectiveZoneBetaOpen')
     : hasBlueprint && !blueprintPlaced
@@ -130,6 +160,30 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
             data-tier={activeZone === 'beta' ? 'primary' : 'secondary'}
           >
             {zoneTitle}{activeZone === 'beta' ? ` · ${ui(locale, 'zoneActive')}` : ''}
+          </span>
+        )}
+        {hasL2Rank && (
+          <span className="gr-l2-chip gr-l2-chip--rank" data-tier="adept">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◆
+            </span>
+            {l2RankTitle}
+          </span>
+        )}
+        {hasL2Blueprint && (
+          <span className="gr-l2-chip gr-l2-chip--blueprint" data-tier="adept">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ⬡
+            </span>
+            {l2BlueprintTitle}
+          </span>
+        )}
+        {l2ZoneId && (
+          <span className="gr-l2-chip gr-l2-chip--zone" data-tier="adept">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◎
+            </span>
+            {l2ZoneTitle}
           </span>
         )}
       </div>
