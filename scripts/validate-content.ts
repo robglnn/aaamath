@@ -1,11 +1,11 @@
 /**
  * Validates lesson content packages against structural rules and locale coverage.
  * Usage: npx tsx scripts/validate-content.ts [path/to/package.json]
- * Default: content/lessons/algebra-i-01/package.json
+ * Default: every content/lessons/<slug>/package.json (skips _-prefixed scratch dirs).
  */
 
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import type {
   ContentItem,
   KnowledgePoint,
@@ -25,8 +25,9 @@ const PHASE_KINDS: LessonPhaseKind[] = [
   'complete',
 ]
 
-const defaultPath = resolve('content/lessons/algebra-i-01/package.json')
-const packagePath = resolve(process.argv[2] ?? defaultPath)
+const LESSONS_DIR = resolve('content/lessons')
+
+let packagePath = ''
 
 const errors: string[] = []
 const warnings: string[] = []
@@ -297,7 +298,19 @@ function validateUnlocks(pkg: LessonPackage): void {
   }
 }
 
-function main(): void {
+function discoverPackages(): string[] {
+  return readdirSync(LESSONS_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('_'))
+    .map((entry) => join(LESSONS_DIR, entry.name, 'package.json'))
+    .filter((path) => existsSync(path))
+    .sort()
+}
+
+function validateOne(path: string): boolean {
+  packagePath = path
+  errors.length = 0
+  warnings.length = 0
+
   console.log(`Validating: ${packagePath}\n`)
 
   const pkg = loadPackage()
@@ -317,7 +330,7 @@ function main(): void {
   if (errors.length > 0) {
     console.error('FAILED\n')
     errors.forEach((e) => console.error(`  ✗ ${e}`))
-    process.exit(1)
+    return false
   }
 
   console.log('PASSED')
@@ -330,6 +343,28 @@ function main(): void {
   )
   console.log(`  Locales: ${LOCALES.join(', ')}`)
   console.log(`  Unlocks: ${pkg.unlocks.map((u) => u.id).join(', ')}`)
+  return true
+}
+
+function main(): void {
+  const arg = process.argv[2]
+  const paths = arg ? [resolve(arg)] : discoverPackages()
+
+  if (paths.length === 0) {
+    console.error(`No lesson packages found under ${LESSONS_DIR}`)
+    process.exit(1)
+  }
+
+  let failed = 0
+  for (const path of paths) {
+    if (!validateOne(path)) failed++
+    if (paths.length > 1) console.log()
+  }
+
+  if (paths.length > 1) {
+    console.log(`${paths.length - failed}/${paths.length} packages passed`)
+  }
+  process.exit(failed > 0 ? 1 : 0)
 }
 
 main()

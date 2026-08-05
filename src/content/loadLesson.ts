@@ -1,4 +1,5 @@
 import lesson1Package from '../../content/lessons/algebra-i-01/package.json'
+import lesson2Package from '../../content/lessons/algebra-i-02/package.json'
 import type {
   ContentItem,
   KnowledgePoint,
@@ -10,11 +11,17 @@ import type {
 export const LESSON_ID = 'algebra-i-01'
 
 export const lesson1 = lesson1Package as LessonPackage
+export const lesson2 = lesson2Package as LessonPackage
+
+/** All packaged lessons by id. The game still plays LESSON_ID only. */
+export const LESSONS: Record<string, LessonPackage> = {
+  [lesson1.id]: lesson1,
+  [lesson2.id]: lesson2,
+}
 
 /** Async loader used by LessonOverlay (same package, Promise wrapper). */
 export async function loadLesson(id: string = LESSON_ID): Promise<LessonPackage | null> {
-  if (id !== LESSON_ID) return null
-  return lesson1
+  return LESSONS[id] ?? null
 }
 
 export function t(locale: Locale, value: LocalizedString): string {

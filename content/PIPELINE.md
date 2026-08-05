@@ -15,16 +15,28 @@ Repeatable stages for producing lesson packages (`content/lessons/<slug>/package
 ## Commands
 
 ```bash
-# Validate a lesson package (default: algebra-i-01)
-npx tsx scripts/validate-content.ts
+# Validate all lesson packages under content/lessons/ (skips _-prefixed scratch dirs)
+npm run content:validate
+
+# Validate one package explicitly
+npx tsx scripts/validate-content.ts content/lessons/algebra-i-02/package.json
 
 # Emit pipeline skeleton (stdout or file)
 npx tsx scripts/generate-lesson-stub.ts
-npx tsx scripts/generate-lesson-stub.ts --out content/lessons/_stub/package.json
+npx tsx scripts/generate-lesson-stub.ts --lesson-id algebra-i-03 --order 3 --out content/lessons/algebra-i-03/package.json
 
 # Both
 npm run content:pipeline
 ```
+
+## Lesson packages
+
+| Package | Status | Notes |
+|---------|--------|-------|
+| `algebra-i-01` | Shipped in game | Variables, expressions, evaluation |
+| `algebra-i-02` | Draft on disk | Combining like terms / simplifying; pending Item Author + Critic stages (see `docs/gauntlet/builder-wave12-lesson2.md`) |
+
+Cross-lesson prerequisite links (e.g. lesson 2 KPs building on lesson 1 KPs) are recorded in each package's `_pipelineMeta.externalPrerequisites`; the validator requires `prerequisites[]` refs to resolve inside the same package, so graph stitching across packages is a future pipeline step.
 
 ## Schema
 
