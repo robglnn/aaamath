@@ -11,9 +11,9 @@
 |------|-------|--------|--------|--------|
 | 0 | Prior overnight (progress/adaptive/UI) | shipped | `9679f2b` | PASS_WITH_GAPS (re-sort fixed) |
 | 1 | AAA range visuals: terminal beam, gate FX, path lights, blueprint pop | **shipped** | `2e6db91` | PASS_WITH_GAPS — signs unread |
-| 2 | Readable signs + decor + player + mobile/celebrate | **shipping** | TBD | pending |
-| 3 | Procedural textures / deeper materials / VFX polish | queued | — | — |
-| 4 | Critic verify + smoothing | queued | — | — |
+| 2 | Readable signs + decor + player + mobile/celebrate | **shipped** | `ffab87d` | critic pending |
+| 3 | Procedural materials, terminal screen, deferred gate FX | **shipping** | TBD | pending |
+| 4 | Critic verify + smoothing / audio stubs | queued | — | — |
 
 ## Priority (this overnight)
 
