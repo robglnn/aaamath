@@ -9,44 +9,65 @@
 
 | Wave | Focus | Status | Commit | Critic |
 |------|-------|--------|--------|--------|
-| 0 | Prior overnight (progress/adaptive/UI) | shipped | `9679f2b` | PASS_WITH_GAPS (re-sort fixed) |
-| 1 | AAA range visuals: terminal beam, gate FX, path lights, blueprint pop | **shipped** | `2e6db91` | PASS_WITH_GAPS — signs unread |
-| 2 | Readable signs + decor + player + mobile/celebrate | **shipped** | `ffab87d` | critic pending |
-| 3 | Procedural materials, terminal screen, deferred gate FX | **shipping** | TBD | pending |
-| 4 | Critic verify + smoothing / audio stubs | queued | — | — |
+| 1 | Terminal beam, gate FX, blueprint pop, lighting | shipped | `2e6db91` | PASS_WITH_GAPS (glyph signs) |
+| 2 | Readable signs, decor, player, mobile/celebrate | shipped | `ffab87d` | PASS_WITH_GAPS (troika CDN) |
+| 3 | Canvas materials, terminal screen, deferred gate FX | shipped | `94d60a7` | PASS_WITH_GAPS (sparse mid-field) |
+| 3b | Brand cross-fade, i18n HUD, gate timing | shipped | `06fa2b9` | — |
+| 4 | Audio stubs + progress seals (+ CI fix) | shipped | `ca415ab`/`08ced34` | — |
+| 5 | Mid-field density + lesson overlay delight | shipped | `354195a` | PASS_WITH_GAPS (prop fidelity) |
+| 6 | Atmosphere motes + light budget | shipped | `56480ad` | pending |
+| 7 | Prop/material fidelity polish | **queued** | — | — |
 
 ## Priority (this overnight)
 
-1. **AAA visuals & generated assets** (highest)
+1. **AAA visuals & generated assets** ← primary
 2. UI/UX polish
-3. Pedagogy non-regression
+3. Pedagogy non-regression (Lesson 1 / KaTeX / mastery / EN-ES-PL / adaptive freeze)
 4. Pages green (`base: '/aaamath/'`)
 
-## Locks
+## Wave log (condensed)
 
-See `docs/decisions.md`. Stack Vite+React+TS+R3F+KaTeX. No unpaid asset-store deps. Models: `kimi-k3-max`, `cursor-grok-4.5-medium`, `composer-2.5` only.
+- **W1:** Objective beam/diamond, unlock shockwave, path studs, blueprint pop — past capsule era.
+- **W2:** ZONE text + HUD objective; RangeDecor; player silhouette+anim; mastery-only celebrate.
+- **W3:** Canvas labels (no troika CDN), deck/sky bake, hex/panel kit, live TerminalScreen; gate FX waits for explore.
+- **W4:** Web Audio blips/ambient; House Standing seals; fixed broken Pages (missing `audio.ts`).
+- **W5:** Rails/conduits/pillars/dishes densify corridor; lesson phase rail + mastery bar delight.
+- **W6:** Floating motes; pad-height seating; emissive-only approach posts.
 
-## Wave log
+## Pedagogy guardrails (spot-checked)
 
-### Wave 1 — Training range visual lift — `2e6db91`
+- Content validate: **PASSED** (5 KPs, 12 items, EN/ES/PL, mastery 3/4)
+- `youDoQueue` freeze remains (adaptive re-sort fix)
+- `celebrating = masteryDone` (unlock cards not shown without mastery)
 
-Terminal beam/diamond, gate unlock FX, path studs, blueprint pop, lighting. Pages deploy **success**. Critic: **PASS_WITH_GAPS** — largest gap = glyph-only zone labels (not readable text).
+## Pages health
 
-### Wave 2 — Signage literacy + silhouette + mobile celebrate (in flight)
+- Live URL returns 200; Actions Deploy GitHub Pages succeeding after `ca415ab` recovery
+- Brief post-deploy CDN blip observed once (retry OK)
 
-- drei `Text` zone labels; HUD objective strip
-- `RangeDecor` (posts, crates, spires, horizon)
-- Sky dome atmosphere
-- Player chunk silhouette + run/idle/jump anim
-- Touch stick polish; mastery-only celebration; non-mastery exit preserved
-- Build green (~1.55MB JS; troika Text cost accepted for literacy)
+## Largest remaining gap vs AAA (current critic consensus)
+
+**Authored prop/material fidelity** — still kitbashed primitives + emissive accents, not Fortnite-grade unique meshes/materials. Next: richer pad/blueprint materials, more unique silhouettes, optional code-split.
 
 ---
 
-## Morning summary (fill at plateau)
+## Morning summary (living — update at plateau)
 
-- Waves completed:
-- Commits pushed:
-- Before → after:
-- Pages health:
-- Remaining gaps vs AAA bar:
+### Waves completed
+1–6 shipped to `origin/main` (plus critic-gap / CI fix commits).
+
+### Key commits
+`2e6db91` → `ffab87d` → `94d60a7` → `06fa2b9` → `ca415ab`/`08ced34` → `354195a` → `56480ad`
+
+### Before → after
+- **Before:** Cyan-grid + capsule player; glyph-only zone bars; flat materials; no audio; celebrate could show unlocks without mastery.
+- **After:** Readable canvas signs, densified mid-field, procedural deck/sky/pads, live terminal screen, Riser silhouette+anim, HUD objectives, Web Audio stubs, mastery-gated celebrate, deferred gate FX, atmosphere motes.
+
+### Pages
+https://robglnn.github.io/aaamath/ — Actions deploy healthy (monitor after each push).
+
+### Remaining gaps
+- Prop/material AAA fidelity (primitives ceiling without GLTF authoring)
+- Bundle ~1.45MB JS (Three) — code-split later
+- Lesson 2 not started; speech locale voices thin
+- Full mastery→Beta unlock playthrough not fully critic-exercised on camera

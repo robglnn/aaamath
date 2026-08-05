@@ -263,7 +263,7 @@ function SupplyCrates() {
   return (
     <group>
       {crates.map(([x, z, rot], i) => (
-        <group key={i} position={[x, 0.32, z]} rotation={[0, rot, 0]}>
+        <group key={i} position={[x, surfaceY(x, z) + 0.32, z]} rotation={[0, rot, 0]}>
           <mesh>
             <boxGeometry args={[0.7, 0.55, 0.7]} />
             <meshStandardMaterial color="#152836" metalness={0.35} roughness={0.55} />
@@ -294,8 +294,6 @@ function DistantSpires() {
     [22, 16, 7.2, 1.0],
     [-18, -28, 5.5, 0.8],
     [16, -30, 8, 1.1],
-    [-32, 6, 7.5, 1.0],
-    [30, -22, 6.2, 0.85],
   ]
   return (
     <group>
