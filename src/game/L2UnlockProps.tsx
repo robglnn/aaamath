@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import type { Mesh, MeshStandardMaterial } from 'three'
+import { AdditiveBlending } from 'three'
+import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
 import { useGameStore } from '@/game/store'
 import { getProcTextureKit } from '@/game/proc'
 import { ZoneLabel } from '@/game/ZoneLabel'
@@ -37,16 +38,85 @@ export function L2UnlockProps() {
   )
 }
 
+const POP_STAGGER = 0.085
+const POP_DURATION = 0.6
+const FLASH_DURATION = 1.45
+
+/** Overshoot ease-out — segments pop past full scale, then settle. */
+function easeOutBack(p: number): number {
+  const c1 = 1.70158
+  const c3 = c1 + 1
+  const q = p - 1
+  return 1 + c3 * q * q * q + c1 * q * q
+}
+
 /** bp.pad.rail — slim cyan safety-rail accents ringing the Alpha pad edge. */
 function PadRailProp() {
   const unlocked = useGameStore((s) => s.hasRailBlueprint)
   const barMats = useRef<(MeshStandardMaterial | null)[]>([])
+  const segRefs = useRef<(Group | null)[]>([])
+  const ringRef = useRef<Mesh>(null)
+  const ringMat = useRef<MeshBasicMaterial>(null)
+  // One-shot materialization FX — fires on a live unlock transition only,
+  // deferred until explore so the lesson overlay doesn't eat the beat
+  // (same idiom as UnlockCelebrationFx; HUD flash owns the audio blip).
+  const prev = useRef<boolean | null>(null)
+  const pending = useRef(false)
+  const start = useRef(-1)
 
   useFrame((state) => {
     const t = state.clock.elapsedTime
+    const mode = useGameStore.getState().mode
+
+    if (prev.current === null) {
+      prev.current = unlocked
+    } else if (unlocked !== prev.current) {
+      prev.current = unlocked
+      if (unlocked) {
+        if (mode === 'lesson') pending.current = true
+        else start.current = t
+      }
+    }
+    if (pending.current && mode !== 'lesson' && unlocked) {
+      pending.current = false
+      start.current = t
+    }
+
+    let firing = start.current >= 0
+    const popT = firing ? t - start.current : 0
+    if (firing && popT > FLASH_DURATION) {
+      start.current = -1
+      firing = false
+    }
+    const flash = firing ? Math.max(0, 1 - popT / FLASH_DURATION) : 0
+
     for (let i = 0; i < barMats.current.length; i++) {
       const m = barMats.current[i]
-      if (m) m.emissiveIntensity = 0.85 + Math.sin(t * 2.2 - i * 0.7) * 0.3
+      if (m) m.emissiveIntensity = 0.85 + Math.sin(t * 2.2 - i * 0.7) * 0.3 + flash * 2.4
+    }
+
+    for (let i = 0; i < segRefs.current.length; i++) {
+      const g = segRefs.current[i]
+      if (!g) continue
+      if (!firing) {
+        if (g.scale.x !== 1) g.scale.setScalar(1)
+        continue
+      }
+      const lp = (popT - i * POP_STAGGER) / POP_DURATION
+      if (lp <= 0) g.scale.setScalar(0.001)
+      else if (lp >= 1) g.scale.setScalar(1)
+      else g.scale.setScalar(Math.max(0.001, easeOutBack(lp)))
+    }
+
+    // Additive ring sweeps out to the rail line as the emissive flash decays
+    if (ringRef.current && ringMat.current) {
+      const show = firing && flash > 0
+      ringRef.current.visible = show
+      if (show) {
+        const rp = Math.min(popT / FLASH_DURATION, 1)
+        ringRef.current.scale.setScalar(1.1 + rp * (RAIL_R + 0.4 - 1.1))
+        ringMat.current.opacity = 0.7 * flash * flash
+      }
     }
   })
 
@@ -57,6 +127,9 @@ function PadRailProp() {
       {RAIL_ANGLES.map((a, i) => (
         <group
           key={a}
+          ref={(g) => {
+            segRefs.current[i] = g
+          }}
           position={[RAIL_R * Math.cos(a), PAD_TOP, RAIL_R * Math.sin(a)]}
           rotation={[0, -a - Math.PI / 2, 0]}
         >
@@ -81,6 +154,18 @@ function PadRailProp() {
           </mesh>
         </group>
       ))}
+      {/* Materialization ring — hidden except during the one-shot unlock pop */}
+      <mesh ref={ringRef} position={[0, PAD_TOP + 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]} visible={false}>
+        <ringGeometry args={[0.9, 1, 56]} />
+        <meshBasicMaterial
+          ref={ringMat}
+          color={CYAN}
+          transparent
+          opacity={0}
+          blending={AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
     </group>
   )
 }

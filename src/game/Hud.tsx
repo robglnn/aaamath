@@ -144,11 +144,13 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const l2RankTitle = l2UnlockTitle(L2_RANK_ID, locale)
   const l2ZoneTitle = l2ZoneId ? l2UnlockTitle(l2ZoneId, locale) : ''
 
-  const objectiveText = hasZoneBeta
-    ? ui(locale, 'objectiveZoneBetaOpen')
-    : hasBlueprint && !blueprintPlaced
-      ? ui(locale, 'objectivePlaceBlueprint')
-      : ui(locale, 'objectiveReachTerminal')
+  const objectiveText = hasBetaAnnex
+    ? ui(locale, 'objectiveAnnexOpen')
+    : hasZoneBeta
+      ? ui(locale, 'objectiveZoneBetaOpen')
+      : hasBlueprint && !blueprintPlaced
+        ? ui(locale, 'objectivePlaceBlueprint')
+        : ui(locale, 'objectiveReachTerminal')
 
   return (
     <div className="gr-hud">

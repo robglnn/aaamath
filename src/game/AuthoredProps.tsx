@@ -108,6 +108,7 @@ function DuctCoupling({ x, z, rot = 0, len = 1.4 }: { x: number; z: number; rot?
 
 /** Cargo crate with stencil decal face — richer silhouette than RangeDecor supply crates. */
 function StenciledCrate({ x, z, rot = 0 }: { x: number; z: number; rot?: number }) {
+  const { crateLid } = useMemo(() => getAuthoredGeoKit(), [])
   const decal = useMemo(() => makeStencilDecalTexture(128, 128), [])
   const y = surfaceY(x, z)
 
@@ -121,8 +122,7 @@ function StenciledCrate({ x, z, rot = 0 }: { x: number; z: number; rot?: number 
         <planeGeometry args={[0.42, 0.42]} />
         <meshStandardMaterial map={decal} transparent opacity={0.92} />
       </mesh>
-      <mesh position={[0, 0.31, 0]}>
-        <boxGeometry args={[0.8, 0.05, 0.8]} />
+      <mesh geometry={crateLid} position={[0, 0.31, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <meshStandardMaterial color={STEEL} metalness={0.5} roughness={0.45} />
       </mesh>
       {/* Strap rivets */}
@@ -142,8 +142,7 @@ function StenciledCrate({ x, z, rot = 0 }: { x: number; z: number; rot?: number 
 
 /**
  * Authored mid-field props with proc decals. Wave 17 swaps the box-kit
- * ServiceJunction for beveled EquipmentRacks; duct couplings and stenciled
- * crates carry over.
+ * ServiceJunction for beveled EquipmentRacks; wave 18 bevels crate lids.
  * Budget: ~42 meshes, shared lathe/extrude geometry kit, canvas bakes shared
  * per type, 0 lights, 0 useFrame.
  */

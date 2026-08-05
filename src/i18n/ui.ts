@@ -79,6 +79,7 @@ export type UiKey =
   | 'recruitRank'
   | 'zoneActive'
   | 'objectiveZoneBetaOpen'
+  | 'objectiveAnnexOpen'
   | 'objectivePlaceBlueprint'
   | 'objectiveReachTerminal'
   | 'blueprintOnline'
@@ -164,6 +165,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     recruitRank: 'Recruit',
     zoneActive: 'Active',
     objectiveZoneBetaOpen: 'Zone Beta open — explore the new pad',
+    objectiveAnnexOpen: 'Beta Annex open — cross the bridge east of Beta',
     objectivePlaceBlueprint: 'Place your blueprint pad (B)',
     objectiveReachTerminal: 'Objective · Reach the Algebra Terminal',
     blueprintOnline: 'Blueprint online',
@@ -248,6 +250,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     recruitRank: 'Recluta',
     zoneActive: 'Activo',
     objectiveZoneBetaOpen: 'Zona Beta abierta — explora la nueva plataforma',
+    objectiveAnnexOpen: 'Anexo Beta abierto — cruza el puente al este de Beta',
     objectivePlaceBlueprint: 'Coloca tu plataforma de plano (B)',
     objectiveReachTerminal: 'Objetivo · Llega al Terminal de Álgebra',
     blueprintOnline: 'Plano en línea',
@@ -332,6 +335,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     recruitRank: 'Rekrut',
     zoneActive: 'Aktywna',
     objectiveZoneBetaOpen: 'Strefa Beta otwarta — eksploruj nową platformę',
+    objectiveAnnexOpen: 'Aneks Beta otwarty — przejdź mostem na wschód od Bety',
     objectivePlaceBlueprint: 'Umieść platformę planu (B)',
     objectiveReachTerminal: 'Cel · Dotrzyj do Terminala Algebry',
     blueprintOnline: 'Plan online',

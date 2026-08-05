@@ -1,7 +1,7 @@
 import { ExtrudeGeometry, LatheGeometry, Shape, Vector2 } from 'three'
 
 /**
- * Authored hero-prop geometry — wave 17 fidelity push.
+ * Authored hero-prop geometry — wave 17–18 fidelity push.
  *
  * Silhouettes are hand-authored as profile data (lathe point lists, rounded
  * rect shapes with bevel extrusion) instead of stacked box/cylinder
@@ -97,6 +97,47 @@ function buildBeveledPanelGeometry(w: number, h: number, d: number, corner: numb
   return geo
 }
 
+/**
+ * Algebra terminal pedestal: flared foot, cove, collar lip, slight taper —
+ * lathed 0 → 0.36 along +Y (replaces 8-seg cylinder at the kiosk base).
+ */
+function buildTerminalPedestalGeometry(): LatheGeometry {
+  const profile: [number, number][] = [
+    [0.001, 0],
+    [0.88, 0], // foot flare
+    [0.88, 0.038],
+    [0.8, 0.075], // cove
+    [0.72, 0.13], // collar
+    [0.74, 0.17],
+    [0.7, 0.34], // shaft taper
+    [0.66, 0.36], // rim lip
+    [0.62, 0.355],
+    [0.001, 0.355],
+  ]
+  return new LatheGeometry(
+    profile.map(([x, y]) => new Vector2(x, y)),
+    20,
+  )
+}
+
+/**
+ * Neck collar between pedestal and console housing — short turned ring.
+ */
+function buildTerminalCollarGeometry(): LatheGeometry {
+  const profile: [number, number][] = [
+    [0.62, 0],
+    [0.7, 0],
+    [0.74, 0.028],
+    [0.7, 0.055],
+    [0.64, 0.055],
+    [0.001, 0.055],
+  ]
+  return new LatheGeometry(
+    profile.map(([x, y]) => new Vector2(x, y)),
+    16,
+  )
+}
+
 export interface AuthoredGeoKit {
   /** Paraboloid dish bowl with rolled rim (opens +Y). */
   dish: LatheGeometry
@@ -108,6 +149,18 @@ export interface AuthoredGeoKit {
   rackBlade: ExtrudeGeometry
   /** Low beveled rack plinth slab, centered (1.0 × 0.1 × 0.58). */
   rackPlinth: ExtrudeGeometry
+  /** Turned terminal pedestal, 0 → 0.36 along +Y. */
+  terminalPedestal: LatheGeometry
+  /** Short neck collar between pedestal and housing. */
+  terminalCollar: LatheGeometry
+  /** Beveled console carcass, centered (1.35 × 0.7 × 0.8). */
+  terminalHousing: ExtrudeGeometry
+  /** Beveled screen bezel frame, centered (1.12 × 0.72 × 0.08). */
+  terminalBezel: ExtrudeGeometry
+  /** Beveled keyboard deck plate, centered (0.82 × 0.14 × 0.02). */
+  terminalKeydeck: ExtrudeGeometry
+  /** Beveled crate lid slab, centered (0.8 × 0.8 × 0.05). */
+  crateLid: ExtrudeGeometry
 }
 
 let sharedKit: AuthoredGeoKit | null = null
@@ -124,6 +177,12 @@ export function getAuthoredGeoKit(): AuthoredGeoKit {
       rackCarcass: buildBeveledPanelGeometry(0.92, 1.12, 0.5, 0.06, 0.03),
       rackBlade: buildBeveledPanelGeometry(0.74, 0.2, 0.46, 0.035, 0.016),
       rackPlinth: buildBeveledPanelGeometry(1.0, 0.1, 0.58, 0.03, 0.02),
+      terminalPedestal: buildTerminalPedestalGeometry(),
+      terminalCollar: buildTerminalCollarGeometry(),
+      terminalHousing: buildBeveledPanelGeometry(1.35, 0.7, 0.8, 0.08, 0.04),
+      terminalBezel: buildBeveledPanelGeometry(1.12, 0.72, 0.08, 0.05, 0.025),
+      terminalKeydeck: buildBeveledPanelGeometry(0.82, 0.14, 0.02, 0.02, 0.008),
+      crateLid: buildBeveledPanelGeometry(0.8, 0.8, 0.05, 0.03, 0.015),
     }
   }
   return sharedKit

@@ -13,7 +13,7 @@ import { UnlockCelebrationFx } from '@/game/UnlockCelebrationFx'
 import { getAuthoredGeoKit, getProcTextureKit } from '@/game/proc'
 import { L2UnlockProps } from '@/game/L2UnlockProps'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
-import { ALPHA_RADIUS, BETA_CENTER, BETA_RADIUS, GATE_Z, PAD_TOP, TERMINAL_POS, groundHeight, rig } from '@/game/world'
+import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, GATE_Z, PAD_TOP, TERMINAL_POS, groundHeight, rig } from '@/game/world'
 
 const SKY = '#0b1a24'
 const CYAN = '#3dd6c6'
@@ -231,6 +231,10 @@ function Terminal() {
   const glowLight = useRef<PointLight>(null)
   const near = useGameStore((s) => s.nearTerminal)
   const { panel } = useMemo(() => getProcTextureKit(), [])
+  const { terminalPedestal, terminalCollar, terminalHousing, terminalBezel, terminalKeydeck } = useMemo(
+    () => getAuthoredGeoKit(),
+    [],
+  )
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime
@@ -278,18 +282,19 @@ function Terminal() {
 
   return (
     <group position={TERMINAL_POS} rotation={[0, -0.62, 0]}>
-      {/* Pedestal */}
-      <mesh position={[0, 0.18, 0]}>
-        <cylinderGeometry args={[0.72, 0.85, 0.36, 8]} />
+      {/* Pedestal — turned foot + collar lip */}
+      <mesh geometry={terminalPedestal} position={[0, 0, 0]}>
         <meshStandardMaterial map={panel} color="#9ec8c4" metalness={0.45} roughness={0.4} />
       </mesh>
-      <mesh position={[0, 0.55, 0]}>
-        <boxGeometry args={[1.35, 0.7, 0.8]} />
+      <mesh geometry={terminalCollar} position={[0, 0.36, 0]}>
+        <meshStandardMaterial color="#7eb0ac" metalness={0.5} roughness={0.38} />
+      </mesh>
+      {/* Console housing — beveled carcass */}
+      <mesh geometry={terminalHousing} position={[0, 0.55, 0]}>
         <meshStandardMaterial map={panel} color="#a8d4d0" metalness={0.4} roughness={0.45} />
       </mesh>
       {/* Keyboard face plate + key caps */}
-      <mesh position={[0, 0.4, 0.408]}>
-        <boxGeometry args={[0.82, 0.14, 0.02]} />
+      <mesh geometry={terminalKeydeck} position={[0, 0.4, 0.408]}>
         <meshStandardMaterial color="#142a36" metalness={0.55} roughness={0.5} />
       </mesh>
       {([-0.24, 0, 0.24] as const).map((x, i) => (
@@ -323,9 +328,8 @@ function Terminal() {
         <cylinderGeometry args={[0.032, 0.042, 0.54, 6]} />
         <meshStandardMaterial color="#1a3040" metalness={0.35} roughness={0.65} />
       </mesh>
-      {/* Readable screen + bezel */}
-      <mesh position={[0, 1.05, 0.3]} rotation={[-0.42, 0, 0]}>
-        <boxGeometry args={[1.12, 0.72, 0.08]} />
+      {/* Readable screen + beveled bezel */}
+      <mesh geometry={terminalBezel} position={[0, 1.05, 0.3]} rotation={[-0.42, 0, 0]}>
         <meshStandardMaterial color="#0d2430" metalness={0.5} roughness={0.35} />
       </mesh>
       <TerminalScreen ref={screenMat} emissive={CYAN} />
@@ -566,9 +570,17 @@ function BetaBarrier() {
 }
 
 
+/**
+ * L2 annex branch — stud x positions from inside the Beta pad, across the
+ * bridge, to just inside the annex diamond. Tracks ANNEX_CENTER if it moves.
+ */
+const ANNEX_STUD_XS = Array.from({ length: 6 }, (_, i) => 1.2 + (i * (ANNEX_CENTER[0] - 1.1 - 1.2)) / 5)
+
 function GatePathLights() {
   const unlocked = useGameStore((s) => s.hasZoneBeta)
+  const hasAnnex = useGameStore((s) => s.hasBetaAnnex)
   const mats = useRef<(MeshStandardMaterial | null)[]>([])
+  const annexMats = useRef<(MeshStandardMaterial | null)[]>([])
   const studs = [-8.9, -10, -11.1, -12.2, -13.3]
 
   useFrame((state) => {
@@ -582,6 +594,13 @@ function GatePathLights() {
       } else {
         m.emissiveIntensity = 0.3
       }
+    }
+    // Annex studs continue the wave index so the light runs gate → Beta → annex
+    for (let i = 0; i < annexMats.current.length; i++) {
+      const m = annexMats.current[i]
+      if (!m) continue
+      const wave = Math.sin(t * 4.2 - (studs.length + i) * 1.1)
+      m.emissiveIntensity = 0.55 + Math.max(0, wave) * 1.5
     }
   })
 
@@ -603,6 +622,23 @@ function GatePathLights() {
           </mesh>
         )
       })}
+      {hasAnnex &&
+        ANNEX_STUD_XS.map((x, i) => {
+          const y = groundHeight(x, ANNEX_BRIDGE.z, true, null, true) + 0.045
+          return (
+            <mesh key={x} position={[x, y, ANNEX_BRIDGE.z]}>
+              <cylinderGeometry args={[0.1, 0.13, 0.07, 8]} />
+              <meshStandardMaterial
+                ref={(m) => {
+                  annexMats.current[i] = m
+                }}
+                color={CYAN}
+                emissive={CYAN}
+                emissiveIntensity={0.3}
+              />
+            </mesh>
+          )
+        })}
     </group>
   )
 }

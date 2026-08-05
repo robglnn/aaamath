@@ -279,6 +279,19 @@ export function Player() {
             <boxGeometry args={[0.38, 0.42, 0.2]} />
             <meshStandardMaterial map={panel} color="#1a4255" {...MAT_PACK} />
           </mesh>
+          {/* Pack side profile — angled housings read as kit, not flat box */}
+          <mesh position={[-0.22, 0.82, -0.28]} rotation={[0, 0.22, 0]}>
+            <boxGeometry args={[0.08, 0.34, 0.16]} />
+            <meshStandardMaterial color="#163a4c" roughness={0.48} metalness={0.38} />
+          </mesh>
+          <mesh position={[0.22, 0.82, -0.28]} rotation={[0, -0.22, 0]}>
+            <boxGeometry args={[0.08, 0.34, 0.16]} />
+            <meshStandardMaterial color="#163a4c" roughness={0.48} metalness={0.38} />
+          </mesh>
+          <mesh position={[0, 0.74, -0.34]}>
+            <boxGeometry args={[0.28, 0.12, 0.06]} />
+            <meshStandardMaterial color={DEEP} roughness={0.5} metalness={0.35} />
+          </mesh>
           <mesh position={[0, 0.86, -0.38]}>
             <boxGeometry args={[0.3, 0.1, 0.06]} />
             <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.2} />
@@ -295,6 +308,11 @@ export function Player() {
           <mesh position={[0, 1.24, 0.04]}>
             <boxGeometry args={[0.34, 0.28, 0.32]} />
             <meshStandardMaterial color={HELM} {...MAT_HELM} />
+          </mesh>
+          {/* Brow ridge — breaks the flat helm read */}
+          <mesh position={[0, 1.36, 0.12]} rotation={[0.18, 0, 0]}>
+            <boxGeometry args={[0.32, 0.06, 0.14]} />
+            <meshStandardMaterial color={SHADE} roughness={0.42} metalness={0.48} />
           </mesh>
           <mesh position={[-0.2, 1.22, 0.02]}>
             <boxGeometry args={[0.08, 0.14, 0.12]} />
@@ -333,6 +351,10 @@ export function Player() {
             <boxGeometry args={[0.18, 0.06, 0.06]} />
             <meshStandardMaterial color={BODY_LT} roughness={0.45} metalness={0.3} />
           </mesh>
+          <mesh position={[0, -0.54, 0.2]} rotation={[0.35, 0, 0]}>
+            <boxGeometry args={[0.17, 0.05, 0.08]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.4} metalness={0.35} />
+          </mesh>
         </group>
 
         {/* Right leg */}
@@ -352,6 +374,10 @@ export function Player() {
           <mesh position={[0, -0.52, 0.14]}>
             <boxGeometry args={[0.18, 0.06, 0.06]} />
             <meshStandardMaterial color={BODY_LT} roughness={0.45} metalness={0.3} />
+          </mesh>
+          <mesh position={[0, -0.54, 0.2]} rotation={[0.35, 0, 0]}>
+            <boxGeometry args={[0.17, 0.05, 0.08]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.4} metalness={0.35} />
           </mesh>
         </group>
 
