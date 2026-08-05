@@ -33,6 +33,26 @@ export const GAMMA_BRIDGE = {
   halfWidth: 0.95,
 }
 
+/**
+ * L4 Delta Balance Yard — axis-aligned square yard northeast of Beta.
+ * DELTA_RADIUS is the square's half-side (apothem); the cylinder body uses the
+ * circumradius (apothem·√2) with thetaStart π/4 so flat sides face the axes —
+ * distinct from octagon Alpha/Beta, 45° diamond Annex, hex Gamma. South of
+ * Beta was rejected: Beta's south rim sits at z=-20 against BOUNDS.zMin
+ * (-20.5), and the exemplar [0, -18.5] lies inside the Beta disc (dist 3.5 < 5).
+ * NE site [7.6, -9.1] clears Beta (rim dist ~1.0), the annex (dz > 2.6), the
+ * terminal pool, and the gate walk line, all inside BOUNDS.
+ */
+export const DELTA_RADIUS = 2.6
+export const DELTA_CENTER: [number, number] = [7.6, -9.1]
+/** Walkway slab bridging the Beta northeast rim to the yard west edge. */
+export const DELTA_BRIDGE = {
+  x0: 2.2,
+  x1: DELTA_CENTER[0] - DELTA_RADIUS + 0.3,
+  z: -10.7,
+  halfWidth: 0.95,
+}
+
 export const BOUNDS = { x: 12, zMin: -20.5, zMax: 10 }
 
 export const WALK_SPEED = 4.6
@@ -62,6 +82,7 @@ export function groundHeight(
   blueprint: [number, number, number] | null,
   hasBetaAnnex = false,
   hasGammaRelay = false,
+  hasDeltaBalance = false,
 ): number {
   let gy = 0
   if (x * x + z * z <= ALPHA_RADIUS * ALPHA_RADIUS) gy = PAD_TOP
@@ -87,6 +108,15 @@ export function groundHeight(
     const h = (GAMMA_RADIUS - 0.15) * 0.8660254
     if (qz <= h && 0.8660254 * qx + 0.5 * qz <= h) gy = Math.max(gy, PAD_TOP)
     if (x >= GAMMA_BRIDGE.x0 && x <= GAMMA_BRIDGE.x1 && Math.abs(z - GAMMA_BRIDGE.z) <= GAMMA_BRIDGE.halfWidth) {
+      gy = Math.max(gy, PAD_TOP)
+    }
+  }
+  if (hasDeltaBalance) {
+    // Yard is an axis-aligned square: |dx| <= a && |dz| <= a inside (apothem a).
+    const dx = Math.abs(x - DELTA_CENTER[0])
+    const dz = Math.abs(z - DELTA_CENTER[1])
+    if (dx <= DELTA_RADIUS - 0.15 && dz <= DELTA_RADIUS - 0.15) gy = Math.max(gy, PAD_TOP)
+    if (x >= DELTA_BRIDGE.x0 && x <= DELTA_BRIDGE.x1 && Math.abs(z - DELTA_BRIDGE.z) <= DELTA_BRIDGE.halfWidth) {
       gy = Math.max(gy, PAD_TOP)
     }
   }

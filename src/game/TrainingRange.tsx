@@ -13,13 +13,15 @@ import { UnlockCelebrationFx } from '@/game/UnlockCelebrationFx'
 import { getAuthoredGeoKit, getProcTextureKit } from '@/game/proc'
 import { L2UnlockProps } from '@/game/L2UnlockProps'
 import { L3UnlockProps } from '@/game/L3UnlockProps'
+import { L4UnlockProps } from '@/game/L4UnlockProps'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
-import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, groundHeight, rig } from '@/game/world'
+import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, groundHeight, rig } from '@/game/world'
 
 const SKY = '#0b1a24'
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
+const GOLD = '#e8c56a'
 
 /* ---------- Canvas-baked textures: procedural, offline-safe, zero font/CDN fetches ---------- */
 
@@ -583,13 +585,22 @@ const ANNEX_STUD_XS = Array.from({ length: 6 }, (_, i) => 1.2 + (i * (ANNEX_CENT
  */
 const GAMMA_STUD_XS = Array.from({ length: 6 }, (_, i) => -1.2 + (i * (GAMMA_CENTER[0] + 1.1 + 1.2)) / 5)
 
+/**
+ * L4 delta branch — stud x positions from inside the Beta pad northeast,
+ * across the bridge, to just inside the balance yard. Tracks DELTA_CENTER if
+ * it moves; studs ride the DELTA_BRIDGE z line.
+ */
+const DELTA_STUD_XS = Array.from({ length: 6 }, (_, i) => 1.2 + (i * (DELTA_CENTER[0] - 1.1 - 1.2)) / 5)
+
 function GatePathLights() {
   const unlocked = useGameStore((s) => s.hasZoneBeta)
   const hasAnnex = useGameStore((s) => s.hasBetaAnnex)
   const hasGamma = useGameStore((s) => s.hasGammaRelay)
+  const hasDelta = useGameStore((s) => s.hasDeltaBalance)
   const mats = useRef<(MeshStandardMaterial | null)[]>([])
   const annexMats = useRef<(MeshStandardMaterial | null)[]>([])
   const gammaMats = useRef<(MeshStandardMaterial | null)[]>([])
+  const deltaMats = useRef<(MeshStandardMaterial | null)[]>([])
   const studs = [-8.9, -10, -11.1, -12.2, -13.3]
 
   useFrame((state) => {
@@ -616,6 +627,13 @@ function GatePathLights() {
       const m = gammaMats.current[i]
       if (!m) continue
       const wave = Math.sin(t * 4.2 - (studs.length + ANNEX_STUD_XS.length + i) * 1.1)
+      m.emissiveIntensity = 0.55 + Math.max(0, wave) * 1.5
+    }
+    // Delta studs follow the gamma indices — same wave idiom, gold L4 accent
+    for (let i = 0; i < deltaMats.current.length; i++) {
+      const m = deltaMats.current[i]
+      if (!m) continue
+      const wave = Math.sin(t * 4.2 - (studs.length + ANNEX_STUD_XS.length + GAMMA_STUD_XS.length + i) * 1.1)
       m.emissiveIntensity = 0.55 + Math.max(0, wave) * 1.5
     }
   })
@@ -672,6 +690,23 @@ function GatePathLights() {
             </mesh>
           )
         })}
+      {hasDelta &&
+        DELTA_STUD_XS.map((x, i) => {
+          const y = groundHeight(x, DELTA_BRIDGE.z, true, null, false, false, true) + 0.045
+          return (
+            <mesh key={x} position={[x, y, DELTA_BRIDGE.z]}>
+              <cylinderGeometry args={[0.1, 0.13, 0.07, 8]} />
+              <meshStandardMaterial
+                ref={(m) => {
+                  deltaMats.current[i] = m
+                }}
+                color={GOLD}
+                emissive={GOLD}
+                emissiveIntensity={0.3}
+              />
+            </mesh>
+          )
+        })}
     </group>
   )
 }
@@ -718,6 +753,7 @@ export function TrainingRange() {
       <GatePathLights />
       <L2UnlockProps />
       <L3UnlockProps />
+      <L4UnlockProps />
       <Player />
       <BlueprintGhost />
       <CameraRig />

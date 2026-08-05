@@ -3,7 +3,7 @@
 **Repo:** `C:\dev\aaamath` → `origin/main`  
 **Live:** https://robglnn.github.io/aaamath/  
 **Started:** 2026-08-05 ~05:36 EDT  
-**Continuation:** 2026-08-05 ~07:28–~09:45+ EDT (curriculum + L3 world payoff)
+**Continuation:** 2026-08-05 ~07:28–~10:30+ EDT (L4 world payoff + Lesson 5)
 
 ## Status board (condensed)
 
@@ -16,45 +16,48 @@
 | **18** | Terminal heroes + L2 rail/annex polish | `e023361` |
 | **19** | Authored player + mid-field ducts/masts/pane | `a85e41c` |
 | **20** | Lesson 3 Distributive Property + terminal wire | `773ae20` |
-| **21** | L3 3D unlocks (splitter / Expert / Gamma Relay) | *shipping* |
-| **22** | Lesson 4 One-Step Equations + terminal L1→L4 | *shipping* |
+| **21** | L3 3D unlocks (splitter / Expert / Gamma Relay) | `269df4c` |
+| **22** | Lesson 4 One-Step Equations + terminal L1→L4 | `269df4c` |
+| **23** | L4 3D unlocks (beam / Operator / Delta Balance) | *shipping* |
+| **24** | Lesson 5 Two-Step Equations + terminal L1→L5 | *shipping* |
 
-Critics: overnight wrap + W16–W19 → **PASS_WITH_GAPS**; W19 plateau → **SWITCH to curriculum**; W21/W22 → **PASS_WITH_GAPS** (gaps closed in polish)
+Critics: overnight wrap + W16–W19 → **PASS_WITH_GAPS**; W19 plateau → **SWITCH to curriculum**; W21–W24 → **PASS_WITH_GAPS** (W24 feedback/tag polish applied)
 
 ---
 
-## Morning summary (continuation complete)
+## Morning summary (this pass)
 
 ### Mandate
-User asked for overnight iteration; early PASS_WITH_GAPS on visuals → continue. Critic W19: no more kitbash without GLTF — switch to curriculum. This pass: **L3 3D world payoff + Lesson 4**.
+Continue overnight: **L4 3D unlock props** (W16/W21 pattern) **and Lesson 5** (two-step equations). No kitbash grind. Gauntlet builder≠critic. Models: kimi-k3-max / cursor-grok-4.5-medium / composer-2.5.
 
 ### Waves completed (this pass)
 | Wave | Delivered |
 |------|-----------|
-| 21 | L3 → 3D props: Y-splitter, Expert violet insignia, walkable hexagonal Gamma Relay west of Beta + bridge + violet path studs; HUD chips/flash/objective |
-| 22 | Algebra I Lesson 4 *Solving One-Step Equations* (EN/ES/PL); terminal opens L4 after L3 mastery; answer-key spread polish |
+| 23 | L4 → 3D props: balance beam, Operator gold insignia, walkable square Delta Balance Yard NE of Beta + bridge + gold path studs; HUD chips/flash/objective |
+| 24 | Algebra I Lesson 5 *Solving Two-Step Equations* (EN/ES/PL); terminal opens L5 after L4 mastery; critic fixed three false/mismatched feedback strings |
 
 ### Before → after (vs prior continuation gaps)
 
 | Prior leftover | This pass result |
 |----------------|------------------|
-| L3 unlocks content-only | **Closed** — splitter, Expert rank, Gamma Relay walkable (W16 pattern) |
-| L4+ curriculum | **Closed** — L4 authored + validated + terminal L1→L2→L3→L4 |
+| L4 unlocks content-only | **Closed** — beam, Operator rank, Delta Balance walkable (W16/W21 pattern) |
+| L5+ curriculum | **Closed** — L5 authored + validated + terminal L1→…→L5 |
 | Kitbash ceiling | **Held** — no new decor/GLTF waves |
 
 ### Pages / pedagogy (held)
 - Live Pages deploy path green (`base: '/aaamath/'`); build + spa-fallback green
 - KaTeX off cold load; GameView/three lazy; entry preloads react-vendor only
-- `content:validate` **4/4**; celebrate = masteryDone; adaptive freeze intact
-- L3→L4 critics: false feedback strings fixed; answer monotony spread; Gamma hex `thetaStart` aligned
+- `content:validate` **5/5**; celebrate = masteryDone; adaptive freeze intact
+- Terminal progression L1→L2→L3→L4→L5 by mastery
+- W24 critic: false/mismatched distractor feedback fixed (keys untouched); answer keys all distinct
 
 ### Remaining gaps vs absolute Fortnite AAA
 1. Sculpted GLTF / PBR art pack (profile-geo ceiling unchanged)
-2. L4 unlocks not yet 3D world props (content + terminal wired; props follow W16/W21 pattern)
-3. Optional: `'gamma'` ZoneId / live HUD chip; L5 two-step equations
+2. L5 unlocks not yet 3D world props (content + terminal wired; props follow W16/W21/W23 pattern)
+3. Optional: `'delta'` / `'gamma'` ZoneId / live HUD chips; engine-side MCQ choice shuffle (course-wide all-a pattern)
 
 ### Plateau judgment
-**Visual AAA under zero-network profile-geo: PLATEAU** (unchanged). Curriculum ladder now L1–L4 with L2+L3 world payoffs. Next high-value: **L4 3D unlock props** or **L5 two-step equations** — not more kitbash.
+**Visual AAA under zero-network profile-geo: PLATEAU** (unchanged). Curriculum ladder now L1–L5 with L2–L4 world payoffs. Next high-value: **L5 3D unlock props** or **L6** — not more kitbash.
 
 ### Pedagogy
-Curriculum L1–L4 validated packages; terminal progression L1→L2→L3→L4; L3 mastery pays off in the range.
+Curriculum L1–L5 validated packages; terminal progression L1→…→L5; L4 mastery pays off in the range.

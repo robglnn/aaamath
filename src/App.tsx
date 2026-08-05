@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { LESSON_1_ID, LESSON_2_ID, LESSON_3_ID, resolveTerminalLessonId } from '@/content/loadLesson'
+import { LESSON_1_ID, LESSON_2_ID, LESSON_3_ID, LESSON_4_ID, resolveTerminalLessonId } from '@/content/loadLesson'
 import { useProgressStore } from '@/progress/store'
 import { LocaleSwitcher } from '@/components/LocaleSwitcher'
 import { ui } from '@/i18n/ui'
@@ -42,6 +42,7 @@ export default function App() {
   const lessonState = lessonStates[LESSON_1_ID]
   const lesson2State = lessonStates[LESSON_2_ID]
   const lesson3State = lessonStates[LESSON_3_ID]
+  const lesson4State = lessonStates[LESSON_4_ID]
   const terminalLessonId = resolveTerminalLessonId(lessonStates)
 
   const [lessonOpen, setLessonOpen] = useState(false)
@@ -58,6 +59,7 @@ export default function App() {
   const mastered = lessonState?.status === 'mastered'
   const mastered2 = lesson2State?.status === 'mastered'
   const mastered3 = lesson3State?.status === 'mastered'
+  const mastered4 = lesson4State?.status === 'mastered'
   const unlocked = {
     blueprint: unlocks.blueprints.includes('bp.pad.ramp') || mastered,
     rank: unlocks.ranks.includes('rank.riser.initiate') || mastered,
@@ -72,6 +74,9 @@ export default function App() {
     relaySplitter: unlocks.blueprints.includes('bp.relay.splitter') || mastered3,
     expertRank: unlocks.ranks.includes('rank.riser.expert') || mastered3,
     gammaRelay: unlocks.zones.includes('zone.gamma.relay') || mastered3,
+    balanceBeam: unlocks.blueprints.includes('bp.balance.beam') || mastered4,
+    operatorRank: unlocks.ranks.includes('rank.riser.operator') || mastered4,
+    deltaBalance: unlocks.zones.includes('zone.delta.balance') || mastered4,
   }
 
   const openTerminal = () => {

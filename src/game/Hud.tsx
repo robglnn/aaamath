@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { playBlip } from '@/game/audio'
 import { useGameStore } from '@/game/store'
-import { lesson1, lesson2, lesson3 } from '@/content/loadLesson'
+import { lesson1, lesson2, lesson3, lesson4 } from '@/content/loadLesson'
 import type { Locale } from '@/content/types'
 import { pickLocalized, useProgressStore } from '@/progress/store'
 import { ui } from '@/i18n/ui'
@@ -13,6 +13,10 @@ const L2_ZONE_IDS = ['zone.beacon.cyan', 'zone.beta.annex'] as const
 const L3_BLUEPRINT_ID = 'bp.relay.splitter'
 const L3_RANK_ID = 'rank.riser.expert'
 const L3_ZONE_ID = 'zone.gamma.relay'
+
+const L4_BLUEPRINT_ID = 'bp.balance.beam'
+const L4_RANK_ID = 'rank.riser.operator'
+const L4_ZONE_ID = 'zone.delta.balance'
 
 function resolveL2ZoneId(zones: string[]): (typeof L2_ZONE_IDS)[number] | null {
   for (const id of L2_ZONE_IDS) {
@@ -33,6 +37,11 @@ function l2UnlockTitle(id: string, locale: Locale): string {
 
 function l3UnlockTitle(id: string, locale: Locale): string {
   const def = lesson3.unlocks.find((u) => u.id === id)
+  return def ? pickLocalized(def.title, locale) : id
+}
+
+function l4UnlockTitle(id: string, locale: Locale): string {
+  const def = lesson4.unlocks.find((u) => u.id === id)
   return def ? pickLocalized(def.title, locale) : id
 }
 
@@ -65,13 +74,16 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const hasRelaySplitter = useGameStore((s) => s.hasRelaySplitter)
   const hasExpertRank = useGameStore((s) => s.hasExpertRank)
   const hasGammaRelay = useGameStore((s) => s.hasGammaRelay)
+  const hasBalanceBeam = useGameStore((s) => s.hasBalanceBeam)
+  const hasOperatorRank = useGameStore((s) => s.hasOperatorRank)
+  const hasDeltaBalance = useGameStore((s) => s.hasDeltaBalance)
   const activeZone = useGameStore((s) => s.activeZone)
   const mode = useGameStore((s) => s.mode)
   const setMode = useGameStore((s) => s.setMode)
   const requestPlace = useGameStore((s) => s.requestPlace)
 
   const [unlockFlash, setUnlockFlash] = useState<UnlockFlash>(null)
-  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay })
+  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance })
   const prevNearTerminal = useRef(nearTerminal)
   const syncReady = useRef(false)
   const pendingFlash = useRef<UnlockFlash>(null)
@@ -109,7 +121,11 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     else if (!prev.hasExpertRank && hasExpertRank) flash = 'rank'
     else if (!prev.hasRelaySplitter && hasRelaySplitter) flash = 'blueprint'
     else if (!prev.hasGammaRelay && hasGammaRelay) flash = 'zone'
-    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay }
+    // L4 transitions ride the same cards (operator → rank, beam → blueprint, delta → zone)
+    else if (!prev.hasOperatorRank && hasOperatorRank) flash = 'rank'
+    else if (!prev.hasBalanceBeam && hasBalanceBeam) flash = 'blueprint'
+    else if (!prev.hasDeltaBalance && hasDeltaBalance) flash = 'zone'
+    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance }
 
     if (!syncReady.current) {
       syncReady.current = true
@@ -124,7 +140,7 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     }
 
     showFlash(flash)
-  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, mode])
+  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, mode])
 
   useEffect(() => {
     if (mode === 'lesson' || !pendingFlash.current) return
@@ -167,15 +183,24 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const l3RankTitle = l3UnlockTitle(L3_RANK_ID, locale)
   const l3ZoneTitle = l3UnlockTitle(L3_ZONE_ID, locale)
 
-  const objectiveText = hasGammaRelay
-    ? ui(locale, 'objectiveGammaRelayOpen')
-    : hasBetaAnnex
-      ? ui(locale, 'objectiveAnnexOpen')
-      : hasZoneBeta
-        ? ui(locale, 'objectiveZoneBetaOpen')
-        : hasBlueprint && !blueprintPlaced
-          ? ui(locale, 'objectivePlaceBlueprint')
-          : ui(locale, 'objectiveReachTerminal')
+  const hasL4Blueprint = progressUnlocks.blueprints.includes(L4_BLUEPRINT_ID)
+  const hasL4Rank = progressUnlocks.ranks.includes(L4_RANK_ID)
+  const hasL4Zone = progressUnlocks.zones.includes(L4_ZONE_ID)
+  const l4BlueprintTitle = l4UnlockTitle(L4_BLUEPRINT_ID, locale)
+  const l4RankTitle = l4UnlockTitle(L4_RANK_ID, locale)
+  const l4ZoneTitle = l4UnlockTitle(L4_ZONE_ID, locale)
+
+  const objectiveText = hasDeltaBalance
+    ? ui(locale, 'objectiveDeltaBalanceOpen')
+    : hasGammaRelay
+      ? ui(locale, 'objectiveGammaRelayOpen')
+      : hasBetaAnnex
+        ? ui(locale, 'objectiveAnnexOpen')
+        : hasZoneBeta
+          ? ui(locale, 'objectiveZoneBetaOpen')
+          : hasBlueprint && !blueprintPlaced
+            ? ui(locale, 'objectivePlaceBlueprint')
+            : ui(locale, 'objectiveReachTerminal')
 
   return (
     <div className="gr-hud">
@@ -242,6 +267,30 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
               ◎
             </span>
             {l3ZoneTitle}
+          </span>
+        )}
+        {hasL4Rank && (
+          <span className="gr-l2-chip gr-l4-chip gr-l4-chip--rank" data-tier="operator">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◆
+            </span>
+            {l4RankTitle}
+          </span>
+        )}
+        {hasL4Blueprint && (
+          <span className="gr-l2-chip gr-l4-chip gr-l4-chip--blueprint" data-tier="operator">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ⬡
+            </span>
+            {l4BlueprintTitle}
+          </span>
+        )}
+        {hasL4Zone && (
+          <span className="gr-l2-chip gr-l4-chip gr-l4-chip--zone" data-tier="operator">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◎
+            </span>
+            {l4ZoneTitle}
           </span>
         )}
       </div>

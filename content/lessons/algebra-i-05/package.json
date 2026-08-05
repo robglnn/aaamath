@@ -1,0 +1,2235 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "algebra-i-05",
+  "courseId": "algebra-i",
+  "order": 5,
+  "title": {
+    "en": "Solving Two-Step Equations",
+    "es": "Ecuaciones de dos pasos",
+    "pl": "Równania dwustopniowe"
+  },
+  "objectives": [
+    {
+      "en": "Solve two-step equations of the form x/a + b = c by undoing addition or subtraction first, then multiplication or division.",
+      "es": "Resolver ecuaciones de dos pasos de la forma x/a + b = c deshaciendo primero la suma o resta y luego la multiplicación o división.",
+      "pl": "Rozwiązywać równania dwustopniowe postaci x/a + b = c, cofając najpierw dodawanie lub odejmowanie, a potem mnożenie lub dzielenie."
+    },
+    {
+      "en": "Solve two-step equations of the form ax + b = c by undoing addition or subtraction first, then dividing by the coefficient.",
+      "es": "Resolver ecuaciones de dos pasos de la forma ax + b = c deshaciendo primero la suma o resta y luego dividiendo por el coeficiente.",
+      "pl": "Rozwiązywać równania dwustopniowe postaci ax + b = c, cofając najpierw dodawanie lub odejmowanie, a potem dzieląc przez współczynnik."
+    },
+    {
+      "en": "Handle negative coefficients and signed constants in two-step equations without sign slips, and verify solutions by substitution.",
+      "es": "Manejar coeficientes negativos y constantes con signo en ecuaciones de dos pasos sin errores de signo, y verificar soluciones por sustitución.",
+      "pl": "Obsługiwać ujemne współczynniki i stałe ze znakiem w równaniach dwustopniowych bez pomyłek oraz sprawdzać rozwiązania przez podstawienie."
+    }
+  ],
+  "knowledgePointIds": [
+    "kp.equation.two-step-add-then-mult",
+    "kp.equation.two-step-mult-then-add",
+    "kp.equation.two-step-signed",
+    "kp.equation.two-step-verify"
+  ],
+  "knowledgePoints": [
+    {
+      "id": "kp.equation.two-step-add-then-mult",
+      "title": {
+        "en": "Undo add/subtract, then multiply/divide",
+        "es": "Deshacer suma/resta, luego multiplicar/dividir",
+        "pl": "Cofnij dodawanie/odejmowanie, potem mnożenie/dzielenie"
+      },
+      "description": {
+        "en": "For x/a + b = c, subtract b from both sides first, then multiply by a. The variable is divided — undo the addition before the division.",
+        "es": "Para x/a + b = c, resta b en ambos lados primero, luego multiplica por a. La variable está dividida — deshaz la suma antes de la división.",
+        "pl": "Dla x/a + b = c najpierw odejmij b po obu stronach, potem pomnóż przez a. Zmienna jest podzielona — cofnij dodawanie przed dzieleniem."
+      },
+      "prerequisites": [
+        "algebra-i-04:kp.equation.one-step-addsub",
+        "algebra-i-04:kp.equation.one-step-multdiv"
+      ],
+      "successCriteria": {
+        "en": "Student solves x/a + b = c in two inverse steps with correct order: add/subtract first, then multiply/divide.",
+        "es": "El estudiante resuelve x/a + b = c en dos pasos inversos con el orden correcto: suma/resta primero, luego multiplicar/dividir.",
+        "pl": "Uczeń rozwiązuje x/a + b = c dwoma krokami odwrotnymi we właściwej kolejności: najpierw dodawanie/odejmowanie, potem mnożenie/dzielenie."
+      },
+      "misconceptions": [
+        {
+          "en": "Multiplying before subtracting the constant (wrong inverse order).",
+          "es": "Multiplicar antes de restar la constante (orden inverso incorrecto).",
+          "pl": "Mnożenie przed odjęciem stałej (zła kolejność operacji odwrotnych)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.2
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.equation.two-step-mult-then-add",
+      "title": {
+        "en": "Undo add/subtract, then divide by coefficient",
+        "es": "Deshacer suma/resta, luego dividir por coeficiente",
+        "pl": "Cofnij dodawanie/odejmowanie, potem podziel przez współczynnik"
+      },
+      "description": {
+        "en": "For ax + b = c, undo addition or subtraction first to isolate the term with x, then divide by a. Never divide before removing the constant.",
+        "es": "Para ax + b = c, deshaz la suma o resta primero para aislar el término con x, luego divide por a. Nunca dividas antes de quitar la constante.",
+        "pl": "Dla ax + b = c najpierw cofnij dodawanie lub odejmowanie, aby wyizolować wyraz z x, potem podziel przez a. Nigdy nie dziel przed usunięciem stałej."
+      },
+      "prerequisites": [
+        "kp.equation.two-step-add-then-mult",
+        "algebra-i-04:kp.equation.one-step-addsub",
+        "algebra-i-04:kp.equation.one-step-multdiv"
+      ],
+      "successCriteria": {
+        "en": "Student solves ax + b = c in two steps: constant removed first, then coefficient divided out.",
+        "es": "El estudiante resuelve ax + b = c en dos pasos: primero quita la constante, luego divide el coeficiente.",
+        "pl": "Uczeń rozwiązuje ax + b = c w dwóch krokach: najpierw usuwa stałą, potem dzieli przez współczynnik."
+      },
+      "misconceptions": [
+        {
+          "en": "Dividing by a before subtracting b (wrong-order inverse).",
+          "es": "Dividir por a antes de restar b (inversa en orden incorrecto).",
+          "pl": "Dzielenie przez a przed odjęciem b (odwrotna operacja w złej kolejności)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.1
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.equation.two-step-signed",
+      "title": {
+        "en": "Signed coefficients in two-step equations",
+        "es": "Coeficientes con signo en ecuaciones de dos pasos",
+        "pl": "Współczynniki ze znakiem w równaniach dwustopniowych"
+      },
+      "description": {
+        "en": "Negative coefficients and constants on either side require careful sign tracking through both inverse steps: −3x + 6 = 0 → x = 2; 5 − 3x = 14 → x = −3.",
+        "es": "Los coeficientes y constantes negativos en cualquier lado exigen seguir los signos en ambos pasos inversos: −3x + 6 = 0 → x = 2; 5 − 3x = 14 → x = −3.",
+        "pl": "Ujemne współczynniki i stałe po obu stronach wymagają uwagi na znaki w obu krokach odwrotnych: −3x + 6 = 0 → x = 2; 5 − 3x = 14 → x = −3."
+      },
+      "prerequisites": [
+        "kp.equation.two-step-mult-then-add",
+        "algebra-i-04:kp.equation.one-step-signed"
+      ],
+      "successCriteria": {
+        "en": "Student solves two-step equations with negative coefficients or rearranged terms without sign slips in either step.",
+        "es": "El estudiante resuelve ecuaciones de dos pasos con coeficientes negativos o términos reordenados sin errores de signo en ningún paso.",
+        "pl": "Uczeń rozwiązuje równania dwustopniowe z ujemnymi współczynnikami lub przestawionymi wyrazami bez pomyłek ze znakami w żadnym kroku."
+      },
+      "misconceptions": [
+        {
+          "en": "Dropping the negative when dividing (−4x = −8 → x = 2 confused with x = −2).",
+          "es": "Perder el negativo al dividir (−4x = −8 → x = 2 confundido con x = −2).",
+          "pl": "Gubienie minusa przy dzieleniu (−4x = −8 → x = 2 pomylone z x = −2)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.5
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.equation.two-step-verify",
+      "title": {
+        "en": "Verify a two-step solution by substitution",
+        "es": "Verificar una solución de dos pasos por sustitución",
+        "pl": "Sprawdzanie rozwiązania dwustopniowego przez podstawienie"
+      },
+      "description": {
+        "en": "After two inverse steps, substitute the value back into the original equation. Both sides must match — a calibrated beam means equal charge on each pad.",
+        "es": "Tras dos pasos inversos, sustituye el valor en la ecuación original. Ambos lados deben coincidir — una viga calibrada significa la misma carga en cada plataforma.",
+        "pl": "Po dwóch krokach odwrotnych podstaw wartość do pierwotnego równania. Obie strony muszą się zgadzać — skalibrowana belka oznacza równy ładunek na każdej platformie."
+      },
+      "prerequisites": [
+        "kp.equation.two-step-mult-then-add",
+        "algebra-i-04:kp.equation.one-step-verify"
+      ],
+      "successCriteria": {
+        "en": "Student checks whether a proposed value satisfies a two-step linear equation by substitution.",
+        "es": "El estudiante comprueba si un valor propuesto satisface una ecuación lineal de dos pasos mediante sustitución.",
+        "pl": "Uczeń sprawdza, czy proponowana wartość spełnia dwustopniowe równanie liniowe przez podstawienie."
+      },
+      "misconceptions": [
+        {
+          "en": "Accepting a value that satisfies only one inverse step, or skipping the check entirely.",
+          "es": "Aceptar un valor que solo satisface un paso inverso, o saltarse la comprobación por completo.",
+          "pl": "Akceptowanie wartości spełniającej tylko jeden krok odwrotny lub pomijanie sprawdzenia."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.5",
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.5",
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.5",
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "6.10B",
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "6.EE.5",
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.5",
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.7
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    }
+  ],
+  "phases": [
+    {
+      "id": "phase.objectives",
+      "kind": "objectives",
+      "title": {
+        "en": "Mission briefing",
+        "es": "Informe de misión",
+        "pl": "Briefing misji"
+      },
+      "body": {
+        "en": "Success criteria: two inverse steps in order, signed coefficients handled, solutions verified by substitution. Mastery unlocks a balance calibrator blueprint, the Riser Chief rank, and the Epsilon Calibration Forge.",
+        "es": "Criterios de éxito: dos pasos inversos en orden, coeficientes con signo manejados, soluciones verificadas por sustitución. El dominio desbloquea un plano de calibrador de equilibrio, el rango Ascendente Jefe y la Forja de Calibración Épsilon.",
+        "pl": "Kryteria sukcesu: dwa kroki odwrotne we właściwej kolejności, współczynniki ze znakiem, rozwiązania sprawdzone przez podstawienie. Mistrzostwo odblokowuje plan kalibratora równowagi, rangę Wznoszący Szef i Kuźnię Kalibracji Epsilon."
+      },
+      "bodyLatex": [
+        "\\frac{x}{3} + 4 = 7",
+        "2x + 3 = 11",
+        "\\text{Check: } 3(7) - 7 = 14"
+      ],
+      "itemIds": [],
+      "tutorScript": {
+        "en": "Riser, a two-step relay needs two calibrated moves — undo what was done last, then undo what was done first. The beam stays level only if both pads move together.",
+        "es": "Ascendente, un relé de dos pasos necesita dos movimientos calibrados — deshaz lo que se hizo al final, luego lo que se hizo al principio. La viga solo se mantiene nivelada si ambas plataformas se mueven juntas.",
+        "pl": "Wznoszący, przekaźnik dwustopniowy wymaga dwóch skalibrowanych ruchów — cofnij to, co zrobiono na końcu, potem to, co na początku. Belka pozostaje w poziomie tylko wtedy, gdy obie platformy ruszają się razem."
+      }
+    },
+    {
+      "id": "phase.i_do",
+      "kind": "i_do",
+      "title": {
+        "en": "I do — watch the model",
+        "es": "Yo hago — observa el modelo",
+        "pl": "Ja robię — obserwuj model"
+      },
+      "body": {
+        "en": "Two moves, fixed order. For x/a + b, subtract b first, then multiply by a. For ax + b, subtract b first, then divide by a.",
+        "es": "Dos movimientos, orden fijo. Para x/a + b, resta b primero, luego multiplica por a. Para ax + b, resta b primero, luego divide por a.",
+        "pl": "Dwa ruchy, stała kolejność. Dla x/a + b najpierw odejmij b, potem pomnóż przez a. Dla ax + b najpierw odejmij b, potem podziel przez a."
+      },
+      "bodyLatex": [
+        "\\frac{x}{3} + 4 = 7 \\Rightarrow \\frac{x}{3} = 3 \\Rightarrow x = 9",
+        "2x + 3 = 11 \\Rightarrow 2x = 8 \\Rightarrow x = 4"
+      ],
+      "itemIds": [
+        "item.ido.1",
+        "item.ido.2"
+      ],
+      "tutorScript": {
+        "en": "Watch: first move removes the constant, second move frees the variable. Same touch on both pads each time.",
+        "es": "Observa: el primer movimiento quita la constante, el segundo libera la variable. El mismo toque en ambas plataformas cada vez.",
+        "pl": "Patrz: pierwszy ruch usuwa stałą, drugi uwalnia zmienną. Ten sam dotyk obu platform za każdym razem."
+      }
+    },
+    {
+      "id": "phase.we_do",
+      "kind": "we_do",
+      "title": {
+        "en": "We do — guided practice",
+        "es": "Hacemos — práctica guiada",
+        "pl": "Robimy — ćwiczenia z prowadzeniem"
+      },
+      "body": {
+        "en": "Answer with me. Name both inverse steps before you move charge — feedback catches wrong order, sign slips, and half-finished solves.",
+        "es": "Responde conmigo. Nombra ambos pasos inversos antes de mover la carga — la retroalimentación atrapa orden incorrecto, errores de signo y resoluciones a medias.",
+        "pl": "Odpowiadaj ze mną. Nazwij oba kroki odwrotne, zanim przesuniesz ładunek — informacja zwrotna wyłapie złą kolejność, pomyłki ze znakami i niedokończone rozwiązania."
+      },
+      "itemIds": [
+        "item.wedo.1",
+        "item.wedo.2",
+        "item.wedo.3",
+        "item.wedo.4"
+      ],
+      "tutorScript": {
+        "en": "Together: constant first, coefficient second. Signed terms need both steps tracked — every minus counts.",
+        "es": "Juntos: constante primero, coeficiente segundo. Los términos con signo exigen seguir ambos pasos — cada menos cuenta.",
+        "pl": "Razem: najpierw stała, potem współczynnik. Wyrazy ze znakiem wymagają śledzenia obu kroków — każdy minus się liczy."
+      }
+    },
+    {
+      "id": "phase.you_do",
+      "kind": "you_do",
+      "title": {
+        "en": "You do — mastery check",
+        "es": "Tú haces — comprobación de dominio",
+        "pl": "Ty robisz — sprawdzian mistrzostwa"
+      },
+      "body": {
+        "en": "Independent set. Mastery requires at least 3 of 4 correct.",
+        "es": "Serie independiente. El dominio exige al menos 3 de 4 correctas.",
+        "pl": "Zestaw samodzielny. Mistrzostwo wymaga co najmniej 3 z 4 poprawnych."
+      },
+      "itemIds": [
+        "item.youdo.1",
+        "item.youdo.2",
+        "item.youdo.3",
+        "item.youdo.4"
+      ],
+      "tutorScript": {
+        "en": "No hints now — the calibration forge only trusts a Riser who levels the beam in two clean moves.",
+        "es": "Sin pistas ahora — la forja de calibración solo confía en un Ascendente que nivela la viga en dos movimientos limpios.",
+        "pl": "Bez podpowiedzi — kuźnia kalibracji ufa tylko Wznoszącemu, który wypoziomuje belkę dwoma czystymi ruchami."
+      }
+    },
+    {
+      "id": "phase.retrieval",
+      "kind": "retrieval",
+      "title": {
+        "en": "Quick retrieval",
+        "es": "Recuperación rápida",
+        "pl": "Szybkie przypomnienie"
+      },
+      "body": {
+        "en": "Two fast pulses: undo a divided term and undo a multiplied term.",
+        "es": "Dos pulsos rápidos: deshaz un término dividido y deshaz un término multiplicado.",
+        "pl": "Dwa szybkie impulsy: cofnij wyraz podzielony i cofnij wyraz pomnożony."
+      },
+      "itemIds": [
+        "item.retr.1",
+        "item.retr.2"
+      ],
+      "tutorScript": {
+        "en": "Reflex speed — a miscalibrated beam trips the whole relay.",
+        "es": "Velocidad de reflejo — una viga mal calibrada tumba todo el relé.",
+        "pl": "Szybkość odruchu — źle skalibrowana belka zatrzymuje cały przekaźnik."
+      }
+    },
+    {
+      "id": "phase.complete",
+      "kind": "complete",
+      "title": {
+        "en": "Rank advanced",
+        "es": "Rango avanzado",
+        "pl": "Awans rangi"
+      },
+      "body": {
+        "en": "Lesson complete. Mount your balance calibrator and enter the Epsilon Calibration Forge.",
+        "es": "Lección completa. Monta tu calibrador de equilibrio y entra en la Forja de Calibración Épsilon.",
+        "pl": "Lekcja ukończona. Zamontuj kalibrator równowagi i wejdź do Kuźni Kalibracji Epsilon."
+      },
+      "itemIds": [],
+      "tutorScript": {
+        "en": "Chief status earned. Two steps, beam level, charge verified — calibrate at will, Riser.",
+        "es": "Estatus de Jefe ganado. Dos pasos, viga nivelada, carga verificada — calibra a voluntad, Ascendente.",
+        "pl": "Status Szefa zdobyty. Dwa kroki, belka w poziomie, ładunek zweryfikowany — kalibruj według woli, Wznoszący."
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "item.ido.1",
+      "kpIds": [
+        "kp.equation.two-step-add-then-mult"
+      ],
+      "phase": "i_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Watch the model: solve \\frac{x}{3} + 4 = 7.",
+        "es": "Observa el modelo: resuelve \\frac{x}{3} + 4 = 7.",
+        "pl": "Obserwuj model: rozwiąż \\frac{x}{3} + 4 = 7."
+      },
+      "stemLatex": "\\frac{x}{3} + 4 = 7",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 9",
+            "es": "x = 9",
+            "pl": "x = 9"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Subtract 4, then multiply by 3: x = 9. Correct.",
+            "es": "Resta 4, luego multiplica por 3: x = 9. Correcto.",
+            "pl": "Odejmij 4, potem pomnóż przez 3: x = 9. Poprawnie."
+          },
+          "latex": "x = 9"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 11",
+            "es": "x = 11",
+            "pl": "x = 11"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Undo addition with subtraction: 7 − 4, not 7 + 4.",
+            "es": "Deshaz la suma restando: 7 − 4, no 7 + 4.",
+            "pl": "Cofnij dodawanie przez odejmowanie: 7 − 4, nie 7 + 4."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 11"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 3",
+            "es": "x = 3",
+            "pl": "x = 3"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "You found x/3 = 3 but stopped — multiply both sides by 3.",
+            "es": "Encontraste x/3 = 3 pero paraste — multiplica ambos lados por 3.",
+            "pl": "Znalazłeś x/3 = 3, ale się zatrzymałeś — pomnóż obie strony przez 3."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 3"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 1",
+            "es": "x = 1",
+            "pl": "x = 1"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "After x/3 = 3, multiply by 3 to get x = 9.",
+            "es": "Tras x/3 = 3, multiplica por 3 para obtener x = 9.",
+            "pl": "Po x/3 = 3 pomnóż przez 3, aby otrzymać x = 9."
+          },
+          "diagnosticTag": "wrong-order",
+          "latex": "x = 1"
+        }
+      ],
+      "workedSolution": {
+        "en": "Subtract 4: x/3 = 3. Multiply by 3: x = 9.",
+        "es": "Resta 4: x/3 = 3. Multiplica por 3: x = 9.",
+        "pl": "Odejmij 4: x/3 = 3. Pomnóż przez 3: x = 9."
+      },
+      "workedSolutionLatex": "\\frac{x}{3} + 4 - 4 = 7 - 4 \\Rightarrow \\frac{x}{3} = 3 \\Rightarrow x = 9",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.6
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.ido.2",
+      "kpIds": [
+        "kp.equation.two-step-mult-then-add"
+      ],
+      "phase": "i_do",
+      "type": "mcq",
+      "stem": {
+        "en": "The model continues: solve 2x + 3 = 11.",
+        "es": "El modelo continúa: resuelve 2x + 3 = 11.",
+        "pl": "Model kontynuuje: rozwiąż 2x + 3 = 11."
+      },
+      "stemLatex": "2x + 3 = 11",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 4",
+            "es": "x = 4",
+            "pl": "x = 4"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Subtract 3, then divide by 2: x = 4. Correct.",
+            "es": "Resta 3, luego divide entre 2: x = 4. Correcto.",
+            "pl": "Odejmij 3, potem podziel przez 2: x = 4. Poprawnie."
+          },
+          "latex": "x = 4"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 8",
+            "es": "x = 8",
+            "pl": "x = 8"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "You found 2x = 8 but stopped — divide both sides by 2.",
+            "es": "Encontraste 2x = 8 pero paraste — divide ambos lados entre 2.",
+            "pl": "Znalazłeś 2x = 8, ale się zatrzymałeś — podziel obie strony przez 2."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 8"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 7",
+            "es": "x = 7",
+            "pl": "x = 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "x = 7 comes from (11 + 3) ÷ 2 — adding 3 instead of subtracting: 2x = 8, then x = 4.",
+            "es": "x = 7 sale de (11 + 3) ÷ 2 — sumar 3 en lugar de restar: 2x = 8, luego x = 4.",
+            "pl": "x = 7 wynika z (11 + 3) ÷ 2 — dodanie 3 zamiast odjęcia: 2x = 8, potem x = 4."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 7"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 14",
+            "es": "x = 14",
+            "pl": "x = 14"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Undo addition with subtraction, not more addition.",
+            "es": "Deshaz la suma restando, no sumando más.",
+            "pl": "Cofnij dodawanie przez odejmowanie, nie przez dalsze dodawanie."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 14"
+        }
+      ],
+      "workedSolution": {
+        "en": "Subtract 3: 2x = 8. Divide by 2: x = 4.",
+        "es": "Resta 3: 2x = 8. Divide entre 2: x = 4.",
+        "pl": "Odejmij 3: 2x = 8. Podziel przez 2: x = 4."
+      },
+      "workedSolutionLatex": "2x + 3 - 3 = 11 - 3 \\Rightarrow 2x = 8 \\Rightarrow x = 4",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.4
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.wedo.1",
+      "kpIds": [
+        "kp.equation.two-step-add-then-mult"
+      ],
+      "phase": "we_do",
+      "type": "short",
+      "stem": {
+        "en": "Solve: \\frac{x}{2} + 3 = 10.",
+        "es": "Resuelve: \\frac{x}{2} + 3 = 10.",
+        "pl": "Rozwiąż: \\frac{x}{2} + 3 = 10."
+      },
+      "stemLatex": "\\frac{x}{2} + 3 = 10",
+      "answer": "14",
+      "acceptableAnswers": [
+        "14",
+        "x=14",
+        "x = 14"
+      ],
+      "workedSolution": {
+        "en": "Subtract 3: x/2 = 7. Multiply by 2: x = 14.",
+        "es": "Resta 3: x/2 = 7. Multiplica por 2: x = 14.",
+        "pl": "Odejmij 3: x/2 = 7. Pomnóż przez 2: x = 14."
+      },
+      "workedSolutionLatex": "\\frac{x}{2} = 7 \\Rightarrow x = 14",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.1
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.2",
+      "kpIds": [
+        "kp.equation.two-step-mult-then-add"
+      ],
+      "phase": "we_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: 5x - 3 = 22.",
+        "es": "Resuelve: 5x - 3 = 22.",
+        "pl": "Rozwiąż: 5x - 3 = 22."
+      },
+      "stemLatex": "5x - 3 = 22",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 5",
+            "es": "x = 5",
+            "pl": "x = 5"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Add 3: 5x = 25. Divide by 5: x = 5. Correct.",
+            "es": "Suma 3: 5x = 25. Divide entre 5: x = 5. Correcto.",
+            "pl": "Dodaj 3: 5x = 25. Podziel przez 5: x = 5. Poprawnie."
+          },
+          "latex": "x = 5"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 19",
+            "es": "x = 19",
+            "pl": "x = 19"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "19 comes from subtracting 3 — undo −3 by adding: 22 + 3 = 25, then divide by 5.",
+            "es": "19 sale de restar 3 — deshaz −3 sumando: 22 + 3 = 25, luego divide entre 5.",
+            "pl": "19 wynika z odjęcia 3 — cofnij −3 dodając: 22 + 3 = 25, potem podziel przez 5."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 19"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 4.4",
+            "es": "x = 4.4",
+            "pl": "x = 4.4"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "22 ÷ 5 divides before removing −3 — add 3 first.",
+            "es": "22 ÷ 5 divide antes de quitar −3 — suma 3 primero.",
+            "pl": "22 ÷ 5 dzieli przed usunięciem −3 — najpierw dodaj 3."
+          },
+          "diagnosticTag": "wrong-order",
+          "latex": "x = 4.4"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 25",
+            "es": "x = 25",
+            "pl": "x = 25"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "25 is 5x after adding 3 — still divide by 5.",
+            "es": "25 es 5x tras sumar 3 — aún debes dividir entre 5.",
+            "pl": "25 to 5x po dodaniu 3 — nadal podziel przez 5."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 25"
+        }
+      ],
+      "workedSolution": {
+        "en": "Add 3: 5x = 25. Divide by 5: x = 5.",
+        "es": "Suma 3: 5x = 25. Divide entre 5: x = 5.",
+        "pl": "Dodaj 3: 5x = 25. Podziel przez 5: x = 5."
+      },
+      "workedSolutionLatex": "5x - 3 + 3 = 22 + 3 \\Rightarrow 5x = 25 \\Rightarrow x = 5",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.3",
+      "kpIds": [
+        "kp.equation.two-step-signed"
+      ],
+      "phase": "we_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: -4x + 8 = 0.",
+        "es": "Resuelve: -4x + 8 = 0.",
+        "pl": "Rozwiąż: -4x + 8 = 0."
+      },
+      "stemLatex": "-4x + 8 = 0",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 2",
+            "es": "x = 2",
+            "pl": "x = 2"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Subtract 8: −4x = −8. Divide by −4: x = 2. Correct.",
+            "es": "Resta 8: −4x = −8. Divide entre −4: x = 2. Correcto.",
+            "pl": "Odejmij 8: −4x = −8. Podziel przez −4: x = 2. Poprawnie."
+          },
+          "latex": "x = 2"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = -2",
+            "es": "x = -2",
+            "pl": "x = -2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "−8 ÷ (−4) = 2, not −2 — track both signs.",
+            "es": "−8 ÷ (−4) = 2, no −2 — sigue ambos signos.",
+            "pl": "−8 ÷ (−4) = 2, nie −2 — śledź oba znaki."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "x = -2"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 8",
+            "es": "x = 8",
+            "pl": "x = 8"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Subtract 8 from both sides before dividing.",
+            "es": "Resta 8 en ambos lados antes de dividir.",
+            "pl": "Odejmij 8 po obu stronach przed dzieleniem."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 8"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = -8",
+            "es": "x = -8",
+            "pl": "x = -8"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "After −4x = −8, divide both sides by −4.",
+            "es": "Tras −4x = −8, divide ambos lados entre −4.",
+            "pl": "Po −4x = −8 podziel obie strony przez −4."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = -8"
+        }
+      ],
+      "workedSolution": {
+        "en": "Subtract 8: −4x = −8. Divide by −4: x = 2.",
+        "es": "Resta 8: −4x = −8. Divide entre −4: x = 2.",
+        "pl": "Odejmij 8: −4x = −8. Podziel przez −4: x = 2."
+      },
+      "workedSolutionLatex": "-4x = -8 \\Rightarrow x = 2",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.3
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.4",
+      "kpIds": [
+        "kp.equation.two-step-signed"
+      ],
+      "phase": "we_do",
+      "type": "short",
+      "stem": {
+        "en": "The beam reads 5 - 3x = 14. Solve for x.",
+        "es": "La viga muestra 5 - 3x = 14. Resuelve x.",
+        "pl": "Belka pokazuje 5 - 3x = 14. Rozwiąż x."
+      },
+      "stemLatex": "5 - 3x = 14",
+      "answer": "-3",
+      "acceptableAnswers": [
+        "-3",
+        "x=-3",
+        "x = -3"
+      ],
+      "workedSolution": {
+        "en": "Subtract 5: −3x = 9. Divide by −3: x = −3.",
+        "es": "Resta 5: −3x = 9. Divide entre −3: x = −3.",
+        "pl": "Odejmij 5: −3x = 9. Podziel przez −3: x = −3."
+      },
+      "workedSolutionLatex": "-3x = 9 \\Rightarrow x = -3",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.4
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.youdo.1",
+      "kpIds": [
+        "kp.equation.two-step-add-then-mult"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: \\frac{x}{4} + 2 = 11.",
+        "es": "Resuelve: \\frac{x}{4} + 2 = 11.",
+        "pl": "Rozwiąż: \\frac{x}{4} + 2 = 11."
+      },
+      "stemLatex": "\\frac{x}{4} + 2 = 11",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 36",
+            "es": "x = 36",
+            "pl": "x = 36"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Subtract 2: x/4 = 9. Multiply by 4: x = 36. Correct.",
+            "es": "Resta 2: x/4 = 9. Multiplica por 4: x = 36. Correcto.",
+            "pl": "Odejmij 2: x/4 = 9. Pomnóż przez 4: x = 36. Poprawnie."
+          },
+          "latex": "x = 36"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 13",
+            "es": "x = 13",
+            "pl": "x = 13"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "11 + 2 adds; undo addition with subtraction.",
+            "es": "11 + 2 suma; deshaz la suma restando.",
+            "pl": "11 + 2 dodaje; cofnij dodawanie przez odejmowanie."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 13"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 9",
+            "es": "x = 9",
+            "pl": "x = 9"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "x/4 = 9 is step one — multiply by 4 next.",
+            "es": "x/4 = 9 es el paso uno — multiplica por 4 después.",
+            "pl": "x/4 = 9 to pierwszy krok — potem pomnóż przez 4."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 9"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 2.75",
+            "es": "x = 2.75",
+            "pl": "x = 2.75"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "11 ÷ 4 divides before subtracting 2 — wrong order.",
+            "es": "11 ÷ 4 divide antes de restar 2 — orden incorrecto.",
+            "pl": "11 ÷ 4 dzieli przed odjęciem 2 — zła kolejność."
+          },
+          "diagnosticTag": "wrong-order",
+          "latex": "x = 2.75"
+        }
+      ],
+      "workedSolution": {
+        "en": "Subtract 2: x/4 = 9. Multiply by 4: x = 36.",
+        "es": "Resta 2: x/4 = 9. Multiplica por 4: x = 36.",
+        "pl": "Odejmij 2: x/4 = 9. Pomnóż przez 4: x = 36."
+      },
+      "workedSolutionLatex": "\\frac{x}{4} = 9 \\Rightarrow x = 36",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.2
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.2",
+      "kpIds": [
+        "kp.equation.two-step-mult-then-add"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: 4x + 7 = 31.",
+        "es": "Resuelve: 4x + 7 = 31.",
+        "pl": "Rozwiąż: 4x + 7 = 31."
+      },
+      "stemLatex": "4x + 7 = 31",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 6",
+            "es": "x = 6",
+            "pl": "x = 6"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Subtract 7: 4x = 24. Divide by 4: x = 6. Correct.",
+            "es": "Resta 7: 4x = 24. Divide entre 4: x = 6. Correcto.",
+            "pl": "Odejmij 7: 4x = 24. Podziel przez 4: x = 6. Poprawnie."
+          },
+          "latex": "x = 6"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 24",
+            "es": "x = 24",
+            "pl": "x = 24"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "24 is 4x — divide by 4 to isolate x.",
+            "es": "24 es 4x — divide entre 4 para despejar x.",
+            "pl": "24 to 4x — podziel przez 4, aby wyizolować x."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 24"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 7.75",
+            "es": "x = 7.75",
+            "pl": "x = 7.75"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "31 ÷ 4 divides before removing 7 — subtract first.",
+            "es": "31 ÷ 4 divide antes de quitar 7 — resta primero.",
+            "pl": "31 ÷ 4 dzieli przed usunięciem 7 — najpierw odejmij."
+          },
+          "diagnosticTag": "wrong-order",
+          "latex": "x = 7.75"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 38",
+            "es": "x = 38",
+            "pl": "x = 38"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Undo addition with subtraction, not more addition.",
+            "es": "Deshaz la suma restando, no sumando más.",
+            "pl": "Cofnij dodawanie przez odejmowanie, nie przez dalsze dodawanie."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 38"
+        }
+      ],
+      "workedSolution": {
+        "en": "Subtract 7: 4x = 24. Divide by 4: x = 6.",
+        "es": "Resta 7: 4x = 24. Divide entre 4: x = 6.",
+        "pl": "Odejmij 7: 4x = 24. Podziel przez 4: x = 6."
+      },
+      "workedSolutionLatex": "4x = 24 \\Rightarrow x = 6",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.3
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.3",
+      "kpIds": [
+        "kp.equation.two-step-signed"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: -3x - 5 = 10.",
+        "es": "Resuelve: -3x - 5 = 10.",
+        "pl": "Rozwiąż: -3x - 5 = 10."
+      },
+      "stemLatex": "-3x - 5 = 10",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = -5",
+            "es": "x = -5",
+            "pl": "x = -5"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Add 5: −3x = 15. Divide by −3: x = −5. Correct.",
+            "es": "Suma 5: −3x = 15. Divide entre −3: x = −5. Correcto.",
+            "pl": "Dodaj 5: −3x = 15. Podziel przez −3: x = −5. Poprawnie."
+          },
+          "latex": "x = -5"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 5",
+            "es": "x = 5",
+            "pl": "x = 5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "15 ÷ (−3) = −5, not 5 — sign slip on division.",
+            "es": "15 ÷ (−3) = −5, no 5 — error de signo al dividir.",
+            "pl": "15 ÷ (−3) = −5, nie 5 — pomyłka ze znakiem przy dzieleniu."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "x = 5"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = -15",
+            "es": "x = -15",
+            "pl": "x = -15"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "−3x = 15 after adding 5 — divide by −3, do not multiply.",
+            "es": "−3x = 15 tras sumar 5 — divide entre −3, no multipliques.",
+            "pl": "−3x = 15 po dodaniu 5 — podziel przez −3, nie mnoż."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = -15"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 15",
+            "es": "x = 15",
+            "pl": "x = 15"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "15 is −3x — still divide by −3.",
+            "es": "15 es −3x — aún debes dividir entre −3.",
+            "pl": "15 to −3x — nadal podziel przez −3."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 15"
+        }
+      ],
+      "workedSolution": {
+        "en": "Add 5: −3x = 15. Divide by −3: x = −5.",
+        "es": "Suma 5: −3x = 15. Divide entre −3: x = −5.",
+        "pl": "Dodaj 5: −3x = 15. Podziel przez −3: x = −5."
+      },
+      "workedSolutionLatex": "-3x = 15 \\Rightarrow x = -5",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.6
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.4",
+      "kpIds": [
+        "kp.equation.two-step-verify"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Which value of x makes 3x - 7 = 14 true?",
+        "es": "¿Qué valor de x hace verdadera la ecuación 3x - 7 = 14?",
+        "pl": "Która wartość x spełnia równanie 3x - 7 = 14?"
+      },
+      "stemLatex": "3x - 7 = 14",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 7",
+            "es": "x = 7",
+            "pl": "x = 7"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Check: 3(7) − 7 = 14. Both sides match.",
+            "es": "Comprueba: 3(7) − 7 = 14. Ambos lados coinciden.",
+            "pl": "Sprawdź: 3(7) − 7 = 14. Obie strony się zgadzają."
+          },
+          "latex": "x = 7"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 5",
+            "es": "x = 5",
+            "pl": "x = 5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "3(5) − 7 = 8, not 14 — substitute to check.",
+            "es": "3(5) − 7 = 8, no 14 — sustituye para comprobar.",
+            "pl": "3(5) − 7 = 8, nie 14 — podstaw, aby sprawdzić."
+          },
+          "diagnosticTag": "verify-skip",
+          "latex": "x = 5"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 8",
+            "es": "x = 8",
+            "pl": "x = 8"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "3(8) − 7 = 17, not 14.",
+            "es": "3(8) − 7 = 17, no 14.",
+            "pl": "3(8) − 7 = 17, nie 14."
+          },
+          "diagnosticTag": "verify-skip",
+          "latex": "x = 8"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 6",
+            "es": "x = 6",
+            "pl": "x = 6"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "3(6) − 7 = 11, not 14.",
+            "es": "3(6) − 7 = 11, no 14.",
+            "pl": "3(6) − 7 = 11, nie 14."
+          },
+          "diagnosticTag": "verify-skip",
+          "latex": "x = 6"
+        }
+      ],
+      "workedSolution": {
+        "en": "Try x = 7: 3(7) − 7 = 21 − 7 = 14. The beam is level.",
+        "es": "Prueba x = 7: 3(7) − 7 = 21 − 7 = 14. La viga está nivelada.",
+        "pl": "Spróbuj x = 7: 3(7) − 7 = 21 − 7 = 14. Belka jest w poziomie."
+      },
+      "workedSolutionLatex": "3(7) - 7 = 14 \\checkmark",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.5",
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.5",
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.5",
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "6.10B",
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "6.EE.5",
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.5",
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.5",
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.8
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.retr.1",
+      "kpIds": [
+        "kp.equation.two-step-add-then-mult"
+      ],
+      "phase": "retrieval",
+      "type": "mcq",
+      "stem": {
+        "en": "Quick check: solve \\frac{x}{5} + 1 = 6.",
+        "es": "Comprobación rápida: resuelve \\frac{x}{5} + 1 = 6.",
+        "pl": "Szybki test: rozwiąż \\frac{x}{5} + 1 = 6."
+      },
+      "stemLatex": "\\frac{x}{5} + 1 = 6",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 25",
+            "es": "x = 25",
+            "pl": "x = 25"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Subtract 1, multiply by 5: x = 25. Correct.",
+            "es": "Resta 1, multiplica por 5: x = 25. Correcto.",
+            "pl": "Odejmij 1, pomnóż przez 5: x = 25. Poprawnie."
+          },
+          "latex": "x = 25"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 7",
+            "es": "x = 7",
+            "pl": "x = 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "6 + 1 adds; subtract 1 first.",
+            "es": "6 + 1 suma; resta 1 primero.",
+            "pl": "6 + 1 dodaje; najpierw odejmij 1."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 7"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 5",
+            "es": "x = 5",
+            "pl": "x = 5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "x/5 = 5 is step one — multiply by 5.",
+            "es": "x/5 = 5 es el paso uno — multiplica por 5.",
+            "pl": "x/5 = 5 to pierwszy krok — pomnóż przez 5."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 5"
+        }
+      ],
+      "workedSolution": {
+        "en": "x/5 = 5, so x = 25.",
+        "es": "x/5 = 5, así que x = 25.",
+        "pl": "x/5 = 5, więc x = 25."
+      },
+      "workedSolutionLatex": "x = 25",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1.1
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.retr.2",
+      "kpIds": [
+        "kp.equation.two-step-mult-then-add"
+      ],
+      "phase": "retrieval",
+      "type": "evaluate",
+      "stem": {
+        "en": "Solve: 5x + 3 = 18.",
+        "es": "Resuelve: 5x + 3 = 18.",
+        "pl": "Rozwiąż: 5x + 3 = 18."
+      },
+      "stemLatex": "5x + 3 = 18",
+      "answer": "3",
+      "acceptableAnswers": [
+        "3",
+        "x=3",
+        "x = 3"
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 3",
+            "es": "x = 3",
+            "pl": "x = 3"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Subtract 3, divide by 5: x = 3. Correct.",
+            "es": "Resta 3, divide entre 5: x = 3. Correcto.",
+            "pl": "Odejmij 3, podziel przez 5: x = 3. Poprawnie."
+          },
+          "latex": "x = 3"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 15",
+            "es": "x = 15",
+            "pl": "x = 15"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "15 is 5x — divide by 5 next.",
+            "es": "15 es 5x — divide entre 5 después.",
+            "pl": "15 to 5x — potem podziel przez 5."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 15"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 21",
+            "es": "x = 21",
+            "pl": "x = 21"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "18 + 3 adds; subtract 3 first.",
+            "es": "18 + 3 suma; resta 3 primero.",
+            "pl": "18 + 3 dodaje; najpierw odejmij 3."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 21"
+        }
+      ],
+      "workedSolution": {
+        "en": "5x = 15, so x = 3.",
+        "es": "5x = 15, así que x = 3.",
+        "pl": "5x = 15, więc x = 3."
+      },
+      "workedSolutionLatex": "x = 3",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.7.EE.B.4",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "7.11A"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.7.AR.2.2",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "7.EE.B.4",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "7.EE.4",
+          "8.EE.7"
+        ],
+        "MN": [
+          "7.2.4.4",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.9
+      },
+      "difficulty": "intro"
+    }
+  ],
+  "mastery": {
+    "minIndependentCorrect": 3,
+    "minIndependentTotal": 4,
+    "requiredKpIds": [
+      "kp.equation.two-step-add-then-mult",
+      "kp.equation.two-step-mult-then-add",
+      "kp.equation.two-step-signed",
+      "kp.equation.two-step-verify"
+    ]
+  },
+  "unlocks": [
+    {
+      "id": "bp.balance.calibrator",
+      "kind": "blueprint",
+      "title": {
+        "en": "Balance calibrator blueprint",
+        "es": "Plano de calibrador de equilibrio",
+        "pl": "Plan kalibratora równowagi"
+      },
+      "description": {
+        "en": "A dual-dial calibrator for two-step balance beams — earned by isolating the variable in two ordered inverse steps.",
+        "es": "Un calibrador de doble dial para vigas de equilibrio de dos pasos — ganado al aislar la variable en dos pasos inversos ordenados.",
+        "pl": "Kalibrator z podwójnym pokrętłem do dwustopniowych belek równoważnych — zdobyty przez wyizolowanie zmiennej w dwóch uporządkowanych krokach odwrotnych."
+      }
+    },
+    {
+      "id": "rank.riser.chief",
+      "kind": "rank",
+      "title": {
+        "en": "Riser Chief",
+        "es": "Ascendente Jefe",
+        "pl": "Wznoszący Szef"
+      },
+      "description": {
+        "en": "Fifth rung of the Riser ladder, earned by Lesson 5 mastery.",
+        "es": "Quinto peldaño de la escalera del Ascendente, ganado con el dominio de la Lección 5.",
+        "pl": "Piąty szczebel drabiny Wznoszącego, zdobyty mistrzostwem Lekcji 5."
+      }
+    },
+    {
+      "id": "zone.epsilon.cal",
+      "kind": "zone",
+      "title": {
+        "en": "Epsilon Calibration Forge",
+        "es": "Forja de Calibración Épsilon",
+        "pl": "Kuźnia Kalibracji Epsilon"
+      },
+      "description": {
+        "en": "A calibration forge on the Epsilon approach where two-step balance beams are tuned before relay duty.",
+        "es": "Una forja de calibración en la aproximación a Épsilon donde se ajustan vigas de equilibrio de dos pasos antes del servicio de relé.",
+        "pl": "Kuźnia kalibracyjna na podejściu do Epsilon, gdzie dwustopniowe belki równoważne są strojone przed służbą przekaźnikową."
+      }
+    }
+  ],
+  "worldIntegration": {
+    "terminalId": "terminal.lesson5",
+    "unlockBlueprintId": "bp.balance.calibrator",
+    "unlockRankId": "rank.riser.chief",
+    "unlockZoneId": "zone.epsilon.cal"
+  },
+  "_pipelineMeta": {
+    "stage": "Integration (authored by builder wave 24)",
+    "generatedAt": "2026-08-05T14:10:00.000Z",
+    "notes": [
+      "Full authored lesson in one builder pass (all 7 pipeline stages compressed), following algebra-i-04 as primary shape.",
+      "Fourth KP is verify-by-substitution on two-step equations (chosen over parentheses: L4 already introduced verify; parentheses+distribute is a natural L6 topic and would blur the two-step inverse-order focus).",
+      "Cross-lesson prerequisites chain from algebra-i-04 one-step KPs; no L3 distribute prereq needed.",
+      "Answer-key spread: independent/retrieval keys are 36, 6, −5, 7 (verify) and retrieval 25, 3 — no clustering.",
+      "Unlocks declared per schema; GameView 3D props deferred (wave-23 L4 props in parallel)."
+    ]
+  }
+}

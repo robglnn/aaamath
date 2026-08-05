@@ -286,6 +286,43 @@
   text-shadow: 0 0 8px rgba(95, 230, 207, 0.5);
 }
 
+/* L4 operator-tier chips — base layout reused from .gr-l2-chip, accents shifted gold/amber */
+.gr-l4-chip {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 0 16px rgba(232, 197, 106, 0.18);
+}
+
+.gr-l4-chip--rank {
+  border-color: rgba(232, 197, 106, 0.52);
+  color: #ffe9b8;
+}
+
+.gr-l4-chip--rank .gr-l2-chip-icon {
+  color: #e8c56a;
+  text-shadow: 0 0 8px rgba(232, 197, 106, 0.55);
+}
+
+.gr-l4-chip--blueprint {
+  border-color: rgba(242, 217, 140, 0.5);
+  color: #f7ecc8;
+}
+
+.gr-l4-chip--blueprint .gr-l2-chip-icon {
+  color: #f2d98c;
+  text-shadow: 0 0 8px rgba(242, 217, 140, 0.5);
+}
+
+.gr-l4-chip--zone {
+  border-color: rgba(217, 168, 62, 0.52);
+  color: #f0d9a4;
+}
+
+.gr-l4-chip--zone .gr-l2-chip-icon {
+  color: #d9a83e;
+  text-shadow: 0 0 8px rgba(217, 168, 62, 0.55);
+}
+
 .gr-status-placed {
   position: absolute;
   top: max(3.25rem, calc(env(safe-area-inset-top) + 2.5rem));
