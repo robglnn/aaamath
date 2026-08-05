@@ -529,9 +529,16 @@ export function Hud({
             aria-pressed={mode === 'explore'}
             title="Explore"
           >
-            <svg viewBox="0 0 32 32" aria-hidden focusable="false">
-              <polygon points="16,4 28,16 16,28 4,16" fill="none" stroke="currentColor" strokeWidth="1.8" />
-              <circle cx="16" cy="16" r="3.2" fill="currentColor" />
+            <svg viewBox="0 0 32 32" aria-hidden focusable="false" className="gr-ability-glyph">
+              {/* Wireframe octahedron — explore */}
+              <polygon points="16,3 28,16 16,29 4,16" fill="none" stroke="currentColor" strokeWidth="1.4" />
+              <polygon points="16,3 22,16 16,29 10,16" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.7" />
+              <line x1="4" y1="16" x2="28" y2="16" stroke="currentColor" strokeWidth="1.2" opacity="0.55" />
+              <line x1="10" y1="16" x2="16" y2="3" stroke="currentColor" strokeWidth="1" opacity="0.45" />
+              <line x1="22" y1="16" x2="16" y2="3" stroke="currentColor" strokeWidth="1" opacity="0.45" />
+              <line x1="10" y1="16" x2="16" y2="29" stroke="currentColor" strokeWidth="1" opacity="0.45" />
+              <line x1="22" y1="16" x2="16" y2="29" stroke="currentColor" strokeWidth="1" opacity="0.45" />
+              <circle cx="16" cy="16" r="2.4" fill="currentColor" opacity="0.85" />
             </svg>
           </button>
           <button
@@ -546,13 +553,17 @@ export function Hud({
             aria-disabled={!hasBlueprint || blueprintPlaced}
             title={hasBlueprint && !blueprintPlaced ? 'Build' : 'Build locked'}
           >
-            <svg viewBox="0 0 32 32" aria-hidden focusable="false">
-              <polygon
-                points="16,5 26,11 26,21 16,27 6,21 6,11"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-              />
+            <svg viewBox="0 0 32 32" aria-hidden focusable="false" className="gr-ability-glyph">
+              {/* Wireframe cube — build */}
+              <polygon points="8,12 16,7 24,12 16,17" fill="none" stroke="currentColor" strokeWidth="1.4" />
+              <polygon points="8,20 16,15 24,20 16,25" fill="none" stroke="currentColor" strokeWidth="1.4" />
+              <line x1="8" y1="12" x2="8" y2="20" stroke="currentColor" strokeWidth="1.3" />
+              <line x1="16" y1="7" x2="16" y2="15" stroke="currentColor" strokeWidth="1.3" />
+              <line x1="24" y1="12" x2="24" y2="20" stroke="currentColor" strokeWidth="1.3" />
+              <line x1="8" y1="12" x2="16" y2="15" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+              <line x1="24" y1="12" x2="16" y2="15" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+              <line x1="8" y1="20" x2="16" y2="25" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+              <line x1="24" y1="20" x2="16" y2="25" stroke="currentColor" strokeWidth="1" opacity="0.5" />
             </svg>
           </button>
           <button
@@ -563,9 +574,13 @@ export function Hud({
             title={ui(locale, 'progress')}
             aria-label={ui(locale, 'progress')}
           >
-            <svg viewBox="0 0 32 32" aria-hidden focusable="false">
-              <circle cx="16" cy="16" r="10" fill="none" stroke="currentColor" strokeWidth="1.8" />
-              <path d="M16 8v8l5 3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            <svg viewBox="0 0 32 32" aria-hidden focusable="false" className="gr-ability-glyph">
+              {/* Wireframe tetrahedron — progress */}
+              <polygon points="16,5 26,24 6,24" fill="none" stroke="currentColor" strokeWidth="1.4" />
+              <line x1="16" y1="5" x2="16" y2="24" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
+              <line x1="6" y1="24" x2="21" y2="14.5" stroke="currentColor" strokeWidth="1" opacity="0.45" />
+              <line x1="26" y1="24" x2="11" y2="14.5" stroke="currentColor" strokeWidth="1" opacity="0.45" />
+              <circle cx="16" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="1.1" opacity="0.7" />
             </svg>
           </button>
         </nav>
@@ -574,22 +589,34 @@ export function Hud({
       {mode !== 'lesson' && (
         <div className="gr-minimap" aria-label="Unlocked zones" role="img">
           <svg viewBox="0 0 120 120" className="gr-minimap-svg">
+            {/* Quadrant color blocks — Fortnite-style zone sectors */}
+            <path d="M60 60 L60 6 A54 54 0 0 1 114 60 Z" className="gr-minimap-quad gr-minimap-quad--ne" />
+            <path d="M60 60 L114 60 A54 54 0 0 1 60 114 Z" className="gr-minimap-quad gr-minimap-quad--se" />
+            <path d="M60 60 L60 114 A54 54 0 0 1 6 60 Z" className="gr-minimap-quad gr-minimap-quad--sw" />
+            <path d="M60 60 L6 60 A54 54 0 0 1 60 6 Z" className="gr-minimap-quad gr-minimap-quad--nw" />
             <circle cx="60" cy="60" r="54" className="gr-minimap-ring" />
             <circle cx="60" cy="60" r="46" className="gr-minimap-disk" />
+            {/* Path lines between zones */}
+            <path d="M60 78 L60 38" className="gr-minimap-path" />
+            <path d="M60 78 L82 48" className="gr-minimap-path" />
+            <path d="M60 78 L38 48" className="gr-minimap-path" />
+            <path d="M60 78 L88 62" className="gr-minimap-path" />
+            <path d="M60 78 L32 62" className="gr-minimap-path" />
+            <path d="M60 78 L78 82" className="gr-minimap-path" />
             {/* Alpha — south pad */}
-            <circle cx="60" cy="78" r="7" className={zoneState.alpha ? 'gr-minimap-zone is-open' : 'gr-minimap-zone'} />
+            <rect x="54" y="72" width="12" height="12" rx="2" transform="rotate(45 60 78)" className={zoneState.alpha ? 'gr-minimap-zone is-open' : 'gr-minimap-zone'} />
             {/* Beta — north */}
-            <circle cx="60" cy="38" r="6" className={zoneState.beta ? 'gr-minimap-zone is-open is-beta' : 'gr-minimap-zone'} />
+            <rect x="55" y="32" width="10" height="10" rx="2" transform="rotate(45 60 38)" className={zoneState.beta ? 'gr-minimap-zone is-open is-beta' : 'gr-minimap-zone'} />
             {/* Annex — NE */}
-            <circle cx="82" cy="48" r="5" className={zoneState.annex ? 'gr-minimap-zone is-open is-annex' : 'gr-minimap-zone'} />
+            <rect x="77" y="42" width="9" height="9" rx="2" transform="rotate(45 82 48)" className={zoneState.annex ? 'gr-minimap-zone is-open is-annex' : 'gr-minimap-zone'} />
             {/* Gamma — NW */}
-            <circle cx="38" cy="48" r="5" className={zoneState.gamma ? 'gr-minimap-zone is-open is-gamma' : 'gr-minimap-zone'} />
+            <rect x="33" y="42" width="9" height="9" rx="2" transform="rotate(45 38 48)" className={zoneState.gamma ? 'gr-minimap-zone is-open is-gamma' : 'gr-minimap-zone'} />
             {/* Delta — E */}
-            <circle cx="88" cy="62" r="5" className={zoneState.delta ? 'gr-minimap-zone is-open is-delta' : 'gr-minimap-zone'} />
+            <rect x="83" y="56" width="9" height="9" rx="2" transform="rotate(45 88 62)" className={zoneState.delta ? 'gr-minimap-zone is-open is-delta' : 'gr-minimap-zone'} />
             {/* Epsilon — W */}
-            <circle cx="32" cy="62" r="5" className={zoneState.epsilon ? 'gr-minimap-zone is-open is-epsilon' : 'gr-minimap-zone'} />
+            <rect x="27" y="56" width="9" height="9" rx="2" transform="rotate(45 32 62)" className={zoneState.epsilon ? 'gr-minimap-zone is-open is-epsilon' : 'gr-minimap-zone'} />
             {/* Zeta — SE */}
-            <circle cx="78" cy="82" r="5" className={zoneState.zeta ? 'gr-minimap-zone is-open is-zeta' : 'gr-minimap-zone'} />
+            <rect x="73" y="76" width="9" height="9" rx="2" transform="rotate(45 78 82)" className={zoneState.zeta ? 'gr-minimap-zone is-open is-zeta' : 'gr-minimap-zone'} />
             {/* Player pip */}
             <circle cx="60" cy="72" r="3.2" className="gr-minimap-player" />
             <path d="M60 64 L63 70 L60 68 L57 70 Z" className="gr-minimap-facing" />

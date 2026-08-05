@@ -45,10 +45,10 @@ function bakeFloorMaps() {
     const d = img.data
     for (let i = 0; i < d.length; i += 4) {
       const n = (Math.random() - 0.5) * 16
-      // Warmer stone-plaza read vs pure charcoal void deck (loop 23)
-      d[i] = 36 + n * 1.15
-      d[i + 1] = 40 + n * 1.0
-      d[i + 2] = 46 + n * 0.8
+      // Loop 28: warmer reflective stone plaza — catches multi-sun specular
+      d[i] = 42 + n * 1.2
+      d[i + 1] = 38 + n * 0.95
+      d[i + 2] = 40 + n * 0.75
       d[i + 3] = 255
     }
     ctx.putImageData(img, 0, 0)
@@ -122,7 +122,8 @@ function bakeFloorMaps() {
   const RS = 256
   const rc = makeCanvas(RS, RS)
   if (rc.ctx) {
-    rc.ctx.fillStyle = '#c4c4c4'
+    // Lighter base → lower roughness (~0.55–0.7) so seams catch sun specular
+    rc.ctx.fillStyle = '#b8b0a4'
     rc.ctx.fillRect(0, 0, RS, RS)
     const img = rc.ctx.getImageData(0, 0, RS, RS)
     const d = img.data
@@ -133,10 +134,21 @@ function bakeFloorMaps() {
       d[i + 2] += n
     }
     rc.ctx.putImageData(img, 0, 0)
-    rc.ctx.fillStyle = '#8f8f8f'
+    rc.ctx.fillStyle = '#9a9088'
     for (let s = 0; s <= RS; s += 64) {
       rc.ctx.fillRect(s - 1, 0, 3, RS)
       rc.ctx.fillRect(0, s - 1, RS, 3)
+    }
+    // Worn pad patches — slightly glossier than seams
+    for (let i = 0; i < 5; i++) {
+      const x = Math.random() * RS
+      const y = Math.random() * RS
+      const r = 18 + Math.random() * 28
+      const g = rc.ctx.createRadialGradient(x, y, 0, x, y, r)
+      g.addColorStop(0, 'rgba(210,200,185,0.35)')
+      g.addColorStop(1, 'rgba(210,200,185,0)')
+      rc.ctx.fillStyle = g
+      rc.ctx.fillRect(x - r, y - r, r * 2, r * 2)
     }
   }
   const roughnessMap = new CanvasTexture(rc.canvas)
@@ -219,9 +231,9 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    // Loop 25: slightly closer hero cam — sells sculpted face/hair/piping in first 10s
-    const dist = 4.05
-    const height = 2.05 + pitch * 2.0
+    // Loop 29: Fortnite shoulder framing — closer, slightly higher, look at chest
+    const dist = 3.9
+    const height = 2.12 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
@@ -232,7 +244,7 @@ function CameraRig() {
     cam.z += (tz - cam.z) * k
     const nudge = rig.gateCelebration
     const lookX = p.x * (1 - nudge * 0.25)
-    const lookY = p.y + 1.28 + pitch * 0.6
+    const lookY = p.y + 1.14 + pitch * 0.6
     const lookZ = p.z * (1 - nudge * 0.25) + GATE_Z * nudge * 0.25
     state.camera.lookAt(lookX, lookY, lookZ)
   })
@@ -245,7 +257,7 @@ function AlphaPad() {
 
   useFrame((state) => {
     if (rimMat.current) {
-      rimMat.current.emissiveIntensity = 1.05 + Math.sin(state.clock.elapsedTime * 1.8) * 0.3
+      rimMat.current.emissiveIntensity = 1.35 + Math.sin(state.clock.elapsedTime * 1.8) * 0.35
     }
   })
 
@@ -257,15 +269,15 @@ function AlphaPad() {
       </mesh>
       <mesh position={[0, 0.13, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <circleGeometry args={[ALPHA_RADIUS - 0.35, 48]} />
-        <meshStandardMaterial map={hexPad} color="#9fd9d4" metalness={0.25} roughness={0.7} />
+        <meshStandardMaterial map={hexPad} color="#b8ece8" metalness={0.38} roughness={0.55} />
       </mesh>
       <mesh position={[0, 0.14, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <torusGeometry args={[ALPHA_RADIUS - 0.25, 0.045, 8, 64]} />
-        <meshStandardMaterial ref={rimMat} color={CYAN} emissive={CYAN} emissiveIntensity={1.1} />
+        <meshStandardMaterial ref={rimMat} color={CYAN} emissive={CYAN} emissiveIntensity={1.45} />
       </mesh>
       <mesh position={[0, 0.135, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[2.4, 2.5, 48]} />
-        <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.35} transparent opacity={0.4} />
+        <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.55} transparent opacity={0.52} />
       </mesh>
       {/* Soft pool of light so the spawn pad reads as home base */}
       <pointLight position={[0, 4.6, 0]} color="#7fd8cd" intensity={5.5} distance={14} decay={2} />
@@ -455,7 +467,7 @@ function DeckFloor() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
       <planeGeometry args={[90, 90]} />
-      <meshStandardMaterial map={map} roughnessMap={roughnessMap} roughness={1} metalness={0.18} />
+      <meshStandardMaterial map={map} roughnessMap={roughnessMap} roughness={0.68} metalness={0.22} color="#c8b8a8" />
     </mesh>
   )
 }
@@ -492,7 +504,7 @@ function SkyAtmosphere() {
           toneMapped={false}
         />
       </mesh>
-      {/* Soft sun disc — silhouette cue without postprocessing bloom */}
+      {/* Primary sun disc — warm golden plaza key */}
       <mesh position={[42, 28, -55]} renderOrder={-1} frustumCulled={false}>
         <sphereGeometry args={[6.5, 16, 16]} />
         <meshBasicMaterial color="#ffd8a0" fog={false} depthWrite={false} toneMapped={false} />
@@ -509,21 +521,77 @@ function SkyAtmosphere() {
           toneMapped={false}
         />
       </mesh>
+      {/* Loop 29: secondary + tertiary suns — multi-sun Fortnite plaza refs */}
+      <mesh position={[-28, 22, -48]} renderOrder={-1} frustumCulled={false}>
+        <sphereGeometry args={[3.8, 12, 12]} />
+        <meshBasicMaterial color="#ffe8c8" fog={false} depthWrite={false} toneMapped={false} />
+      </mesh>
+      <mesh position={[-28, 22, -48]} renderOrder={-1} frustumCulled={false} scale={2.1}>
+        <sphereGeometry args={[3.8, 10, 10]} />
+        <meshBasicMaterial
+          color="#ffc878"
+          transparent
+          opacity={0.18}
+          blending={AdditiveBlending}
+          fog={false}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      <mesh position={[12, 32, -62]} renderOrder={-1} frustumCulled={false}>
+        <sphereGeometry args={[2.6, 10, 10]} />
+        <meshBasicMaterial color="#fff0d8" fog={false} depthWrite={false} toneMapped={false} />
+      </mesh>
+      <mesh position={[12, 32, -62]} renderOrder={-1} frustumCulled={false} scale={1.9}>
+        <sphereGeometry args={[2.6, 8, 8]} />
+        <meshBasicMaterial
+          color="#ffd090"
+          transparent
+          opacity={0.14}
+          blending={AdditiveBlending}
+          fog={false}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
       {/* Crepuscular ray wedges — mobile-safe additive planes aimed at sun */}
       <group ref={rayRef} position={[28, 18, -40]} rotation={[0.35, -0.55, 0.15]}>
-        {[0, 1, 2, 3, 4].map((i) => (
+        {[0, 1, 2, 3, 4, 5, 6].map((i) => (
           <mesh
             key={i}
             position={[0, 0, 0]}
-            rotation={[0, 0, (i - 2) * 0.18]}
+            rotation={[0, 0, (i - 3) * 0.15]}
             renderOrder={-1}
             frustumCulled={false}
           >
-            <planeGeometry args={[4 + i * 0.6, 52]} />
+            <planeGeometry args={[4 + i * 0.55, 52]} />
             <meshBasicMaterial
               color="#ffe2b0"
               transparent
-              opacity={0.06 + (i % 2) * 0.025}
+              opacity={0.075 + (i % 2) * 0.03}
+              blending={AdditiveBlending}
+              fog={false}
+              depthWrite={false}
+              toneMapped={false}
+              side={BackSide}
+            />
+          </mesh>
+        ))}
+      </group>
+      {/* Secondary ray fan from tertiary sun */}
+      <group position={[-18, 16, -38]} rotation={[0.28, 0.42, -0.12]}>
+        {[0, 1, 2].map((i) => (
+          <mesh
+            key={`b-${i}`}
+            rotation={[0, 0, (i - 1) * 0.2]}
+            renderOrder={-1}
+            frustumCulled={false}
+          >
+            <planeGeometry args={[3 + i * 0.5, 38]} />
+            <meshBasicMaterial
+              color="#ffe8c8"
+              transparent
+              opacity={0.05 + i * 0.015}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -883,14 +951,14 @@ export function TrainingRange() {
   return (
     <>
       <color attach="background" args={[SKY]} />
-      <fog attach="fog" args={[FOG, 36, 95]} />
+      <fog attach="fog" args={[FOG, 38, 108]} />
       <Stars radius={90} depth={50} count={1800} factor={2.6} saturation={0.15} fade speed={0.35} />
       <SkyAtmosphere />
 
-      {/* Loops 21/25: brighter Fortnite-hub daylight + stronger hero rims */}
-      <hemisphereLight args={['#e4f0ff', '#4a3520', 0.88]} />
-      <ambientLight intensity={0.48} color="#ffe8d0" />
-      <directionalLight position={[16, 22, 10]} intensity={2.65} color="#ffe4b8" castShadow={false} />
+      {/* Loops 21/25/29: golden daylight plaza + stronger hero rims */}
+      <hemisphereLight args={['#eef4ff', '#5a4028', 0.96]} />
+      <ambientLight intensity={0.52} color="#fff0d8" />
+      <directionalLight position={[16, 22, 10]} intensity={2.85} color="#ffe8c0" castShadow={false} />
       <directionalLight position={[-10, 8, -12]} intensity={0.65} color="#9ed0f5" />
       <directionalLight position={[2, 6, 8]} intensity={0.55} color="#3dd6c6" />
       <directionalLight position={[-4, 3, 6]} intensity={0.85} color="#fff2d8" />

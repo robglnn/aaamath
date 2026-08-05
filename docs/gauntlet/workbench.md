@@ -34,17 +34,24 @@
 | **23** | Warmer stone floor + crystal spires | PASS_WITH_GAPS |
 | **24** | Hex ability tray + quadrant minimap | PASS_WITH_GAPS |
 | **25** | Closer cam + denser motes + hero rims | PASS_WITH_GAPS |
+| **26** | Voxel-fused torso/hips + cape + chest gem + pauldron skirts | PASS_WITH_GAPS |
+| **27** | Floating islands + ringed crystal monolith + banner palette | PASS_WITH_GAPS (monolith unreadable from spawn) |
+| **28** | Reflective plaza floor + hero material boosts | PASS_WITH_GAPS |
+| **29** | Multi-sun + god-ray starburst + closer cam + fog push | PASS_WITH_GAPS (rays win; scene still nocturnal) |
+| **30** | Wireframe ability glyphs + minimap quadrants + crest/mote juice | PASS_WITH_GAPS (icons lateral; tints faint) |
 
 Refs: `docs/gauntlet/bars/` (9 source + named HUD bars)  
-Shots: `docs/gauntlet/_critic-shots/loop1-*`, `loop2-3-landscape-*`, `loop6-10-*`, `loop11-15-*`, `loop16-25-*`  
-Reports: `critic-loop11-15-organic-character.md`, `critic-loop16-25-sculpt-plaza.md`, `builder-loop16-25-sculpt-plaza.md`
+Shots: `docs/gauntlet/_critic-shots/loop1-*`, `loop2-3-landscape-*`, `loop6-10-*`, `loop11-15-*`, `loop16-25-*`, `loop26-30-*`  
+Reports: `critic-loop11-15-organic-character.md`, `critic-loop16-25-sculpt-plaza.md`, `builder-loop16-25-sculpt-plaza.md`, `critic-loop26-30-skyline-sculpt.md`, `builder-loop26-30-skyline-sculpt.md`
 
 ## Plateau judgment
 
 Loops 16–25 closed the largest remaining gaps after organic wave: tech-suit piping + ORM, face/hair cards, plaza banners, daylight, HUD juice. Absolute AAA sculpted single-mesh skins remain the open ceiling. **No more Algebra. Stop after loop 25.**
 
+Loops 26–30 attacked that ceiling head-on: voxel fusion proved the single-mesh path (torso/hips), and the skyline gained real floating-island architecture + god-ray drama — best first-10s read yet. **The open gap is now the value/saturation ceiling**, not geometry: the bright floating-island refs live in a golden-hour palette this scene has never attempted, and the marquee ringed monolith doesn't read from spawn. Primitive-sculpt returns are diminishing. If one more night: golden-hour value/saturation pass + monolith beacon glow + chunky ability icons — then stop. **Still no Algebra.**
+
 ## Guards held
 
 - Pages `base: '/aaamath/'`; KaTeX deferred; L1–L7 pedagogy untouched; speech + text fallback intact
 - Curriculum frozen — no L8+
-- Draco decode via gstatic; iPhone-budget player GLB (~496 kB)
+- Draco decode via gstatic; iPhone-budget player GLB (~517 kB / 529192 B)

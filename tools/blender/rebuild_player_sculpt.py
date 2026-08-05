@@ -1,4 +1,4 @@
-"""Loops 16–20: Fortnite-class sculpted Riser player (soft silhouette + ORM + piping).
+"""Loops 16–26: Fortnite-class sculpted Riser player (soft silhouette + ORM + piping).
 
 Upgrades organic primitives toward AAA shoulder-cam read:
   16 Soft body volumes (higher subdiv, joint overlaps)
@@ -6,6 +6,10 @@ Upgrades organic primitives toward AAA shoulder-cam read:
   18 Stylized face (eyes/brows) — no box helm
   19 Hair cards (thin ribbons) + volume clump
   20 Contoured armor plates hugging the body
+  26 Single-mesh silhouette: voxel-fused torso + hips (kills stacked-sphere
+    crease rings), athletic proportions (narrower waist / broader chest),
+    bigger pauldrons with rim skirts, faceted glowing chest gem, and a short
+    flared cape card sweeping behind the pack
 
 Run:
   blender --background --python tools/blender/rebuild_player_sculpt.py
@@ -268,6 +272,75 @@ def mk_hair_cards(
         obj.data.materials.append(material)
         apply_mods(obj, bevel_w=0.003, subdiv=1)
         smooth_shade(obj)
+
+
+def fuse_objects(
+    name: str,
+    objs: list[bpy.types.Object],
+    material: bpy.types.Material,
+    voxel: float,
+) -> bpy.types.Object:
+    """Loop 26: join overlapping soft volumes, then voxel-remesh into one
+    continuous sculpt mesh so the silhouette loses the stacked-sphere creases."""
+    bpy.ops.object.select_all(action="DESELECT")
+    for o in objs:
+        o.select_set(True)
+    bpy.context.view_layer.objects.active = objs[0]
+    bpy.ops.object.join()
+    fused = bpy.context.active_object
+    fused.name = name
+    if voxel > 0:
+        try:
+            fused.data.remesh_voxel_size = voxel
+            bpy.ops.object.voxel_remesh()
+        except Exception as exc:
+            print(f"VOXEL_REMESH_FAILED {name}: {exc}")
+    fused.data.materials.clear()
+    fused.data.materials.append(material)
+    smooth_shade(fused)
+    return fused
+
+
+def mk_cape_card(parent: bpy.types.Object, material: bpy.types.Material) -> bpy.types.Object:
+    """Loop 26: short flared cloak card — curved grid sweeping back over the
+    pack, solidified; wound so the visible face reads from the shoulder cam."""
+    cols, rows = 4, 7
+    verts: list[tuple[float, float, float]] = []
+    faces: list[tuple[int, int, int, int]] = []
+    for r in range(rows + 1):
+        v = r / rows
+        half = 0.15 + 0.075 * v
+        y = -0.145 - 0.19 * (v ** 1.35)
+        z = 1.17 - 0.75 * v
+        for c in range(cols + 1):
+            u = (c / cols) * 2.0 - 1.0
+            yy = y - 0.035 * math.sin(v * math.pi) * (1.0 - u * u)
+            verts.append((u * half, yy, z))
+    for r in range(rows):
+        for c in range(cols):
+            i0 = r * (cols + 1) + c
+            i1 = (r + 1) * (cols + 1) + c
+            faces.append((i0, i1, i1 + 1, i0 + 1))
+    mesh = bpy.data.meshes.new("Player_CapeMesh")
+    mesh.from_pydata(verts, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new("Player_Cape", mesh)
+    bpy.context.scene.collection.objects.link(obj)
+    obj.parent = parent
+    obj.data.materials.append(material)
+    bpy.context.view_layer.objects.active = obj
+    obj.select_set(True)
+    sol = obj.modifiers.new("Solidify", "SOLIDIFY")
+    sol.thickness = 0.012
+    sol.offset = 0.0
+    try:
+        bpy.ops.object.modifier_apply(modifier=sol.name)
+    except Exception:
+        pass
+    obj.select_set(False)
+    apply_mods(obj, bevel_w=0.004, subdiv=0)
+    smooth_shade(obj)
+    return obj
 
 
 def write_png_rgba(path: str, w: int, h: int, pixels: bytes) -> None:
@@ -592,17 +665,34 @@ def build_sculpt_player(M) -> bpy.types.Object:
     root = bpy.data.objects.new("AR_Player", None)
     bpy.context.scene.collection.objects.link(root)
 
-    # --- Soft athletic body (loop 16: higher subdiv + joint overlaps) ---
-    mk_sphere("Player_Chest", 0.225, (0, -0.01, 1.02), (1.08, 0.7, 0.98), M["cloth"], root, 28, 2)
-    mk_sphere("Player_Abdomen", 0.165, (0, -0.01, 0.74), (1.08, 0.76, 0.88), M["cloth"], root, 22, 1)
-    # Soft waist blend
-    mk_sphere("Player_WaistBlend", 0.14, (0, -0.01, 0.64), (1.1, 0.8, 0.55), M["cloth"], root, 16, 1)
-    mk_sphere("Player_Pelvis", 0.155, (0, -0.01, 0.54), (1.18, 0.88, 0.72), M["dark"], root, 18, 1)
+    # --- Athletic torso, fused into ONE continuous sculpt (loop 26) ---
+    # Broader chest, narrower waist than loops 16–20; voxel fusion erases the
+    # crease rings where the spheres used to intersect.
+    torso_chest = mk_sphere("Player_Chest", 0.225, (0, -0.01, 1.03), (1.17, 0.72, 1.0), M["cloth"], root, 28, 2)
+    torso_abd = mk_sphere("Player_Abdomen", 0.165, (0, -0.01, 0.75), (0.98, 0.74, 0.9), M["cloth"], root, 22, 1)
+    torso_waist = mk_sphere("Player_WaistBlend", 0.14, (0, -0.01, 0.645), (0.92, 0.76, 0.55), M["cloth"], root, 16, 1)
+    fuse_objects("Player_TorsoSculpt", [torso_chest, torso_abd, torso_waist], M["cloth"], 0.0125)
+
+    # Hips: pelvis + thigh tops fused into one shorts/hips sculpt (loop 26)
+    hips_pelvis = mk_sphere("Player_Pelvis", 0.155, (0, -0.01, 0.54), (1.12, 0.86, 0.72), M["dark"], root, 18, 1)
+    hips_thigh_l = mk_capsule("Player_Thigh_L", 0.068, 0.28, (-0.1, -0.01, 0.38), M["dark"], root, segs=16)
+    hips_thigh_r = mk_capsule("Player_Thigh_R", 0.068, 0.28, (0.1, -0.01, 0.38), M["dark"], root, segs=16)
+    fuse_objects("Player_HipsSculpt", [hips_pelvis, hips_thigh_l, hips_thigh_r], M["dark"], 0.0135)
 
     # Contoured chest armor (loop 20) — flattened spheres, not boxes
-    mk_plate_sphere("Player_ChestPlate", 0.14, (0, 0.13, 1.0), (1.15, 0.28, 1.05), M["armor"], root, 18)
-    mk_plate_sphere("Player_ChestGold", 0.06, (0, 0.155, 0.9), (1.6, 0.25, 0.45), M["gold"], root, 12)
-    mk_sphere("Player_ChestPip", 0.028, (0, 0.16, 1.06), (1.0, 0.7, 1.0), M["cyan"], root, 10, 0)
+    mk_plate_sphere("Player_ChestPlate", 0.14, (0, 0.14, 1.0), (1.15, 0.28, 1.05), M["armor"], root, 18)
+    mk_plate_sphere("Player_ChestGold", 0.06, (0, 0.16, 0.9), (1.6, 0.25, 0.45), M["gold"], root, 12)
+    # Loop 26: faceted glowing chest gem in a gold bezel (Fortnite hero read)
+    mk_plate_sphere("Player_ChestGemBezel", 0.062, (0, 0.15, 1.04), (1.15, 0.32, 1.4), M["gold"], root, 12)
+    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=0.05, location=(0, 0.162, 1.04))
+    gem = bpy.context.active_object
+    gem.name = "Player_ChestGem"
+    gem.scale = (1.0, 0.55, 1.35)
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    gem.parent = root
+    gem.data.materials.clear()
+    gem.data.materials.append(M["cyan"])
+    smooth_shade(gem)
 
     # Cyan tech-suit piping (loop 17)
     mk_pipe("Player_Pipe_ChestL", 0.008, 0.32, (-0.1, 0.14, 0.98), (0.15, 0.0, 0.2), M["piping"], root)
@@ -630,14 +720,16 @@ def build_sculpt_player(M) -> bpy.types.Object:
 
     mk_hair_cards(root, M["hair"], helm_z=1.42)
 
-    # Shoulders — soft pauldrons
-    mk_sphere("Player_Pauldron_L", 0.105, (-0.29, 0.0, 1.14), (1.2, 0.92, 0.78), M["armor"], root, 18, 1)
-    mk_sphere("Player_Pauldron_R", 0.105, (0.29, 0.0, 1.14), (1.2, 0.92, 0.78), M["armor"], root, 18, 1)
-    mk_sphere("Player_PaulPip_L", 0.022, (-0.29, 0.085, 1.18), (1.0, 0.7, 1.0), M["cyan"], root, 8, 0)
-    mk_sphere("Player_PaulPip_R", 0.022, (0.29, 0.085, 1.18), (1.0, 0.7, 1.0), M["cyan"], root, 8, 0)
+    # Shoulders — loop 26: bigger pauldrons + rim skirts for the hero silhouette
+    mk_sphere("Player_Pauldron_L", 0.125, (-0.305, -0.005, 1.16), (1.3, 0.95, 0.8), M["armor"], root, 20, 1)
+    mk_sphere("Player_Pauldron_R", 0.125, (0.305, -0.005, 1.16), (1.3, 0.95, 0.8), M["armor"], root, 20, 1)
+    mk_plate_sphere("Player_PaulSkirt_L", 0.09, (-0.315, 0.0, 1.09), (1.45, 1.05, 0.42), M["armor"], root, 14)
+    mk_plate_sphere("Player_PaulSkirt_R", 0.09, (0.315, 0.0, 1.09), (1.45, 1.05, 0.42), M["armor"], root, 14)
+    mk_sphere("Player_PaulPip_L", 0.022, (-0.315, 0.09, 1.21), (1.0, 0.7, 1.0), M["cyan"], root, 8, 0)
+    mk_sphere("Player_PaulPip_R", 0.022, (0.315, 0.09, 1.21), (1.0, 0.7, 1.0), M["cyan"], root, 8, 0)
     # Deltoid soft blend into arm
-    mk_sphere("Player_Deltoid_L", 0.07, (-0.32, 0.0, 1.05), (1.1, 0.95, 0.9), M["cloth"], root, 14, 1)
-    mk_sphere("Player_Deltoid_R", 0.07, (0.32, 0.0, 1.05), (1.1, 0.95, 0.9), M["cloth"], root, 14, 1)
+    mk_sphere("Player_Deltoid_L", 0.075, (-0.335, 0.0, 1.05), (1.1, 0.95, 0.9), M["cloth"], root, 14, 1)
+    mk_sphere("Player_Deltoid_R", 0.075, (0.335, 0.0, 1.05), (1.1, 0.95, 0.9), M["cloth"], root, 14, 1)
 
     # Backpack
     mk_sphere("Player_Pack", 0.145, (0, -0.2, 0.98), (1.08, 0.52, 1.18), M["dark"], root, 16, 1)
@@ -658,6 +750,11 @@ def build_sculpt_player(M) -> bpy.types.Object:
     smooth_shade(core)
     mk_plate_sphere("Player_PackRail", 0.05, (0, -0.2, 1.14), (2.4, 0.35, 0.55), M["metal"], root, 10)
 
+    # Loop 26: short flared cape sweeping behind the pack + hem trim + clasp
+    mk_cape_card(root, M["cloth"])
+    mk_pipe("Player_CapeTrim", 0.007, 0.44, (0.0, -0.332, 0.415), (0.0, math.radians(90), 0.0), M["piping"], root)
+    mk_sphere("Player_CapeClasp", 0.028, (0.0, -0.15, 1.16), (1.2, 0.7, 0.9), M["gold"], root, 10, 0)
+
     # Arms
     mk_capsule("Player_Arm_L", 0.055, 0.3, (-0.37, -0.01, 0.88), M["cloth"], root, segs=16)
     mk_capsule("Player_Arm_R", 0.055, 0.3, (0.37, -0.01, 0.88), M["cloth"], root, segs=16)
@@ -671,9 +768,7 @@ def build_sculpt_player(M) -> bpy.types.Object:
     mk_sphere("Player_Gaunt_L", 0.055, (-0.39, 0.04, 0.4), (1.15, 1.0, 0.72), M["metal"], root, 12, 0)
     mk_sphere("Player_Gaunt_R", 0.055, (0.39, 0.04, 0.4), (1.15, 1.0, 0.72), M["metal"], root, 12, 0)
 
-    # Legs
-    mk_capsule("Player_Thigh_L", 0.068, 0.28, (-0.1, -0.01, 0.38), M["dark"], root, segs=16)
-    mk_capsule("Player_Thigh_R", 0.068, 0.28, (0.1, -0.01, 0.38), M["dark"], root, segs=16)
+    # Legs — thighs live in the fused Player_HipsSculpt above (loop 26)
     mk_sphere("Player_Knee_L", 0.052, (-0.1, 0.05, 0.26), (1.2, 0.9, 0.95), M["metal"], root, 12, 0)
     mk_sphere("Player_Knee_R", 0.052, (0.1, 0.05, 0.26), (1.2, 0.9, 0.95), M["metal"], root, 12, 0)
     mk_capsule("Player_Shin_L", 0.05, 0.25, (-0.1, 0.01, 0.13), M["cloth"], root, segs=14)

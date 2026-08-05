@@ -186,8 +186,8 @@ export function GameView({ unlocked, onOpenTerminal, onOpenProgress, lessonOpen 
         gl={{
           antialias: true,
           toneMapping: ACESFilmicToneMapping,
-          // Loop 21: brighter daylight plaza read vs Fortnite floating-island refs
-          toneMappingExposure: 1.36,
+          // Loop 21/29: brighter daylight plaza read vs Fortnite floating-island refs
+          toneMappingExposure: 1.39,
           outputColorSpace: SRGBColorSpace,
           powerPreference: 'high-performance',
         }}

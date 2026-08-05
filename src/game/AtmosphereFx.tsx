@@ -3,8 +3,9 @@ import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending, BufferAttribute, BufferGeometry, CanvasTexture, DynamicDrawUsage, SRGBColorSpace } from 'three'
 import { ALPHA_RADIUS, TERMINAL_POS } from '@/game/world'
 
-const MOTE_COUNT = 52 // loop 25: denser dust for Fortnite hub juice (still cheap points)
+const MOTE_COUNT = 58 // loop 30: denser swirl near Alpha pad (still cheap points)
 const SPARKLE_COUNT = 18 // rim twinkles hugging the Alpha pad edge
+const ORBIT_COUNT = 10 // orbiting math-symbol spark trails near Alpha pad
 const UPDATE_HZ = 30 // slow drift reads identical at half rate; halves attribute uploads
 
 // Linear-space RGB so additive blending mixes cleanly with the scene palette
@@ -21,9 +22,20 @@ interface Mote {
   twinklePhase: number
   twinkleFreq: number
   glow: number
+  swirl: number
 }
 
 interface Sparkle {
+  color: [number, number, number]
+  twinklePhase: number
+  twinkleFreq: number
+}
+
+interface OrbitSpark {
+  radius: number
+  height: number
+  speed: number
+  phase: number
   color: [number, number, number]
   twinklePhase: number
   twinkleFreq: number
@@ -38,6 +50,10 @@ interface AtmosphereKit {
   sparkGeo: BufferGeometry
   sparkCol: BufferAttribute
   sparks: Sparkle[]
+  orbitGeo: BufferGeometry
+  orbitPos: BufferAttribute
+  orbitCol: BufferAttribute
+  orbits: OrbitSpark[]
 }
 
 let softDot: CanvasTexture | null = null
@@ -78,14 +94,14 @@ function buildAtmosphere(): AtmosphereKit {
     let by: number
     let bz: number
     let color: [number, number, number]
-    if (i < 16) {
+    if (i < 20) {
       // Alpha pad air volume: annulus so the spawn sightline stays clear
-      const r = rand(1.2, ALPHA_RADIUS - 0.9)
+      const r = rand(1.2, ALPHA_RADIUS - 0.7)
       const a = Math.random() * Math.PI * 2
       bx = Math.cos(a) * r
       bz = Math.sin(a) * r
-      by = rand(0.4, 2.7)
-      color = Math.random() < 0.8 ? CYAN : PALE
+      by = rand(0.4, 2.9)
+      color = Math.random() < 0.75 ? CYAN : Math.random() < 0.6 ? PALE : AMBER
     } else {
       // Terminal haze: tighter box around the kiosk, slightly taller column
       bx = TERMINAL_POS[0] + rand(-1.9, 1.9)
@@ -97,18 +113,20 @@ function buildAtmosphere(): AtmosphereKit {
     motes.push({
       base: [bx, by, bz],
       phase: [Math.random() * 6.28, Math.random() * 6.28, Math.random() * 6.28],
-      freq: jitter(0.12, 0.34), // ~20–50 s periods: barely-there drift
-      amp: [rand(0.3, 0.55), rand(0.22, 0.4), rand(0.3, 0.55)],
+      freq: jitter(0.14, 0.38), // slightly faster for subtle swirl
+      amp: [rand(0.32, 0.58), rand(0.24, 0.42), rand(0.32, 0.58)],
       color,
       twinklePhase: Math.random() * 6.28,
       twinkleFreq: rand(0.5, 1.1),
-      glow: rand(0.35, 0.7),
+      glow: rand(0.38, 0.75),
+      swirl: rand(0.4, 1.2),
     })
     // Seed t=0 state so the first painted frame isn't a clump at the origin
     const m = motes[i]
-    motesPosArr[i * 3] = m.base[0] + Math.sin(m.phase[0]) * m.amp[0]
+    const sa = m.phase[0]
+    motesPosArr[i * 3] = m.base[0] + Math.sin(sa) * m.amp[0] + Math.cos(sa * m.swirl) * 0.15
     motesPosArr[i * 3 + 1] = m.base[1] + Math.sin(m.phase[1]) * m.amp[1]
-    motesPosArr[i * 3 + 2] = m.base[2] + Math.cos(m.phase[2]) * m.amp[2]
+    motesPosArr[i * 3 + 2] = m.base[2] + Math.cos(m.phase[2]) * m.amp[2] + Math.sin(sa * m.swirl) * 0.15
     const b = m.glow * (0.55 + 0.45 * Math.sin(m.twinklePhase))
     motesColArr[i * 3] = m.color[0] * b
     motesColArr[i * 3 + 1] = m.color[1] * b
@@ -137,6 +155,29 @@ function buildAtmosphere(): AtmosphereKit {
     sparkColArr[i * 3 + 2] = s.color[2] * b
   }
 
+  const orbits: OrbitSpark[] = []
+  const orbitPosArr = new Float32Array(ORBIT_COUNT * 3)
+  const orbitColArr = new Float32Array(ORBIT_COUNT * 3)
+  for (let i = 0; i < ORBIT_COUNT; i++) {
+    orbits.push({
+      radius: rand(1.6, ALPHA_RADIUS - 0.5),
+      height: rand(0.8, 2.4),
+      speed: rand(0.35, 0.75) * (Math.random() < 0.5 ? 1 : -1),
+      phase: (i / ORBIT_COUNT) * Math.PI * 2 + rand(-0.3, 0.3),
+      color: Math.random() < 0.55 ? CYAN : AMBER,
+      twinklePhase: Math.random() * 6.28,
+      twinkleFreq: rand(0.9, 1.8),
+    })
+    const o = orbits[i]
+    orbitPosArr[i * 3] = Math.cos(o.phase) * o.radius
+    orbitPosArr[i * 3 + 1] = o.height
+    orbitPosArr[i * 3 + 2] = Math.sin(o.phase) * o.radius
+    const b = 0.5 + Math.sin(o.twinklePhase) * 0.25
+    orbitColArr[i * 3] = o.color[0] * b
+    orbitColArr[i * 3 + 1] = o.color[1] * b
+    orbitColArr[i * 3 + 2] = o.color[2] * b
+  }
+
   const motesGeo = new BufferGeometry()
   const motesPos = new BufferAttribute(motesPosArr, 3)
   motesPos.setUsage(DynamicDrawUsage)
@@ -151,12 +192,21 @@ function buildAtmosphere(): AtmosphereKit {
   sparkCol.setUsage(DynamicDrawUsage)
   sparkGeo.setAttribute('color', sparkCol)
 
-  return { tex: bakeSoftDot(), motesGeo, motesPos, motesCol, motes, sparkGeo, sparkCol, sparks }
+  const orbitGeo = new BufferGeometry()
+  const orbitPos = new BufferAttribute(orbitPosArr, 3)
+  orbitPos.setUsage(DynamicDrawUsage)
+  const orbitCol = new BufferAttribute(orbitColArr, 3)
+  orbitCol.setUsage(DynamicDrawUsage)
+  orbitGeo.setAttribute('position', orbitPos)
+  orbitGeo.setAttribute('color', orbitCol)
+
+  return { tex: bakeSoftDot(), motesGeo, motesPos, motesCol, motes, sparkGeo, sparkCol, sparks, orbitGeo, orbitPos, orbitCol, orbits }
 }
 
 /**
- * Floating dust motes + pad-edge sparkles. Two Points draw calls, one shared
- * canvas sprite, additive blending — no lights, no postprocessing, mobile-safe.
+ * Floating dust motes + pad-edge sparkles + orbiting symbol trails.
+ * Three Points draw calls, one shared canvas sprite, additive blending —
+ * no lights, no postprocessing, mobile-safe.
  */
 export function AtmosphereFx() {
   const kit = useMemo(buildAtmosphere, [])
@@ -166,6 +216,7 @@ export function AtmosphereFx() {
     () => () => {
       kit.motesGeo.dispose()
       kit.sparkGeo.dispose()
+      kit.orbitGeo.dispose()
     },
     [kit],
   )
@@ -181,9 +232,13 @@ export function AtmosphereFx() {
     const mc = kit.motesCol.array as Float32Array
     for (let i = 0; i < kit.motes.length; i++) {
       const m = kit.motes[i]
-      mp[i * 3] = m.base[0] + Math.sin(t * m.freq[0] + m.phase[0]) * m.amp[0]
+      const sa = t * m.freq[0] + m.phase[0]
+      // Subtle swirl offset for Alpha-pad motes
+      const swirlX = i < 20 ? Math.cos(sa * m.swirl) * 0.22 : 0
+      const swirlZ = i < 20 ? Math.sin(sa * m.swirl) * 0.22 : 0
+      mp[i * 3] = m.base[0] + Math.sin(sa) * m.amp[0] + swirlX
       mp[i * 3 + 1] = m.base[1] + Math.sin(t * m.freq[1] + m.phase[1]) * m.amp[1]
-      mp[i * 3 + 2] = m.base[2] + Math.cos(t * m.freq[2] + m.phase[2]) * m.amp[2]
+      mp[i * 3 + 2] = m.base[2] + Math.cos(t * m.freq[2] + m.phase[2]) * m.amp[2] + swirlZ
       const b = m.glow * (0.55 + 0.45 * Math.sin(t * m.twinkleFreq + m.twinklePhase))
       mc[i * 3] = m.color[0] * b
       mc[i * 3 + 1] = m.color[1] * b
@@ -203,6 +258,24 @@ export function AtmosphereFx() {
       sc[i * 3 + 2] = s.color[2] * b
     }
     kit.sparkCol.needsUpdate = true
+
+    // Orbiting cyan/amber spark trails near Alpha pad
+    const op = kit.orbitPos.array as Float32Array
+    const oc = kit.orbitCol.array as Float32Array
+    for (let i = 0; i < kit.orbits.length; i++) {
+      const o = kit.orbits[i]
+      const a = t * o.speed + o.phase
+      op[i * 3] = Math.cos(a) * o.radius
+      op[i * 3 + 1] = o.height + Math.sin(t * 0.6 + o.phase) * 0.18
+      op[i * 3 + 2] = Math.sin(a) * o.radius
+      const tw = Math.pow(Math.max(0, Math.sin(t * o.twinkleFreq + o.twinklePhase)), 4)
+      const b = 0.35 + tw * 0.85
+      oc[i * 3] = o.color[0] * b
+      oc[i * 3 + 1] = o.color[1] * b
+      oc[i * 3 + 2] = o.color[2] * b
+    }
+    kit.orbitPos.needsUpdate = true
+    kit.orbitCol.needsUpdate = true
   })
 
   return (
@@ -214,7 +287,7 @@ export function AtmosphereFx() {
           sizeAttenuation
           vertexColors
           transparent
-          opacity={0.55}
+          opacity={0.58}
           blending={AdditiveBlending}
           depthWrite={false}
         />
@@ -227,6 +300,18 @@ export function AtmosphereFx() {
           vertexColors
           transparent
           opacity={0.95}
+          blending={AdditiveBlending}
+          depthWrite={false}
+        />
+      </points>
+      <points geometry={kit.orbitGeo} frustumCulled={false}>
+        <pointsMaterial
+          map={kit.tex}
+          size={0.22}
+          sizeAttenuation
+          vertexColors
+          transparent
+          opacity={0.88}
           blending={AdditiveBlending}
           depthWrite={false}
         />

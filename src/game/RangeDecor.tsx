@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending, Quaternion, Vector3 } from 'three'
-import type { Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
+import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
 import { ALPHA_RADIUS, PAD_TOP, TERMINAL_POS } from '@/game/world'
 import { getAuthoredGeoKit, getProcTextureKit, makeHazardStripeTexture, makeSteelPlateTexture } from '@/game/proc'
 import { AuthoredProps } from '@/game/AuthoredProps'
@@ -33,6 +33,8 @@ export function RangeDecor() {
       <SupplyCrates />
       <DistantSpires />
       <PlazaBanners />
+      <FloatingIslands />
+      <CrystalMonolith />
       <GroundBreakup />
       <AuthoredProps />
     </group>
@@ -42,18 +44,19 @@ export function RangeDecor() {
 /**
  * Loop 22: Academy plaza banners — tall cloth verticals with gold crest plates
  * matching Fortnite floating-island ref density (no new lights, emissive trim).
+ * Loop 27: cloth enriched toward the ref palette — red / blue / yellow / green.
  */
 function PlazaBanners() {
   const banners: [number, number, number, string][] = [
     // Near-pad flanks — readable in first 10s shoulder cam
-    [-4.6, 3.8, 0.25, '#1a3a6a'],
-    [5.0, 3.4, -0.3, '#1a4a3a'],
-    [-6.8, 5.2, 0.35, '#1a3a6a'],
-    [7.2, 4.8, -0.4, '#1a4a3a'],
-    [-7.5, -8.5, 0.2, '#4a1a2a'],
-    [6.8, -9.2, -0.25, '#1a3a6a'],
-    [-11, 1.5, 0.5, '#2a2a5a'],
-    [11.2, -1.0, -0.55, '#1a4a3a'],
+    [-4.6, 3.8, 0.25, '#c23a3a'],
+    [5.0, 3.4, -0.3, '#2f5fd0'],
+    [-6.8, 5.2, 0.35, '#e8b52a'],
+    [7.2, 4.8, -0.4, '#2fae5e'],
+    [-7.5, -8.5, 0.2, '#c23a3a'],
+    [6.8, -9.2, -0.25, '#2f5fd0'],
+    [-11, 1.5, 0.5, '#2fae5e'],
+    [11.2, -1.0, -0.55, '#e8b52a'],
   ]
   return (
     <group>
@@ -564,6 +567,159 @@ function DistantSpires() {
           </mesh>
         </group>
       ))}
+    </group>
+  )
+}
+
+/**
+ * Loop 27: Fortnite floating-island skyline — flat-topped rocks with tapered
+ * undersides and cyan anti-grav glow cones, crystal obelisks / hovering wisp
+ * lamps on top, and thin causeway silhouettes spanning two island pairs.
+ * Gentle bob on one useFrame; emissive/basic only, zero new lights.
+ * Budget: 5 islands x 3 meshes + 2 spans = 17.
+ */
+function FloatingIslands() {
+  const islands = useRef<(Group | null)[]>([])
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    for (let i = 0; i < islands.current.length; i++) {
+      const g = islands.current[i]
+      if (g) g.position.y = (g.userData.y0 as number) + Math.sin(t * 0.4 + i * 1.7) * 0.18
+    }
+  })
+  // x, y (top surface), z, radius, crystal (true = obelisk, false = wisp lamp)
+  const rocks: [number, number, number, number, boolean][] = [
+    [-22, 6.5, -28, 3.4, true],
+    [19, 10.5, -32, 2.6, false],
+    [-13, 4.5, -22, 1.9, true],
+    [27, 8.0, -16, 2.2, false],
+    [-29, 12.5, -10, 2.8, true],
+  ]
+  return (
+    <group>
+      {rocks.map(([x, y, z, r, crystal], i) => (
+        <group
+          key={i}
+          ref={(g) => {
+            islands.current[i] = g
+          }}
+          position={[x, y, z]}
+          userData={{ y0: y }}
+        >
+          {/* Flat-topped rock, tapered 7-sided underside */}
+          <mesh position={[0, -r * 0.42, 0]}>
+            <cylinderGeometry args={[r, r * 0.3, r * 0.84, 7]} />
+            <meshStandardMaterial color="#2c3d4a" metalness={0.15} roughness={0.8} />
+          </mesh>
+          {/* Cyan anti-grav glow cone washing the underside */}
+          <mesh position={[0, -r * 1.1, 0]} rotation={[Math.PI, 0, 0]}>
+            <coneGeometry args={[r * 0.55, r * 0.7, 7]} />
+            <meshBasicMaterial color={CYAN} transparent opacity={0.28} blending={AdditiveBlending} depthWrite={false} />
+          </mesh>
+          {crystal ? (
+            <mesh position={[0, r * 0.58, 0]} rotation={[0, i * 0.7, 0]} scale={[1, 2.1, 1]}>
+              <octahedronGeometry args={[r * 0.28, 0]} />
+              <meshStandardMaterial
+                color="#134a52"
+                emissive={CYAN}
+                emissiveIntensity={0.85}
+                metalness={0.15}
+                roughness={0.22}
+                transparent
+                opacity={0.92}
+              />
+            </mesh>
+          ) : (
+            <mesh position={[0, r * 0.5, 0]}>
+              <sphereGeometry args={[r * 0.16, 10, 8]} />
+              <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.3} />
+            </mesh>
+          )}
+        </group>
+      ))}
+      {/* Thin causeway silhouettes between island pairs */}
+      <Strut from={[-19.6, 6.3, -26.3]} to={[-15.1, 4.7, -23.6]} radius={0.14} />
+      <Strut from={[21.1, 10.3, -29.7]} to={[25.3, 8.2, -18.1]} radius={0.12} />
+    </group>
+  )
+}
+
+/**
+ * Loop 27: the ringed crystal monolith — faceted octahedron stack on a
+ * floating rock far behind the terminal, two tilted cyan torus rings in slow
+ * orbit. Anchors the first-10s shoulder-cam skyline. Emissive only, 7 meshes.
+ */
+function CrystalMonolith() {
+  const rings = useRef<(Group | null)[]>([])
+  useFrame((_, delta) => {
+    for (let i = 0; i < rings.current.length; i++) {
+      const g = rings.current[i]
+      if (g) g.rotation.y += delta * (i === 0 ? 0.22 : -0.14)
+    }
+  })
+  return (
+    <group position={[2, 0, -42]}>
+      {/* Floating base rock + anti-grav glow */}
+      <mesh position={[0, 5.7, 0]}>
+        <cylinderGeometry args={[4.2, 1.25, 2.6, 7]} />
+        <meshStandardMaterial color="#2c3d4a" metalness={0.15} roughness={0.8} />
+      </mesh>
+      <mesh position={[0, 4.2, 0]} rotation={[Math.PI, 0, 0]}>
+        <coneGeometry args={[2.3, 2.4, 7]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.26} blending={AdditiveBlending} depthWrite={false} />
+      </mesh>
+      {/* Faceted crystal stack */}
+      <mesh position={[0, 12.6, 0]} rotation={[0, 0.35, 0]} scale={[1, 2.4, 1]}>
+        <octahedronGeometry args={[2.4, 0]} />
+        <meshStandardMaterial
+          color="#134a52"
+          emissive={CYAN}
+          emissiveIntensity={0.5}
+          metalness={0.15}
+          roughness={0.22}
+          transparent
+          opacity={0.92}
+        />
+      </mesh>
+      <mesh position={[0, 17.6, 0]} rotation={[0, 0.95, 0]} scale={[1, 2.2, 1]}>
+        <octahedronGeometry args={[1.5, 0]} />
+        <meshStandardMaterial
+          color="#134a52"
+          emissive={CYAN}
+          emissiveIntensity={0.65}
+          metalness={0.15}
+          roughness={0.22}
+          transparent
+          opacity={0.92}
+        />
+      </mesh>
+      <mesh position={[0, 21.4, 0]} rotation={[0, 1.5, 0]} scale={[1, 2, 1]}>
+        <octahedronGeometry args={[0.8, 0]} />
+        <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.25} transparent opacity={0.95} />
+      </mesh>
+      {/* Counter-rotating tilted orbit rings */}
+      <group
+        ref={(g) => {
+          rings.current[0] = g
+        }}
+        position={[0, 11, 0]}
+      >
+        <mesh rotation={[Math.PI / 2 + 0.16, 0, 0]}>
+          <torusGeometry args={[4.6, 0.07, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.1} transparent opacity={0.8} />
+        </mesh>
+      </group>
+      <group
+        ref={(g) => {
+          rings.current[1] = g
+        }}
+        position={[0, 13.8, 0]}
+      >
+        <mesh rotation={[Math.PI / 2 - 0.2, 0, 0.12]}>
+          <torusGeometry args={[6.2, 0.055, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.9} transparent opacity={0.7} />
+        </mesh>
+      </group>
     </group>
   )
 }

@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current focus
-Fortnite **visual** Gauntlet loops 16–25 complete (sculpt + plaza wave). Curriculum frozen — no L8+.
+Fortnite **visual** Gauntlet loops 26–30 complete (skyline + sculpt wave). Curriculum frozen — no L8+.
 
 ## Locked decisions
 - Mobile = **landscape-first** (rotate-to-play in portrait)
@@ -9,11 +9,11 @@ Fortnite **visual** Gauntlet loops 16–25 complete (sculpt + plaza wave). Curri
 - Visual spend > Algebra
 
 ## Delivered (this pass)
-- Loops 16–25: sculpt soft volumes, ORM + cyan piping, face, hair cards, contoured armor, daylight push, plaza banners, floor/spires, hex HUD + quadrant minimap, closer cam + motes
-- Script: `tools/blender/rebuild_player_sculpt.py`
+- Loops 26–30: voxel-fused torso/hips + cape/chest gem, floating islands + crystal monolith, reflective plaza materials, multi-sun/god rays/closer cam, wireframe HUD glyphs + crest/mote juice
+- Script: `tools/blender/rebuild_player_sculpt.py` (player GLB ~517 kB Draco)
 
 ## Live
 https://robglnn.github.io/aaamath/
 
 ## Next
-Optional: true Multires single-mesh hero + authored skin packs; no curriculum. Visual plateau for primitive-assemblage approach.
+Optional: golden-hour value/saturation pass + monolith spawn beacon + chunky filled ability icons; no curriculum. Geometry plateau — remaining gap is lighting/palette ceiling.

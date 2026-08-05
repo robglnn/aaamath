@@ -19,28 +19,35 @@ export function BrandCrest({ className = '', size = 56 }: { className?: string; 
           <stop offset="0%" stopColor="#9ff5ea" />
           <stop offset="100%" stopColor="#3dd6c6" />
         </linearGradient>
-        <filter id="ar-crest-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="2.0" result="b" />
+        <filter id="ar-crest-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="2.8" result="b" />
           <feMerge>
             <feMergeNode in="b" />
             <feMergeNode in="b" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
+        <filter id="ar-crest-wing-glow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="3.2" result="wg" />
+          <feMerge>
+            <feMergeNode in="wg" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
-      {/* Left wing */}
+      {/* Left wing — loop 30: stronger wing juice */}
       <path
         d="M28 22c-7-2-14 1-18 7-1.2 1.8 0.4 3.4 2.2 2.8 4.5-1.5 8.2-1.2 11.4 0.6 1.2-3.4 2.8-7 4.4-10.4z"
         fill="url(#ar-crest-gold)"
-        opacity="0.95"
-        filter="url(#ar-crest-glow)"
+        opacity="0.98"
+        filter="url(#ar-crest-wing-glow)"
       />
       {/* Right wing */}
       <path
         d="M36 22c7-2 14 1 18 7 1.2 1.8-0.4 3.4-2.2 2.8-4.5-1.5-8.2-1.2-11.4 0.6-1.2-3.4-2.8-7-4.4-10.4z"
         fill="url(#ar-crest-gold)"
-        opacity="0.95"
-        filter="url(#ar-crest-glow)"
+        opacity="0.98"
+        filter="url(#ar-crest-wing-glow)"
       />
       {/* Shield body */}
       <path
@@ -51,8 +58,8 @@ export function BrandCrest({ className = '', size = 56 }: { className?: string; 
         filter="url(#ar-crest-glow)"
       />
       {/* Inner gem */}
-      <circle cx="32" cy="30" r="7.5" fill="url(#ar-crest-cyan)" opacity="0.95" />
-      <circle cx="32" cy="30" r="3.2" fill="#e8fffb" opacity="0.85" />
+      <circle cx="32" cy="30" r="7.5" fill="url(#ar-crest-cyan)" opacity="0.98" filter="url(#ar-crest-glow)" />
+      <circle cx="32" cy="30" r="3.2" fill="#e8fffb" opacity="0.92" />
       {/* Chevron + gem highlight for diegetic rank read */}
       <path d="M26 40l6 4 6-4" fill="none" stroke="url(#ar-crest-gold)" strokeWidth="1.8" strokeLinecap="round" />
       <path
