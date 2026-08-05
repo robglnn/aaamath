@@ -110,8 +110,15 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (lessonOpen) return
     if (e.pointerType === 'mouse' && e.button !== 0) return
-    // Desktop: click canvas to pointer-lock for mouse-look
-    if (e.pointerType === 'mouse' && !isCoarsePointer() && !document.pointerLockElement) {
+    const mode = useGameStore.getState().mode
+    // Desktop explore: click canvas to pointer-lock for mouse-look.
+    // Skip in build so a click can still place the blueprint.
+    if (
+      mode !== 'build' &&
+      e.pointerType === 'mouse' &&
+      !isCoarsePointer() &&
+      !document.pointerLockElement
+    ) {
       requestLock()
       return
     }

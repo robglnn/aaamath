@@ -1,4 +1,9 @@
-name: Deploy GitHub Pages
+name: Build static (Pages-ready)
+
+# Builds dist/ on every main push. Full GitHub Pages deploy needs a public repo
+# (or Pro) — private free repos return 422 for Pages. Artifact is available for
+# itch.io / manual hosting. Set repo variable ENABLE_GH_PAGES=true after making
+# the repo Pages-capable to attempt deploy-pages.
 
 on:
   push:
@@ -11,7 +16,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: static-build
   cancel-in-progress: true
 
 jobs:
@@ -24,12 +29,20 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run content:validate
       - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 14
       - uses: actions/upload-pages-artifact@v3
+        if: ${{ vars.ENABLE_GH_PAGES == 'true' }}
         with:
           path: dist
 
   deploy:
+    if: ${{ vars.ENABLE_GH_PAGES == 'true' }}
     needs: build
     runs-on: ubuntu-latest
     environment:

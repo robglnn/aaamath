@@ -20,14 +20,14 @@
 - [x] Gauntlet reports under `docs/gauntlet/`
 - [x] Fortnite-lite shell serving learning goals (pointer-lock + visual pass)
 - [x] `npm run build` green
-- [x] GH Pages workflow present (hosting enable may need one-time repo setting)
+- [x] GH Pages workflow present (repo currently rejects Pages enable — plan/visibility; use itch/`dist` zip)
 
 ## Known gaps vs full handoff
 - Visuals still short of AAA Fortnite training-range bar (procedural only)
 - Standards codes not curriculum-specialist audited
 - Bundle ~1.4MB JS (Three) — code-split later
 - No Lesson 2 yet; speech voice mapping per locale thin
-- GH Pages URL live only after Actions + Pages enabled
+- Live GH Pages blocked until repo supports Pages; itch.io path documented
 
 ## Next steps
 1. Confirm Pages deploy green on GitHub Actions

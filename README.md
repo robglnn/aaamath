@@ -35,8 +35,8 @@ npm run preview
 ```
 - Output: `dist/` with relative `base: './'` (itch.io HTML5 zip or GitHub Pages).
 - No backend required.
-- **GitHub Pages:** workflow `.github/workflows/deploy-pages.yml` builds and deploys `dist/` on push to `main`. After first enable of Pages (Settings → Pages → Source: GitHub Actions), live URL is typically `https://robglnn.github.io/aaamath/`.
-- **itch.io:** zip `dist/` and upload as HTML5 game; entry `index.html`.
+- **GitHub Pages:** workflow `.github/workflows/deploy-pages.yml` builds `dist/` on push to `main`. Requires a plan/visibility that supports Pages (private repos may 422 until public or GitHub Pro). Intended URL: `https://robglnn.github.io/aaamath/`.
+- **itch.io (reliable now):** `npm run build`, zip `dist/`, upload as HTML5; entry `index.html`.
 
 ## Content pipeline
 ```bash
