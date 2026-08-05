@@ -25,6 +25,7 @@ const BODY_LT = '#2a5a74'
 const HELM = '#1f475c'
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
+const VIOLET = '#b48cff'
 
 const MAT = { roughness: 0.55, metalness: 0.25 }
 const MAT_BODY = { roughness: 0.5, metalness: 0.3, emissive: '#0e3a42', emissiveIntensity: 0.4 }
@@ -52,6 +53,7 @@ export function Player() {
   const lastJumpNonce = useRef(0)
   const animPhase = useRef(0)
   const hasAdeptRank = useGameStore((s) => s.hasAdeptRank)
+  const hasExpertRank = useGameStore((s) => s.hasExpertRank)
   const { panel } = useMemo(() => getProcTextureKit(), [])
   const geo = useMemo(() => getAuthoredGeoKit(), [])
   // Extrude UVs are shape-space (~0.45 wide), so rescale a clone of the shared
@@ -134,7 +136,7 @@ export function Player() {
     p.x += mx * speed * dt
     p.z += mz * speed * dt
 
-    const gy = groundHeight(p.x, p.z, s.hasZoneBeta, s.blueprintPosition, s.hasBetaAnnex)
+    const gy = groundHeight(p.x, p.z, s.hasZoneBeta, s.blueprintPosition, s.hasBetaAnnex, s.hasGammaRelay)
     if (rig.jumpQueued) {
       if (grounded.current && s.mode !== 'lesson') {
         velY.current = JUMP_SPEED
@@ -268,6 +270,20 @@ export function Player() {
               </mesh>
               <mesh geometry={geo.playerPip} position={[0.055, 0.975, 0.146]} scale={0.6}>
                 <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.6} />
+              </mesh>
+            </>
+          )}
+          {/* Riser Expert (L3 rank): violet third chevrons over the amber tier + centered violet chest diamond */}
+          {hasExpertRank && (
+            <>
+              <mesh geometry={geo.playerPip} position={[-0.35, 1.088, 0.052]} rotation={[-0.66, 0, 0]} scale={[0.9, 0.5, 1]}>
+                <meshStandardMaterial color={VIOLET} emissive={VIOLET} emissiveIntensity={1.45} />
+              </mesh>
+              <mesh geometry={geo.playerPip} position={[0.35, 1.088, 0.052]} rotation={[-0.66, 0, 0]} scale={[0.9, 0.5, 1]}>
+                <meshStandardMaterial color={VIOLET} emissive={VIOLET} emissiveIntensity={1.45} />
+              </mesh>
+              <mesh geometry={geo.playerPip} position={[0, 0.975, 0.152]} scale={0.42}>
+                <meshStandardMaterial color={VIOLET} emissive={VIOLET} emissiveIntensity={1.7} />
               </mesh>
             </>
           )}

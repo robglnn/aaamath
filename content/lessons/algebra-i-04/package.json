@@ -1,0 +1,2229 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "algebra-i-04",
+  "courseId": "algebra-i",
+  "order": 4,
+  "title": {
+    "en": "Solving One-Step Equations",
+    "es": "Ecuaciones de un paso",
+    "pl": "Równania jednostopniowe"
+  },
+  "objectives": [
+    {
+      "en": "Solve one-step equations using inverse operations: add or subtract the same value on both sides to isolate x.",
+      "es": "Resolver ecuaciones de un paso con operaciones inversas: sumar o restar el mismo valor en ambos lados para despejar x.",
+      "pl": "Rozwiązywać równania jednostopniowe operacjami odwrotnymi: dodawać lub odejmować tę samą wartość po obu stronach, aby wyizolować x."
+    },
+    {
+      "en": "Solve one-step equations by multiplying or dividing both sides by the reciprocal of the coefficient.",
+      "es": "Resolver ecuaciones de un paso multiplicando o dividiendo ambos lados por el recíproco del coeficiente.",
+      "pl": "Rozwiązywać równania jednostopniowe, mnożąc lub dzieląc obie strony przez odwrotność współczynnika."
+    },
+    {
+      "en": "Handle negative coefficients and signed constants without sign slips, and verify a solution by substitution.",
+      "es": "Manejar coeficientes negativos y constantes con signo sin errores de signo, y verificar una solución por sustitución.",
+      "pl": "Obsługiwać ujemne współczynniki i stałe ze znakiem bez pomyłek oraz sprawdzać rozwiązanie przez podstawienie."
+    }
+  ],
+  "knowledgePointIds": [
+    "kp.equation.one-step-addsub",
+    "kp.equation.one-step-multdiv",
+    "kp.equation.one-step-signed",
+    "kp.equation.one-step-verify"
+  ],
+  "knowledgePoints": [
+    {
+      "id": "kp.equation.one-step-addsub",
+      "title": {
+        "en": "Add or subtract to isolate the variable",
+        "es": "Sumar o restar para despejar la variable",
+        "pl": "Dodawanie lub odejmowanie w celu wyizolowania zmiennej"
+      },
+      "description": {
+        "en": "An equation stays balanced when the same number is added or subtracted on both sides. For x + a = b, subtract a; for x − a = b, add a.",
+        "es": "Una ecuación se mantiene equilibrada cuando se suma o resta el mismo número en ambos lados. Para x + a = b, resta a; para x − a = b, suma a.",
+        "pl": "Równanie pozostaje zrównoważone, gdy po obu stronach dodamy lub odejmiemy tę samą liczbę. Dla x + a = b odejmij a; dla x − a = b dodaj a."
+      },
+      "prerequisites": [
+        "algebra-i-02:kp.combine.constants-signed",
+        "algebra-i-03:kp.distribute.basic"
+      ],
+      "successCriteria": {
+        "en": "Student solves x + a = b and x − a = b in one inverse step with correct signs.",
+        "es": "El estudiante resuelve x + a = b y x − a = b en un paso inverso con los signos correctos.",
+        "pl": "Uczeń rozwiązuje x + a = b oraz x − a = b jednym krokiem odwrotnym z poprawnymi znakami."
+      },
+      "misconceptions": [
+        {
+          "en": "Applying the wrong inverse (x + 5 = 12 solved as x = 12 + 5).",
+          "es": "Aplicar la inversa incorrecta (x + 5 = 12 resuelta como x = 12 + 5).",
+          "pl": "Zastosowanie niewłaściwej operacji odwrotnej (x + 5 = 12 rozwiązane jako x = 12 + 5)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.3
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.equation.one-step-multdiv",
+      "title": {
+        "en": "Multiply or divide to isolate the variable",
+        "es": "Multiplicar o dividir para despejar la variable",
+        "pl": "Mnożenie lub dzielenie w celu wyizolowania zmiennej"
+      },
+      "description": {
+        "en": "When x is multiplied by a number, divide both sides by that coefficient. When x is divided, multiply both sides by the divisor: ax = b → x = b/a; x/a = b → x = ab.",
+        "es": "Cuando x se multiplica por un número, divide ambos lados por ese coeficiente. Cuando x se divide, multiplica ambos lados por el divisor: ax = b → x = b/a; x/a = b → x = ab.",
+        "pl": "Gdy x jest pomnożone przez liczbę, podziel obie strony przez ten współczynnik. Gdy x jest podzielone, pomnóż obie strony przez dzielnik: ax = b → x = b/a; x/a = b → x = ab."
+      },
+      "prerequisites": [
+        "kp.equation.one-step-addsub",
+        "algebra-i-01:kp.orderops.with-vars"
+      ],
+      "successCriteria": {
+        "en": "Student solves ax = b and x/a = b using the correct inverse multiplication or division in one step.",
+        "es": "El estudiante resuelve ax = b y x/a = b usando la multiplicación o división inversa correcta en un paso.",
+        "pl": "Uczeń rozwiązuje ax = b oraz x/a = b, stosując właściwe odwrotne mnożenie lub dzielenie w jednym kroku."
+      },
+      "misconceptions": [
+        {
+          "en": "Dividing only one side or multiplying by the wrong reciprocal (3x = 15 → x = 15/3 confused with x = 3/15).",
+          "es": "Dividir solo un lado o multiplicar por el recíproco incorrecto (3x = 15 → x = 15/3 confundido con x = 3/15).",
+          "pl": "Dzielenie tylko jednej strony lub mnożenie przez złą odwrotność (3x = 15 → x = 15/3 pomylone z x = 3/15)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.1
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.equation.one-step-signed",
+      "title": {
+        "en": "Signed coefficients and constants",
+        "es": "Coeficientes y constantes con signo",
+        "pl": "Współczynniki i stałe ze znakiem"
+      },
+      "description": {
+        "en": "Negative coefficients and subtracting a negative require careful sign tracking: −2x = 8 → x = −4; x − (−3) = 7 → x = 4.",
+        "es": "Los coeficientes negativos y restar un negativo exigen cuidado con los signos: −2x = 8 → x = −4; x − (−3) = 7 → x = 4.",
+        "pl": "Ujemne współczynniki i odejmowanie liczby ujemnej wymagają uwagi na znaki: −2x = 8 → x = −4; x − (−3) = 7 → x = 4."
+      },
+      "prerequisites": [
+        "kp.equation.one-step-addsub",
+        "kp.equation.one-step-multdiv",
+        "algebra-i-02:kp.combine.constants-signed"
+      ],
+      "successCriteria": {
+        "en": "Student solves one-step equations with negative coefficients or double negatives without sign slips.",
+        "es": "El estudiante resuelve ecuaciones de un paso con coeficientes negativos o dobles negativos sin errores de signo.",
+        "pl": "Uczeń rozwiązuje równania jednostopniowe z ujemnymi współczynnikami lub podwójnymi minusami bez pomyłek ze znakami."
+      },
+      "misconceptions": [
+        {
+          "en": "Dropping the negative when dividing (−4x = 12 → x = 3 instead of x = −3).",
+          "es": "Perder el negativo al dividir (−4x = 12 → x = 3 en lugar de x = −3).",
+          "pl": "Gubienie minusa przy dzieleniu (−4x = 12 → x = 3 zamiast x = −3)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.5
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.equation.one-step-verify",
+      "title": {
+        "en": "Verify a solution by substitution",
+        "es": "Verificar una solución por sustitución",
+        "pl": "Sprawdzanie rozwiązania przez podstawienie"
+      },
+      "description": {
+        "en": "After solving, substitute the value back into the original equation. Both sides must match — a balanced beam means equal charge on each pad.",
+        "es": "Tras resolver, sustituye el valor en la ecuación original. Ambos lados deben coincidir — una viga equilibrada significa la misma carga en cada plataforma.",
+        "pl": "Po rozwiązaniu podstaw wartość do pierwotnego równania. Obie strony muszą się zgadzać — zrównoważona belka oznacza równy ładunek na każdej platformie."
+      },
+      "prerequisites": [
+        "kp.equation.one-step-addsub",
+        "kp.equation.one-step-multdiv"
+      ],
+      "successCriteria": {
+        "en": "Student checks whether a proposed value satisfies a linear equation by substitution.",
+        "es": "El estudiante comprueba si un valor propuesto satisface una ecuación lineal mediante sustitución.",
+        "pl": "Uczeń sprawdza, czy proponowana wartość spełnia równanie liniowe przez podstawienie."
+      },
+      "misconceptions": [
+        {
+          "en": "Accepting a value that makes only one side correct, or skipping the check entirely.",
+          "es": "Aceptar un valor que solo hace correcto un lado, o saltarse la comprobación por completo.",
+          "pl": "Akceptowanie wartości poprawnej tylko po jednej stronie lub pomijanie sprawdzenia."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.5",
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.5",
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.5",
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "6.10B",
+          "A.5A"
+        ],
+        "NY": [
+          "6.EE.5",
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.5",
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.7
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    }
+  ],
+  "phases": [
+    {
+      "id": "phase.objectives",
+      "kind": "objectives",
+      "title": {
+        "en": "Mission briefing",
+        "es": "Informe de misión",
+        "pl": "Briefing misji"
+      },
+      "body": {
+        "en": "Success criteria: balance both sides with inverse operations, handle signed coefficients, and verify solutions by substitution. Mastery unlocks a balance-beam blueprint, the Riser Operator rank, and the Delta Balance Yard.",
+        "es": "Criterios de éxito: equilibrar ambos lados con operaciones inversas, manejar coeficientes con signo y verificar soluciones por sustitución. El dominio desbloquea un plano de viga de equilibrio, el rango Ascendente Operador y el Patio de Equilibrio Delta.",
+        "pl": "Kryteria sukcesu: równoważyć obie strony operacjami odwrotnymi, obsługiwać współczynniki ze znakiem i sprawdzać rozwiązania przez podstawienie. Mistrzostwo odblokowuje plan belki równoważnej, rangę Wznoszący Operator i Dziedziniec Równowagi Delta."
+      },
+      "bodyLatex": [
+        "x + 5 = 12",
+        "3x = 15",
+        "\\text{Check: } 2(4) + 1 = 9"
+      ],
+      "itemIds": [],
+      "tutorScript": {
+        "en": "Riser, a relay equation is a balance beam. Charge on the left must equal charge on the right. Your job: isolate the unknown cell with one clean inverse move.",
+        "es": "Ascendente, una ecuación de relé es una viga de equilibrio. La carga de la izquierda debe igualar la de la derecha. Tu tarea: aislar la celda desconocida con un solo movimiento inverso limpio.",
+        "pl": "Wznoszący, równanie przekaźnika to belka równoważna. Ładunek po lewej musi równać się ładunkowi po prawej. Twoje zadanie: wyizolować nieznaną komórkę jednym czystym ruchem odwrotnym."
+      }
+    },
+    {
+      "id": "phase.i_do",
+      "kind": "i_do",
+      "title": {
+        "en": "I do — watch the model",
+        "es": "Yo hago — observa el modelo",
+        "pl": "Ja robię — obserwuj model"
+      },
+      "body": {
+        "en": "Same operation on both sides keeps the beam level. To undo x + 5, subtract 5 from both sides. To undo 3x, divide both sides by 3.",
+        "es": "La misma operación en ambos lados mantiene la viga nivelada. Para deshacer x + 5, resta 5 en ambos lados. Para deshacer 3x, divide ambos lados entre 3.",
+        "pl": "Ta sama operacja po obu stronach utrzymuje belkę w poziomie. Aby cofnąć x + 5, odejmij 5 po obu stronach. Aby cofnąć 3x, podziel obie strony przez 3."
+      },
+      "bodyLatex": [
+        "x + 5 = 12 \\Rightarrow x + 5 - 5 = 12 - 5 \\Rightarrow x = 7",
+        "3x = 15 \\Rightarrow \\frac{3x}{3} = \\frac{15}{3} \\Rightarrow x = 5"
+      ],
+      "itemIds": [
+        "item.ido.1",
+        "item.ido.2"
+      ],
+      "tutorScript": {
+        "en": "Watch: I touch both pads at once. One inverse move — then the variable stands alone.",
+        "es": "Observa: toco ambas plataformas a la vez. Un movimiento inverso — y la variable queda sola.",
+        "pl": "Patrz: dotykam obu platform naraz. Jeden ruch odwrotny — i zmienna stoi osobno."
+      }
+    },
+    {
+      "id": "phase.we_do",
+      "kind": "we_do",
+      "title": {
+        "en": "We do — guided practice",
+        "es": "Hacemos — práctica guiada",
+        "pl": "Robimy — ćwiczenia z prowadzeniem"
+      },
+      "body": {
+        "en": "Answer with me. Name the inverse operation before you move charge — the feedback will catch wrong inverses and sign slips.",
+        "es": "Responde conmigo. Nombra la operación inversa antes de mover la carga — la retroalimentación atrapará inversas incorrectas y errores de signo.",
+        "pl": "Odpowiadaj ze mną. Nazwij operację odwrotną, zanim przesuniesz ładunek — informacja zwrotna wyłapie złe odwrotności i pomyłki ze znakami."
+      },
+      "itemIds": [
+        "item.wedo.1",
+        "item.wedo.2",
+        "item.wedo.3",
+        "item.wedo.4"
+      ],
+      "tutorScript": {
+        "en": "Together: both sides, same move. Signed coefficients need extra care — track every minus.",
+        "es": "Juntos: ambos lados, el mismo movimiento. Los coeficientes con signo exigen cuidado extra — sigue cada menos.",
+        "pl": "Razem: obie strony, ten sam ruch. Współczynniki ze znakiem wymagają dodatkowej uwagi — śledź każdy minus."
+      }
+    },
+    {
+      "id": "phase.you_do",
+      "kind": "you_do",
+      "title": {
+        "en": "You do — mastery check",
+        "es": "Tú haces — comprobación de dominio",
+        "pl": "Ty robisz — sprawdzian mistrzostwa"
+      },
+      "body": {
+        "en": "Independent set. Mastery requires at least 3 of 4 correct.",
+        "es": "Serie independiente. El dominio exige al menos 3 de 4 correctas.",
+        "pl": "Zestaw samodzielny. Mistrzostwo wymaga co najmniej 3 z 4 poprawnych."
+      },
+      "itemIds": [
+        "item.youdo.1",
+        "item.youdo.2",
+        "item.youdo.3",
+        "item.youdo.4"
+      ],
+      "tutorScript": {
+        "en": "No hints now — the balance yard only trusts a Riser who levels the beam in one move.",
+        "es": "Sin pistas ahora — el patio de equilibrio solo confía en un Ascendente que nivela la viga en un movimiento.",
+        "pl": "Bez podpowiedzi — dziedziniec równowagi ufa tylko Wznoszącemu, który wypoziomuje belkę jednym ruchem."
+      }
+    },
+    {
+      "id": "phase.retrieval",
+      "kind": "retrieval",
+      "title": {
+        "en": "Quick retrieval",
+        "es": "Recuperación rápida",
+        "pl": "Szybkie przypomnienie"
+      },
+      "body": {
+        "en": "Two fast pulses: undo an addition and undo a multiplication.",
+        "es": "Dos pulsos rápidos: deshaz una suma y deshaz una multiplicación.",
+        "pl": "Dwa szybkie impulsy: cofnij dodawanie i cofnij mnożenie."
+      },
+      "itemIds": [
+        "item.retr.1",
+        "item.retr.2"
+      ],
+      "tutorScript": {
+        "en": "Reflex speed — a tilted beam trips the whole relay.",
+        "es": "Velocidad de reflejo — una viga inclinada tumba todo el relé.",
+        "pl": "Szybkość odruchu — przechylona belka zatrzymuje cały przekaźnik."
+      }
+    },
+    {
+      "id": "phase.complete",
+      "kind": "complete",
+      "title": {
+        "en": "Rank advanced",
+        "es": "Rango avanzado",
+        "pl": "Awans rangi"
+      },
+      "body": {
+        "en": "Lesson complete. Mount your balance beam and walk the Delta Balance Yard.",
+        "es": "Lección completa. Monta tu viga de equilibrio y recorre el Patio de Equilibrio Delta.",
+        "pl": "Lekcja ukończona. Zamontuj belkę równoważną i przejdź po Dziedzińcu Równowagi Delta."
+      },
+      "itemIds": [],
+      "tutorScript": {
+        "en": "Operator status earned. Both pads level, charge isolated — balance at will, Riser.",
+        "es": "Estatus de Operador ganado. Ambas plataformas niveladas, carga aislada — equilibra a voluntad, Ascendente.",
+        "pl": "Status Operatora zdobyty. Obie platformy w poziomie, ładunek wyizolowany — równoważ według woli, Wznoszący."
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "item.ido.1",
+      "kpIds": [
+        "kp.equation.one-step-addsub"
+      ],
+      "phase": "i_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Watch the model: solve x + 5 = 12.",
+        "es": "Observa el modelo: resuelve x + 5 = 12.",
+        "pl": "Obserwuj model: rozwiąż x + 5 = 12."
+      },
+      "stemLatex": "x + 5 = 12",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 7",
+            "es": "x = 7",
+            "pl": "x = 7"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Subtract 5 from both sides: 12 − 5 = 7. Correct.",
+            "es": "Resta 5 en ambos lados: 12 − 5 = 7. Correcto.",
+            "pl": "Odejmij 5 po obu stronach: 12 − 5 = 7. Poprawnie."
+          },
+          "latex": "x = 7"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 17",
+            "es": "x = 17",
+            "pl": "x = 17"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Undo addition with subtraction, not more addition.",
+            "es": "Deshaz la suma restando, no sumando más.",
+            "pl": "Cofnij dodawanie przez odejmowanie, nie przez dalsze dodawanie."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 17"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 5",
+            "es": "x = 5",
+            "pl": "x = 5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The 5 is added to x — subtract it from 12.",
+            "es": "El 5 se suma a x — réstalo de 12.",
+            "pl": "5 jest dodane do x — odejmij je od 12."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 5"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 2.4",
+            "es": "x = 2.4",
+            "pl": "x = 2.4"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "12 ÷ 5 divides; here you subtract 5.",
+            "es": "12 ÷ 5 divide; aquí debes restar 5.",
+            "pl": "12 ÷ 5 to dzielenie; tutaj odejmujesz 5."
+          },
+          "diagnosticTag": "divide-not-multiply",
+          "latex": "x = 2.4"
+        }
+      ],
+      "workedSolution": {
+        "en": "Subtract 5 from both sides: x = 12 − 5 = 7.",
+        "es": "Resta 5 en ambos lados: x = 12 − 5 = 7.",
+        "pl": "Odejmij 5 po obu stronach: x = 12 − 5 = 7."
+      },
+      "workedSolutionLatex": "x + 5 - 5 = 12 - 5 \\Rightarrow x = 7",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.8
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.ido.2",
+      "kpIds": [
+        "kp.equation.one-step-multdiv"
+      ],
+      "phase": "i_do",
+      "type": "mcq",
+      "stem": {
+        "en": "The model continues: solve 3x = 15.",
+        "es": "El modelo continúa: resuelve 3x = 15.",
+        "pl": "Model kontynuuje: rozwiąż 3x = 15."
+      },
+      "stemLatex": "3x = 15",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 5",
+            "es": "x = 5",
+            "pl": "x = 5"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Divide both sides by 3: 15 ÷ 3 = 5. Correct.",
+            "es": "Divide ambos lados entre 3: 15 ÷ 3 = 5. Correcto.",
+            "pl": "Podziel obie strony przez 3: 15 ÷ 3 = 5. Poprawnie."
+          },
+          "latex": "x = 5"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 45",
+            "es": "x = 45",
+            "pl": "x = 45"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Undo multiplication with division, not more multiplication.",
+            "es": "Deshaz la multiplicación dividiendo, no multiplicando más.",
+            "pl": "Cofnij mnożenie przez dzielenie, nie przez dalsze mnożenie."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 45"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 12",
+            "es": "x = 12",
+            "pl": "x = 12"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "15 − 3 subtracts; the inverse of ×3 is ÷3.",
+            "es": "15 − 3 resta; la inversa de ×3 es ÷3.",
+            "pl": "15 − 3 to odejmowanie; odwrotnością ×3 jest ÷3."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 12"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 1/5",
+            "es": "x = 1/5",
+            "pl": "x = 1/5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Divide 15 by 3, not 3 by 15.",
+            "es": "Divide 15 entre 3, no 3 entre 15.",
+            "pl": "Podziel 15 przez 3, nie 3 przez 15."
+          },
+          "diagnosticTag": "reciprocal-confusion",
+          "latex": "x = \\frac{1}{5}"
+        }
+      ],
+      "workedSolution": {
+        "en": "Divide both sides by 3: x = 15 ÷ 3 = 5.",
+        "es": "Divide ambos lados entre 3: x = 15 ÷ 3 = 5.",
+        "pl": "Podziel obie strony przez 3: x = 15 ÷ 3 = 5."
+      },
+      "workedSolutionLatex": "\\frac{3x}{3} = \\frac{15}{3} \\Rightarrow x = 5",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.5
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.wedo.1",
+      "kpIds": [
+        "kp.equation.one-step-addsub"
+      ],
+      "phase": "we_do",
+      "type": "short",
+      "stem": {
+        "en": "Solve: x - 8 = 3.",
+        "es": "Resuelve: x - 8 = 3.",
+        "pl": "Rozwiąż: x - 8 = 3."
+      },
+      "stemLatex": "x - 8 = 3",
+      "answer": "11",
+      "acceptableAnswers": [
+        "11",
+        "x=11",
+        "x = 11"
+      ],
+      "workedSolution": {
+        "en": "Add 8 to both sides: x = 3 + 8 = 11.",
+        "es": "Suma 8 en ambos lados: x = 3 + 8 = 11.",
+        "pl": "Dodaj 8 po obu stronach: x = 3 + 8 = 11."
+      },
+      "workedSolutionLatex": "x - 8 + 8 = 3 + 8 \\Rightarrow x = 11",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.2
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.2",
+      "kpIds": [
+        "kp.equation.one-step-multdiv"
+      ],
+      "phase": "we_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: \\frac{x}{4} = 5.",
+        "es": "Resuelve: \\frac{x}{4} = 5.",
+        "pl": "Rozwiąż: \\frac{x}{4} = 5."
+      },
+      "stemLatex": "\\frac{x}{4} = 5",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 20",
+            "es": "x = 20",
+            "pl": "x = 20"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Multiply both sides by 4: 5 × 4 = 20. Correct.",
+            "es": "Multiplica ambos lados por 4: 5 × 4 = 20. Correcto.",
+            "pl": "Pomnóż obie strony przez 4: 5 × 4 = 20. Poprawnie."
+          },
+          "latex": "x = 20"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 1.25",
+            "es": "x = 1.25",
+            "pl": "x = 1.25"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Undo division with multiplication: 5 × 4.",
+            "es": "Deshaz la división multiplicando: 5 × 4.",
+            "pl": "Cofnij dzielenie przez mnożenie: 5 × 4."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 1.25"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 9",
+            "es": "x = 9",
+            "pl": "x = 9"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "5 + 4 adds; the inverse of ÷4 is ×4.",
+            "es": "5 + 4 suma; la inversa de ÷4 es ×4.",
+            "pl": "5 + 4 to dodawanie; odwrotnością ÷4 jest ×4."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 9"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 4/5",
+            "es": "x = 4/5",
+            "pl": "x = 4/5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "4/5 comes from dividing 4 by 5 — undo division by multiplying: 5 × 4 = 20.",
+            "es": "4/5 sale de dividir 4 entre 5 — deshaz la división multiplicando: 5 × 4 = 20.",
+            "pl": "4/5 wynika z dzielenia 4 przez 5 — cofnij dzielenie przez mnożenie: 5 × 4 = 20."
+          },
+          "diagnosticTag": "reciprocal-confusion",
+          "latex": "x = \\frac{4}{5}"
+        }
+      ],
+      "workedSolution": {
+        "en": "Multiply both sides by 4: x = 5 × 4 = 20.",
+        "es": "Multiplica ambos lados por 4: x = 5 × 4 = 20.",
+        "pl": "Pomnóż obie strony przez 4: x = 5 × 4 = 20."
+      },
+      "workedSolutionLatex": "4 \\cdot \\frac{x}{4} = 4 \\cdot 5 \\Rightarrow x = 20",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.3",
+      "kpIds": [
+        "kp.equation.one-step-signed"
+      ],
+      "phase": "we_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: -3x = 12.",
+        "es": "Resuelve: -3x = 12.",
+        "pl": "Rozwiąż: -3x = 12."
+      },
+      "stemLatex": "-3x = 12",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = -4",
+            "es": "x = -4",
+            "pl": "x = -4"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "12 ÷ (−3) = −4. Correct.",
+            "es": "12 ÷ (−3) = −4. Correcto.",
+            "pl": "12 ÷ (−3) = −4. Poprawnie."
+          },
+          "latex": "x = -4"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 4",
+            "es": "x = 4",
+            "pl": "x = 4"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "12 is positive: positive ÷ negative = negative, so x = −4, not 4.",
+            "es": "12 es positivo: positivo ÷ negativo = negativo, así que x = −4, no 4.",
+            "pl": "12 jest dodatnie: dodatnia ÷ ujemna = ujemna, więc x = −4, nie 4."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "x = 4"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = -36",
+            "es": "x = -36",
+            "pl": "x = -36"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Divide 12 by −3, do not multiply.",
+            "es": "Divide 12 entre −3, no multipliques.",
+            "pl": "Podziel 12 przez −3, nie mnoż."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = -36"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 36",
+            "es": "x = 36",
+            "pl": "x = 36"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Track both signs: positive ÷ negative = negative.",
+            "es": "Sigue ambos signos: positivo ÷ negativo = negativo.",
+            "pl": "Śledź oba znaki: dodatni ÷ ujemny = ujemny."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "x = 36"
+        }
+      ],
+      "workedSolution": {
+        "en": "Divide both sides by −3: x = 12 ÷ (−3) = −4.",
+        "es": "Divide ambos lados entre −3: x = 12 ÷ (−3) = −4.",
+        "pl": "Podziel obie strony przez −3: x = 12 ÷ (−3) = −4."
+      },
+      "workedSolutionLatex": "\\frac{-3x}{-3} = \\frac{12}{-3} \\Rightarrow x = -4",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.3
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.4",
+      "kpIds": [
+        "kp.equation.one-step-addsub",
+        "kp.equation.one-step-signed"
+      ],
+      "phase": "we_do",
+      "type": "short",
+      "stem": {
+        "en": "After a splitter expanded a pad equation, the beam reads x + (-5) = 3. Solve for x.",
+        "es": "Tras expandir una ecuación de plataforma, la viga muestra x + (-5) = 3. Resuelve x.",
+        "pl": "Po rozwinięciu równania platformy belka pokazuje x + (-5) = 3. Rozwiąż x."
+      },
+      "stemLatex": "x + (-5) = 3",
+      "answer": "8",
+      "acceptableAnswers": [
+        "8",
+        "x=8",
+        "x = 8"
+      ],
+      "workedSolution": {
+        "en": "x + (−5) = 3 means x − 5 = 3. Add 5: x = 8.",
+        "es": "x + (−5) = 3 significa x − 5 = 3. Suma 5: x = 8.",
+        "pl": "x + (−5) = 3 oznacza x − 5 = 3. Dodaj 5: x = 8."
+      },
+      "workedSolutionLatex": "x + (-5) + 5 = 3 + 5 \\Rightarrow x = 8",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.4
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.youdo.1",
+      "kpIds": [
+        "kp.equation.one-step-addsub"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: x + 6 = 19.",
+        "es": "Resuelve: x + 6 = 19.",
+        "pl": "Rozwiąż: x + 6 = 19."
+      },
+      "stemLatex": "x + 6 = 19",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 13",
+            "es": "x = 13",
+            "pl": "x = 13"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "19 − 6 = 13. Correct.",
+            "es": "19 − 6 = 13. Correcto.",
+            "pl": "19 − 6 = 13. Poprawnie."
+          },
+          "latex": "x = 13"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 25",
+            "es": "x = 25",
+            "pl": "x = 25"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Subtract 6, do not add.",
+            "es": "Resta 6, no sumes.",
+            "pl": "Odejmij 6, nie dodawaj."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 25"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 6",
+            "es": "x = 6",
+            "pl": "x = 6"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Isolate x: subtract 6 from 19.",
+            "es": "Despeja x: resta 6 de 19.",
+            "pl": "Wyizoluj x: odejmij 6 od 19."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 6"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 3.17",
+            "es": "x = 3.17",
+            "pl": "x = 3.17"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "This is subtraction, not division.",
+            "es": "Esto es resta, no división.",
+            "pl": "To odejmowanie, nie dzielenie."
+          },
+          "diagnosticTag": "divide-not-multiply",
+          "latex": "x \\approx 3.17"
+        }
+      ],
+      "workedSolution": {
+        "en": "Subtract 6: x = 19 − 6 = 13.",
+        "es": "Resta 6: x = 19 − 6 = 13.",
+        "pl": "Odejmij 6: x = 19 − 6 = 13."
+      },
+      "workedSolutionLatex": "x = 19 - 6 = 13",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.2
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.2",
+      "kpIds": [
+        "kp.equation.one-step-multdiv"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: 6x = 48.",
+        "es": "Resuelve: 6x = 48.",
+        "pl": "Rozwiąż: 6x = 48."
+      },
+      "stemLatex": "6x = 48",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 8",
+            "es": "x = 8",
+            "pl": "x = 8"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "48 ÷ 6 = 8. Correct.",
+            "es": "48 ÷ 6 = 8. Correcto.",
+            "pl": "48 ÷ 6 = 8. Poprawnie."
+          },
+          "latex": "x = 8"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 288",
+            "es": "x = 288",
+            "pl": "x = 288"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Undo ×6 with ÷6.",
+            "es": "Deshaz ×6 con ÷6.",
+            "pl": "Cofnij ×6 przez ÷6."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 288"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 42",
+            "es": "x = 42",
+            "pl": "x = 42"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "48 − 6 subtracts; divide instead.",
+            "es": "48 − 6 resta; divide en su lugar.",
+            "pl": "48 − 6 to odejmowanie; zamiast tego dziel."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 42"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 6/48",
+            "es": "x = 6/48",
+            "pl": "x = 6/48"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Divide 48 by 6.",
+            "es": "Divide 48 entre 6.",
+            "pl": "Podziel 48 przez 6."
+          },
+          "diagnosticTag": "reciprocal-confusion",
+          "latex": "x = \\frac{6}{48}"
+        }
+      ],
+      "workedSolution": {
+        "en": "Divide by 6: x = 48 ÷ 6 = 8.",
+        "es": "Divide entre 6: x = 48 ÷ 6 = 8.",
+        "pl": "Podziel przez 6: x = 48 ÷ 6 = 8."
+      },
+      "workedSolutionLatex": "x = \\frac{48}{6} = 8",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.4
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.3",
+      "kpIds": [
+        "kp.equation.one-step-signed"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Solve: x - (-4) = 13.",
+        "es": "Resuelve: x - (-4) = 13.",
+        "pl": "Rozwiąż: x - (-4) = 13."
+      },
+      "stemLatex": "x - (-4) = 13",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 9",
+            "es": "x = 9",
+            "pl": "x = 9"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "x − (−4) = x + 4, so x = 13 − 4 = 9. Correct.",
+            "es": "x − (−4) = x + 4, así que x = 13 − 4 = 9. Correcto.",
+            "pl": "x − (−4) = x + 4, więc x = 13 − 4 = 9. Poprawnie."
+          },
+          "latex": "x = 9"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 17",
+            "es": "x = 17",
+            "pl": "x = 17"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Subtracting a negative becomes addition: x + 4 = 13.",
+            "es": "Restar un negativo se convierte en suma: x + 4 = 13.",
+            "pl": "Odejmowanie ujemnej to dodawanie: x + 4 = 13."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "x = 17"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = -9",
+            "es": "x = -9",
+            "pl": "x = -9"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "13 − 4 = 9, not −9.",
+            "es": "13 − 4 = 9, no −9.",
+            "pl": "13 − 4 = 9, nie −9."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "x = -9"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 4",
+            "es": "x = 4",
+            "pl": "x = 4"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Rewrite x − (−4) as x + 4 first.",
+            "es": "Reescribe x − (−4) como x + 4 primero.",
+            "pl": "Najpierw zapisz x − (−4) jako x + 4."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 4"
+        }
+      ],
+      "workedSolution": {
+        "en": "x − (−4) = x + 4 = 13, so x = 13 − 4 = 9.",
+        "es": "x − (−4) = x + 4 = 13, así que x = 13 − 4 = 9.",
+        "pl": "x − (−4) = x + 4 = 13, więc x = 13 − 4 = 9."
+      },
+      "workedSolutionLatex": "x + 4 = 13 \\Rightarrow x = 9",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.6
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.4",
+      "kpIds": [
+        "kp.equation.one-step-verify"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Which value of x makes 2x + 1 = 9 true?",
+        "es": "¿Qué valor de x hace verdadera la ecuación 2x + 1 = 9?",
+        "pl": "Która wartość x spełnia równanie 2x + 1 = 9?"
+      },
+      "stemLatex": "2x + 1 = 9",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 4",
+            "es": "x = 4",
+            "pl": "x = 4"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Check: 2(4) + 1 = 9. Both sides match.",
+            "es": "Comprueba: 2(4) + 1 = 9. Ambos lados coinciden.",
+            "pl": "Sprawdź: 2(4) + 1 = 9. Obie strony się zgadzają."
+          },
+          "latex": "x = 4"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 5",
+            "es": "x = 5",
+            "pl": "x = 5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "2(5) + 1 = 11, not 9.",
+            "es": "2(5) + 1 = 11, no 9.",
+            "pl": "2(5) + 1 = 11, nie 9."
+          },
+          "diagnosticTag": "verify-skip",
+          "latex": "x = 5"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 8",
+            "es": "x = 8",
+            "pl": "x = 8"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "2(8) + 1 = 17 — substitute to check.",
+            "es": "2(8) + 1 = 17 — sustituye para comprobar.",
+            "pl": "2(8) + 1 = 17 — podstaw, aby sprawdzić."
+          },
+          "diagnosticTag": "verify-skip",
+          "latex": "x = 8"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "x = 3",
+            "es": "x = 3",
+            "pl": "x = 3"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "2(3) + 1 = 7, not 9.",
+            "es": "2(3) + 1 = 7, no 9.",
+            "pl": "2(3) + 1 = 7, nie 9."
+          },
+          "diagnosticTag": "verify-skip",
+          "latex": "x = 3"
+        }
+      ],
+      "workedSolution": {
+        "en": "Try x = 4: 2(4) + 1 = 8 + 1 = 9. The beam is level.",
+        "es": "Prueba x = 4: 2(4) + 1 = 8 + 1 = 9. La viga está nivelada.",
+        "pl": "Spróbuj x = 4: 2(4) + 1 = 8 + 1 = 9. Belka jest w poziomie."
+      },
+      "workedSolutionLatex": "2(4) + 1 = 9 \\checkmark",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.5",
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.5",
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.5",
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "6.10B",
+          "A.5A"
+        ],
+        "NY": [
+          "6.EE.5",
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.5",
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.5",
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.8
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.retr.1",
+      "kpIds": [
+        "kp.equation.one-step-addsub"
+      ],
+      "phase": "retrieval",
+      "type": "mcq",
+      "stem": {
+        "en": "Quick check: solve x + 4 = 19.",
+        "es": "Comprobación rápida: resuelve x + 4 = 19.",
+        "pl": "Szybki test: rozwiąż x + 4 = 19."
+      },
+      "stemLatex": "x + 4 = 19",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 15",
+            "es": "x = 15",
+            "pl": "x = 15"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "19 − 4 = 15. Correct.",
+            "es": "19 − 4 = 15. Correcto.",
+            "pl": "19 − 4 = 15. Poprawnie."
+          },
+          "latex": "x = 15"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 23",
+            "es": "x = 23",
+            "pl": "x = 23"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Subtract 4, do not add.",
+            "es": "Resta 4, no sumes.",
+            "pl": "Odejmij 4, nie dodawaj."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 23"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 4",
+            "es": "x = 4",
+            "pl": "x = 4"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Isolate x on the left.",
+            "es": "Despeja x a la izquierda.",
+            "pl": "Wyizoluj x po lewej."
+          },
+          "diagnosticTag": "partial-solve",
+          "latex": "x = 4"
+        }
+      ],
+      "workedSolution": {
+        "en": "x = 19 − 4 = 15.",
+        "es": "x = 19 − 4 = 15.",
+        "pl": "x = 19 − 4 = 15."
+      },
+      "workedSolutionLatex": "x = 15",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1.2
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.retr.2",
+      "kpIds": [
+        "kp.equation.one-step-multdiv"
+      ],
+      "phase": "retrieval",
+      "type": "evaluate",
+      "stem": {
+        "en": "Solve: 9x = 54.",
+        "es": "Resuelve: 9x = 54.",
+        "pl": "Rozwiąż: 9x = 54."
+      },
+      "stemLatex": "9x = 54",
+      "answer": "6",
+      "acceptableAnswers": [
+        "6",
+        "x=6",
+        "x = 6"
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x = 6",
+            "es": "x = 6",
+            "pl": "x = 6"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "54 ÷ 9 = 6. Correct.",
+            "es": "54 ÷ 9 = 6. Correcto.",
+            "pl": "54 ÷ 9 = 6. Poprawnie."
+          },
+          "latex": "x = 6"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x = 486",
+            "es": "x = 486",
+            "pl": "x = 486"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Divide, do not multiply.",
+            "es": "Divide, no multipliques.",
+            "pl": "Dziel, nie mnoż."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 486"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x = 45",
+            "es": "x = 45",
+            "pl": "x = 45"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "54 − 9 subtracts; use division.",
+            "es": "54 − 9 resta; usa división.",
+            "pl": "54 − 9 to odejmowanie; użyj dzielenia."
+          },
+          "diagnosticTag": "wrong-inverse",
+          "latex": "x = 45"
+        }
+      ],
+      "workedSolution": {
+        "en": "x = 54 ÷ 9 = 6.",
+        "es": "x = 54 ÷ 9 = 6.",
+        "pl": "x = 54 ÷ 9 = 6."
+      },
+      "workedSolutionLatex": "x = 6",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.7",
+          "CCSS.MATH.CONTENT.8.EE.C.7"
+        ],
+        "CA": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "NJ": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MI": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "TX": [
+          "A.5A",
+          "6.10B"
+        ],
+        "NY": [
+          "7.EE.4a",
+          "8.EE.7"
+        ],
+        "IL": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "MO": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "FL": [
+          "MA.6.AR.2.3",
+          "MA.8.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "DC": [
+          "6.EE.B.7",
+          "8.EE.C.7"
+        ],
+        "OH": [
+          "6.EE.7",
+          "8.EE.7"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "8.2.4.6"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1
+      },
+      "difficulty": "intro"
+    }
+  ],
+  "mastery": {
+    "minIndependentCorrect": 3,
+    "minIndependentTotal": 4,
+    "requiredKpIds": [
+      "kp.equation.one-step-addsub",
+      "kp.equation.one-step-multdiv",
+      "kp.equation.one-step-signed",
+      "kp.equation.one-step-verify"
+    ]
+  },
+  "unlocks": [
+    {
+      "id": "bp.balance.beam",
+      "kind": "blueprint",
+      "title": {
+        "en": "Balance beam blueprint",
+        "es": "Plano de viga de equilibrio",
+        "pl": "Plan belki równoważnej"
+      },
+      "description": {
+        "en": "A dual-pad balance beam for relay equations — earned by isolating the variable in one inverse step.",
+        "es": "Una viga de equilibrio de doble plataforma para ecuaciones de relé — ganada al aislar la variable en un paso inverso.",
+        "pl": "Belka równoważna z dwiema platformami do równań przekaźnika — zdobyta przez wyizolowanie zmiennej jednym krokiem odwrotnym."
+      }
+    },
+    {
+      "id": "rank.riser.operator",
+      "kind": "rank",
+      "title": {
+        "en": "Riser Operator",
+        "es": "Ascendente Operador",
+        "pl": "Wznoszący Operator"
+      },
+      "description": {
+        "en": "Fourth rung of the Riser ladder, earned by Lesson 4 mastery.",
+        "es": "Cuarto peldaño de la escalera del Ascendente, ganado con el dominio de la Lección 4.",
+        "pl": "Czwarty szczebel drabiny Wznoszącego, zdobyty mistrzostwem Lekcji 4."
+      }
+    },
+    {
+      "id": "zone.delta.balance",
+      "kind": "zone",
+      "title": {
+        "en": "Delta Balance Yard",
+        "es": "Patio de Equilibrio Delta",
+        "pl": "Dziedziniec Równowagi Delta"
+      },
+      "description": {
+        "en": "A calibration yard on the Delta approach where balance beams are field-tested before relay duty.",
+        "es": "Un patio de calibración en la aproximación a Delta donde se prueban vigas de equilibrio antes del servicio de relé.",
+        "pl": "Plac kalibracyjny na podejściu do Delty, gdzie belki równoważne są testowane przed służbą przekaźnikową."
+      }
+    }
+  ],
+  "worldIntegration": {
+    "terminalId": "terminal.lesson4",
+    "unlockBlueprintId": "bp.balance.beam",
+    "unlockRankId": "rank.riser.operator",
+    "unlockZoneId": "zone.delta.balance"
+  },
+  "_pipelineMeta": {
+    "stage": "Integration (authored by builder wave 22)",
+    "generatedAt": "2026-08-05T13:40:00.000Z",
+    "notes": [
+      "Full authored lesson in one builder pass (all 7 pipeline stages compressed), following algebra-i-02/03 as quality exemplars.",
+      "Cross-lesson prerequisites: addsub chains from algebra-i-02:kp.combine.constants-signed + algebra-i-03:kp.distribute.basic; multdiv adds algebra-i-01:kp.orderops.with-vars; signed chains L2 signed constants.",
+      "Fourth KP is verify-by-substitution (stronger pedagogy fit than fractional-coefficient reciprocal for this wave). item.wedo.4 bridges L3 distribute vocabulary with a pre-simplified signed add/sub equation.",
+      "Unlocks declared per schema; GameView 3D props deferred (wave-20→21 pattern). Runtime wiring: loadLesson registry + resolveTerminalLessonId extended this wave."
+    ]
+  }
+}

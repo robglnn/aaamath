@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { playBlip } from '@/game/audio'
 import { useGameStore } from '@/game/store'
-import { lesson1, lesson2 } from '@/content/loadLesson'
+import { lesson1, lesson2, lesson3 } from '@/content/loadLesson'
 import type { Locale } from '@/content/types'
 import { pickLocalized, useProgressStore } from '@/progress/store'
 import { ui } from '@/i18n/ui'
@@ -9,6 +9,10 @@ import { ui } from '@/i18n/ui'
 const L2_BLUEPRINT_ID = 'bp.pad.rail'
 const L2_RANK_ID = 'rank.riser.adept'
 const L2_ZONE_IDS = ['zone.beacon.cyan', 'zone.beta.annex'] as const
+
+const L3_BLUEPRINT_ID = 'bp.relay.splitter'
+const L3_RANK_ID = 'rank.riser.expert'
+const L3_ZONE_ID = 'zone.gamma.relay'
 
 function resolveL2ZoneId(zones: string[]): (typeof L2_ZONE_IDS)[number] | null {
   for (const id of L2_ZONE_IDS) {
@@ -25,6 +29,11 @@ function l2UnlockTitle(id: string, locale: Locale): string {
     if (zoneDef) return pickLocalized(zoneDef.title, locale)
   }
   return id
+}
+
+function l3UnlockTitle(id: string, locale: Locale): string {
+  const def = lesson3.unlocks.find((u) => u.id === id)
+  return def ? pickLocalized(def.title, locale) : id
 }
 
 interface HudProps {
@@ -53,13 +62,16 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const hasRailBlueprint = useGameStore((s) => s.hasRailBlueprint)
   const hasAdeptRank = useGameStore((s) => s.hasAdeptRank)
   const hasBetaAnnex = useGameStore((s) => s.hasBetaAnnex)
+  const hasRelaySplitter = useGameStore((s) => s.hasRelaySplitter)
+  const hasExpertRank = useGameStore((s) => s.hasExpertRank)
+  const hasGammaRelay = useGameStore((s) => s.hasGammaRelay)
   const activeZone = useGameStore((s) => s.activeZone)
   const mode = useGameStore((s) => s.mode)
   const setMode = useGameStore((s) => s.setMode)
   const requestPlace = useGameStore((s) => s.requestPlace)
 
   const [unlockFlash, setUnlockFlash] = useState<UnlockFlash>(null)
-  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex })
+  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay })
   const prevNearTerminal = useRef(nearTerminal)
   const syncReady = useRef(false)
   const pendingFlash = useRef<UnlockFlash>(null)
@@ -93,7 +105,11 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     else if (!prev.hasAdeptRank && hasAdeptRank) flash = 'rank'
     else if (!prev.hasRailBlueprint && hasRailBlueprint) flash = 'blueprint'
     else if (!prev.hasBetaAnnex && hasBetaAnnex) flash = 'zone'
-    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex }
+    // L3 transitions ride the same cards (expert → rank, splitter → blueprint, gamma → zone)
+    else if (!prev.hasExpertRank && hasExpertRank) flash = 'rank'
+    else if (!prev.hasRelaySplitter && hasRelaySplitter) flash = 'blueprint'
+    else if (!prev.hasGammaRelay && hasGammaRelay) flash = 'zone'
+    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay }
 
     if (!syncReady.current) {
       syncReady.current = true
@@ -108,7 +124,7 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     }
 
     showFlash(flash)
-  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, mode])
+  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, mode])
 
   useEffect(() => {
     if (mode === 'lesson' || !pendingFlash.current) return
@@ -144,13 +160,22 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const l2RankTitle = l2UnlockTitle(L2_RANK_ID, locale)
   const l2ZoneTitle = l2ZoneId ? l2UnlockTitle(l2ZoneId, locale) : ''
 
-  const objectiveText = hasBetaAnnex
-    ? ui(locale, 'objectiveAnnexOpen')
-    : hasZoneBeta
-      ? ui(locale, 'objectiveZoneBetaOpen')
-      : hasBlueprint && !blueprintPlaced
-        ? ui(locale, 'objectivePlaceBlueprint')
-        : ui(locale, 'objectiveReachTerminal')
+  const hasL3Blueprint = progressUnlocks.blueprints.includes(L3_BLUEPRINT_ID)
+  const hasL3Rank = progressUnlocks.ranks.includes(L3_RANK_ID)
+  const hasL3Zone = progressUnlocks.zones.includes(L3_ZONE_ID)
+  const l3BlueprintTitle = l3UnlockTitle(L3_BLUEPRINT_ID, locale)
+  const l3RankTitle = l3UnlockTitle(L3_RANK_ID, locale)
+  const l3ZoneTitle = l3UnlockTitle(L3_ZONE_ID, locale)
+
+  const objectiveText = hasGammaRelay
+    ? ui(locale, 'objectiveGammaRelayOpen')
+    : hasBetaAnnex
+      ? ui(locale, 'objectiveAnnexOpen')
+      : hasZoneBeta
+        ? ui(locale, 'objectiveZoneBetaOpen')
+        : hasBlueprint && !blueprintPlaced
+          ? ui(locale, 'objectivePlaceBlueprint')
+          : ui(locale, 'objectiveReachTerminal')
 
   return (
     <div className="gr-hud">
@@ -193,6 +218,30 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
               ◎
             </span>
             {l2ZoneTitle}
+          </span>
+        )}
+        {hasL3Rank && (
+          <span className="gr-l2-chip gr-l3-chip gr-l3-chip--rank" data-tier="expert">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◆
+            </span>
+            {l3RankTitle}
+          </span>
+        )}
+        {hasL3Blueprint && (
+          <span className="gr-l2-chip gr-l3-chip gr-l3-chip--blueprint" data-tier="expert">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ⬡
+            </span>
+            {l3BlueprintTitle}
+          </span>
+        )}
+        {hasL3Zone && (
+          <span className="gr-l2-chip gr-l3-chip gr-l3-chip--zone" data-tier="expert">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◎
+            </span>
+            {l3ZoneTitle}
           </span>
         )}
       </div>

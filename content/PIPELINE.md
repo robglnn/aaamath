@@ -33,9 +33,10 @@ npm run content:pipeline
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| `algebra-i-01` | Shipped in game | Variables, expressions, evaluation |
-| `algebra-i-02` | Draft on disk | Combining like terms / simplifying; pending Item Author + Critic stages (see `docs/gauntlet/builder-wave12-lesson2.md`) |
-| `algebra-i-03` | Draft on disk | Distributive property (expand, negative factors, distribute-then-combine, factor GCF); pending Critic stage + runtime wiring (see `docs/gauntlet/builder-wave20-lesson3.md`) |
+| `algebra-i-01` | Shipped in game | Variables, expressions, evaluation; L1 3D unlocks |
+| `algebra-i-02` | Shipped in game | Combining like terms; L2 3D unlocks (rails / adept / annex) |
+| `algebra-i-03` | Shipped in game | Distributive property; L3 3D unlocks (splitter / Expert / Gamma Relay) — see `builder-wave21-l3-3d.md` |
+| `algebra-i-04` | Shipped in game (content + terminal) | Solving one-step equations; GameView 3D props deferred — see `builder-wave22-lesson4.md` |
 
 Cross-lesson prerequisite links use qualified refs in `prerequisites[]`, e.g. `"algebra-i-01:kp.variable.symbol"`. The validator resolves `<lesson-slug>:<kp-id>` against `content/lessons/<slug>/package.json` and **fails** if the lesson package or KP is missing. Plain `kp.*` refs must still resolve inside the same package.
 
@@ -45,4 +46,4 @@ Cross-lesson prerequisite links use qualified refs in `prerequisites[]`, e.g. `"
 
 ## Runtime loader
 
-`src/content/loadLesson.ts` exports `lesson1`/`lesson2`, the `LESSONS` registry (keyed by package id), `resolveTerminalLessonId` (terminal routes to L2 after L1 mastery), and helpers `t`, `getItem`, `getKp` (search all packaged lessons). Note: registry keys follow each package's `id` field — if a future package adopts the `lesson.*` id convention, add directory-slug aliases to `LESSONS`.
+`src/content/loadLesson.ts` exports `lesson1`–`lesson4`, the `LESSONS` registry (keyed by package id), `resolveTerminalLessonId` (terminal routes to L2→L3→L4 after prior mastery), and helpers `t`, `getItem`, `getKp` (search all packaged lessons). Note: registry keys follow each package's `id` field — if a future package adopts the `lesson.*` id convention, add directory-slug aliases to `LESSONS`.

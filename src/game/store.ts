@@ -10,6 +10,9 @@ export interface UnlockFlags {
   railBlueprint: boolean
   adeptRank: boolean
   betaAnnex: boolean
+  relaySplitter: boolean
+  expertRank: boolean
+  gammaRelay: boolean
 }
 
 export interface GameState {
@@ -24,6 +27,9 @@ export interface GameState {
   hasRailBlueprint: boolean
   hasAdeptRank: boolean
   hasBetaAnnex: boolean
+  hasRelaySplitter: boolean
+  hasExpertRank: boolean
+  hasGammaRelay: boolean
   blueprintPlaced: boolean
   blueprintPosition: [number, number, number] | null
   nearTerminal: boolean
@@ -64,6 +70,9 @@ export const useGameStore = create<GameState>()((set) => ({
   hasRailBlueprint: false,
   hasAdeptRank: false,
   hasBetaAnnex: false,
+  hasRelaySplitter: false,
+  hasExpertRank: false,
+  hasGammaRelay: false,
   blueprintPlaced: false,
   blueprintPosition: null,
   nearTerminal: false,
@@ -96,6 +105,9 @@ export const useGameStore = create<GameState>()((set) => ({
       hasRailBlueprint: unlocks.railBlueprint,
       hasAdeptRank: unlocks.adeptRank,
       hasBetaAnnex: unlocks.betaAnnex,
+      hasRelaySplitter: unlocks.relaySplitter,
+      hasExpertRank: unlocks.expertRank,
+      hasGammaRelay: unlocks.gammaRelay,
     }),
   placeBlueprint: (position) =>
     set({ blueprintPlaced: true, blueprintPosition: position, mode: 'explore' }),

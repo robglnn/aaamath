@@ -80,6 +80,7 @@ export type UiKey =
   | 'zoneActive'
   | 'objectiveZoneBetaOpen'
   | 'objectiveAnnexOpen'
+  | 'objectiveGammaRelayOpen'
   | 'objectivePlaceBlueprint'
   | 'objectiveReachTerminal'
   | 'blueprintOnline'
@@ -166,6 +167,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     zoneActive: 'Active',
     objectiveZoneBetaOpen: 'Zone Beta open — explore the new pad',
     objectiveAnnexOpen: 'Beta Annex open — cross the bridge east of Beta',
+    objectiveGammaRelayOpen: 'Gamma Relay open — cross the bridge west of Beta',
     objectivePlaceBlueprint: 'Place your blueprint pad (B)',
     objectiveReachTerminal: 'Objective · Reach the Algebra Terminal',
     blueprintOnline: 'Blueprint online',
@@ -251,6 +253,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     zoneActive: 'Activo',
     objectiveZoneBetaOpen: 'Zona Beta abierta — explora la nueva plataforma',
     objectiveAnnexOpen: 'Anexo Beta abierto — cruza el puente al este de Beta',
+    objectiveGammaRelayOpen: 'Relé Gamma abierto — cruza el puente al oeste de Beta',
     objectivePlaceBlueprint: 'Coloca tu plataforma de plano (B)',
     objectiveReachTerminal: 'Objetivo · Llega al Terminal de Álgebra',
     blueprintOnline: 'Plano en línea',
@@ -336,6 +339,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     zoneActive: 'Aktywna',
     objectiveZoneBetaOpen: 'Strefa Beta otwarta — eksploruj nową platformę',
     objectiveAnnexOpen: 'Aneks Beta otwarty — przejdź mostem na wschód od Bety',
+    objectiveGammaRelayOpen: 'Przekaźnik Gamma otwarty — przejdź mostem na zachód od Bety',
     objectivePlaceBlueprint: 'Umieść platformę planu (B)',
     objectiveReachTerminal: 'Cel · Dotrzyj do Terminala Algebry',
     blueprintOnline: 'Plan online',

@@ -1,19 +1,17 @@
 # Active Context
 
 ## Current focus
-Gauntlet continuation waves 16–19 after overnight PASS_WITH_GAPS. Visual AAA gaps from overnight critic largely attacked; approaching profile-geometry plateau.
+Gauntlet waves 21–22 after visual plateau: L3 3D mastery payoff + Lesson 4 curriculum.
 
 ## Locked decisions
 See `docs/decisions.md`.
 
-## Delivered (continuation)
-- W16: L2 3D unlocks, AuthoredProps, UnlockCelebrationFx, chrome hierarchy
-- W17: authoredGeo hero silhouettes (dish/pillar/rack)
-- W18: terminal/player heroes, L2 rail FX, annex path
-- W19: authored player body + mid-field ducts/masts/barrier pane
+## Delivered (this pass)
+- W21: L3 3D unlocks (splitter, Expert, Gamma Relay), HUD chips/flash, hex orientation polish
+- W22: Algebra I Lesson 4 Solving One-Step Equations EN/ES/PL; terminal L1→L4; answer-key spread + feedback fixes
 
 ## Live
 https://robglnn.github.io/aaamath/
 
 ## Next
-L3 curriculum or true GLTF art pack; avoid more low-yield kitbash waves.
+L4 3D unlock props or L5 two-step equations; avoid kitbash without GLTF mandate.

@@ -22,6 +22,17 @@ export const ANNEX_BRIDGE = {
   halfWidth: 0.95,
 }
 
+/** L3 Zone Gamma Relay — hexagonal relay pad west of Beta (east vertex on the approach axis). */
+export const GAMMA_RADIUS = 2.6
+export const GAMMA_CENTER: [number, number] = [BETA_CENTER[0] - BETA_RADIUS - 3.3, BETA_CENTER[1]]
+/** Walkway slab bridging the Beta west rim to the relay east vertex. */
+export const GAMMA_BRIDGE = {
+  x0: GAMMA_CENTER[0] + GAMMA_RADIUS - 0.5,
+  x1: BETA_CENTER[0] - BETA_RADIUS + 0.5,
+  z: BETA_CENTER[1],
+  halfWidth: 0.95,
+}
+
 export const BOUNDS = { x: 12, zMin: -20.5, zMax: 10 }
 
 export const WALK_SPEED = 4.6
@@ -50,6 +61,7 @@ export function groundHeight(
   hasZoneBeta: boolean,
   blueprint: [number, number, number] | null,
   hasBetaAnnex = false,
+  hasGammaRelay = false,
 ): number {
   let gy = 0
   if (x * x + z * z <= ALPHA_RADIUS * ALPHA_RADIUS) gy = PAD_TOP
@@ -64,6 +76,17 @@ export function groundHeight(
     const dz = Math.abs(z - ANNEX_CENTER[1])
     if (dx + dz <= ANNEX_RADIUS - 0.15) gy = Math.max(gy, PAD_TOP)
     if (x >= ANNEX_BRIDGE.x0 && x <= ANNEX_BRIDGE.x1 && Math.abs(z - ANNEX_BRIDGE.z) <= ANNEX_BRIDGE.halfWidth) {
+      gy = Math.max(gy, PAD_TOP)
+    }
+  }
+  if (hasGammaRelay) {
+    // Relay pad is a hexagon with a vertex pointing east at the bridge; inside
+    // test on the two first-quadrant face normals (inradius h = R·√3/2).
+    const qx = Math.abs(x - GAMMA_CENTER[0])
+    const qz = Math.abs(z - GAMMA_CENTER[1])
+    const h = (GAMMA_RADIUS - 0.15) * 0.8660254
+    if (qz <= h && 0.8660254 * qx + 0.5 * qz <= h) gy = Math.max(gy, PAD_TOP)
+    if (x >= GAMMA_BRIDGE.x0 && x <= GAMMA_BRIDGE.x1 && Math.abs(z - GAMMA_BRIDGE.z) <= GAMMA_BRIDGE.halfWidth) {
       gy = Math.max(gy, PAD_TOP)
     }
   }
