@@ -24,17 +24,27 @@
 | **13** | Cloth vs armor material split + HeroGltf boosts | PASS_WITH_GAPS |
 | **14** | Closer hero cam + rim lights | PASS_WITH_GAPS |
 | **15** | Denser hair + quieter navy panel maps | PASS_WITH_GAPS |
+| **16** | Soft body volumes / joint overlaps | PASS_WITH_GAPS |
+| **17** | Authored ORM + cyan tech-suit piping | PASS_WITH_GAPS |
+| **18** | Stylized face (eyes/brows) | PASS_WITH_GAPS |
+| **19** | Hair cards + volume | PASS_WITH_GAPS |
+| **20** | Contoured armor plates | PASS_WITH_GAPS |
+| **21** | Brighter daylight plaza exposure/sky | PASS_WITH_GAPS |
+| **22** | Academy plaza banners | PASS_WITH_GAPS |
+| **23** | Warmer stone floor + crystal spires | PASS_WITH_GAPS |
+| **24** | Hex ability tray + quadrant minimap | PASS_WITH_GAPS |
+| **25** | Closer cam + denser motes + hero rims | PASS_WITH_GAPS |
 
 Refs: `docs/gauntlet/bars/` (9 source + named HUD bars)  
-Shots: `docs/gauntlet/_critic-shots/loop1-*`, `loop2-3-landscape-*`, `loop6-10-*`, `loop11-15-*`  
-Reports: `critic-loop2-5-visual.md`, `critic-loop6-10-sculpted-pbr.md`, `critic-loop11-15-organic-character.md`, `builder-loop11-15-organic-character.md`
+Shots: `docs/gauntlet/_critic-shots/loop1-*`, `loop2-3-landscape-*`, `loop6-10-*`, `loop11-15-*`, `loop16-25-*`  
+Reports: `critic-loop11-15-organic-character.md`, `critic-loop16-25-sculpt-plaza.md`, `builder-loop16-25-sculpt-plaza.md`
 
 ## Plateau judgment
 
-Loops 11–15 moved the player from hard-surface kitbash toward organic Fortnite-class read (hair, skin head, cloth/armor split, closer cam). Absolute AAA sculpted skins remain the open ceiling. **No more Algebra. Stop after loop 15.**
+Loops 16–25 closed the largest remaining gaps after organic wave: tech-suit piping + ORM, face/hair cards, plaza banners, daylight, HUD juice. Absolute AAA sculpted single-mesh skins remain the open ceiling. **No more Algebra. Stop after loop 25.**
 
 ## Guards held
 
 - Pages `base: '/aaamath/'`; KaTeX deferred; L1–L7 pedagogy untouched; speech + text fallback intact
 - Curriculum frozen — no L8+
-- Draco decode via gstatic; iPhone-budget player GLB (~237 kB)
+- Draco decode via gstatic; iPhone-budget player GLB (~496 kB)

@@ -19,9 +19,10 @@ export function BrandCrest({ className = '', size = 56 }: { className?: string; 
           <stop offset="0%" stopColor="#9ff5ea" />
           <stop offset="100%" stopColor="#3dd6c6" />
         </linearGradient>
-        <filter id="ar-crest-glow" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="1.4" result="b" />
+        <filter id="ar-crest-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2.0" result="b" />
           <feMerge>
+            <feMergeNode in="b" />
             <feMergeNode in="b" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>

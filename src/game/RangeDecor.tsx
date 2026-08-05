@@ -32,8 +32,59 @@ export function RangeDecor() {
       <AntennaDishes />
       <SupplyCrates />
       <DistantSpires />
+      <PlazaBanners />
       <GroundBreakup />
       <AuthoredProps />
+    </group>
+  )
+}
+
+/**
+ * Loop 22: Academy plaza banners — tall cloth verticals with gold crest plates
+ * matching Fortnite floating-island ref density (no new lights, emissive trim).
+ */
+function PlazaBanners() {
+  const banners: [number, number, number, string][] = [
+    // Near-pad flanks — readable in first 10s shoulder cam
+    [-4.6, 3.8, 0.25, '#1a3a6a'],
+    [5.0, 3.4, -0.3, '#1a4a3a'],
+    [-6.8, 5.2, 0.35, '#1a3a6a'],
+    [7.2, 4.8, -0.4, '#1a4a3a'],
+    [-7.5, -8.5, 0.2, '#4a1a2a'],
+    [6.8, -9.2, -0.25, '#1a3a6a'],
+    [-11, 1.5, 0.5, '#2a2a5a'],
+    [11.2, -1.0, -0.55, '#1a4a3a'],
+  ]
+  return (
+    <group>
+      {banners.map(([x, z, rot, cloth], i) => (
+        <group key={i} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
+          {/* Pole */}
+          <mesh position={[0, 2.1, 0]}>
+            <cylinderGeometry args={[0.045, 0.055, 4.2, 8]} />
+            <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.4} />
+          </mesh>
+          <mesh position={[0, 4.25, 0]}>
+            <sphereGeometry args={[0.07, 8, 8]} />
+            <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.85} metalness={0.8} roughness={0.25} />
+          </mesh>
+          {/* Banner cloth */}
+          <mesh position={[0.55, 2.6, 0]}>
+            <boxGeometry args={[1.05, 2.4, 0.04]} />
+            <meshStandardMaterial color={cloth} metalness={0.08} roughness={0.78} />
+          </mesh>
+          {/* Gold crest plate */}
+          <mesh position={[0.55, 3.15, 0.03]}>
+            <boxGeometry args={[0.42, 0.5, 0.03]} />
+            <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.55} metalness={0.85} roughness={0.28} />
+          </mesh>
+          {/* Cyan trim stripe */}
+          <mesh position={[0.55, 1.55, 0.03]}>
+            <boxGeometry args={[1.0, 0.08, 0.02]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.7} />
+          </mesh>
+        </group>
+      ))}
     </group>
   )
 }
@@ -477,6 +528,10 @@ function DistantSpires() {
     [22, 16, 7.2, 1.0],
     [-18, -28, 5.5, 0.8],
     [16, -30, 8, 1.1],
+    // Loop 23: extra mid-horizon crystal accents for plaza depth
+    [-32, 4, 7.5, 0.7],
+    [30, 10, 8.5, 0.85],
+    [8, -36, 6.2, 0.65],
   ]
   return (
     <group>
@@ -484,14 +539,27 @@ function DistantSpires() {
         <group key={i} position={[x, 0, z]}>
           <mesh position={[0, h / 2, 0]}>
             <boxGeometry args={[w, h, w]} />
-            <meshStandardMaterial color="#0e1c28" metalness={0.2} roughness={0.85} transparent opacity={0.85} />
+            <meshStandardMaterial
+              color={i >= 6 ? '#1a3a55' : '#0e1c28'}
+              metalness={i >= 6 ? 0.35 : 0.2}
+              roughness={i >= 6 ? 0.45 : 0.85}
+              transparent
+              opacity={0.85}
+            />
           </mesh>
+          {/* Crystal ring accent on newer spires */}
+          {i >= 6 && (
+            <mesh position={[0, h * 0.65, 0]} rotation={[Math.PI / 2, 0, 0]}>
+              <torusGeometry args={[w * 0.85, 0.06, 6, 20]} />
+              <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.75} transparent opacity={0.7} />
+            </mesh>
+          )}
           <mesh position={[0, h + 0.4, 0]}>
             <boxGeometry args={[w * 0.35, 0.8, w * 0.35]} />
             <meshStandardMaterial
               color={i % 3 === 0 ? AMBER : CYAN}
               emissive={i % 3 === 0 ? AMBER : CYAN}
-              emissiveIntensity={0.9}
+              emissiveIntensity={1.05}
             />
           </mesh>
         </group>

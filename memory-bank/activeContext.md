@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current focus
-Fortnite **visual** Gauntlet loops 11–15 complete (organic character wave). Curriculum frozen — no L8+.
+Fortnite **visual** Gauntlet loops 16–25 complete (sculpt + plaza wave). Curriculum frozen — no L8+.
 
 ## Locked decisions
 - Mobile = **landscape-first** (rotate-to-play in portrait)
@@ -9,11 +9,11 @@ Fortnite **visual** Gauntlet loops 11–15 complete (organic character wave). Cu
 - Visual spend > Algebra
 
 ## Delivered (this pass)
-- Loops 11–15: organic Blender player (hair, skin head, athletic volumes), baked AO/normal/panel, cloth/armor split, closer cam + rims, quieter navy panels
-- Script: `tools/blender/rebuild_player_organic.py`
+- Loops 16–25: sculpt soft volumes, ORM + cyan piping, face, hair cards, contoured armor, daylight push, plaza banners, floor/spires, hex HUD + quadrant minimap, closer cam + motes
+- Script: `tools/blender/rebuild_player_sculpt.py`
 
 ## Live
 https://robglnn.github.io/aaamath/
 
 ## Next
-Optional: true sculpted single-mesh hero + authored ORM; no curriculum. Visual plateau for primitive-assemblage approach.
+Optional: true Multires single-mesh hero + authored skin packs; no curriculum. Visual plateau for primitive-assemblage approach.

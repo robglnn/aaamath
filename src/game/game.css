@@ -511,29 +511,42 @@
   transform: translateX(-50%);
   display: flex;
   align-items: flex-end;
-  gap: 12px;
+  gap: 14px;
   pointer-events: auto;
   z-index: 7;
+  padding: 10px 18px 8px;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse 80% 120% at 50% 100%, rgba(61, 214, 198, 0.12), transparent 70%),
+    rgba(6, 14, 22, 0.45);
+  border: 1px solid rgba(61, 214, 198, 0.22);
+  box-shadow:
+    0 0 28px rgba(61, 214, 198, 0.1),
+    inset 0 0 20px rgba(61, 214, 198, 0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .gr-ability {
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   min-width: 48px;
   min-height: 48px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(61, 214, 198, 0.45);
+  /* Loop 24: hex-leaning circular slots (Fortnite ability bar juice) */
+  clip-path: polygon(30% 4%, 70% 4%, 96% 50%, 70% 96%, 30% 96%, 4% 50%);
+  border-radius: 0;
+  border: 1.5px solid rgba(61, 214, 198, 0.55);
   background:
-    radial-gradient(circle at 50% 35%, rgba(61, 214, 198, 0.18), transparent 60%),
-    rgba(8, 18, 26, 0.72);
+    radial-gradient(circle at 50% 35%, rgba(61, 214, 198, 0.22), transparent 60%),
+    rgba(8, 18, 26, 0.78);
   color: #9ff0e6;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow:
-    0 0 16px rgba(61, 214, 198, 0.12),
-    inset 0 0 12px rgba(61, 214, 198, 0.06);
+    0 0 18px rgba(61, 214, 198, 0.16),
+    inset 0 0 14px rgba(61, 214, 198, 0.08);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s, color 0.15s;
@@ -594,22 +607,29 @@
   position: absolute;
   right: max(14px, env(safe-area-inset-right));
   bottom: max(18px, calc(env(safe-area-inset-bottom) + 12px));
-  width: 96px;
-  height: 96px;
+  width: 102px;
+  height: 102px;
   border-radius: 50%;
-  border: 2px solid rgba(240, 168, 48, 0.55);
+  border: 2.5px solid rgba(240, 168, 48, 0.65);
   background:
-    radial-gradient(circle at 50% 40%, rgba(61, 214, 198, 0.14), transparent 55%),
-    rgba(6, 14, 22, 0.78);
+    conic-gradient(
+      from 45deg,
+      rgba(96, 165, 250, 0.22) 0deg 90deg,
+      rgba(52, 211, 153, 0.2) 90deg 180deg,
+      rgba(240, 168, 48, 0.2) 180deg 270deg,
+      rgba(167, 139, 250, 0.2) 270deg 360deg
+    ),
+    radial-gradient(circle at 50% 40%, rgba(61, 214, 198, 0.16), transparent 55%),
+    rgba(6, 14, 22, 0.82);
   box-shadow:
-    0 0 20px rgba(240, 168, 48, 0.22),
-    inset 0 0 18px rgba(61, 214, 198, 0.08);
+    0 0 24px rgba(240, 168, 48, 0.28),
+    inset 0 0 20px rgba(61, 214, 198, 0.1);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   overflow: hidden;
   pointer-events: none;
   z-index: 7;
-  filter: drop-shadow(0 0 14px rgba(61, 214, 198, 0.22));
+  filter: drop-shadow(0 0 16px rgba(61, 214, 198, 0.28));
 }
 
 .gr-minimap-svg {

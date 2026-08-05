@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending, BufferAttribute, BufferGeometry, CanvasTexture, DynamicDrawUsage, SRGBColorSpace } from 'three'
 import { ALPHA_RADIUS, TERMINAL_POS } from '@/game/world'
 
-const MOTE_COUNT = 40 // denser dust for Fortnite hub juice (still cheap points)
+const MOTE_COUNT = 52 // loop 25: denser dust for Fortnite hub juice (still cheap points)
 const SPARKLE_COUNT = 18 // rim twinkles hugging the Alpha pad edge
 const UPDATE_HZ = 30 // slow drift reads identical at half rate; halves attribute uploads
 

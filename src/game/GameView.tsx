@@ -186,11 +186,12 @@ export function GameView({ unlocked, onOpenTerminal, onOpenProgress, lessonOpen 
         gl={{
           antialias: true,
           toneMapping: ACESFilmicToneMapping,
-          toneMappingExposure: 1.22,
+          // Loop 21: brighter daylight plaza read vs Fortnite floating-island refs
+          toneMappingExposure: 1.36,
           outputColorSpace: SRGBColorSpace,
           powerPreference: 'high-performance',
         }}
-        camera={{ fov: 46, near: 0.1, far: 140, position: [0, 3.4, 7.6] }}
+        camera={{ fov: 44, near: 0.1, far: 140, position: [0, 3.2, 7.2] }}
       >
         <TrainingRange />
       </Canvas>

@@ -20,8 +20,8 @@ import { HeroModel } from '@/game/HeroGltf'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
 import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, EPSILON_BRIDGE, EPSILON_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, ZETA_BRIDGE, ZETA_CENTER, groundHeight, rig } from '@/game/world'
 
-const SKY = '#3a5a88'
-const FOG = '#4a6280'
+const SKY = '#4a6a98'
+const FOG = '#5a7290'
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
@@ -45,10 +45,10 @@ function bakeFloorMaps() {
     const d = img.data
     for (let i = 0; i < d.length; i += 4) {
       const n = (Math.random() - 0.5) * 16
-      // Warmer stone-plaza read vs pure charcoal void deck
-      d[i] = 28 + n * 1.1
-      d[i + 1] = 34 + n * 0.95
-      d[i + 2] = 42 + n * 0.85
+      // Warmer stone-plaza read vs pure charcoal void deck (loop 23)
+      d[i] = 36 + n * 1.15
+      d[i + 1] = 40 + n * 1.0
+      d[i + 2] = 46 + n * 0.8
       d[i + 3] = 255
     }
     ctx.putImageData(img, 0, 0)
@@ -81,9 +81,9 @@ function bakeFloorMaps() {
         ctx.fill()
       }
     }
-    // Soft geometric seal etch (center tile feel when tiled — faint, game-range not debug)
-    ctx.strokeStyle = 'rgba(61, 214, 198, 0.12)'
-    ctx.lineWidth = 2
+    // Soft geometric seal etch — brighter cyan for plaza read (loop 23)
+    ctx.strokeStyle = 'rgba(61, 214, 198, 0.22)'
+    ctx.lineWidth = 2.5
     ctx.beginPath()
     ctx.arc(SIZE / 2, SIZE / 2, 48, 0, Math.PI * 2)
     ctx.stroke()
@@ -92,6 +92,20 @@ function bakeFloorMaps() {
       const a = (i / 6) * Math.PI * 2 - Math.PI / 2
       const x = SIZE / 2 + Math.cos(a) * 70
       const y = SIZE / 2 + Math.sin(a) * 70
+      if (i === 0) ctx.moveTo(x, y)
+      else ctx.lineTo(x, y)
+    }
+    ctx.closePath()
+    ctx.stroke()
+    // Inner star etch
+    ctx.strokeStyle = 'rgba(240, 168, 48, 0.14)'
+    ctx.lineWidth = 1.5
+    ctx.beginPath()
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2 - Math.PI / 2
+      const r = i % 2 === 0 ? 38 : 18
+      const x = SIZE / 2 + Math.cos(a) * r
+      const y = SIZE / 2 + Math.sin(a) * r
       if (i === 0) ctx.moveTo(x, y)
       else ctx.lineTo(x, y)
     }
@@ -139,15 +153,15 @@ function bakeSkyTexture(): CanvasTexture {
   const { canvas, ctx } = makeCanvas(64, 512)
   if (ctx) {
     const g = ctx.createLinearGradient(0, 0, 0, 512)
-    // Daylight hub sky — closer to Fortnite plaza refs than night void
-    g.addColorStop(0, '#5a8ec8')
-    g.addColorStop(0.22, '#7aa8d8')
-    g.addColorStop(0.38, '#a8c4e0')
-    g.addColorStop(0.48, '#d8c8a8')
-    g.addColorStop(0.52, '#f0c080')
-    g.addColorStop(0.58, '#c89860')
-    g.addColorStop(0.68, '#6a7a90')
-    g.addColorStop(1, '#2a3848')
+    // Loop 21: brighter daylight hub sky — closer to Fortnite plaza refs
+    g.addColorStop(0, '#6a9ad8')
+    g.addColorStop(0.22, '#8ab8e8')
+    g.addColorStop(0.38, '#b8d0ec')
+    g.addColorStop(0.48, '#e0d0b0')
+    g.addColorStop(0.52, '#f5cc88')
+    g.addColorStop(0.58, '#d0a468')
+    g.addColorStop(0.68, '#7a8aa0')
+    g.addColorStop(1, '#3a4858')
     ctx.fillStyle = g
     ctx.fillRect(0, 0, 64, 512)
     // Soft cloud bands
@@ -205,9 +219,9 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    // Loop 14: closer hero shoulder cam — sells organic hair/suit silhouette in first 10s
-    const dist = 4.35
-    const height = 2.15 + pitch * 2.0
+    // Loop 25: slightly closer hero cam — sells sculpted face/hair/piping in first 10s
+    const dist = 4.05
+    const height = 2.05 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
@@ -441,7 +455,7 @@ function DeckFloor() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
       <planeGeometry args={[90, 90]} />
-      <meshStandardMaterial map={map} roughnessMap={roughnessMap} roughness={1} metalness={0.12} />
+      <meshStandardMaterial map={map} roughnessMap={roughnessMap} roughness={1} metalness={0.18} />
     </mesh>
   )
 }
@@ -509,7 +523,7 @@ function SkyAtmosphere() {
             <meshBasicMaterial
               color="#ffe2b0"
               transparent
-              opacity={0.045 + (i % 2) * 0.02}
+              opacity={0.06 + (i % 2) * 0.025}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -873,16 +887,17 @@ export function TrainingRange() {
       <Stars radius={90} depth={50} count={1800} factor={2.6} saturation={0.15} fade speed={0.35} />
       <SkyAtmosphere />
 
-      {/* Fortnite-hub daylight: warm key, cool rim, soft fill — sells sculpted PBR */}
-      <hemisphereLight args={['#d8e8ff', '#3a2a18', 0.72]} />
-      <ambientLight intensity={0.38} color="#ffe8d0" />
-      <directionalLight position={[16, 22, 10]} intensity={2.35} color="#ffe0b0" castShadow={false} />
-      <directionalLight position={[-10, 8, -12]} intensity={0.55} color="#8ec8f0" />
-      <directionalLight position={[2, 6, 8]} intensity={0.45} color="#3dd6c6" />
-      <directionalLight position={[-4, 3, 6]} intensity={0.7} color="#fff2d8" />
-      {/* Loop 14: warm hero rim — sells hair/suit silhouette vs daylight fill */}
-      <directionalLight position={[4, 5, 3]} intensity={0.85} color="#ffd8a8" />
-      <directionalLight position={[-6, 4, -2]} intensity={0.55} color="#6ec8ff" />
+      {/* Loops 21/25: brighter Fortnite-hub daylight + stronger hero rims */}
+      <hemisphereLight args={['#e4f0ff', '#4a3520', 0.88]} />
+      <ambientLight intensity={0.48} color="#ffe8d0" />
+      <directionalLight position={[16, 22, 10]} intensity={2.65} color="#ffe4b8" castShadow={false} />
+      <directionalLight position={[-10, 8, -12]} intensity={0.65} color="#9ed0f5" />
+      <directionalLight position={[2, 6, 8]} intensity={0.55} color="#3dd6c6" />
+      <directionalLight position={[-4, 3, 6]} intensity={0.85} color="#fff2d8" />
+      {/* Warm/cool hero rims — sells hair cards + cyan piping silhouette */}
+      <directionalLight position={[4, 5, 3]} intensity={1.05} color="#ffd8a8" />
+      <directionalLight position={[-6, 4, -2]} intensity={0.72} color="#6ec8ff" />
+      <directionalLight position={[0, 8, -4]} intensity={0.4} color="#fff6e8" />
 
       <DeckFloor />
       {/* Navigation grit only — faded, warm charcoal; no cyan section grid */}

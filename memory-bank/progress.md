@@ -3,15 +3,16 @@
 ## What works
 - Live Pages https://robglnn.github.io/aaamath/
 - Lessons 1–7 playable EN/ES/PL (curriculum frozen — no L8+)
-- Diegetic Fortnite-ish HUD: crest, ability wheel, minimap
+- Diegetic Fortnite-ish HUD: crest, hex ability tray, quadrant minimap
 - Landscape-first mobile + rotate-to-play portrait gate
-- Organic player GLB (hair, skin head, athletic volumes, cloth/armor, baked AO/normal/panel) + prior PBR terminal/blueprint/zone
+- Sculpted organic player GLB (face, hair cards, cyan piping, ORM, contoured armor) ~496 kB Draco
 - Daylight ACES lighting, soft god rays, denser atmosphere motes, closer hero cam
+- Plaza banners + crystal-ring distant spires + warmer stone deck
 - KaTeX deferred; GameView lazy; Web Speech + text fallback
 
 ## Remaining gaps
 - Absolute Fortnite AAA sculpted single-mesh skins + authored ORM packs
-- Mid-field plaza density vs floating-island hub refs
+- Floating-island architecture depth beyond banners/spires
 
 ## Next
-Visual fidelity only if continuing; **no more Algebra lessons**. Loops 11–15 budget exhausted.
+Visual fidelity only if continuing; **no more Algebra lessons**. Loops 16–25 budget exhausted.

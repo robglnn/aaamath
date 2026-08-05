@@ -26,8 +26,13 @@ function boostHeroMaterials(root: Object3D) {
       const std = m as MeshStandardMaterial
       if (!std || std.emissiveIntensity == null) continue
       const name = (std.name || '').toLowerCase()
-      if (name.includes('cyan') || name.includes('crystal') || name.includes('amber')) {
-        std.emissiveIntensity = Math.max(std.emissiveIntensity, 2.8)
+      if (name.includes('piping')) {
+        // Loop 17: Fortnite tech-suit cyan piping — punch emissive under ACES
+        std.emissiveIntensity = Math.max(std.emissiveIntensity, 3.6)
+        std.metalness = Math.min(std.metalness ?? 0.2, 0.25)
+        std.roughness = Math.min(std.roughness ?? 0.2, 0.22)
+      } else if (name.includes('cyan') || name.includes('crystal') || name.includes('amber')) {
+        std.emissiveIntensity = Math.max(std.emissiveIntensity, 3.0)
       } else if (name.includes('gold')) {
         std.emissiveIntensity = Math.max(std.emissiveIntensity, 1.1)
         std.metalness = Math.max(std.metalness ?? 0, 0.85)
@@ -37,14 +42,18 @@ function boostHeroMaterials(root: Object3D) {
         std.metalness = Math.min(std.metalness ?? 0.1, 0.12)
         std.roughness = Math.max(std.roughness ?? 0.7, 0.62)
       } else if (name.includes('armor') || name.includes('plate')) {
-        std.metalness = Math.max(std.metalness ?? 0, 0.5)
-        std.roughness = Math.min(Math.max(std.roughness ?? 0.35, 0.25), 0.4)
+        std.metalness = Math.max(std.metalness ?? 0, 0.55)
+        std.roughness = Math.min(Math.max(std.roughness ?? 0.35, 0.22), 0.38)
       } else if (name.includes('hair')) {
         std.metalness = Math.min(std.metalness ?? 0.05, 0.08)
         std.roughness = Math.max(std.roughness ?? 0.6, 0.55)
       } else if (name.includes('skin')) {
         std.metalness = 0
-        std.roughness = Math.min(Math.max(std.roughness ?? 0.55, 0.45), 0.62)
+        std.roughness = Math.min(Math.max(std.roughness ?? 0.55, 0.45), 0.58)
+      } else if (name.includes('eye')) {
+        std.emissiveIntensity = Math.max(std.emissiveIntensity, 1.8)
+        std.metalness = Math.min(std.metalness ?? 0.15, 0.2)
+        std.roughness = Math.min(std.roughness ?? 0.2, 0.2)
       } else if (name.includes('visor')) {
         std.metalness = Math.max(std.metalness ?? 0, 0.35)
         std.roughness = Math.min(std.roughness ?? 0.15, 0.18)
