@@ -53,6 +53,22 @@ export const DELTA_BRIDGE = {
   halfWidth: 0.95,
 }
 
+/**
+ * L5 Epsilon Calibration Forge — regular pentagon yard northwest of Beta,
+ * mirror of Delta at [-7.6, -9.1]. EPSILON_RADIUS is the apothem (center→flat);
+ * cylinder body uses circumradius apothem/cos(π/5) with a flat side facing east
+ * toward the bridge — distinct from square Delta / hex Gamma / diamond Annex.
+ */
+export const EPSILON_RADIUS = 2.6
+export const EPSILON_CENTER: [number, number] = [-7.6, -9.1]
+/** Walkway slab bridging the Beta northwest rim to the yard east edge. */
+export const EPSILON_BRIDGE = {
+  x0: EPSILON_CENTER[0] + EPSILON_RADIUS - 0.3,
+  x1: -2.2,
+  z: -10.7,
+  halfWidth: 0.95,
+}
+
 export const BOUNDS = { x: 12, zMin: -20.5, zMax: 10 }
 
 export const WALK_SPEED = 4.6
@@ -83,6 +99,7 @@ export function groundHeight(
   hasBetaAnnex = false,
   hasGammaRelay = false,
   hasDeltaBalance = false,
+  hasEpsilonCal = false,
 ): number {
   let gy = 0
   if (x * x + z * z <= ALPHA_RADIUS * ALPHA_RADIUS) gy = PAD_TOP
@@ -117,6 +134,26 @@ export function groundHeight(
     const dz = Math.abs(z - DELTA_CENTER[1])
     if (dx <= DELTA_RADIUS - 0.15 && dz <= DELTA_RADIUS - 0.15) gy = Math.max(gy, PAD_TOP)
     if (x >= DELTA_BRIDGE.x0 && x <= DELTA_BRIDGE.x1 && Math.abs(z - DELTA_BRIDGE.z) <= DELTA_BRIDGE.halfWidth) {
+      gy = Math.max(gy, PAD_TOP)
+    }
+  }
+  if (hasEpsilonCal) {
+    // Yard is a regular pentagon (flat side east toward the bridge): five half-plane
+    // tests at apothem EPSILON_RADIUS. Walk slack matches prior pads (R − 0.15).
+    const dx = x - EPSILON_CENTER[0]
+    const dz = z - EPSILON_CENTER[1]
+    const h = EPSILON_RADIUS - 0.15
+    let inside = true
+    for (let k = 0; k < 5; k++) {
+      // Outward normals: east face first (k=0 → +X), then every 72°.
+      const a = (k * 2 * Math.PI) / 5
+      if (dx * Math.cos(a) + dz * Math.sin(a) > h) {
+        inside = false
+        break
+      }
+    }
+    if (inside) gy = Math.max(gy, PAD_TOP)
+    if (x >= EPSILON_BRIDGE.x0 && x <= EPSILON_BRIDGE.x1 && Math.abs(z - EPSILON_BRIDGE.z) <= EPSILON_BRIDGE.halfWidth) {
       gy = Math.max(gy, PAD_TOP)
     }
   }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { playBlip } from '@/game/audio'
 import { useGameStore } from '@/game/store'
-import { lesson1, lesson2, lesson3, lesson4 } from '@/content/loadLesson'
+import { lesson1, lesson2, lesson3, lesson4, lesson5 } from '@/content/loadLesson'
 import type { Locale } from '@/content/types'
 import { pickLocalized, useProgressStore } from '@/progress/store'
 import { ui } from '@/i18n/ui'
@@ -17,6 +17,10 @@ const L3_ZONE_ID = 'zone.gamma.relay'
 const L4_BLUEPRINT_ID = 'bp.balance.beam'
 const L4_RANK_ID = 'rank.riser.operator'
 const L4_ZONE_ID = 'zone.delta.balance'
+
+const L5_BLUEPRINT_ID = 'bp.balance.calibrator'
+const L5_RANK_ID = 'rank.riser.chief'
+const L5_ZONE_ID = 'zone.epsilon.cal'
 
 function resolveL2ZoneId(zones: string[]): (typeof L2_ZONE_IDS)[number] | null {
   for (const id of L2_ZONE_IDS) {
@@ -42,6 +46,11 @@ function l3UnlockTitle(id: string, locale: Locale): string {
 
 function l4UnlockTitle(id: string, locale: Locale): string {
   const def = lesson4.unlocks.find((u) => u.id === id)
+  return def ? pickLocalized(def.title, locale) : id
+}
+
+function l5UnlockTitle(id: string, locale: Locale): string {
+  const def = lesson5.unlocks.find((u) => u.id === id)
   return def ? pickLocalized(def.title, locale) : id
 }
 
@@ -77,13 +86,16 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const hasBalanceBeam = useGameStore((s) => s.hasBalanceBeam)
   const hasOperatorRank = useGameStore((s) => s.hasOperatorRank)
   const hasDeltaBalance = useGameStore((s) => s.hasDeltaBalance)
+  const hasBalanceCalibrator = useGameStore((s) => s.hasBalanceCalibrator)
+  const hasChiefRank = useGameStore((s) => s.hasChiefRank)
+  const hasEpsilonCal = useGameStore((s) => s.hasEpsilonCal)
   const activeZone = useGameStore((s) => s.activeZone)
   const mode = useGameStore((s) => s.mode)
   const setMode = useGameStore((s) => s.setMode)
   const requestPlace = useGameStore((s) => s.requestPlace)
 
   const [unlockFlash, setUnlockFlash] = useState<UnlockFlash>(null)
-  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance })
+  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal })
   const prevNearTerminal = useRef(nearTerminal)
   const syncReady = useRef(false)
   const pendingFlash = useRef<UnlockFlash>(null)
@@ -125,7 +137,11 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     else if (!prev.hasOperatorRank && hasOperatorRank) flash = 'rank'
     else if (!prev.hasBalanceBeam && hasBalanceBeam) flash = 'blueprint'
     else if (!prev.hasDeltaBalance && hasDeltaBalance) flash = 'zone'
-    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance }
+    // L5 transitions (chief → rank, calibrator → blueprint, epsilon → zone)
+    else if (!prev.hasChiefRank && hasChiefRank) flash = 'rank'
+    else if (!prev.hasBalanceCalibrator && hasBalanceCalibrator) flash = 'blueprint'
+    else if (!prev.hasEpsilonCal && hasEpsilonCal) flash = 'zone'
+    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal }
 
     if (!syncReady.current) {
       syncReady.current = true
@@ -140,7 +156,7 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     }
 
     showFlash(flash)
-  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, mode])
+  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, hasRelaySplitter, hasExpertRank, hasGammaRelay, hasBalanceBeam, hasOperatorRank, hasDeltaBalance, hasBalanceCalibrator, hasChiefRank, hasEpsilonCal, mode])
 
   useEffect(() => {
     if (mode === 'lesson' || !pendingFlash.current) return
@@ -190,17 +206,26 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const l4RankTitle = l4UnlockTitle(L4_RANK_ID, locale)
   const l4ZoneTitle = l4UnlockTitle(L4_ZONE_ID, locale)
 
-  const objectiveText = hasDeltaBalance
-    ? ui(locale, 'objectiveDeltaBalanceOpen')
-    : hasGammaRelay
-      ? ui(locale, 'objectiveGammaRelayOpen')
-      : hasBetaAnnex
-        ? ui(locale, 'objectiveAnnexOpen')
-        : hasZoneBeta
-          ? ui(locale, 'objectiveZoneBetaOpen')
-          : hasBlueprint && !blueprintPlaced
-            ? ui(locale, 'objectivePlaceBlueprint')
-            : ui(locale, 'objectiveReachTerminal')
+  const hasL5Blueprint = progressUnlocks.blueprints.includes(L5_BLUEPRINT_ID)
+  const hasL5Rank = progressUnlocks.ranks.includes(L5_RANK_ID)
+  const hasL5Zone = progressUnlocks.zones.includes(L5_ZONE_ID)
+  const l5BlueprintTitle = l5UnlockTitle(L5_BLUEPRINT_ID, locale)
+  const l5RankTitle = l5UnlockTitle(L5_RANK_ID, locale)
+  const l5ZoneTitle = l5UnlockTitle(L5_ZONE_ID, locale)
+
+  const objectiveText = hasEpsilonCal
+    ? ui(locale, 'objectiveEpsilonCalOpen')
+    : hasDeltaBalance
+      ? ui(locale, 'objectiveDeltaBalanceOpen')
+      : hasGammaRelay
+        ? ui(locale, 'objectiveGammaRelayOpen')
+        : hasBetaAnnex
+          ? ui(locale, 'objectiveAnnexOpen')
+          : hasZoneBeta
+            ? ui(locale, 'objectiveZoneBetaOpen')
+            : hasBlueprint && !blueprintPlaced
+              ? ui(locale, 'objectivePlaceBlueprint')
+              : ui(locale, 'objectiveReachTerminal')
 
   return (
     <div className="gr-hud">
@@ -291,6 +316,30 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
               ◎
             </span>
             {l4ZoneTitle}
+          </span>
+        )}
+        {hasL5Rank && (
+          <span className="gr-l2-chip gr-l5-chip gr-l5-chip--rank" data-tier="chief">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◆
+            </span>
+            {l5RankTitle}
+          </span>
+        )}
+        {hasL5Blueprint && (
+          <span className="gr-l2-chip gr-l5-chip gr-l5-chip--blueprint" data-tier="chief">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ⬡
+            </span>
+            {l5BlueprintTitle}
+          </span>
+        )}
+        {hasL5Zone && (
+          <span className="gr-l2-chip gr-l5-chip gr-l5-chip--zone" data-tier="chief">
+            <span className="gr-l2-chip-icon" aria-hidden>
+              ◎
+            </span>
+            {l5ZoneTitle}
           </span>
         )}
       </div>

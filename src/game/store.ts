@@ -16,6 +16,9 @@ export interface UnlockFlags {
   balanceBeam: boolean
   operatorRank: boolean
   deltaBalance: boolean
+  balanceCalibrator: boolean
+  chiefRank: boolean
+  epsilonCal: boolean
 }
 
 export interface GameState {
@@ -36,6 +39,9 @@ export interface GameState {
   hasBalanceBeam: boolean
   hasOperatorRank: boolean
   hasDeltaBalance: boolean
+  hasBalanceCalibrator: boolean
+  hasChiefRank: boolean
+  hasEpsilonCal: boolean
   blueprintPlaced: boolean
   blueprintPosition: [number, number, number] | null
   nearTerminal: boolean
@@ -82,6 +88,9 @@ export const useGameStore = create<GameState>()((set) => ({
   hasBalanceBeam: false,
   hasOperatorRank: false,
   hasDeltaBalance: false,
+  hasBalanceCalibrator: false,
+  hasChiefRank: false,
+  hasEpsilonCal: false,
   blueprintPlaced: false,
   blueprintPosition: null,
   nearTerminal: false,
@@ -120,6 +129,9 @@ export const useGameStore = create<GameState>()((set) => ({
       hasBalanceBeam: unlocks.balanceBeam,
       hasOperatorRank: unlocks.operatorRank,
       hasDeltaBalance: unlocks.deltaBalance,
+      hasBalanceCalibrator: unlocks.balanceCalibrator,
+      hasChiefRank: unlocks.chiefRank,
+      hasEpsilonCal: unlocks.epsilonCal,
     }),
   placeBlueprint: (position) =>
     set({ blueprintPlaced: true, blueprintPosition: position, mode: 'explore' }),

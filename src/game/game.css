@@ -323,6 +323,43 @@
   text-shadow: 0 0 8px rgba(217, 168, 62, 0.55);
 }
 
+/* L5 chief-tier chips — mint/emerald accents distinct from gold L4 */
+.gr-l5-chip {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 0 16px rgba(94, 207, 154, 0.18);
+}
+
+.gr-l5-chip--rank {
+  border-color: rgba(94, 207, 154, 0.52);
+  color: #c8f5de;
+}
+
+.gr-l5-chip--rank .gr-l2-chip-icon {
+  color: #5ecf9a;
+  text-shadow: 0 0 8px rgba(94, 207, 154, 0.55);
+}
+
+.gr-l5-chip--blueprint {
+  border-color: rgba(110, 220, 170, 0.5);
+  color: #d4f8e6;
+}
+
+.gr-l5-chip--blueprint .gr-l2-chip-icon {
+  color: #6edcaa;
+  text-shadow: 0 0 8px rgba(110, 220, 170, 0.5);
+}
+
+.gr-l5-chip--zone {
+  border-color: rgba(72, 180, 130, 0.52);
+  color: #b8ecd4;
+}
+
+.gr-l5-chip--zone .gr-l2-chip-icon {
+  color: #48b482;
+  text-shadow: 0 0 8px rgba(72, 180, 130, 0.55);
+}
+
 .gr-status-placed {
   position: absolute;
   top: max(3.25rem, calc(env(safe-area-inset-top) + 2.5rem));

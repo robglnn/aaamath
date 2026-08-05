@@ -37,7 +37,8 @@ npm run content:pipeline
 | `algebra-i-02` | Shipped in game | Combining like terms; L2 3D unlocks (rails / adept / annex) |
 | `algebra-i-03` | Shipped in game | Distributive property; L3 3D unlocks (splitter / Expert / Gamma Relay) — see `builder-wave21-l3-3d.md` |
 | `algebra-i-04` | Shipped in game | Solving one-step equations; L4 3D unlocks (beam / Operator / Delta Balance) — see `builder-wave22-lesson4.md`, `builder-wave23-l4-3d.md` |
-| `algebra-i-05` | Shipped in game (content + terminal) | Solving two-step equations; GameView 3D props deferred — see `builder-wave24-lesson5.md` |
+| `algebra-i-05` | Shipped in game | Solving two-step equations; L5 3D unlocks (calibrator / Chief / Epsilon) — see `builder-wave24-lesson5.md`, `builder-wave25-l5-3d.md` |
+| `algebra-i-06` | Shipped in game (content + terminal) | Variables on both sides; GameView 3D props deferred — see `builder-wave26-lesson6.md` |
 
 Cross-lesson prerequisite links use qualified refs in `prerequisites[]`, e.g. `"algebra-i-01:kp.variable.symbol"`. The validator resolves `<lesson-slug>:<kp-id>` against `content/lessons/<slug>/package.json` and **fails** if the lesson package or KP is missing. Plain `kp.*` refs must still resolve inside the same package.
 
@@ -47,4 +48,4 @@ Cross-lesson prerequisite links use qualified refs in `prerequisites[]`, e.g. `"
 
 ## Runtime loader
 
-`src/content/loadLesson.ts` exports `lesson1`–`lesson5`, the `LESSONS` registry (keyed by package id), `resolveTerminalLessonId` (terminal routes to L2→L3→L4→L5 after prior mastery), and helpers `t`, `getItem`, `getKp` (search all packaged lessons). Note: registry keys follow each package's `id` field — if a future package adopts the `lesson.*` id convention, add directory-slug aliases to `LESSONS`.
+`src/content/loadLesson.ts` exports `lesson1`–`lesson6`, the `LESSONS` registry (keyed by package id), `resolveTerminalLessonId` (terminal routes to L2→L3→L4→L5→L6 after prior mastery), and helpers `t`, `getItem`, `getKp` (search all packaged lessons). Note: registry keys follow each package's `id` field — if a future package adopts the `lesson.*` id convention, add directory-slug aliases to `LESSONS`.
