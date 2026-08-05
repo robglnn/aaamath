@@ -11,6 +11,8 @@ import './game.css'
 export interface GameViewProps {
   unlocked: UnlockFlags
   onOpenTerminal: () => void
+  /** When true, freezes explore/build and clears back to explore on close. */
+  lessonOpen?: boolean
 }
 
 function isTypingTarget(target: EventTarget | null): boolean {
@@ -19,12 +21,22 @@ function isTypingTarget(target: EventTarget | null): boolean {
   return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable
 }
 
-export function GameView({ unlocked, onOpenTerminal }: GameViewProps) {
+export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameViewProps) {
   const { blueprint, rank, zoneBeta } = unlocked
 
   useEffect(() => {
     useGameStore.getState().applyMasteryUnlocks({ blueprint, rank, zoneBeta })
   }, [blueprint, rank, zoneBeta])
+
+  useEffect(() => {
+    if (lessonOpen) {
+      useGameStore.getState().setMode('lesson')
+      return
+    }
+    if (useGameStore.getState().mode === 'lesson') {
+      useGameStore.getState().setMode('explore')
+    }
+  }, [lessonOpen])
 
   const openTerminal = useCallback(() => {
     useGameStore.getState().setMode('lesson')
@@ -33,13 +45,13 @@ export function GameView({ unlocked, onOpenTerminal }: GameViewProps) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (isTypingTarget(e.target)) return
+      if (isTypingTarget(e.target) || lessonOpen) return
       const s = useGameStore.getState()
       if (e.code === 'KeyE' && s.mode === 'explore' && s.nearTerminal) {
         openTerminal()
       } else if (e.code === 'KeyB' && s.hasBlueprint && !s.blueprintPlaced) {
         s.setMode(s.mode === 'build' ? 'explore' : 'build')
-      } else if (e.code === 'Enter' && s.mode === 'build') {
+      } else if ((e.code === 'Enter' || e.code === 'KeyF') && s.mode === 'build') {
         s.requestPlace()
       } else if (e.code === 'Escape' && s.mode !== 'explore') {
         s.setMode('explore')
@@ -47,18 +59,18 @@ export function GameView({ unlocked, onOpenTerminal }: GameViewProps) {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [openTerminal])
+  }, [openTerminal, lessonOpen])
 
   const drag = useRef<{ id: number; x: number; y: number; moved: number } | null>(null)
 
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    const s = useGameStore.getState()
-    if (s.mode === 'lesson') s.setMode('explore')
+    if (lessonOpen) return
     if (e.pointerType === 'mouse' && e.button !== 0) return
     drag.current = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: 0 }
     e.currentTarget.setPointerCapture(e.pointerId)
   }
   const onPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (lessonOpen) return
     const d = drag.current
     if (!d || d.id !== e.pointerId) return
     const dx = e.clientX - d.x
