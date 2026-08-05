@@ -63,9 +63,21 @@ function l6UnlockTitle(id: string, locale: Locale): string {
   return def ? pickLocalized(def.title, locale) : id
 }
 
+export interface ZoneMapState {
+  alpha: boolean
+  beta: boolean
+  annex: boolean
+  gamma: boolean
+  delta: boolean
+  epsilon: boolean
+  zeta: boolean
+}
+
 interface HudProps {
   onOpenTerminal: () => void
+  onOpenProgress?: () => void
   pointerLocked?: boolean
+  zoneState?: ZoneMapState
 }
 
 type UnlockFlash = 'rank' | 'blueprint' | 'zone' | null
@@ -78,7 +90,12 @@ function unlockGlyph(kind: Exclude<UnlockFlash, null>): string {
   return '◎'
 }
 
-export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
+export function Hud({
+  onOpenTerminal,
+  onOpenProgress,
+  pointerLocked = false,
+  zoneState = { alpha: true, beta: false, annex: false, gamma: false, delta: false, epsilon: false, zeta: false },
+}: HudProps) {
   const locale = useProgressStore((s) => s.blob.locale)
   const progressUnlocks = useProgressStore((s) => s.blob.unlocks)
   const nearTerminal = useGameStore((s) => s.nearTerminal)
@@ -252,144 +269,208 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
               ? ui(locale, 'objectivePlaceBlueprint')
               : ui(locale, 'objectiveReachTerminal')
 
+  const latestRankTitle = hasL6Rank
+    ? l6RankTitle
+    : hasL5Rank
+      ? l5RankTitle
+      : hasL4Rank
+        ? l4RankTitle
+        : hasL3Rank
+          ? l3RankTitle
+          : hasL2Rank
+            ? l2RankTitle
+            : hasRank
+              ? rankTitle
+              : null
+  const unlockCount =
+    Number(hasRank) +
+    Number(hasZoneBeta) +
+    Number(hasL2Rank) +
+    Number(hasL2Blueprint) +
+    Number(!!l2ZoneId) +
+    Number(hasL3Rank) +
+    Number(hasL3Blueprint) +
+    Number(hasL3Zone) +
+    Number(hasL4Rank) +
+    Number(hasL4Blueprint) +
+    Number(hasL4Zone) +
+    Number(hasL5Rank) +
+    Number(hasL5Blueprint) +
+    Number(hasL5Zone) +
+    Number(hasL6Rank) +
+    Number(hasL6Blueprint) +
+    Number(hasL6Zone)
+  const compactRail = unlockCount > 3
+
   return (
     <div className="gr-hud">
-      <div className="gr-hud-rail">
-        {hasRank && (
-          <span className="gr-rank" data-tier="primary">
-            <span className="gr-rank-icon" aria-hidden>
-              ◆
+      <div className={`gr-hud-rail${compactRail ? ' gr-hud-rail--compact' : ''}`}>
+        {compactRail ? (
+          <>
+            {latestRankTitle && (
+              <span className="gr-rank" data-tier="primary">
+                <span className="gr-rank-icon" aria-hidden>
+                  ◆
+                </span>
+                {latestRankTitle}
+              </span>
+            )}
+            {hasZoneBeta && (
+              <span
+                className={`gr-zone${activeZone === 'beta' ? ' gr-zone-live' : ''}`}
+                data-tier={activeZone === 'beta' ? 'primary' : 'secondary'}
+              >
+                {zoneTitle}
+                {activeZone === 'beta' ? ` · ${ui(locale, 'zoneActive')}` : ''}
+              </span>
+            )}
+            <span className="gr-l2-chip gr-rail-summary" title={`${unlockCount} unlocks`}>
+              <span className="gr-l2-chip-icon" aria-hidden>
+                ⬡
+              </span>
+              {unlockCount} unlocked
             </span>
-            {rankTitle}
-          </span>
-        )}
-        {hasZoneBeta && (
-          <span
-            className={`gr-zone${activeZone === 'beta' ? ' gr-zone-live' : ''}`}
-            data-tier={activeZone === 'beta' ? 'primary' : 'secondary'}
-          >
-            {zoneTitle}{activeZone === 'beta' ? ` · ${ui(locale, 'zoneActive')}` : ''}
-          </span>
-        )}
-        {hasL2Rank && (
-          <span className="gr-l2-chip gr-l2-chip--rank" data-tier="adept">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◆
-            </span>
-            {l2RankTitle}
-          </span>
-        )}
-        {hasL2Blueprint && (
-          <span className="gr-l2-chip gr-l2-chip--blueprint" data-tier="adept">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ⬡
-            </span>
-            {l2BlueprintTitle}
-          </span>
-        )}
-        {l2ZoneId && (
-          <span className="gr-l2-chip gr-l2-chip--zone" data-tier="adept">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◎
-            </span>
-            {l2ZoneTitle}
-          </span>
-        )}
-        {hasL3Rank && (
-          <span className="gr-l2-chip gr-l3-chip gr-l3-chip--rank" data-tier="expert">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◆
-            </span>
-            {l3RankTitle}
-          </span>
-        )}
-        {hasL3Blueprint && (
-          <span className="gr-l2-chip gr-l3-chip gr-l3-chip--blueprint" data-tier="expert">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ⬡
-            </span>
-            {l3BlueprintTitle}
-          </span>
-        )}
-        {hasL3Zone && (
-          <span className="gr-l2-chip gr-l3-chip gr-l3-chip--zone" data-tier="expert">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◎
-            </span>
-            {l3ZoneTitle}
-          </span>
-        )}
-        {hasL4Rank && (
-          <span className="gr-l2-chip gr-l4-chip gr-l4-chip--rank" data-tier="operator">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◆
-            </span>
-            {l4RankTitle}
-          </span>
-        )}
-        {hasL4Blueprint && (
-          <span className="gr-l2-chip gr-l4-chip gr-l4-chip--blueprint" data-tier="operator">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ⬡
-            </span>
-            {l4BlueprintTitle}
-          </span>
-        )}
-        {hasL4Zone && (
-          <span className="gr-l2-chip gr-l4-chip gr-l4-chip--zone" data-tier="operator">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◎
-            </span>
-            {l4ZoneTitle}
-          </span>
-        )}
-        {hasL5Rank && (
-          <span className="gr-l2-chip gr-l5-chip gr-l5-chip--rank" data-tier="chief">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◆
-            </span>
-            {l5RankTitle}
-          </span>
-        )}
-        {hasL5Blueprint && (
-          <span className="gr-l2-chip gr-l5-chip gr-l5-chip--blueprint" data-tier="chief">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ⬡
-            </span>
-            {l5BlueprintTitle}
-          </span>
-        )}
-        {hasL5Zone && (
-          <span className="gr-l2-chip gr-l5-chip gr-l5-chip--zone" data-tier="chief">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◎
-            </span>
-            {l5ZoneTitle}
-          </span>
-        )}
-        {hasL6Rank && (
-          <span className="gr-l2-chip gr-l6-chip gr-l6-chip--rank" data-tier="vanguard">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◆
-            </span>
-            {l6RankTitle}
-          </span>
-        )}
-        {hasL6Blueprint && (
-          <span className="gr-l2-chip gr-l6-chip gr-l6-chip--blueprint" data-tier="vanguard">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ⬡
-            </span>
-            {l6BlueprintTitle}
-          </span>
-        )}
-        {hasL6Zone && (
-          <span className="gr-l2-chip gr-l6-chip gr-l6-chip--zone" data-tier="vanguard">
-            <span className="gr-l2-chip-icon" aria-hidden>
-              ◎
-            </span>
-            {l6ZoneTitle}
-          </span>
+          </>
+        ) : (
+          <>
+            {hasRank && (
+              <span className="gr-rank" data-tier="primary">
+                <span className="gr-rank-icon" aria-hidden>
+                  ◆
+                </span>
+                {rankTitle}
+              </span>
+            )}
+            {hasZoneBeta && (
+              <span
+                className={`gr-zone${activeZone === 'beta' ? ' gr-zone-live' : ''}`}
+                data-tier={activeZone === 'beta' ? 'primary' : 'secondary'}
+              >
+                {zoneTitle}
+                {activeZone === 'beta' ? ` · ${ui(locale, 'zoneActive')}` : ''}
+              </span>
+            )}
+            {hasL2Rank && (
+              <span className="gr-l2-chip gr-l2-chip--rank" data-tier="adept">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◆
+                </span>
+                {l2RankTitle}
+              </span>
+            )}
+            {hasL2Blueprint && (
+              <span className="gr-l2-chip gr-l2-chip--blueprint" data-tier="adept">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ⬡
+                </span>
+                {l2BlueprintTitle}
+              </span>
+            )}
+            {l2ZoneId && (
+              <span className="gr-l2-chip gr-l2-chip--zone" data-tier="adept">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◎
+                </span>
+                {l2ZoneTitle}
+              </span>
+            )}
+            {hasL3Rank && (
+              <span className="gr-l2-chip gr-l3-chip gr-l3-chip--rank" data-tier="expert">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◆
+                </span>
+                {l3RankTitle}
+              </span>
+            )}
+            {hasL3Blueprint && (
+              <span className="gr-l2-chip gr-l3-chip gr-l3-chip--blueprint" data-tier="expert">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ⬡
+                </span>
+                {l3BlueprintTitle}
+              </span>
+            )}
+            {hasL3Zone && (
+              <span className="gr-l2-chip gr-l3-chip gr-l3-chip--zone" data-tier="expert">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◎
+                </span>
+                {l3ZoneTitle}
+              </span>
+            )}
+            {hasL4Rank && (
+              <span className="gr-l2-chip gr-l4-chip gr-l4-chip--rank" data-tier="operator">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◆
+                </span>
+                {l4RankTitle}
+              </span>
+            )}
+            {hasL4Blueprint && (
+              <span className="gr-l2-chip gr-l4-chip gr-l4-chip--blueprint" data-tier="operator">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ⬡
+                </span>
+                {l4BlueprintTitle}
+              </span>
+            )}
+            {hasL4Zone && (
+              <span className="gr-l2-chip gr-l4-chip gr-l4-chip--zone" data-tier="operator">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◎
+                </span>
+                {l4ZoneTitle}
+              </span>
+            )}
+            {hasL5Rank && (
+              <span className="gr-l2-chip gr-l5-chip gr-l5-chip--rank" data-tier="chief">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◆
+                </span>
+                {l5RankTitle}
+              </span>
+            )}
+            {hasL5Blueprint && (
+              <span className="gr-l2-chip gr-l5-chip gr-l5-chip--blueprint" data-tier="chief">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ⬡
+                </span>
+                {l5BlueprintTitle}
+              </span>
+            )}
+            {hasL5Zone && (
+              <span className="gr-l2-chip gr-l5-chip gr-l5-chip--zone" data-tier="chief">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◎
+                </span>
+                {l5ZoneTitle}
+              </span>
+            )}
+            {hasL6Rank && (
+              <span className="gr-l2-chip gr-l6-chip gr-l6-chip--rank" data-tier="vanguard">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◆
+                </span>
+                {l6RankTitle}
+              </span>
+            )}
+            {hasL6Blueprint && (
+              <span className="gr-l2-chip gr-l6-chip gr-l6-chip--blueprint" data-tier="vanguard">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ⬡
+                </span>
+                {l6BlueprintTitle}
+              </span>
+            )}
+            {hasL6Zone && (
+              <span className="gr-l2-chip gr-l6-chip gr-l6-chip--zone" data-tier="vanguard">
+                <span className="gr-l2-chip-icon" aria-hidden>
+                  ◎
+                </span>
+                {l6ZoneTitle}
+              </span>
+            )}
+          </>
         )}
       </div>
 
@@ -425,29 +506,95 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
         </button>
       )}
 
-      {hasBlueprint && !blueprintPlaced && mode !== 'lesson' && (
-        mode === 'build' ? (
-          <div className="gr-buildbar" onPointerDown={(e) => e.stopPropagation()}>
-            <button type="button" className="gr-btn gr-btn-primary" onClick={requestPlace}>
-              Place Blueprint
-              <span className="gr-prompt-key">F</span>
-            </button>
-            <button type="button" className="gr-btn gr-btn-ghost" onClick={() => setMode('explore')}>
-              Cancel
-              <span className="gr-prompt-key">Esc</span>
-            </button>
-          </div>
-        ) : (
+      {hasBlueprint && !blueprintPlaced && mode === 'build' && (
+        <div className="gr-buildbar" onPointerDown={(e) => e.stopPropagation()}>
+          <button type="button" className="gr-btn gr-btn-primary" onClick={requestPlace}>
+            Place Blueprint
+            <span className="gr-prompt-key">F</span>
+          </button>
+          <button type="button" className="gr-btn gr-btn-ghost" onClick={() => setMode('explore')}>
+            Cancel
+            <span className="gr-prompt-key">Esc</span>
+          </button>
+        </div>
+      )}
+
+      {mode !== 'lesson' && (
+        <nav className="gr-ability-wheel" aria-label="Loadout">
           <button
             type="button"
-            className="gr-buildbtn"
+            className={`gr-ability${mode === 'explore' ? ' gr-ability-active' : ''}`}
             onPointerDown={(e) => e.stopPropagation()}
-            onClick={() => setMode('build')}
+            onClick={() => setMode('explore')}
+            aria-pressed={mode === 'explore'}
+            title="Explore"
           >
-            Place Blueprint
-            <span className="gr-prompt-key">B</span>
+            <svg viewBox="0 0 32 32" aria-hidden focusable="false">
+              <polygon points="16,4 28,16 16,28 4,16" fill="none" stroke="currentColor" strokeWidth="1.8" />
+              <circle cx="16" cy="16" r="3.2" fill="currentColor" />
+            </svg>
           </button>
-        )
+          <button
+            type="button"
+            className={`gr-ability${mode === 'build' ? ' gr-ability-active gr-ability-gold' : ''}${!hasBlueprint || blueprintPlaced ? ' gr-ability-locked' : ''}`}
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={() => {
+              if (!hasBlueprint || blueprintPlaced) return
+              setMode(mode === 'build' ? 'explore' : 'build')
+            }}
+            aria-pressed={mode === 'build'}
+            aria-disabled={!hasBlueprint || blueprintPlaced}
+            title={hasBlueprint && !blueprintPlaced ? 'Build' : 'Build locked'}
+          >
+            <svg viewBox="0 0 32 32" aria-hidden focusable="false">
+              <polygon
+                points="16,5 26,11 26,21 16,27 6,21 6,11"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="gr-ability"
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={() => onOpenProgress?.()}
+            title={ui(locale, 'progress')}
+            aria-label={ui(locale, 'progress')}
+          >
+            <svg viewBox="0 0 32 32" aria-hidden focusable="false">
+              <circle cx="16" cy="16" r="10" fill="none" stroke="currentColor" strokeWidth="1.8" />
+              <path d="M16 8v8l5 3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+          </button>
+        </nav>
+      )}
+
+      {mode !== 'lesson' && (
+        <div className="gr-minimap" aria-label="Unlocked zones" role="img">
+          <svg viewBox="0 0 120 120" className="gr-minimap-svg">
+            <circle cx="60" cy="60" r="54" className="gr-minimap-ring" />
+            <circle cx="60" cy="60" r="46" className="gr-minimap-disk" />
+            {/* Alpha — south pad */}
+            <circle cx="60" cy="78" r="7" className={zoneState.alpha ? 'gr-minimap-zone is-open' : 'gr-minimap-zone'} />
+            {/* Beta — north */}
+            <circle cx="60" cy="38" r="6" className={zoneState.beta ? 'gr-minimap-zone is-open is-beta' : 'gr-minimap-zone'} />
+            {/* Annex — NE */}
+            <circle cx="82" cy="48" r="5" className={zoneState.annex ? 'gr-minimap-zone is-open is-annex' : 'gr-minimap-zone'} />
+            {/* Gamma — NW */}
+            <circle cx="38" cy="48" r="5" className={zoneState.gamma ? 'gr-minimap-zone is-open is-gamma' : 'gr-minimap-zone'} />
+            {/* Delta — E */}
+            <circle cx="88" cy="62" r="5" className={zoneState.delta ? 'gr-minimap-zone is-open is-delta' : 'gr-minimap-zone'} />
+            {/* Epsilon — W */}
+            <circle cx="32" cy="62" r="5" className={zoneState.epsilon ? 'gr-minimap-zone is-open is-epsilon' : 'gr-minimap-zone'} />
+            {/* Zeta — SE */}
+            <circle cx="78" cy="82" r="5" className={zoneState.zeta ? 'gr-minimap-zone is-open is-zeta' : 'gr-minimap-zone'} />
+            {/* Player pip */}
+            <circle cx="60" cy="72" r="3.2" className="gr-minimap-player" />
+            <path d="M60 64 L63 70 L60 68 L57 70 Z" className="gr-minimap-facing" />
+          </svg>
+        </div>
       )}
 
       <p className="gr-help" aria-hidden={pointerLocked}>

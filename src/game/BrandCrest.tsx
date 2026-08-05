@@ -1,0 +1,59 @@
+/** Winged-shield crest matching Fortnite-ref HUD diegesis (gold + cyan). */
+export function BrandCrest({ className = '', size = 56 }: { className?: string; size?: number }) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      aria-hidden
+      focusable="false"
+    >
+      <defs>
+        <linearGradient id="ar-crest-gold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffe6a0" />
+          <stop offset="55%" stopColor="#f0a830" />
+          <stop offset="100%" stopColor="#b8731a" />
+        </linearGradient>
+        <linearGradient id="ar-crest-cyan" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#9ff5ea" />
+          <stop offset="100%" stopColor="#3dd6c6" />
+        </linearGradient>
+        <filter id="ar-crest-glow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="1.4" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      {/* Left wing */}
+      <path
+        d="M28 22c-7-2-14 1-18 7-1.2 1.8 0.4 3.4 2.2 2.8 4.5-1.5 8.2-1.2 11.4 0.6 1.2-3.4 2.8-7 4.4-10.4z"
+        fill="url(#ar-crest-gold)"
+        opacity="0.95"
+        filter="url(#ar-crest-glow)"
+      />
+      {/* Right wing */}
+      <path
+        d="M36 22c7-2 14 1 18 7 1.2 1.8-0.4 3.4-2.2 2.8-4.5-1.5-8.2-1.2-11.4 0.6-1.2-3.4-2.8-7-4.4-10.4z"
+        fill="url(#ar-crest-gold)"
+        opacity="0.95"
+        filter="url(#ar-crest-glow)"
+      />
+      {/* Shield body */}
+      <path
+        d="M32 12c6 2.5 12 3.2 16 3.5v14.5c0 9.2-6.4 16.8-16 21.5-9.6-4.7-16-12.3-16-21.5V15.5c4-0.3 10-1 16-3.5z"
+        fill="#0b1a24"
+        stroke="url(#ar-crest-gold)"
+        strokeWidth="2.2"
+        filter="url(#ar-crest-glow)"
+      />
+      {/* Inner gem */}
+      <circle cx="32" cy="30" r="7.5" fill="url(#ar-crest-cyan)" opacity="0.95" />
+      <circle cx="32" cy="30" r="3.2" fill="#e8fffb" opacity="0.85" />
+      {/* Chevron */}
+      <path d="M26 40l6 4 6-4" fill="none" stroke="url(#ar-crest-gold)" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}

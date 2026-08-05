@@ -101,6 +101,7 @@ export default function App() {
           unlocked={unlocked}
           lessonOpen={lessonOpen}
           onOpenTerminal={openTerminal}
+          onOpenProgress={() => setProgressOpen(true)}
         />
       </Suspense>
 
@@ -108,11 +109,22 @@ export default function App() {
         <LocaleSwitcher />
         <button
           type="button"
-          className="btn chrome-btn"
+          className="btn chrome-btn chrome-seal"
           onClick={() => setProgressOpen((v) => !v)}
           aria-expanded={progressOpen}
+          aria-label={ui(locale, 'progress')}
+          title={ui(locale, 'progress')}
         >
-          {ui(locale, 'progress')}
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden focusable="false">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.6" />
+            <path
+              d="M12 6.5v5.2l3.4 2"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          </svg>
         </button>
       </div>
 

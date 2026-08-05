@@ -144,6 +144,20 @@ body,
   opacity: 0.88;
 }
 
+@media (pointer: coarse) and (orientation: landscape) {
+  .app-chrome {
+    top: max(0.4rem, env(safe-area-inset-top));
+    right: max(0.5rem, env(safe-area-inset-right));
+    gap: 0.2rem;
+  }
+
+  .chrome-btn,
+  .locale-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
 .app-chrome > * {
   pointer-events: auto;
 }
@@ -162,6 +176,25 @@ body,
   border-color: rgba(61, 214, 198, 0.14);
   color: rgba(200, 230, 228, 0.82);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.chrome-seal {
+  width: var(--tap-min);
+  padding: 0;
+  border-radius: 50%;
+  color: #f5d08a;
+  border-color: rgba(240, 168, 48, 0.35);
+  background:
+    radial-gradient(circle at 50% 35%, rgba(240, 168, 48, 0.18), transparent 65%),
+    rgba(8, 16, 22, 0.42);
+  box-shadow:
+    0 0 14px rgba(240, 168, 48, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.chrome-seal:hover:not(:disabled) {
+  border-color: rgba(240, 168, 48, 0.65);
+  box-shadow: 0 0 16px rgba(240, 168, 48, 0.28);
 }
 
 .btn {

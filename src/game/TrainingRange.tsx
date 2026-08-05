@@ -16,10 +16,12 @@ import { L3UnlockProps } from '@/game/L3UnlockProps'
 import { L4UnlockProps } from '@/game/L4UnlockProps'
 import { L5UnlockProps } from '@/game/L5UnlockProps'
 import { L6UnlockProps } from '@/game/L6UnlockProps'
+import { HeroModel } from '@/game/HeroGltf'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
 import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, EPSILON_BRIDGE, EPSILON_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, ZETA_BRIDGE, ZETA_CENTER, groundHeight, rig } from '@/game/world'
 
-const SKY = '#0b1a24'
+const SKY = '#1a2438'
+const FOG = '#2a3348'
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
@@ -37,15 +39,15 @@ function bakeFloorMaps() {
   const SIZE = 512
   const { canvas, ctx } = makeCanvas(SIZE, SIZE)
   if (ctx) {
-    ctx.fillStyle = '#0d1722'
+    ctx.fillStyle = '#121820'
     ctx.fillRect(0, 0, SIZE, SIZE)
     const img = ctx.getImageData(0, 0, SIZE, SIZE)
     const d = img.data
     for (let i = 0; i < d.length; i += 4) {
       const n = (Math.random() - 0.5) * 13
-      d[i] += n * 0.9
-      d[i + 1] += n
-      d[i + 2] += n * 1.15
+      d[i] += n * 1.05
+      d[i + 1] += n * 0.95
+      d[i + 2] += n * 0.85
     }
     ctx.putImageData(img, 0, 0)
     // Wear blotches
@@ -59,17 +61,17 @@ function bakeFloorMaps() {
       ctx.fillStyle = g
       ctx.fillRect(x - r, y - r, r * 2, r * 2)
     }
-    // Panel seams: dark groove + faint teal highlight edge
+    // Panel seams: dark groove + faint warm highlight edge
     for (let s = 0; s <= SIZE; s += 128) {
       ctx.fillStyle = '#070e15'
       ctx.fillRect(s - 1, 0, 2, SIZE)
       ctx.fillRect(0, s - 1, SIZE, 2)
-      ctx.fillStyle = 'rgba(46,110,122,0.35)'
+      ctx.fillStyle = 'rgba(120,95,55,0.28)'
       ctx.fillRect(s + 1, 0, 1, SIZE)
       ctx.fillRect(0, s + 1, SIZE, 1)
     }
     // Rivets at seam corners
-    ctx.fillStyle = 'rgba(88,150,164,0.5)'
+    ctx.fillStyle = 'rgba(180,150,90,0.45)'
     for (let x = 0; x <= SIZE; x += 128) {
       for (let y = 0; y <= SIZE; y += 128) {
         ctx.beginPath()
@@ -77,6 +79,22 @@ function bakeFloorMaps() {
         ctx.fill()
       }
     }
+    // Soft geometric seal etch (center tile feel when tiled — faint, game-range not debug)
+    ctx.strokeStyle = 'rgba(61, 214, 198, 0.12)'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.arc(SIZE / 2, SIZE / 2, 48, 0, Math.PI * 2)
+    ctx.stroke()
+    ctx.beginPath()
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2 - Math.PI / 2
+      const x = SIZE / 2 + Math.cos(a) * 70
+      const y = SIZE / 2 + Math.sin(a) * 70
+      if (i === 0) ctx.moveTo(x, y)
+      else ctx.lineTo(x, y)
+    }
+    ctx.closePath()
+    ctx.stroke()
   }
   const map = new CanvasTexture(canvas)
   map.colorSpace = SRGBColorSpace
@@ -114,18 +132,19 @@ function bakeFloorMaps() {
   return floorMaps
 }
 
-/** Gradient dome texture: deep zenith easing into a teal band just above the horizon. */
+/** Gradient dome: cool zenith → warm golden-hour horizon (Fortnite-ref game range). */
 function bakeSkyTexture(): CanvasTexture {
   const { canvas, ctx } = makeCanvas(64, 512)
   if (ctx) {
     const g = ctx.createLinearGradient(0, 0, 0, 512)
-    g.addColorStop(0, '#040c15')
-    g.addColorStop(0.3, '#08131f')
-    g.addColorStop(0.42, '#0c1f2c')
-    g.addColorStop(0.47, '#16424d')
-    g.addColorStop(0.5, '#0f2c35')
-    g.addColorStop(0.56, '#0a1822')
-    g.addColorStop(1, '#050b12')
+    g.addColorStop(0, '#0a1220')
+    g.addColorStop(0.28, '#152238')
+    g.addColorStop(0.4, '#2a3d58')
+    g.addColorStop(0.46, '#6a5a48')
+    g.addColorStop(0.5, '#c4884a')
+    g.addColorStop(0.54, '#8a6a4a')
+    g.addColorStop(0.62, '#2a3040')
+    g.addColorStop(1, '#121820')
     ctx.fillStyle = g
     ctx.fillRect(0, 0, 64, 512)
     // Dither so the gradient doesn't band on low-end displays
@@ -173,12 +192,13 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    const dist = 6.4
-    const height = 3.0 + pitch * 2.4
+    const dist = 5.9
+    const height = 2.75 + pitch * 2.2
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
-    const k = 1 - Math.exp(-delta * 5.5)
+    // Slightly snappier follow — Fortnite-ish shoulder read
+    const k = 1 - Math.exp(-delta * 7.2)
     const cam = state.camera.position
     cam.x += (tx - cam.x) * k
     cam.y += (ty - cam.y) * k
@@ -290,18 +310,19 @@ function Terminal() {
 
   return (
     <group position={TERMINAL_POS} rotation={[0, -0.62, 0]}>
-      {/* Pedestal — turned foot + collar lip */}
+      {/* Loop-3 authored terminal hero — sits under live screen / POI FX */}
+      <HeroModel kind="terminal" scale={1.05} position={[0, 0, 0]} />
+      {/* Profile terminal carcass hidden while Blender hero owns silhouette */}
+      <group visible={false}>
       <mesh geometry={terminalPedestal} position={[0, 0, 0]}>
         <meshStandardMaterial map={panel} color="#9ec8c4" metalness={0.45} roughness={0.4} />
       </mesh>
       <mesh geometry={terminalCollar} position={[0, 0.36, 0]}>
         <meshStandardMaterial color="#7eb0ac" metalness={0.5} roughness={0.38} />
       </mesh>
-      {/* Console housing — beveled carcass */}
       <mesh geometry={terminalHousing} position={[0, 0.55, 0]}>
         <meshStandardMaterial map={panel} color="#a8d4d0" metalness={0.4} roughness={0.45} />
       </mesh>
-      {/* Keyboard face plate + key caps */}
       <mesh geometry={terminalKeydeck} position={[0, 0.4, 0.408]}>
         <meshStandardMaterial color="#142a36" metalness={0.55} roughness={0.5} />
       </mesh>
@@ -311,7 +332,6 @@ function Terminal() {
           <meshStandardMaterial color="#1e3d4d" metalness={0.35} roughness={0.55} />
         </mesh>
       ))}
-      {/* Status LEDs — power / link / ready */}
       {(
         [
           { x: 0.38, color: '#4ae88a' },
@@ -331,15 +351,26 @@ function Terminal() {
           />
         </mesh>
       ))}
-      {/* Power cable into deck */}
       <mesh position={[0.07, 0.02, -0.84]} rotation={[1.48, 0.31, 0]}>
         <cylinderGeometry args={[0.032, 0.042, 0.54, 6]} />
         <meshStandardMaterial color="#1a3040" metalness={0.35} roughness={0.65} />
       </mesh>
-      {/* Readable screen + beveled bezel */}
       <mesh geometry={terminalBezel} position={[0, 1.05, 0.3]} rotation={[-0.42, 0, 0]}>
         <meshStandardMaterial color="#0d2430" metalness={0.5} roughness={0.35} />
       </mesh>
+      <mesh position={[-0.72, 0.55, 0]}>
+        <boxGeometry args={[0.06, 0.55, 0.55]} />
+        <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={near ? 1.5 : 0.85} />
+      </mesh>
+      <mesh position={[0.72, 0.55, 0]}>
+        <boxGeometry args={[0.06, 0.55, 0.55]} />
+        <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={near ? 1.5 : 0.85} />
+      </mesh>
+      <mesh position={[0, 1.55, -0.2]}>
+        <cylinderGeometry args={[0.045, 0.045, 1.1, 8]} />
+        <meshStandardMaterial color="#24506a" metalness={0.4} roughness={0.4} />
+      </mesh>
+      </group>
       <TerminalScreen ref={screenMat} emissive={CYAN} />
       {/* Scanline bars for readable “terminal UI” silhouette */}
       {[0.18, 0.05, -0.08, -0.21].map((y, i) => (
@@ -352,19 +383,6 @@ function Terminal() {
       <mesh ref={scanRef} position={[0, 1.22, 0.365]} rotation={[-0.42, 0, 0]}>
         <planeGeometry args={[0.82, 0.05]} />
         <meshBasicMaterial color={AMBER} transparent opacity={0.9} blending={AdditiveBlending} depthWrite={false} />
-      </mesh>
-      {/* Side fins: kiosk silhouette + amber accent strip */}
-      <mesh position={[-0.72, 0.55, 0]}>
-        <boxGeometry args={[0.06, 0.55, 0.55]} />
-        <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={near ? 1.5 : 0.85} />
-      </mesh>
-      <mesh position={[0.72, 0.55, 0]}>
-        <boxGeometry args={[0.06, 0.55, 0.55]} />
-        <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={near ? 1.5 : 0.85} />
-      </mesh>
-      <mesh position={[0, 1.55, -0.2]}>
-        <cylinderGeometry args={[0.045, 0.045, 1.1, 8]} />
-        <meshStandardMaterial color="#24506a" metalness={0.4} roughness={0.4} />
       </mesh>
       <mesh ref={beaconRef} position={[0, 2.05, -0.2]}>
         <octahedronGeometry args={[0.2, 0]} />
@@ -429,11 +447,28 @@ function SkyAtmosphere() {
         <cylinderGeometry args={[80, 80, 8, 48, 1, true]} />
         <meshBasicMaterial
           map={horizonTex}
-          color="#1e8a80"
+          color="#e8b070"
           transparent
-          opacity={0.55}
+          opacity={0.42}
           blending={AdditiveBlending}
           side={BackSide}
+          fog={false}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      {/* Soft sun disc — silhouette cue without postprocessing bloom */}
+      <mesh position={[42, 28, -55]} renderOrder={-1} frustumCulled={false}>
+        <sphereGeometry args={[6.5, 16, 16]} />
+        <meshBasicMaterial color="#ffd8a0" fog={false} depthWrite={false} toneMapped={false} />
+      </mesh>
+      <mesh position={[42, 28, -55]} renderOrder={-1} frustumCulled={false} scale={2.4}>
+        <sphereGeometry args={[6.5, 12, 12]} />
+        <meshBasicMaterial
+          color="#ffb060"
+          transparent
+          opacity={0.18}
+          blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
           toneMapped={false}
@@ -789,28 +824,30 @@ export function TrainingRange() {
   return (
     <>
       <color attach="background" args={[SKY]} />
-      <fog attach="fog" args={[SKY, 20, 62]} />
-      <Stars radius={90} depth={50} count={3200} factor={3.4} saturation={0} fade speed={0.55} />
+      <fog attach="fog" args={[FOG, 28, 78]} />
+      <Stars radius={90} depth={50} count={1800} factor={2.6} saturation={0.15} fade speed={0.35} />
       <SkyAtmosphere />
 
-      {/* Lighting: warm key + cool rim + pad pools; no postprocessing bloom (mobile-safe) */}
-      <hemisphereLight args={['#9adfd6', '#0b1520', 0.7]} />
-      <ambientLight intensity={0.22} color="#9fd9d4" />
-      <directionalLight position={[8, 14, 6]} intensity={1.55} color="#ffe8c2" castShadow={false} />
-      <directionalLight position={[-6, 4, -8]} intensity={0.5} color="#3dd6c6" />
+      {/* Warm cinematic key + soft cool fill — game range, not cyan debug */}
+      <hemisphereLight args={['#c8d8f0', '#2a2218', 0.55]} />
+      <ambientLight intensity={0.28} color="#ffe8d0" />
+      <directionalLight position={[14, 18, 8]} intensity={1.85} color="#ffd4a0" castShadow={false} />
+      <directionalLight position={[-8, 6, -10]} intensity={0.35} color="#7eb8e8" />
+      <directionalLight position={[0, 10, 4]} intensity={0.25} color="#3dd6c6" />
 
       <DeckFloor />
+      {/* Navigation grit only — faded, warm charcoal; no cyan section grid */}
       <Grid
         position={[0, 0.01, 0]}
         infiniteGrid
-        cellSize={1}
-        cellThickness={0.45}
-        cellColor="#16323f"
-        sectionSize={5}
-        sectionThickness={1.1}
-        sectionColor="#267584"
-        fadeDistance={42}
-        fadeStrength={1.5}
+        cellSize={2}
+        cellThickness={0.28}
+        cellColor="#1a222c"
+        sectionSize={10}
+        sectionThickness={0.55}
+        sectionColor="#2a3340"
+        fadeDistance={36}
+        fadeStrength={1.8}
       />
 
       <RangeDecor />
@@ -820,6 +857,9 @@ export function TrainingRange() {
         {/* Face the pad center so the sign reads from spawn/home-plate sightlines */}
         <ZoneLabel text="ZONE ALPHA" color={CYAN} y={1.55} faceY={Math.PI * 0.75} />
       </group>
+      {/* Authored zone beacon — Alpha POI silhouette vs glyph-only bars */}
+      <HeroModel kind="zone" scale={1.15} position={[-3.6, 0, 3.4]} />
+      <HeroModel kind="blueprint" scale={0.85} position={[2.4, 0, 3.8]} />
       <Terminal />
       <BetaZone />
       <BetaBarrier />

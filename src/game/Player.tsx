@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import type { Group, Mesh, MeshBasicMaterial } from 'three'
 import { getAuthoredGeoKit, getProcTextureKit } from '@/game/proc'
+import { HeroModel } from '@/game/HeroGltf'
 import { useGameStore } from '@/game/store'
 import {
   BOUNDS,
@@ -228,28 +229,31 @@ export function Player() {
     }
   })
 
-  // Wave-19 authored Riser silhouette — lathed helm/limbs, beveled cuirass
-  // and pack. Pivots, anim math, palette, and adept rank logic unchanged.
+  // Loop-3: Blender PBR hero GLB as primary silhouette; rank pips overlay for ladder read.
+  // Profile-geo limbs stay mounted for walk anim fallback depth under the hero shell.
   return (
     <group>
       <group ref={bodyRef} position={[rig.playerPos.x, rig.playerPos.y, rig.playerPos.z]}>
         <group ref={torsoPivot}>
-          {/* Cuirass — tapered beveled extrude: waist → chest flare → neck in one shell */}
+          <HeroModel kind="player" scale={1} />
+          {/* Rank ladder pips — still readable on the authored shell */}
+          <mesh geometry={geo.playerPip} position={[0, 0.87, 0.22]} scale={[1.85, 2.5, 1]}>
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.7} roughness={0.3} />
+          </mesh>
+          {/* Profile-geo shell hidden while Blender hero owns silhouette (fallback kept in tree). */}
+          <group visible={false}>
           <mesh geometry={geo.playerTorso} position={[0, 0.8, 0]}>
             <meshStandardMaterial map={torsoPanel} color={BODY} {...MAT_BODY} />
           </mesh>
-          {/* Chest core — distance read anchor */}
           <mesh geometry={geo.playerPip} position={[0, 0.87, 0.148]} scale={[1.85, 2.5, 1]}>
             <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.7} roughness={0.3} />
           </mesh>
-          {/* Helm — lathed dome: collar flare, brow shelf over recessed visor channel */}
           <mesh geometry={geo.playerHelm} position={[0, 1.07, 0.03]}>
             <meshStandardMaterial color={HELM} {...MAT_HELM} />
           </mesh>
           <mesh geometry={geo.playerVisor} position={[0, 1.07, 0.03]}>
             <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.45} roughness={0.35} />
           </mesh>
-          {/* Pauldrons — lathed dome caps with rolled rims */}
           <mesh geometry={geo.playerPauldron} position={[-0.35, 0.955, 0.02]} rotation={[0, 0, 0.22]}>
             <meshStandardMaterial color={BODY_LT} roughness={0.5} metalness={0.35} />
           </mesh>
@@ -262,6 +266,7 @@ export function Player() {
           <mesh geometry={geo.playerPip} position={[0.35, 0.995, 0.146]} rotation={[-0.32, 0, 0]}>
             <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.9} />
           </mesh>
+          </group>
           {/* Riser Adept (L2 rank): amber second chevrons + cyan/amber dual chest mark */}
           {hasAdeptRank && (
             <>
@@ -335,7 +340,7 @@ export function Player() {
               </mesh>
             </>
           )}
-          {/* Field pack — tapered beveled volume + lathed bedroll, cyan aft strip */}
+          <group visible={false}>
           <mesh geometry={geo.playerPack} position={[0, 0.82, -0.25]}>
             <meshStandardMaterial map={torsoPanel} color="#1a4255" {...MAT_PACK} />
           </mesh>
@@ -345,9 +350,10 @@ export function Player() {
           <mesh geometry={geo.playerPip} position={[0, 0.86, -0.352]} scale={[2.8, 1.1, 1]}>
             <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.2} />
           </mesh>
+          </group>
         </group>
 
-        {/* Left leg — hip pivot, lathed column + extruded boot */}
+        <group visible={false}>
         <group ref={leftLegPivot} position={[-0.15, 0.54, 0]}>
           <mesh geometry={geo.playerLeg}>
             <meshStandardMaterial color={DEEP} {...MAT} />
@@ -356,8 +362,6 @@ export function Player() {
             <meshStandardMaterial color={SHADE} roughness={0.5} metalness={0.35} />
           </mesh>
         </group>
-
-        {/* Right leg */}
         <group ref={rightLegPivot} position={[0.15, 0.54, 0]}>
           <mesh geometry={geo.playerLeg}>
             <meshStandardMaterial color={DEEP} {...MAT} />
@@ -366,19 +370,16 @@ export function Player() {
             <meshStandardMaterial color={SHADE} roughness={0.5} metalness={0.35} />
           </mesh>
         </group>
-
-        {/* Left arm — shoulder pivot, single lathed column ending in fist flare */}
         <group ref={leftArmPivot} position={[-0.38, 0.92, 0.02]} rotation={[0, 0, 0.18]}>
           <mesh geometry={geo.playerArm}>
             <meshStandardMaterial color={BODY_LT} roughness={0.55} metalness={0.2} />
           </mesh>
         </group>
-
-        {/* Right arm */}
         <group ref={rightArmPivot} position={[0.38, 0.92, 0.02]} rotation={[0, 0, -0.18]}>
           <mesh geometry={geo.playerArm}>
             <meshStandardMaterial color={BODY_LT} roughness={0.55} metalness={0.2} />
           </mesh>
+        </group>
         </group>
       </group>
       <mesh ref={shadowRef} rotation={[-Math.PI / 2, 0, 0]}>

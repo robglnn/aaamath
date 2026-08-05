@@ -6,12 +6,18 @@ import { useGameStore } from '@/game/store'
 import type { UnlockFlags } from '@/game/store'
 import { TrainingRange } from '@/game/TrainingRange'
 import { TouchControls } from '@/game/TouchControls'
+import { BrandCrest } from '@/game/BrandCrest'
 import { Hud } from '@/game/Hud'
+import { LandscapeGate } from '@/game/LandscapeGate'
+import { preloadHeroModels } from '@/game/HeroGltf'
 import './game.css'
+
+preloadHeroModels()
 
 export interface GameViewProps {
   unlocked: UnlockFlags
   onOpenTerminal: () => void
+  onOpenProgress?: () => void
   /** When true, freezes explore/build and clears back to explore on close. */
   lessonOpen?: boolean
 }
@@ -27,7 +33,7 @@ function isCoarsePointer(): boolean {
   return window.matchMedia('(pointer: coarse)').matches
 }
 
-export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameViewProps) {
+export function GameView({ unlocked, onOpenTerminal, onOpenProgress, lessonOpen = false }: GameViewProps) {
   const { blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex, relaySplitter, expertRank, gammaRelay, balanceBeam, operatorRank, deltaBalance, balanceCalibrator, chiefRank, epsilonCal, balanceMirror, vanguardRank, zetaMirror } = unlocked
   const pointerLocked = useGameStore((s) => s.pointerLocked)
   const [showLockHint, setShowLockHint] = useState(true)
@@ -174,7 +180,7 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
-      <Canvas dpr={[1, 1.75]} camera={{ fov: 55, near: 0.1, far: 140, position: [0, 4.5, 11] }}>
+      <Canvas dpr={[1, 1.75]} camera={{ fov: 52, near: 0.1, far: 140, position: [0, 4.2, 10.2] }}>
         <TrainingRange />
       </Canvas>
 
@@ -182,17 +188,72 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
         className={`gr-brand${brandPhase === 'watermark' ? ' gr-brand-hero-exit' : ''}${lessonOpen ? ' gr-brand-hidden' : ''}`}
         aria-hidden
       >
-        <span className="gr-brand-title">Axiom Rising</span>
+        <div className="gr-brand-hero-stack">
+          <BrandCrest size={88} className="gr-brand-hero-crest" />
+          <span className="gr-brand-title">Axiom Rising</span>
+        </div>
       </div>
       <div
-        className={`gr-brand gr-brand-watermark${brandPhase === 'watermark' ? ' gr-brand-watermark-visible' : ''}${lessonOpen ? ' gr-brand-hidden' : ''}`}
+        className={`gr-brand-mark${brandPhase === 'watermark' ? ' gr-brand-mark-visible' : ''}${lessonOpen ? ' gr-brand-hidden' : ''}`}
         aria-hidden
       >
-        <span className="gr-brand-title">Axiom Rising</span>
+        <BrandCrest size={48} className="gr-brand-mark-crest" />
+        <div className="gr-brand-mark-meta">
+          <span className="gr-brand-mark-title">Axiom Rising</span>
+          <span className="gr-brand-mark-rank">
+            {unlocked.vanguardRank
+              ? 'Rank · Vanguard'
+              : unlocked.chiefRank
+                ? 'Rank · Chief'
+                : unlocked.operatorRank
+                  ? 'Rank · Operator'
+                  : unlocked.expertRank
+                    ? 'Rank · Expert'
+                    : unlocked.adeptRank
+                      ? 'Rank · Adept'
+                      : unlocked.rank
+                        ? 'Rank · Initiate'
+                        : 'Rank · Riser'}
+          </span>
+          <span className="gr-brand-mark-bar" aria-hidden>
+            <span
+              className="gr-brand-mark-bar-fill"
+              style={{
+                width: unlocked.vanguardRank
+                  ? '100%'
+                  : unlocked.chiefRank
+                    ? '86%'
+                    : unlocked.operatorRank
+                      ? '72%'
+                      : unlocked.expertRank
+                        ? '58%'
+                        : unlocked.adeptRank
+                          ? '44%'
+                          : unlocked.rank
+                            ? '28%'
+                            : '12%',
+              }}
+            />
+          </span>
+        </div>
       </div>
 
       <TouchControls />
-      <Hud onOpenTerminal={openTerminal} pointerLocked={pointerLocked} />
+      <Hud
+        onOpenTerminal={openTerminal}
+        onOpenProgress={onOpenProgress}
+        pointerLocked={pointerLocked}
+        zoneState={{
+          alpha: true,
+          beta: unlocked.zoneBeta,
+          annex: unlocked.betaAnnex,
+          gamma: unlocked.gammaRelay,
+          delta: unlocked.deltaBalance,
+          epsilon: unlocked.epsilonCal,
+          zeta: unlocked.zetaMirror,
+        }}
+      />
+      <LandscapeGate />
       {showLockHint && !pointerLocked && !lessonOpen && !isCoarsePointer() && (
         <button type="button" className="gr-lock-hint" onClick={requestLock}>
           Click to look · Esc releases

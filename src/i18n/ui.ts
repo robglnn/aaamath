@@ -88,6 +88,8 @@ export type UiKey =
   | 'objectiveReachTerminal'
   | 'blueprintOnline'
   | 'reviewDuePrefix'
+  | 'rotateToPlay'
+  | 'rotateToPlayHint'
 
 const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
   en: {
@@ -178,6 +180,8 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     objectiveReachTerminal: 'Objective · Reach the Algebra Terminal',
     blueprintOnline: 'Blueprint online',
     reviewDuePrefix: 'due ',
+    rotateToPlay: 'Rotate to play',
+    rotateToPlayHint: 'Axiom Rising is built for landscape — like a battle royale HUD.',
   },
   es: {
     startLesson: 'Entrar al briefing',
@@ -267,6 +271,8 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     objectiveReachTerminal: 'Objetivo · Llega al Terminal de Álgebra',
     blueprintOnline: 'Plano en línea',
     reviewDuePrefix: 'vence ',
+    rotateToPlay: 'Gira para jugar',
+    rotateToPlayHint: 'Axiom Rising está pensado en horizontal — como un HUD de battle royale.',
   },
   pl: {
     startLesson: 'Wejdź do briefingu',
@@ -356,6 +362,8 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     objectiveReachTerminal: 'Cel · Dotrzyj do Terminala Algebry',
     blueprintOnline: 'Plan online',
     reviewDuePrefix: 'do ',
+    rotateToPlay: 'Obróć, aby grać',
+    rotateToPlayHint: 'Axiom Rising jest zaprojektowane na landscape — jak HUD battle royale.',
   },
 }
 
