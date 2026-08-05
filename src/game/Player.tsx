@@ -159,21 +159,26 @@ export function Player() {
         {/* Legs */}
         <mesh position={[-0.14, 0.28, 0]}>
           <capsuleGeometry args={[0.1, 0.28, 4, 8]} />
-          <meshStandardMaterial color="#152a36" roughness={0.55} metalness={0.25} />
+          <meshStandardMaterial color="#1e3d4f" roughness={0.55} metalness={0.25} />
         </mesh>
         <mesh position={[0.14, 0.28, 0]}>
           <capsuleGeometry args={[0.1, 0.28, 4, 8]} />
-          <meshStandardMaterial color="#152a36" roughness={0.55} metalness={0.25} />
+          <meshStandardMaterial color="#1e3d4f" roughness={0.55} metalness={0.25} />
         </mesh>
         {/* Torso */}
         <mesh position={[0, 0.78, 0]}>
           <capsuleGeometry args={[0.28, 0.42, 6, 12]} />
-          <meshStandardMaterial color="#1a3a4d" emissive="#0b2b33" emissiveIntensity={0.25} roughness={0.5} metalness={0.3} />
+          <meshStandardMaterial color="#26536b" emissive="#0e3a42" emissiveIntensity={0.4} roughness={0.5} metalness={0.3} />
+        </mesh>
+        {/* Chest core: emissive anchor so the player reads at distance */}
+        <mesh position={[0, 0.84, 0.27]}>
+          <boxGeometry args={[0.16, 0.12, 0.05]} />
+          <meshStandardMaterial color="#3dd6c6" emissive="#3dd6c6" emissiveIntensity={1.7} roughness={0.3} />
         </mesh>
         {/* Shoulders / pack */}
         <mesh position={[0, 0.95, -0.22]}>
           <boxGeometry args={[0.52, 0.28, 0.22]} />
-          <meshStandardMaterial color="#0f2835" roughness={0.45} metalness={0.4} />
+          <meshStandardMaterial color="#17394b" roughness={0.45} metalness={0.4} />
         </mesh>
         <mesh position={[0, 0.98, -0.34]}>
           <boxGeometry args={[0.28, 0.08, 0.06]} />
@@ -182,16 +187,16 @@ export function Player() {
         {/* Arms */}
         <mesh position={[-0.38, 0.78, 0.02]} rotation={[0, 0, 0.25]}>
           <capsuleGeometry args={[0.08, 0.32, 4, 8]} />
-          <meshStandardMaterial color="#1c4258" roughness={0.55} metalness={0.2} />
+          <meshStandardMaterial color="#2a5a74" roughness={0.55} metalness={0.2} />
         </mesh>
         <mesh position={[0.38, 0.78, 0.02]} rotation={[0, 0, -0.25]}>
           <capsuleGeometry args={[0.08, 0.32, 4, 8]} />
-          <meshStandardMaterial color="#1c4258" roughness={0.55} metalness={0.2} />
+          <meshStandardMaterial color="#2a5a74" roughness={0.55} metalness={0.2} />
         </mesh>
         {/* Helm + amber visor */}
         <mesh position={[0, 1.28, 0.02]}>
           <sphereGeometry args={[0.22, 14, 12]} />
-          <meshStandardMaterial color="#163646" roughness={0.4} metalness={0.45} />
+          <meshStandardMaterial color="#1f475c" roughness={0.4} metalness={0.45} />
         </mesh>
         <mesh position={[0, 1.28, 0.18]}>
           <boxGeometry args={[0.28, 0.1, 0.08]} />
