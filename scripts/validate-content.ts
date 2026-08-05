@@ -8,7 +8,6 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import type {
   ContentItem,
-  KnowledgePoint,
   LessonPackage,
   LessonPhaseKind,
   Locale,

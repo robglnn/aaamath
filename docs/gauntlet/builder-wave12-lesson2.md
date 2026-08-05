@@ -97,3 +97,29 @@ This pass therefore did what the brief asked — replaced the on-disk stub-era f
 - `npm run build` → green (tsc + vite + spa-fallback) with the wave-13 working tree present.
 
 No commit, per brief.
+
+---
+
+## Reconciliation — end-of-night ground truth (second-builder pass, final)
+
+State after commits `cb67008`, `b08e0cf`, `96b6fb3`, `cec889c`:
+
+- **The registered hard break is resolved on the package-id side.** The on-disk package now carries `id: "algebra-i-02"`, matching wave-13's committed `LESSON_2_ID`; `resolveTerminalLessonId()` → `loadLesson('algebra-i-02')` resolves the on-disk package after L1 mastery. (Earlier in the night this builder also slug-keyed the `LESSONS` registry as a belt-and-braces fix; the wave-13 commit superseded it with package-id keys. Fine while ids equal slugs — if the `lesson.*` id convention is adopted later, re-add slug aliases. Noted in `content/PIPELINE.md`.)
+- **Qualified cross-lesson refs are now first-class in the validator** (this pass, `scripts/validate-content.ts`, uncommitted): `prerequisites[]` entries of the form `<lesson-slug>:<kp-id>` are resolved against `content/lessons/<slug>/package.json` and **fail** validation if the lesson or KP is missing. This supersedes the "1 documented warning" note in the third addendum and closes open item #1 from the second addendum. `npm run content:validate` → 2/2, **zero warnings**. The on-disk package's `_pipelineMeta.notes` was updated to match.
+- **Lint clean.** Removed a newly-unused `KnowledgePoint` import in the validator; fixed a pre-existing `no-var` error on the committed `src/vite-env.d.ts` (`declare var` → `declare const`, type-only ambient declaration, no runtime effect).
+- **PL localization.** The on-disk (4-KP) package internalized the PL fixes from the second addendum (`zmienną`, `wyrazy niepodobne`, `Adepcie`, standard "redukcja wyrazów podobnych" terminology); a grep sweep finds none of the flagged defects. The committed (3-KP) package still carries them if the orchestrator reverts that way — the fix list above stands ready.
+
+### Remaining orchestrator decisions (unchanged, now sharper)
+
+1. **Which L2 package ships.** Committed `cb67008` (3 KPs + 2 embedded L1-KP copies, `zone.beacon.cyan`, `terminal.algebra`) vs. on-disk (4 KPs, 1 qualified cross-ref, 12 items, `zone.beta.annex`, `terminal.lesson2`, `_pipelineMeta`). Both validate; the on-disk version resolves the atomicity, retrieval-depth, and terminal-naming open items.
+2. **Zone unlock id mismatch.** Wave-13's committed wiring does not extend GameView unlock flags for L2 zones (declared non-fatal), but if the on-disk package ships, anything referencing `zone.beacon.cyan` from the committed package's consumers/docs needs a sweep.
+3. **Memory bank.** `b08e0cf` documented the committed package's KP ids; refresh if the on-disk 4-KP set is adopted.
+4. **Standards audit** still owed (Item Author stage): the on-disk package adopts `MA.6.AR.1.4` for FL combining per the second addendum's suggestion; TX codes remain approximate in both versions.
+
+### Final verification (this pass)
+
+- `npm run content:validate` → **2/2 PASSED, 0 warnings** (multi-package discovery is this pass's validator change; single-package arg mode unchanged).
+- `npm run lint` → clean.
+- `npm run build` → green (tsc + vite + spa-fallback), with the on-disk package and the committed wave-13 wiring together.
+
+No commit, per brief.

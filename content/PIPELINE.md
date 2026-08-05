@@ -36,7 +36,7 @@ npm run content:pipeline
 | `algebra-i-01` | Shipped in game | Variables, expressions, evaluation |
 | `algebra-i-02` | Draft on disk | Combining like terms / simplifying; pending Item Author + Critic stages (see `docs/gauntlet/builder-wave12-lesson2.md`) |
 
-Cross-lesson prerequisite links (e.g. lesson 2 KPs building on lesson 1 KPs) are recorded in each package's `_pipelineMeta.externalPrerequisites`; the validator requires `prerequisites[]` refs to resolve inside the same package, so graph stitching across packages is a future pipeline step.
+Cross-lesson prerequisite links use qualified refs in `prerequisites[]`, e.g. `"algebra-i-01:kp.variable.symbol"`. The validator resolves `<lesson-slug>:<kp-id>` against `content/lessons/<slug>/package.json` and **fails** if the lesson package or KP is missing. Plain `kp.*` refs must still resolve inside the same package.
 
 ## Schema
 
@@ -44,4 +44,4 @@ Cross-lesson prerequisite links (e.g. lesson 2 KPs building on lesson 1 KPs) are
 
 ## Runtime loader
 
-`src/content/loadLesson.ts` exports `lesson1` and helpers `t`, `getItem`, `getKp`.
+`src/content/loadLesson.ts` exports `lesson1`/`lesson2`, the `LESSONS` registry (keyed by package id), `resolveTerminalLessonId` (terminal routes to L2 after L1 mastery), and helpers `t`, `getItem`, `getKp` (search all packaged lessons). Note: registry keys follow each package's `id` field — if a future package adopts the `lesson.*` id convention, add directory-slug aliases to `LESSONS`.

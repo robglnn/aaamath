@@ -2123,7 +2123,7 @@
     "generatedAt": "2026-08-05T10:55:00.000Z",
     "notes": [
       "Replaces the KP-Spec skeleton stub with a full authored lesson (all 7 pipeline stages compressed into one builder pass).",
-      "Cross-lesson prerequisite on kp.term.structure uses the qualified ref algebra-i-01:kp.variable.symbol; the validator warns (does not fail) because prereqs starting with kp. must live in-package. Formalize cross-package refs in a future schema pass.",
+      "Cross-lesson prerequisite on kp.term.structure uses the qualified ref algebra-i-01:kp.variable.symbol. The validator resolves qualified <lesson-slug>:<kp-id> refs against content/lessons/<slug>/package.json and fails if the lesson or KP is missing; plain kp.* refs must still live in-package.",
       "Unlocks are declared per schema but NOT wired into the game store; terminal.lesson2 has no in-world placement yet."
     ]
   }

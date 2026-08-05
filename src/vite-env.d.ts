@@ -37,7 +37,7 @@ interface SpeechRecognitionErrorEvent extends Event {
   readonly error: string
 }
 
-declare var SpeechRecognition: {
+declare const SpeechRecognition: {
   prototype: SpeechRecognition
   new (): SpeechRecognition
 }
