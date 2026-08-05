@@ -29,8 +29,13 @@
 - No Lesson 2 yet; speech voice mapping per locale thin
 - Live GH Pages blocked until repo supports Pages; itch.io path documented
 
+## Commits this overnight resume
+- `a4b4bb8` — progress wiring, pointer-lock, visuals, adaptive stub, Pages workflow, ADR-004
+- `be9859a` — build-mode place without lock; Pages CI gated for private repo
+- `212c0ef` — freeze you_do adaptive order (critic largest-gap fix) + critic report
+
 ## Next steps
-1. Confirm Pages deploy green on GitHub Actions
+1. Make repo public (or Pro) + set `ENABLE_GH_PAGES=true`, or upload `dist/` to itch
 2. Lesson 2 via pipeline stages
 3. Harden speech voice mapping per locale
 4. Expand Algebra I KP graph beyond Lesson 1 slice

@@ -1,18 +1,18 @@
 # Active Context
 
 ## Current focus
-Overnight autonomy resume: progress/pedagogy wiring + pointer-lock + visual lift + adaptive θ stub + GH Pages workflow. Committing coherent wave to `main`.
+Overnight resume complete through `212c0ef`. Highest-impact Slice 0 gaps closed; next human/session work is Lesson 2 + making repo Pages-capable (public/Pro) or itch upload.
 
 ## Locked decisions
-See `docs/decisions.md`. Standards tagging honesty: `docs/adr/004-standards-tags.md`.
+See `docs/decisions.md`. Standards honesty: `docs/adr/004-standards-tags.md`.
 
-## Recent changes
-- Progress drawer re-renders on KP mastery; lesson open introduces KPs
-- Live 1PL `thetaStub` + you_do item ordering by information
-- Pointer-lock mouse-look (pitch/yaw); HUD/terminal/player visual pass
-- GitHub Actions Pages deploy workflow
+## Recent changes (resume)
+- Progress drawer reacts to KP mastery; lesson open introduces KPs
+- Live 1PL θ + frozen you_do Rasch order (critic gap closed)
+- Pointer-lock mouse-look; visual range/HUD/terminal/player pass
+- CI builds + artifacts dist; Pages deploy gated (`ENABLE_GH_PAGES`) because private repo
 
 ## Active considerations
-- Enable GitHub Pages source = Actions once in repo settings if not already
-- Critic overnight report pending / PASS_WITH_GAPS expected for AAA visual bar
-- Lesson 2 pipeline still next content step
+- Repo is **private** — GitHub Pages 422 on free plan; prefer itch.zip of `dist/`
+- Critic overnight: PASS_WITH_GAPS; re-sort defect fixed in `212c0ef`
+- Bundle still ~1.4MB; Lesson 2 not started
