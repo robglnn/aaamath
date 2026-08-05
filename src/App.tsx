@@ -1,10 +1,26 @@
-import { useEffect, useState } from 'react'
-import { GameView } from '@/game/GameView'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { LessonOverlay } from '@/lesson/LessonOverlay'
 import { StandardsView } from '@/progress/StandardsView'
 import { useProgressStore } from '@/progress/store'
 import { LocaleSwitcher } from '@/components/LocaleSwitcher'
 import { ui } from '@/i18n/ui'
+
+// Kick off the 3D chunk fetch at module scope so it downloads in parallel
+// with progress hydration instead of after it.
+const gameViewModule = import('@/game/GameView')
+const GameView = lazy(() => gameViewModule.then((m) => ({ default: m.GameView })))
+
+function BootScreen({ status }: { status: string }) {
+  return (
+    <div className="boot-screen">
+      <div className="boot-brand-wrap">
+        <p className="brand brand-hero">Axiom Rising</p>
+        <div className="boot-scanline" aria-hidden />
+      </div>
+      <p className="boot-status">{status}</p>
+    </div>
+  )
+}
 
 export default function App() {
   const hydrate = useProgressStore((s) => s.hydrate)
@@ -21,15 +37,7 @@ export default function App() {
   }, [hydrate])
 
   if (!hydrated) {
-    return (
-      <div className="boot-screen">
-        <div className="boot-brand-wrap">
-          <p className="brand brand-hero">Axiom Rising</p>
-          <div className="boot-scanline" aria-hidden />
-        </div>
-        <p className="boot-status">Initializing local progress…</p>
-      </div>
-    )
+    return <BootScreen status="Initializing local progress…" />
   }
 
   const mastered = lessonState?.status === 'mastered'
@@ -41,11 +49,13 @@ export default function App() {
 
   return (
     <div className="app-root">
-      <GameView
-        unlocked={unlocked}
-        lessonOpen={lessonOpen}
-        onOpenTerminal={() => setLessonOpen(true)}
-      />
+      <Suspense fallback={<BootScreen status="Loading training range…" />}>
+        <GameView
+          unlocked={unlocked}
+          lessonOpen={lessonOpen}
+          onOpenTerminal={() => setLessonOpen(true)}
+        />
+      </Suspense>
 
       <div className="app-chrome" aria-label="Game menu">
         <LocaleSwitcher />

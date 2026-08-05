@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import type { Group, Mesh, MeshBasicMaterial } from 'three'
+import { getProcTextureKit } from '@/game/proc'
 import { useGameStore } from '@/game/store'
 import {
   BOUNDS,
@@ -50,6 +51,7 @@ export function Player() {
   const grounded = useRef(true)
   const lastJumpNonce = useRef(0)
   const animPhase = useRef(0)
+  const { panel } = useMemo(() => getProcTextureKit(), [])
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -221,7 +223,7 @@ export function Player() {
           {/* Chest plate */}
           <mesh position={[0, 0.82, 0.02]}>
             <boxGeometry args={[0.42, 0.36, 0.28]} />
-            <meshStandardMaterial color={BODY} {...MAT_BODY} />
+            <meshStandardMaterial map={panel} color={BODY} {...MAT_BODY} />
           </mesh>
           {/* Chest core — distance read anchor */}
           <mesh position={[0, 0.84, 0.28]}>
@@ -253,7 +255,7 @@ export function Player() {
           {/* Backpack */}
           <mesh position={[0, 0.8, -0.26]}>
             <boxGeometry args={[0.38, 0.42, 0.2]} />
-            <meshStandardMaterial color={SHADE} {...MAT_PACK} />
+            <meshStandardMaterial map={panel} color="#1a4255" {...MAT_PACK} />
           </mesh>
           <mesh position={[0, 0.86, -0.38]}>
             <boxGeometry args={[0.3, 0.1, 0.06]} />

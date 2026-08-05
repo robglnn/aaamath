@@ -16,7 +16,8 @@
 | 4 | Audio stubs + progress seals (+ CI fix) | shipped | `ca415ab`/`08ced34` | — |
 | 5 | Mid-field density + lesson overlay delight | shipped | `354195a` | PASS_WITH_GAPS (prop fidelity) |
 | 6 | Atmosphere motes + light budget | shipped | `56480ad` | pending |
-| 7 | Prop/material fidelity polish | **queued** | — | — |
+| 7 | Blueprint pad material fidelity | **shipped** | `dbf500f` | — |
+| 8 | Code-split Three/R3F/KaTeX + player panel mats | **shipping** | TBD | pending |
 
 ## Priority (this overnight)
 
