@@ -1,6 +1,4 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { LessonOverlay } from '@/lesson/LessonOverlay'
-import { StandardsView } from '@/progress/StandardsView'
 import { useProgressStore } from '@/progress/store'
 import { LocaleSwitcher } from '@/components/LocaleSwitcher'
 import { ui } from '@/i18n/ui'
@@ -9,6 +7,18 @@ import { ui } from '@/i18n/ui'
 // with progress hydration instead of after it.
 const gameViewModule = import('@/game/GameView')
 const GameView = lazy(() => gameViewModule.then((m) => ({ default: m.GameView })))
+
+// KaTeX stays out of cold load: lesson + progress both pull MathText/react-katex.
+const LessonOverlay = lazy(() =>
+  import('@/lesson/LessonOverlay').then((m) => ({ default: m.LessonOverlay })),
+)
+const StandardsView = lazy(() =>
+  import('@/progress/StandardsView').then((m) => ({ default: m.StandardsView })),
+)
+
+function warmLessonChunk() {
+  void import('@/lesson/LessonOverlay')
+}
 
 function BootScreen({ status }: { status: string }) {
   return (
@@ -47,13 +57,18 @@ export default function App() {
     zoneBeta: unlocks.zones.includes('zone.pad.beta') || mastered,
   }
 
+  const openTerminal = () => {
+    warmLessonChunk()
+    setLessonOpen(true)
+  }
+
   return (
     <div className="app-root">
       <Suspense fallback={<BootScreen status="Loading training range…" />}>
         <GameView
           unlocked={unlocked}
           lessonOpen={lessonOpen}
-          onOpenTerminal={() => setLessonOpen(true)}
+          onOpenTerminal={openTerminal}
         />
       </Suspense>
 
@@ -70,12 +85,20 @@ export default function App() {
       </div>
 
       {lessonOpen && (
-        <LessonOverlay
-          onClose={() => setLessonOpen(false)}
-          onMastered={() => {
-            /* unlocks applied in progress store; keep overlay until player closes */
-          }}
-        />
+        <Suspense
+          fallback={
+            <div className="lesson-shell" role="status">
+              <p className="boot-status">{ui(locale, 'loadingLesson')}</p>
+            </div>
+          }
+        >
+          <LessonOverlay
+            onClose={() => setLessonOpen(false)}
+            onMastered={() => {
+              /* unlocks applied in progress store; keep overlay until player closes */
+            }}
+          />
+        </Suspense>
       )}
 
       {progressOpen && (
@@ -89,7 +112,9 @@ export default function App() {
               {ui(locale, 'close')}
             </button>
           </div>
-          <StandardsView />
+          <Suspense fallback={<p className="boot-status">{ui(locale, 'loadingLesson')}</p>}>
+            <StandardsView />
+          </Suspense>
         </aside>
       )}
     </div>

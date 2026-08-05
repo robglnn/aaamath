@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import 'katex/dist/katex.min.css'
 import type { LessonPackage, UnlockDefinition } from '@/content/types'
 import { loadLesson, LESSON_ID } from '@/content/loadLesson'
 import { MathText } from '@/lesson/MathText'
