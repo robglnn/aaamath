@@ -22,8 +22,8 @@
 | **24** | Lesson 5 Two-Step Equations + terminal L1→L5 | `5aea906` |
 | **25** | L5 3D unlocks (calibrator / Chief / Epsilon) | `95af64a` |
 | **26** | Lesson 6 Both-Sides Equations + terminal L1→L6 | `95af64a` |
-| **27** | L6 3D unlocks (mirror / Vanguard / Zeta Mirror) | *(this ship)* |
-| **28** | Lesson 7 Linear Inequalities + terminal L1→L7 | *(this ship)* |
+| **27** | L6 3D unlocks (mirror / Vanguard / Zeta Mirror) | `c84a9fa` |
+| **28** | Lesson 7 Linear Inequalities + terminal L1→L7 | `c84a9fa` |
 
 Critics: W16–W26 → **PASS_WITH_GAPS**; **W27–W28 → PASS_WITH_GAPS** (W27 hex skirt/bars orientation fixed before ship)
 
