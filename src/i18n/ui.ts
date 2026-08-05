@@ -71,6 +71,8 @@ export type UiKey =
   | 'academySelect'
   | 'theoremsTitle'
   | 'sprint'
+  | 'jump'
+  | 'moveStick'
   | 'lookLeft'
   | 'lookRight'
 
@@ -146,6 +148,8 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     academySelect: 'Academy jurisdiction',
     theoremsTitle: 'Theorems',
     sprint: 'Sprint',
+    jump: 'Jump',
+    moveStick: 'Move',
     lookLeft: 'Look L',
     lookRight: 'Look R',
   },
@@ -220,6 +224,8 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     academySelect: 'Jurisdicción de academia',
     theoremsTitle: 'Teoremas',
     sprint: 'Sprint',
+    jump: 'Saltar',
+    moveStick: 'Mover',
     lookLeft: 'Mirar I',
     lookRight: 'Mirar D',
   },
@@ -294,6 +300,8 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     academySelect: 'Jurysdykcja akademii',
     theoremsTitle: 'Twierdzenia',
     sprint: 'Sprint',
+    jump: 'Skok',
+    moveStick: 'Ruch',
     lookLeft: 'Patrz L',
     lookRight: 'Patrz P',
   },

@@ -1,11 +1,12 @@
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Grid, Stars } from '@react-three/drei'
+import { Grid, Stars, Text } from '@react-three/drei'
 import { AdditiveBlending } from 'three'
 import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial, PointLight } from 'three'
 import { useGameStore } from '@/game/store'
 import { Player } from '@/game/Player'
 import { BlueprintGhost } from '@/game/BlueprintGhost'
+import { RangeDecor } from '@/game/RangeDecor'
 import { ALPHA_RADIUS, BETA_CENTER, BETA_RADIUS, GATE_Z, TERMINAL_POS, groundHeight, rig } from '@/game/world'
 
 const SKY = '#0b1a24'
@@ -205,23 +206,32 @@ function Terminal() {
 }
 
 function ZoneLabel({ text, color, y = 1.6 }: { text: string; color: string; y?: number }) {
-  // Simple glyph bars stand in for text without font atlases.
+  // Readable troika Text — Fortnite-range signage literacy (critic wave-1 largest gap).
+  const width = Math.max(2.4, text.length * 0.22)
   return (
-    <group position={[0, y, 0]}>
-      <mesh>
-        <boxGeometry args={[1.8, 0.28, 0.06]} />
-        <meshStandardMaterial color="#0c1e28" metalness={0.3} roughness={0.5} />
+    <group position={[0, y, 0]} name={text}>
+      <mesh position={[0, 0, -0.02]}>
+        <boxGeometry args={[width, 0.48, 0.06]} />
+        <meshStandardMaterial color="#0c1e28" metalness={0.35} roughness={0.45} />
       </mesh>
-      <mesh position={[0, 0, 0.04]}>
-        <boxGeometry args={[1.55, 0.12, 0.02]} />
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.1} />
+      <mesh position={[0, 0, 0.02]}>
+        <planeGeometry args={[width - 0.12, 0.36]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.35} transparent opacity={0.18} />
       </mesh>
-      <mesh position={[0, 0.22, 0]}>
-        <boxGeometry args={[0.9, 0.06, 0.02]} />
-        <meshBasicMaterial color={color} transparent opacity={0.7} />
-      </mesh>
-      {/* Keep a11y/debug name in scene graph */}
-      <group name={text} />
+      <Text
+        position={[0, 0.02, 0.05]}
+        fontSize={0.22}
+        letterSpacing={0.06}
+        color={color}
+        anchorX="center"
+        anchorY="middle"
+        outlineWidth={0.018}
+        outlineColor="#041018"
+        maxWidth={width - 0.2}
+        textAlign="center"
+      >
+        {text}
+      </Text>
     </group>
   )
 }
@@ -475,6 +485,15 @@ export function TrainingRange() {
       <color attach="background" args={[SKY]} />
       <fog attach="fog" args={[SKY, 18, 55]} />
       <Stars radius={90} depth={50} count={3200} factor={3.4} saturation={0} fade speed={0.55} />
+      {/* Soft gradient sky dome — cheaper Valerian atmosphere without env maps */}
+      <mesh scale={[-1, 1, 1]}>
+        <sphereGeometry args={[70, 24, 16]} />
+        <meshBasicMaterial color="#122636" transparent opacity={0.55} depthWrite={false} />
+      </mesh>
+      <mesh position={[0, -8, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[48, 68, 48]} />
+        <meshBasicMaterial color="#1a4050" transparent opacity={0.22} depthWrite={false} />
+      </mesh>
 
       {/* Lighting: warm key + cool rim + pad pools; no postprocessing bloom (mobile-safe) */}
       <hemisphereLight args={['#9adfd6', '#0b1520', 0.62]} />
@@ -484,7 +503,7 @@ export function TrainingRange() {
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
         <planeGeometry args={[90, 90]} />
-        <meshStandardMaterial color="#0a141d" roughness={0.95} metalness={0.05} />
+        <meshStandardMaterial color="#0a141d" roughness={0.92} metalness={0.08} />
       </mesh>
       <Grid
         position={[0, 0.01, 0]}
@@ -499,6 +518,7 @@ export function TrainingRange() {
         fadeStrength={1.5}
       />
 
+      <RangeDecor />
       <AlphaPad />
       <group position={[-4.2, 0, 4.2]}>
         <ZoneLabel text="ZONE ALPHA" color={CYAN} y={1.35} />

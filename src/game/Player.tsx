@@ -16,6 +16,20 @@ import {
   rig,
 } from '@/game/world'
 
+// Local palette — matches game shell teal/cyan/amber (see game.css).
+const DEEP = '#1e3d4f'
+const SHADE = '#17394b'
+const BODY = '#26536b'
+const BODY_LT = '#2a5a74'
+const HELM = '#1f475c'
+const CYAN = '#3dd6c6'
+const AMBER = '#f0a830'
+
+const MAT = { roughness: 0.55, metalness: 0.25 }
+const MAT_BODY = { roughness: 0.5, metalness: 0.3, emissive: '#0e3a42', emissiveIntensity: 0.4 }
+const MAT_HELM = { roughness: 0.4, metalness: 0.45 }
+const MAT_PACK = { roughness: 0.45, metalness: 0.4 }
+
 function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null
   if (!el || !el.tagName) return false
@@ -24,12 +38,18 @@ function isTypingTarget(target: EventTarget | null): boolean {
 
 export function Player() {
   const bodyRef = useRef<Group>(null)
+  const torsoPivot = useRef<Group>(null)
+  const leftLegPivot = useRef<Group>(null)
+  const rightLegPivot = useRef<Group>(null)
+  const leftArmPivot = useRef<Group>(null)
+  const rightArmPivot = useRef<Group>(null)
   const shadowRef = useRef<Mesh>(null)
   const shadowMat = useRef<MeshBasicMaterial>(null)
   const keys = useRef<Record<string, boolean>>({})
   const velY = useRef(0)
   const grounded = useRef(true)
   const lastJumpNonce = useRef(0)
+  const animPhase = useRef(0)
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -150,58 +170,198 @@ export function Player() {
       shadow.scale.set(scale, scale, scale)
       if (shadowMat.current) shadowMat.current.opacity = 0.4 * (1 - lift * 0.6)
     }
+
+    const moving = mag > 0.05 && grounded.current && s.mode !== 'lesson'
+    if (moving) {
+      animPhase.current += dt * (sprinting ? 11 : 7.5) * Math.min(1, mag)
+    } else {
+      animPhase.current += dt * 1.2
+    }
+
+    const legL = leftLegPivot.current
+    const legR = rightLegPivot.current
+    const armL = leftArmPivot.current
+    const armR = rightArmPivot.current
+    const torso = torsoPivot.current
+
+    if (!grounded.current) {
+      if (legL) legL.rotation.x = 0.22
+      if (legR) legR.rotation.x = 0.14
+      if (armL) armL.rotation.x = -0.28
+      if (armR) armR.rotation.x = -0.28
+      if (torso) torso.rotation.x = 0.04
+    } else if (moving) {
+      const swing = Math.sin(animPhase.current) * 0.44 * Math.min(1, mag)
+      if (legL) legL.rotation.x = swing
+      if (legR) legR.rotation.x = -swing
+      if (armL) armL.rotation.x = -swing * 0.55
+      if (armR) armR.rotation.x = swing * 0.55
+      if (torso) torso.rotation.x = 0
+    } else {
+      const bob = Math.sin(animPhase.current) * 0.035
+      const armSway = Math.sin(animPhase.current * 0.85) * 0.07
+      if (legL) legL.rotation.x = bob * 0.3
+      if (legR) legR.rotation.x = -bob * 0.3
+      if (armL) armL.rotation.x = armSway
+      if (armR) armR.rotation.x = -armSway
+      if (torso) torso.rotation.x = bob
+    }
   })
 
-  // Low-poly game-y silhouette: torso, limbs, visor helm (no AAA assets).
+  // Fortnite-lite Riser silhouette: chunk plates, pack, boot blocks, amber visor helm.
   return (
     <group>
       <group ref={bodyRef} position={[rig.playerPos.x, rig.playerPos.y, rig.playerPos.z]}>
-        {/* Legs */}
-        <mesh position={[-0.14, 0.28, 0]}>
-          <capsuleGeometry args={[0.1, 0.28, 4, 8]} />
-          <meshStandardMaterial color="#1e3d4f" roughness={0.55} metalness={0.25} />
-        </mesh>
-        <mesh position={[0.14, 0.28, 0]}>
-          <capsuleGeometry args={[0.1, 0.28, 4, 8]} />
-          <meshStandardMaterial color="#1e3d4f" roughness={0.55} metalness={0.25} />
-        </mesh>
-        {/* Torso */}
-        <mesh position={[0, 0.78, 0]}>
-          <capsuleGeometry args={[0.28, 0.42, 6, 12]} />
-          <meshStandardMaterial color="#26536b" emissive="#0e3a42" emissiveIntensity={0.4} roughness={0.5} metalness={0.3} />
-        </mesh>
-        {/* Chest core: emissive anchor so the player reads at distance */}
-        <mesh position={[0, 0.84, 0.27]}>
-          <boxGeometry args={[0.16, 0.12, 0.05]} />
-          <meshStandardMaterial color="#3dd6c6" emissive="#3dd6c6" emissiveIntensity={1.7} roughness={0.3} />
-        </mesh>
-        {/* Shoulders / pack */}
-        <mesh position={[0, 0.95, -0.22]}>
-          <boxGeometry args={[0.52, 0.28, 0.22]} />
-          <meshStandardMaterial color="#17394b" roughness={0.45} metalness={0.4} />
-        </mesh>
-        <mesh position={[0, 0.98, -0.34]}>
-          <boxGeometry args={[0.28, 0.08, 0.06]} />
-          <meshStandardMaterial color="#3dd6c6" emissive="#3dd6c6" emissiveIntensity={1.2} />
-        </mesh>
-        {/* Arms */}
-        <mesh position={[-0.38, 0.78, 0.02]} rotation={[0, 0, 0.25]}>
-          <capsuleGeometry args={[0.08, 0.32, 4, 8]} />
-          <meshStandardMaterial color="#2a5a74" roughness={0.55} metalness={0.2} />
-        </mesh>
-        <mesh position={[0.38, 0.78, 0.02]} rotation={[0, 0, -0.25]}>
-          <capsuleGeometry args={[0.08, 0.32, 4, 8]} />
-          <meshStandardMaterial color="#2a5a74" roughness={0.55} metalness={0.2} />
-        </mesh>
-        {/* Helm + amber visor */}
-        <mesh position={[0, 1.28, 0.02]}>
-          <sphereGeometry args={[0.22, 14, 12]} />
-          <meshStandardMaterial color="#1f475c" roughness={0.4} metalness={0.45} />
-        </mesh>
-        <mesh position={[0, 1.28, 0.18]}>
-          <boxGeometry args={[0.28, 0.1, 0.08]} />
-          <meshStandardMaterial color="#f0a830" emissive="#f0a830" emissiveIntensity={1.45} roughness={0.35} />
-        </mesh>
+        <group ref={torsoPivot}>
+          {/* Waist block */}
+          <mesh position={[0, 0.6, 0]}>
+            <boxGeometry args={[0.34, 0.18, 0.22]} />
+            <meshStandardMaterial color={DEEP} {...MAT} />
+          </mesh>
+          {/* Chest plate */}
+          <mesh position={[0, 0.82, 0.02]}>
+            <boxGeometry args={[0.42, 0.36, 0.28]} />
+            <meshStandardMaterial color={BODY} {...MAT_BODY} />
+          </mesh>
+          {/* Chest core — distance read anchor */}
+          <mesh position={[0, 0.84, 0.28]}>
+            <boxGeometry args={[0.18, 0.14, 0.06]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.7} roughness={0.3} />
+          </mesh>
+          {/* Collar / neck bridge */}
+          <mesh position={[0, 1.04, 0.02]}>
+            <boxGeometry args={[0.22, 0.08, 0.18]} />
+            <meshStandardMaterial color={SHADE} roughness={0.5} metalness={0.35} />
+          </mesh>
+          {/* Shoulder pads */}
+          <mesh position={[-0.36, 0.94, 0.04]}>
+            <boxGeometry args={[0.14, 0.1, 0.16]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.5} metalness={0.35} />
+          </mesh>
+          <mesh position={[0.36, 0.94, 0.04]}>
+            <boxGeometry args={[0.14, 0.1, 0.16]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.5} metalness={0.35} />
+          </mesh>
+          <mesh position={[-0.36, 0.96, 0.12]}>
+            <boxGeometry args={[0.08, 0.05, 0.04]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.9} />
+          </mesh>
+          <mesh position={[0.36, 0.96, 0.12]}>
+            <boxGeometry args={[0.08, 0.05, 0.04]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.9} />
+          </mesh>
+          {/* Backpack */}
+          <mesh position={[0, 0.8, -0.26]}>
+            <boxGeometry args={[0.38, 0.42, 0.2]} />
+            <meshStandardMaterial color={SHADE} {...MAT_PACK} />
+          </mesh>
+          <mesh position={[0, 0.86, -0.38]}>
+            <boxGeometry args={[0.3, 0.1, 0.06]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.2} />
+          </mesh>
+          <mesh position={[-0.1, 0.72, -0.36]}>
+            <boxGeometry args={[0.06, 0.14, 0.04]} />
+            <meshStandardMaterial color={DEEP} roughness={0.55} metalness={0.2} />
+          </mesh>
+          <mesh position={[0.1, 0.72, -0.36]}>
+            <boxGeometry args={[0.06, 0.14, 0.04]} />
+            <meshStandardMaterial color={DEEP} roughness={0.55} metalness={0.2} />
+          </mesh>
+          {/* Helm — boxy dome + ear guards */}
+          <mesh position={[0, 1.24, 0.04]}>
+            <boxGeometry args={[0.34, 0.28, 0.32]} />
+            <meshStandardMaterial color={HELM} {...MAT_HELM} />
+          </mesh>
+          <mesh position={[-0.2, 1.22, 0.02]}>
+            <boxGeometry args={[0.08, 0.14, 0.12]} />
+            <meshStandardMaterial color={SHADE} roughness={0.45} metalness={0.4} />
+          </mesh>
+          <mesh position={[0.2, 1.22, 0.02]}>
+            <boxGeometry args={[0.08, 0.14, 0.12]} />
+            <meshStandardMaterial color={SHADE} roughness={0.45} metalness={0.4} />
+          </mesh>
+          {/* Amber visor band */}
+          <mesh position={[0, 1.24, 0.2]}>
+            <boxGeometry args={[0.3, 0.1, 0.06]} />
+            <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.45} roughness={0.35} />
+          </mesh>
+          <mesh position={[0, 1.18, 0.18]}>
+            <boxGeometry args={[0.22, 0.04, 0.05]} />
+            <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.85} roughness={0.4} />
+          </mesh>
+        </group>
+
+        {/* Left leg — hip pivot */}
+        <group ref={leftLegPivot} position={[-0.15, 0.54, 0]}>
+          <mesh position={[0, -0.14, 0]}>
+            <capsuleGeometry args={[0.1, 0.22, 4, 8]} />
+            <meshStandardMaterial color={DEEP} {...MAT} />
+          </mesh>
+          <mesh position={[0, -0.36, 0.02]} rotation={[0.08, 0, 0]}>
+            <capsuleGeometry args={[0.09, 0.2, 4, 8]} />
+            <meshStandardMaterial color={DEEP} {...MAT} />
+          </mesh>
+          <mesh position={[0, -0.5, 0.06]}>
+            <boxGeometry args={[0.16, 0.1, 0.22]} />
+            <meshStandardMaterial color={SHADE} roughness={0.5} metalness={0.35} />
+          </mesh>
+          <mesh position={[0, -0.52, 0.14]}>
+            <boxGeometry args={[0.18, 0.06, 0.06]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.45} metalness={0.3} />
+          </mesh>
+        </group>
+
+        {/* Right leg */}
+        <group ref={rightLegPivot} position={[0.15, 0.54, 0]}>
+          <mesh position={[0, -0.14, 0]}>
+            <capsuleGeometry args={[0.1, 0.22, 4, 8]} />
+            <meshStandardMaterial color={DEEP} {...MAT} />
+          </mesh>
+          <mesh position={[0, -0.36, 0.02]} rotation={[0.08, 0, 0]}>
+            <capsuleGeometry args={[0.09, 0.2, 4, 8]} />
+            <meshStandardMaterial color={DEEP} {...MAT} />
+          </mesh>
+          <mesh position={[0, -0.5, 0.06]}>
+            <boxGeometry args={[0.16, 0.1, 0.22]} />
+            <meshStandardMaterial color={SHADE} roughness={0.5} metalness={0.35} />
+          </mesh>
+          <mesh position={[0, -0.52, 0.14]}>
+            <boxGeometry args={[0.18, 0.06, 0.06]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.45} metalness={0.3} />
+          </mesh>
+        </group>
+
+        {/* Left arm — shoulder pivot */}
+        <group ref={leftArmPivot} position={[-0.38, 0.92, 0.02]} rotation={[0, 0, 0.18]}>
+          <mesh position={[0, -0.12, 0]}>
+            <capsuleGeometry args={[0.08, 0.2, 4, 8]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.55} metalness={0.2} />
+          </mesh>
+          <mesh position={[0, -0.3, 0.02]} rotation={[0, 0, -0.12]}>
+            <capsuleGeometry args={[0.07, 0.18, 4, 8]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.55} metalness={0.2} />
+          </mesh>
+          <mesh position={[0, -0.42, 0.05]}>
+            <boxGeometry args={[0.1, 0.08, 0.1]} />
+            <meshStandardMaterial color={SHADE} roughness={0.45} metalness={0.35} />
+          </mesh>
+        </group>
+
+        {/* Right arm */}
+        <group ref={rightArmPivot} position={[0.38, 0.92, 0.02]} rotation={[0, 0, -0.18]}>
+          <mesh position={[0, -0.12, 0]}>
+            <capsuleGeometry args={[0.08, 0.2, 4, 8]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.55} metalness={0.2} />
+          </mesh>
+          <mesh position={[0, -0.3, 0.02]} rotation={[0, 0, 0.12]}>
+            <capsuleGeometry args={[0.07, 0.18, 4, 8]} />
+            <meshStandardMaterial color={BODY_LT} roughness={0.55} metalness={0.2} />
+          </mesh>
+          <mesh position={[0, -0.42, 0.05]}>
+            <boxGeometry args={[0.1, 0.08, 0.1]} />
+            <meshStandardMaterial color={SHADE} roughness={0.45} metalness={0.35} />
+          </mesh>
+        </group>
       </group>
       <mesh ref={shadowRef} rotation={[-Math.PI / 2, 0, 0]}>
         <circleGeometry args={[0.48, 24]} />

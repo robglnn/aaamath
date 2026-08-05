@@ -130,7 +130,9 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
   const { phase, phaseKind, currentItem, lastResult, showSolution, independentCorrect, independentTotal } =
     state
   const masteryReq = pkg.mastery
-  const celebrating = masteryDone || phaseKind === 'complete'
+  // Unlock cards only on real mastery (critic gap); still allow exit when complete without mastery.
+  const celebrating = masteryDone
+  const lessonFinished = celebrating || phaseKind === 'complete'
   const itemFocus = Boolean(currentItem) && !celebrating && phaseKind !== 'objectives'
   const teachFocus =
     !celebrating &&
@@ -370,18 +372,23 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
 
         {celebrating && (
           <section className="celebrate-panel" aria-live="polite">
-            <p className="celebrate-flare" aria-hidden>
-              ✦
-            </p>
-            <h2 className="celebrate-title">{ui(locale, 'celebrationTitle')}</h2>
-            <p className="celebrate-sub">{ui(locale, 'celebrationSub')}</p>
+            <div className="celebrate-hero">
+              <p className="celebrate-flare" aria-hidden>
+                ✦
+              </p>
+              <h2 className="celebrate-title">{ui(locale, 'celebrationTitle')}</h2>
+              <p className="celebrate-sub">{ui(locale, 'celebrationSub')}</p>
+              <p className="celebrate-score" aria-label={ui(locale, 'masteryProgress')}>
+                {independentCorrect}/{masteryReq.minIndependentCorrect}
+              </p>
+            </div>
             <p className="unlocks-earned-label">{ui(locale, 'unlocksEarned')}</p>
             <ul className="unlock-reveal">
               {pkg.unlocks.map((u, i) => (
                 <li
                   key={u.id}
                   className={`unlock-card ${unlockTone(u.kind)}`}
-                  style={{ animationDelay: `${120 + i * 160}ms` }}
+                  style={{ animationDelay: `${180 + i * 140}ms` }}
                 >
                   <span className="unlock-kind">{unlockKindLabel(locale, u.kind)}</span>
                   <strong className="unlock-title">
@@ -418,6 +425,12 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
 
         {celebrating && (
           <button type="button" className="btn primary large celebrate-cta" onClick={onClose}>
+            {ui(locale, 'continueToRange')}
+          </button>
+        )}
+
+        {lessonFinished && !celebrating && (
+          <button type="button" className="btn primary large" onClick={onClose}>
             {ui(locale, 'continueToRange')}
           </button>
         )}

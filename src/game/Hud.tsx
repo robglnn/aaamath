@@ -10,6 +10,14 @@ interface HudProps {
 
 type UnlockFlash = 'rank' | 'blueprint' | 'zone' | null
 
+const FLASH_MS = 3200
+
+function unlockGlyph(kind: Exclude<UnlockFlash, null>): string {
+  if (kind === 'rank') return '◆'
+  if (kind === 'blueprint') return '⬡'
+  return '◎'
+}
+
 export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const locale = useProgressStore((s) => s.blob.locale)
   const nearTerminal = useGameStore((s) => s.nearTerminal)
@@ -24,6 +32,19 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
 
   const [unlockFlash, setUnlockFlash] = useState<UnlockFlash>(null)
   const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta })
+  const syncReady = useRef(false)
+  const pendingFlash = useRef<UnlockFlash>(null)
+  const flashTimer = useRef<number | null>(null)
+
+  const showFlash = (flash: UnlockFlash) => {
+    if (!flash) return
+    if (flashTimer.current) window.clearTimeout(flashTimer.current)
+    setUnlockFlash(flash)
+    flashTimer.current = window.setTimeout(() => {
+      setUnlockFlash(null)
+      flashTimer.current = null
+    }, FLASH_MS)
+  }
 
   useEffect(() => {
     const prev = prevUnlocks.current
@@ -32,11 +53,34 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     else if (!prev.hasBlueprint && hasBlueprint) flash = 'blueprint'
     else if (!prev.hasZoneBeta && hasZoneBeta) flash = 'zone'
     prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta }
+
+    if (!syncReady.current) {
+      syncReady.current = true
+      return
+    }
+
     if (!flash) return
-    setUnlockFlash(flash)
-    const timer = window.setTimeout(() => setUnlockFlash(null), 2600)
-    return () => window.clearTimeout(timer)
-  }, [hasRank, hasBlueprint, hasZoneBeta])
+
+    if (mode === 'lesson') {
+      pendingFlash.current = flash
+      return
+    }
+
+    showFlash(flash)
+  }, [hasRank, hasBlueprint, hasZoneBeta, mode])
+
+  useEffect(() => {
+    if (mode === 'lesson' || !pendingFlash.current) return
+    const flash = pendingFlash.current
+    pendingFlash.current = null
+    showFlash(flash)
+  }, [mode])
+
+  useEffect(() => {
+    return () => {
+      if (flashTimer.current) window.clearTimeout(flashTimer.current)
+    }
+  }, [])
 
   const flashLabel =
     unlockFlash === 'rank'
@@ -68,11 +112,27 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
         )}
       </div>
 
+      {mode !== 'lesson' && !nearTerminal && (
+        <p className="gr-objective" role="status">
+          {hasZoneBeta
+            ? 'Zone Beta open — explore the new pad'
+            : hasBlueprint && !blueprintPlaced
+              ? 'Place your blueprint pad (B)'
+              : 'Objective · Reach the Algebra Terminal'}
+        </p>
+      )}
+
       {blueprintPlaced && <span className="gr-status-placed">Blueprint online</span>}
 
-      {unlockFlash && (
-        <div className="gr-unlock-flash" role="status" aria-live="polite">
-          <span className="gr-unlock-flash-text">{flashLabel}</span>
+      {unlockFlash && mode !== 'lesson' && (
+        <div className={`gr-unlock-flash gr-unlock-flash--${unlockFlash}`} role="status" aria-live="polite">
+          <div className="gr-unlock-flash-card">
+            <span className="gr-unlock-flash-icon" aria-hidden>
+              {unlockGlyph(unlockFlash)}
+            </span>
+            <span className="gr-unlock-flash-kicker">{ui(locale, 'unlocksEarned')}</span>
+            <span className="gr-unlock-flash-text">{flashLabel}</span>
+          </div>
         </div>
       )}
 

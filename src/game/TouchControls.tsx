@@ -32,7 +32,7 @@ export function TouchControls() {
     }
     useGameStore.getState().setStick(dx, -dy)
     if (knobRef.current) {
-      knobRef.current.style.transform = `translate(${dx * 40}px, ${dy * 40}px)`
+      knobRef.current.style.transform = `translate(${dx * 44}px, ${dy * 44}px)`
     }
   }
 
@@ -40,6 +40,7 @@ export function TouchControls() {
     e.stopPropagation()
     activeId.current = e.pointerId
     e.currentTarget.setPointerCapture(e.pointerId)
+    baseRef.current?.classList.add('is-active')
     updateStick(e)
   }
   const onStickMove = (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -48,6 +49,7 @@ export function TouchControls() {
   const onStickEnd = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (activeId.current !== e.pointerId) return
     activeId.current = null
+    baseRef.current?.classList.remove('is-active')
     useGameStore.getState().setStick(0, 0)
     if (knobRef.current) knobRef.current.style.transform = 'translate(0px, 0px)'
   }
@@ -59,15 +61,18 @@ export function TouchControls() {
       <div
         ref={baseRef}
         className="gr-stick"
+        role="group"
+        aria-label={ui(locale, 'moveStick')}
         onPointerDown={onStickDown}
         onPointerMove={onStickMove}
         onPointerUp={onStickEnd}
         onPointerCancel={onStickEnd}
       >
-        <div ref={knobRef} className="gr-stick-knob" />
+        <div className="gr-stick-ring" aria-hidden />
+        <div ref={knobRef} className="gr-stick-knob" aria-hidden />
       </div>
 
-      <div className="gr-look-cluster">
+      <div className="gr-look-cluster" role="group" aria-label={ui(locale, 'lookLeft')}>
         <button
           type="button"
           className="gr-look"
@@ -77,7 +82,9 @@ export function TouchControls() {
             useGameStore.getState().setLookDelta(-YAW_STEP, 0)
           }}
         >
-          {ui(locale, 'lookLeft')}
+          <span className="gr-look-glyph" aria-hidden>
+            ‹
+          </span>
         </button>
         <button
           type="button"
@@ -88,13 +95,16 @@ export function TouchControls() {
             useGameStore.getState().setLookDelta(YAW_STEP, 0)
           }}
         >
-          {ui(locale, 'lookRight')}
+          <span className="gr-look-glyph" aria-hidden>
+            ›
+          </span>
         </button>
       </div>
 
       <button
         type="button"
         className="gr-sprint"
+        aria-label={ui(locale, 'sprint')}
         onPointerDown={(e) => {
           e.stopPropagation()
           e.currentTarget.setPointerCapture(e.pointerId)
@@ -112,12 +122,13 @@ export function TouchControls() {
       <button
         type="button"
         className="gr-jump"
+        aria-label={ui(locale, 'jump')}
         onPointerDown={(e) => {
           e.stopPropagation()
           useGameStore.getState().requestJump()
         }}
       >
-        JUMP
+        {ui(locale, 'jump')}
       </button>
     </>
   )

@@ -10,10 +10,10 @@
 | Wave | Focus | Status | Commit | Critic |
 |------|-------|--------|--------|--------|
 | 0 | Prior overnight (progress/adaptive/UI) | shipped | `9679f2b` | PASS_WITH_GAPS (re-sort fixed) |
-| 1 | AAA range visuals: terminal beam, gate FX, path lights, blueprint pop, lighting | **in flight** | TBD | pending |
-| 2 | Procedural materials / readable zone signs / sky atmosphere | queued | — | — |
-| 3 | Player silhouette + VFX polish | queued | — | — |
-| 4 | UI polish pass (mobile + celebration) if visuals plateau | queued | — | — |
+| 1 | AAA range visuals: terminal beam, gate FX, path lights, blueprint pop | **shipped** | `2e6db91` | PASS_WITH_GAPS — signs unread |
+| 2 | Readable signs + decor + player + mobile/celebrate | **shipping** | TBD | pending |
+| 3 | Procedural textures / deeper materials / VFX polish | queued | — | — |
+| 4 | Critic verify + smoothing | queued | — | — |
 
 ## Priority (this overnight)
 
@@ -22,27 +22,24 @@
 3. Pedagogy non-regression
 4. Pages green (`base: '/aaamath/'`)
 
-## Locks (do not re-litigate)
+## Locks
 
 See `docs/decisions.md`. Stack Vite+React+TS+R3F+KaTeX. No unpaid asset-store deps. Models: `kimi-k3-max`, `cursor-grok-4.5-medium`, `composer-2.5` only.
 
 ## Wave log
 
-### Wave 1 — Training range visual lift (2026-08-05)
+### Wave 1 — Training range visual lift — `2e6db91`
 
-**Builder scope (pre-existing WIP + finish):**
-- Terminal: objective beam, floating diamond, scan sweep, proximity pulse, brighter glow
-- Alpha pad: pulsing rim + pool light
-- Beta zone: holo ring + expanding scan when unlocked
-- Gate: energy shimmer, unlock shockwave FX, path stud lights toward Beta
-- Blueprint: placement pop + shockwave (easeOutBack)
-- Lighting: warmer key, cooler rim, deeper fog/stars
+Terminal beam/diamond, gate unlock FX, path studs, blueprint pop, lighting. Pages deploy **success**. Critic: **PASS_WITH_GAPS** — largest gap = glyph-only zone labels (not readable text).
 
-**Files:** `TrainingRange.tsx`, `BlueprintGhost.tsx`, `Player.tsx`
+### Wave 2 — Signage literacy + silhouette + mobile celebrate (in flight)
 
-**Build:** `npm run build` green before commit.
-
-**Next critic asks:** Does first-viewport read as Fortnite-lite training range vs capsule era? Readable objectives from spawn? Mobile-safe (no bloom)?
+- drei `Text` zone labels; HUD objective strip
+- `RangeDecor` (posts, crates, spires, horizon)
+- Sky dome atmosphere
+- Player chunk silhouette + run/idle/jump anim
+- Touch stick polish; mastery-only celebration; non-mastery exit preserved
+- Build green (~1.55MB JS; troika Text cost accepted for literacy)
 
 ---
 
