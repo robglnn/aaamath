@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { LessonPackage, UnlockDefinition } from '@/content/types'
 import { loadLesson, LESSON_ID } from '@/content/loadLesson'
 import { MathText } from '@/lesson/MathText'
@@ -18,6 +18,10 @@ function unlockTone(kind: UnlockDefinition['kind']): string {
   return 'unlock-card--zone'
 }
 
+function isTeachingPhase(kind: string): boolean {
+  return kind === 'i_do' || kind === 'we_do' || kind === 'you_do'
+}
+
 export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
   const locale = useProgressStore((s) => s.blob.locale)
   const thetaStub = useProgressStore((s) => s.blob.thetaStub)
@@ -31,6 +35,8 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
   const [listening, setListening] = useState(false)
   const [micError, setMicError] = useState<string | null>(null)
   const [masteryDone, setMasteryDone] = useState(false)
+  const [masteryBump, setMasteryBump] = useState(false)
+  const prevIndependentCorrect = useRef(0)
 
   const { state, phases, submitAnswer, advance, markMasteryTriggered, isIndependentItem } =
     useLessonSession(pkg, locale, thetaStub)
@@ -62,6 +68,18 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
       handleMastery()
     }
   }, [state.masteryMet, state.phaseKind, masteryDone, pkg, handleMastery])
+
+  useEffect(() => {
+    const correct = state.independentCorrect
+    if (correct <= prevIndependentCorrect.current) {
+      prevIndependentCorrect.current = correct
+      return
+    }
+    prevIndependentCorrect.current = correct
+    setMasteryBump(true)
+    const timer = window.setTimeout(() => setMasteryBump(false), 700)
+    return () => window.clearTimeout(timer)
+  }, [state.independentCorrect])
 
   const handleSubmit = (choiceId?: string) => {
     if (!state.currentItem) return
@@ -144,19 +162,37 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
     100,
     Math.round((independentCorrect / Math.max(masteryReq.minIndependentCorrect, 1)) * 100),
   )
+  const railPct =
+    phases.length > 1
+      ? Math.round(
+          ((celebrating ? phases.length - 1 : state.phaseIndex) / (phases.length - 1)) * 100,
+        )
+      : 0
 
   return (
     <div className="lesson-overlay" role="dialog" aria-modal="true" aria-label={pickLocalized(pkg.title, locale)}>
       <header className="lesson-header">
         <nav className="phase-rail" aria-label={ui(locale, 'phaseRailLabel')}>
+          <span className="phase-rail-track" aria-hidden>
+            <span className="phase-rail-fill" style={{ width: `${railPct}%` }} />
+          </span>
           {phases.map((p, i) => {
             const done = i < state.phaseIndex || (celebrating && i <= state.phaseIndex)
             const active = i === state.phaseIndex && !celebrating
+            const teach = isTeachingPhase(p.kind)
             return (
-              <div key={p.id} className="phase-rail-step">
-                {i > 0 && <span className={`phase-rail-link ${done || active ? 'lit' : ''}`} aria-hidden />}
+              <div
+                key={p.id}
+                className={`phase-rail-step ${teach ? 'is-teach' : 'is-bookend'} ${p.kind === 'you_do' ? 'is-mastery-step' : ''}`}
+              >
+                {i > 0 && (
+                  <span
+                    className={`phase-rail-link ${done ? 'lit' : ''} ${active ? 'active-link' : ''} ${teach ? 'is-teach-link' : ''}`}
+                    aria-hidden
+                  />
+                )}
                 <span
-                  className={`phase-chip ${active ? 'active' : ''} ${done ? 'done' : ''}`}
+                  className={`phase-chip ${active ? 'active' : ''} ${done ? 'done' : ''} ${teach ? 'is-teach' : 'is-bookend'} ${p.kind === 'you_do' ? 'is-mastery' : ''}`}
                   aria-current={active ? 'step' : undefined}
                 >
                   <span className="phase-chip-dot" aria-hidden />
@@ -223,15 +259,26 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
         )}
 
         {phaseKind === 'you_do' && !celebrating && (
-          <div className="mastery-gate" aria-live="polite">
+          <div
+            className={`mastery-gate ${masteryBump ? 'is-bump' : ''} ${state.masteryMet ? 'is-met' : ''}`}
+            aria-live="polite"
+          >
             <div className="mastery-gate-head">
               <span className="mastery-label">{ui(locale, 'masteryProgress')}</span>
               <span className="mastery-score">
                 {independentCorrect}/{masteryReq.minIndependentCorrect}
               </span>
             </div>
-            <div className="mastery-bar" role="progressbar" aria-valuenow={masteryPct} aria-valuemin={0} aria-valuemax={100}>
-              <div className="mastery-bar-fill" style={{ width: `${masteryPct}%` }} />
+            <div
+              className="mastery-bar"
+              role="progressbar"
+              aria-valuenow={masteryPct}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <div className="mastery-bar-fill" style={{ width: `${masteryPct}%` }}>
+                <span className="mastery-bar-shine" aria-hidden />
+              </div>
             </div>
             <p className="mastery-hint">
               {ui(locale, 'independentScore')} · {independentTotal}/{masteryReq.minIndependentTotal}
@@ -372,6 +419,13 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
 
         {celebrating && (
           <section className="celebrate-panel" aria-live="polite">
+            <div className="celebrate-backdrop" aria-hidden>
+              <span className="celebrate-ring celebrate-ring--outer" />
+              <span className="celebrate-ring celebrate-ring--inner" />
+              <span className="celebrate-spark celebrate-spark--a">✦</span>
+              <span className="celebrate-spark celebrate-spark--b">◇</span>
+              <span className="celebrate-spark celebrate-spark--c">✦</span>
+            </div>
             <div className="celebrate-hero">
               <p className="celebrate-flare" aria-hidden>
                 ✦

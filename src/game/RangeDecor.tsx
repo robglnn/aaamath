@@ -1,7 +1,8 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending } from 'three'
-import type { MeshBasicMaterial } from 'three'
+import type { Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
+import { TERMINAL_POS } from '@/game/world'
 
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
@@ -9,13 +10,17 @@ const STEEL = '#1a3344'
 
 /**
  * Distant / mid-field set dressing for the training range.
- * Kept in its own module so range visual waves can land without merge fights.
+ * Wave 5 densifies approach corridors without asset packs.
  */
 export function RangeDecor() {
   return (
     <group>
       <HorizonRing />
       <LightPosts />
+      <ApproachRails />
+      <EnergyConduits />
+      <HoloPillars />
+      <AntennaDishes />
       <SupplyCrates />
       <DistantSpires />
     </group>
@@ -52,6 +57,11 @@ function LightPosts() {
     [10.5, -4, AMBER],
     [-7.5, -18, CYAN],
     [7.5, -18, CYAN],
+    // Approach densification: terminal corridor + gate flanks
+    [-3.8, 1.2, CYAN],
+    [5.2, -1.5, CYAN],
+    [-4.5, -6.2, AMBER],
+    [4.5, -6.2, AMBER],
   ]
   return (
     <group>
@@ -65,7 +75,147 @@ function LightPosts() {
             <boxGeometry args={[0.28, 0.12, 0.28]} />
             <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.2} />
           </mesh>
-          <pointLight position={[0, 2.7, 0]} color={color} intensity={3.2} distance={7} decay={2} />
+          <pointLight position={[0, 2.7, 0]} color={color} intensity={2.6} distance={6.5} decay={2} />
+        </group>
+      ))}
+    </group>
+  )
+}
+
+/** Low guide rails framing the walk from Alpha toward the gate. */
+function ApproachRails() {
+  const segments: [number, number, number, number][] = [
+    // x, z, length, rotY
+    [-3.2, 2.5, 4.5, 0],
+    [3.2, 2.5, 4.5, 0],
+    [-3.2, -2.5, 4.2, 0],
+    [3.2, -2.5, 4.2, 0],
+  ]
+  return (
+    <group>
+      {segments.map(([x, z, len, rot], i) => (
+        <group key={i} position={[x, 0, z]} rotation={[0, rot, 0]}>
+          <mesh position={[0, 0.35, 0]}>
+            <boxGeometry args={[0.08, 0.7, len]} />
+            <meshStandardMaterial color={STEEL} metalness={0.5} roughness={0.45} />
+          </mesh>
+          <mesh position={[0, 0.72, 0]}>
+            <boxGeometry args={[0.1, 0.04, len]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.55} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  )
+}
+
+/** Thin emissive conduits snaking toward the Algebra Terminal. */
+function EnergyConduits() {
+  const mats = useRef<(MeshStandardMaterial | null)[]>([])
+  const paths = useMemo(
+    () => [
+      { from: [-1.8, 3.5], to: [TERMINAL_POS[0] - 0.8, TERMINAL_POS[2] + 0.6] },
+      { from: [1.6, 4.2], to: [TERMINAL_POS[0] + 0.5, TERMINAL_POS[2] + 1.1] },
+      { from: [0.2, 5.5], to: [TERMINAL_POS[0] - 0.2, TERMINAL_POS[2] + 1.8] },
+    ],
+    [],
+  )
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    for (let i = 0; i < mats.current.length; i++) {
+      const m = mats.current[i]
+      if (m) m.emissiveIntensity = 0.45 + Math.sin(t * 3.2 - i * 0.9) * 0.35
+    }
+  })
+
+  return (
+    <group>
+      {paths.map((p, i) => {
+        const mx = (p.from[0] + p.to[0]) / 2
+        const mz = (p.from[1] + p.to[1]) / 2
+        const dx = p.to[0] - p.from[0]
+        const dz = p.to[1] - p.from[1]
+        const len = Math.hypot(dx, dz)
+        const rot = Math.atan2(dx, dz)
+        return (
+          <mesh key={i} position={[mx, 0.04, mz]} rotation={[0, rot, 0]}>
+            <boxGeometry args={[0.07, 0.03, len]} />
+            <meshStandardMaterial
+              ref={(m) => {
+                mats.current[i] = m
+              }}
+              color={CYAN}
+              emissive={CYAN}
+              emissiveIntensity={0.6}
+              transparent
+              opacity={0.85}
+            />
+          </mesh>
+        )
+      })}
+    </group>
+  )
+}
+
+function HoloPillars() {
+  const spins = useRef<(Mesh | null)[]>([])
+  useFrame((_, delta) => {
+    for (const m of spins.current) {
+      if (m) m.rotation.y += delta * 1.4
+    }
+  })
+  const pillars: [number, number][] = [
+    [-5.6, 2.8],
+    [-5.1, 5.5],
+    [5.8, 3.1],
+  ]
+  return (
+    <group>
+      {pillars.map(([x, z], i) => (
+        <group key={i} position={[x, 0, z]}>
+          <mesh position={[0, 0.55, 0]}>
+            <cylinderGeometry args={[0.12, 0.18, 1.1, 6]} />
+            <meshStandardMaterial color={STEEL} metalness={0.5} roughness={0.4} />
+          </mesh>
+          <mesh
+            ref={(m) => {
+              spins.current[i] = m
+            }}
+            position={[0, 1.35, 0]}
+            rotation={[Math.PI / 2, 0, 0.2]}
+          >
+            <torusGeometry args={[0.28, 0.035, 6, 24]} />
+            <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.1} transparent opacity={0.9} />
+          </mesh>
+          <pointLight position={[0, 1.4, 0]} color={AMBER} intensity={2.2} distance={4} decay={2} />
+        </group>
+      ))}
+    </group>
+  )
+}
+
+function AntennaDishes() {
+  const dishes: [number, number, number][] = [
+    [-8.2, 0.5, 0.4],
+    [8.5, -3.2, -0.5],
+  ]
+  return (
+    <group>
+      {dishes.map(([x, z, tilt], i) => (
+        <group key={i} position={[x, 0, z]}>
+          <mesh position={[0, 1.1, 0]}>
+            <cylinderGeometry args={[0.08, 0.12, 2.2, 6]} />
+            <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.4} />
+          </mesh>
+          <mesh position={[0, 2.3, 0.15]} rotation={[0.85 + tilt, 0.3, 0]}>
+            <sphereGeometry args={[0.55, 10, 8, 0, Math.PI * 2, 0, Math.PI * 0.45]} />
+            <meshStandardMaterial color="#163040" metalness={0.6} roughness={0.35} side={2} />
+          </mesh>
+          <mesh position={[0, 2.55, 0.35]}>
+            <sphereGeometry args={[0.06, 6, 6]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.4} />
+          </mesh>
         </group>
       ))}
     </group>
@@ -81,6 +231,8 @@ function SupplyCrates() {
         [5.8, 5.4, 0.55],
         [6.4, -2.2, 0.1],
         [-6.1, -5.5, 0.4],
+        [2.8, 6.8, 0.2],
+        [-2.2, -4.8, -0.3],
       ] as [number, number, number][],
     [],
   )
@@ -94,7 +246,11 @@ function SupplyCrates() {
           </mesh>
           <mesh position={[0, 0.29, 0]}>
             <boxGeometry args={[0.72, 0.04, 0.72]} />
-            <meshStandardMaterial color={i % 2 === 0 ? CYAN : AMBER} emissive={i % 2 === 0 ? CYAN : AMBER} emissiveIntensity={0.45} />
+            <meshStandardMaterial
+              color={i % 2 === 0 ? CYAN : AMBER}
+              emissive={i % 2 === 0 ? CYAN : AMBER}
+              emissiveIntensity={0.45}
+            />
           </mesh>
           <mesh position={[0, 0, 0.36]}>
             <boxGeometry args={[0.35, 0.08, 0.02]} />
@@ -114,6 +270,8 @@ function DistantSpires() {
     [22, 16, 7.2, 1.0],
     [-18, -28, 5.5, 0.8],
     [16, -30, 8, 1.1],
+    [-32, 6, 7.5, 1.0],
+    [30, -22, 6.2, 0.85],
   ]
   return (
     <group>
