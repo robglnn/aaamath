@@ -24,6 +24,10 @@ const JURISDICTIONS: Jurisdiction[] = [
 export function StandardsView() {
   const locale = useProgressStore((s) => s.blob.locale)
   const jurisdiction = useProgressStore((s) => s.blob.jurisdiction)
+  // Subscribe to kpStates so mastery updates re-render (functions alone are stable refs).
+  const kpStates = useProgressStore((s) => s.blob.kpStates)
+  const lessonStates = useProgressStore((s) => s.blob.lessonStates)
+  const thetaStub = useProgressStore((s) => s.blob.thetaStub)
   const setJurisdiction = useProgressStore((s) => s.setJurisdiction)
   const getKpStatus = useProgressStore((s) => s.getKpStatus)
   const getStandardsCoverage = useProgressStore((s) => s.getStandardsCoverage)
@@ -35,7 +39,10 @@ export function StandardsView() {
     void loadLesson(LESSON_ID).then(setPkg)
   }, [])
 
+  // Depend on kpStates/lessonStates so coverage recomputes after answers/mastery.
   const standards = getStandardsCoverage(pkg, jurisdiction)
+  void kpStates
+  void lessonStates
 
   const standardStatusLabel = (status: string) => {
     if (status === 'evidenced') return ui(locale, 'standardEvidenced')
@@ -61,6 +68,11 @@ export function StandardsView() {
         ))}
       </select>
 
+      <p className="ability-hint" aria-live="polite">
+        θ ≈ {thetaStub.toFixed(2)}
+        {pkg && lessonStates[pkg.id]?.status === 'mastered' ? ' · lesson mastered' : ''}
+      </p>
+
       <h3>{ui(locale, 'standardsTitle')}</h3>
       {!pkg && <p className="empty-hint">{ui(locale, 'lessonUnavailable')}</p>}
       {pkg && standards.length === 0 && (
@@ -80,12 +92,16 @@ export function StandardsView() {
       <ul className="kp-list">
         {pkg?.knowledgePoints.map((kp) => {
           const status = getKpStatus(kp.id)
+          const kpState = kpStates[kp.id]
           return (
             <li key={kp.id} className={`kp-row status-${status}`}>
               <div className="kp-title">
                 <MathText localized={kp.title} locale={locale} />
               </div>
               <span className={`badge ${status}`}>{masteryStatusLabel(locale, status)}</span>
+              {kpState?.nextReviewAt && status === 'due_review' && (
+                <span className="review-due">due {new Date(kpState.nextReviewAt).toLocaleDateString()}</span>
+              )}
             </li>
           )
         })}

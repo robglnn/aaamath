@@ -80,6 +80,7 @@ export interface ProgressStore {
     lessonId: string
   }) => void
   markKpProgress: (kpId: string, correct: boolean) => void
+  introduceLessonKps: (pkg: LessonPackage) => void
   completeLessonMastery: (pkg: LessonPackage) => void
   resetProgress: () => Promise<void>
   getKpStatus: (kpId: string) => MasteryStatus
@@ -121,6 +122,13 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
       locale,
     })
 
+    // Live 1PL/Rasch theta update (learning rate damped for Slice 0 stability).
+    const b = item.irtPriors?.b ?? 0
+    const p = 1 / (1 + Math.exp(-(blob.thetaStub - b)))
+    const lr = 0.35
+    blob.thetaStub += lr * ((correct ? 1 : 0) - p)
+    blob.thetaStub = Math.max(-3, Math.min(3, blob.thetaStub))
+
     for (const kpId of item.kpIds) {
       const kp = ensureKpState(blob, kpId)
       kp.totalAttempts += 1
@@ -129,10 +137,20 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
         kp.correctStreak += 1
       } else {
         kp.correctStreak = 0
+        if (kp.status === 'mastered' || kp.status === 'due_review') {
+          kp.status = 'in_progress'
+          kp.nextReviewAt = undefined
+        }
       }
       kp.lastSeenAt = new Date().toISOString()
       if (kp.status === 'not_introduced') kp.status = 'in_progress'
-      if (kp.correctStreak >= 3) kp.status = 'mastered'
+      if (kp.correctStreak >= 3 && kp.status !== 'due_review') {
+        kp.status = 'mastered'
+        const interval = Math.max(1, kp.intervalDays)
+        const next = new Date()
+        next.setDate(next.getDate() + interval)
+        kp.nextReviewAt = next.toISOString()
+      }
     }
 
     const lesson = ensureLessonState(blob, lessonId)
@@ -158,7 +176,33 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
     }
     kp.lastSeenAt = new Date().toISOString()
     if (kp.status === 'not_introduced') kp.status = 'in_progress'
-    if (kp.correctStreak >= 3) kp.status = 'mastered'
+    if (kp.correctStreak >= 3) {
+      kp.status = 'mastered'
+      const next = new Date()
+      next.setDate(next.getDate() + Math.max(1, kp.intervalDays))
+      kp.nextReviewAt = next.toISOString()
+    }
+    set({ blob })
+    schedulePersist(blob)
+  },
+
+  introduceLessonKps: (pkg) => {
+    const blob = structuredClone(get().blob)
+    const lesson = ensureLessonState(blob, pkg.id)
+    if (lesson.status === 'locked' || lesson.status === 'available') {
+      lesson.status = 'in_progress'
+    }
+    for (const kpId of pkg.knowledgePointIds) {
+      const kp = ensureKpState(blob, kpId)
+      if (kp.status === 'not_introduced') kp.status = 'in_progress'
+    }
+    // Mark due_review if nextReviewAt is in the past
+    const now = Date.now()
+    for (const kp of Object.values(blob.kpStates)) {
+      if (kp.status === 'mastered' && kp.nextReviewAt && Date.parse(kp.nextReviewAt) <= now) {
+        kp.status = 'due_review'
+      }
+    }
     set({ blob })
     schedulePersist(blob)
   },
@@ -173,6 +217,12 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
       const kp = ensureKpState(blob, kpId)
       kp.status = 'mastered'
       kp.correctStreak = Math.max(kp.correctStreak, 3)
+      // Schedule spaced retrieval (use KP defaults via existing intervalDays)
+      const interval = Math.max(1, kp.intervalDays || 1)
+      const next = new Date()
+      next.setDate(next.getDate() + interval)
+      kp.nextReviewAt = next.toISOString()
+      kp.intervalDays = Math.min(30, Math.round(interval * (kp.easeFactor || 2.5)))
     }
 
     const pushUnique = (list: string[], id: string) => {
@@ -219,15 +269,16 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
     pkg.knowledgePoints.forEach(collect)
 
     const rows: StandardCoverageRow[] = []
-    for (const [code, kpIds] of codeToKps) {
-      const statuses = unique(kpIds).map((id) => get().getKpStatus(id))
-      const masteredCount = statuses.filter((s) => s === 'mastered').length
+    for (const [code, rawKpIds] of codeToKps) {
+      const kpIds = unique(rawKpIds)
+      const statuses = kpIds.map((id) => get().getKpStatus(id))
+      const masteredCount = statuses.filter((s) => s === 'mastered' || s === 'due_review').length
       let status: StandardCoverageStatus = 'missing'
       if (masteredCount === kpIds.length && kpIds.length > 0) status = 'evidenced'
-      else if (masteredCount > 0 || statuses.some((s) => s === 'in_progress')) {
+      else if (masteredCount > 0 || statuses.some((s) => s === 'in_progress' || s === 'due_review')) {
         status = 'partial'
       }
-      rows.push({ code, status, kpIds: unique(kpIds) })
+      rows.push({ code, status, kpIds })
     }
 
     return rows.sort((a, b) => a.code.localeCompare(b.code))

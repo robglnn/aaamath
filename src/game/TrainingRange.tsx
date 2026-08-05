@@ -13,20 +13,21 @@ const AMBER = '#f0a830'
 
 function CameraRig() {
   useFrame((state, delta) => {
-    const yaw = useGameStore.getState().playerYaw
+    const { playerYaw: yaw, playerPitch: pitch } = useGameStore.getState()
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
     const dist = 6.4
+    const height = 3.0 + pitch * 2.4
     const tx = p.x - fx * dist
-    const ty = p.y + 3.0
+    const ty = p.y + height
     const tz = p.z - fz * dist
     const k = 1 - Math.exp(-delta * 5.5)
     const cam = state.camera.position
     cam.x += (tx - cam.x) * k
     cam.y += (ty - cam.y) * k
     cam.z += (tz - cam.z) * k
-    state.camera.lookAt(p.x, p.y + 1.3, p.z)
+    state.camera.lookAt(p.x, p.y + 1.35 + pitch * 0.6, p.z)
   })
   return null
 }
@@ -53,6 +54,7 @@ function AlphaPad() {
 function Terminal() {
   const beaconRef = useRef<Mesh>(null)
   const screenMat = useRef<MeshStandardMaterial>(null)
+  const near = useGameStore((s) => s.nearTerminal)
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime
@@ -62,23 +64,48 @@ function Terminal() {
       beacon.rotation.y += delta * 1.4
     }
     if (screenMat.current) {
-      screenMat.current.emissiveIntensity = 1.35 + Math.sin(t * 3) * 0.3
+      const pulse = near ? 1.9 : 1.25
+      screenMat.current.emissiveIntensity = pulse + Math.sin(t * 3.2) * 0.35
     }
   })
 
   return (
     <group position={TERMINAL_POS} rotation={[0, -0.62, 0]}>
-      <mesh position={[0, 0.43, 0]}>
-        <boxGeometry args={[1.3, 0.86, 0.75]} />
-        <meshStandardMaterial color="#14303e" metalness={0.35} roughness={0.5} />
+      {/* Pedestal */}
+      <mesh position={[0, 0.18, 0]}>
+        <cylinderGeometry args={[0.72, 0.85, 0.36, 8]} />
+        <meshStandardMaterial color="#0e2430" metalness={0.45} roughness={0.4} />
       </mesh>
-      <mesh position={[0, 1.02, 0.28]} rotation={[-0.38, 0, 0]}>
-        <boxGeometry args={[1.0, 0.62, 0.06]} />
-        <meshStandardMaterial ref={screenMat} color="#0d2733" emissive={CYAN} emissiveIntensity={1.35} roughness={0.3} />
+      <mesh position={[0, 0.55, 0]}>
+        <boxGeometry args={[1.35, 0.7, 0.8]} />
+        <meshStandardMaterial color="#14303e" metalness={0.4} roughness={0.45} />
       </mesh>
-      <mesh position={[-0.68, 0.5, 0]}>
-        <boxGeometry args={[0.05, 0.5, 0.5]} />
-        <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.9} />
+      {/* Readable screen + bezel */}
+      <mesh position={[0, 1.05, 0.3]} rotation={[-0.42, 0, 0]}>
+        <boxGeometry args={[1.12, 0.72, 0.08]} />
+        <meshStandardMaterial color="#0a1c26" metalness={0.5} roughness={0.35} />
+      </mesh>
+      <mesh position={[0, 1.05, 0.35]} rotation={[-0.42, 0, 0]}>
+        <planeGeometry args={[0.95, 0.55]} />
+        <meshStandardMaterial
+          ref={screenMat}
+          color="#082028"
+          emissive={CYAN}
+          emissiveIntensity={1.4}
+          roughness={0.25}
+          metalness={0.1}
+        />
+      </mesh>
+      {/* Scanline bars for readable “terminal UI” silhouette */}
+      {[0.18, 0.05, -0.08, -0.21].map((y, i) => (
+        <mesh key={i} position={[0, 1.05 + y * 0.35, 0.36]} rotation={[-0.42, 0, 0]}>
+          <planeGeometry args={[0.78, 0.035]} />
+          <meshBasicMaterial color={i === 0 ? AMBER : CYAN} transparent opacity={0.55} />
+        </mesh>
+      ))}
+      <mesh position={[-0.72, 0.55, 0]}>
+        <boxGeometry args={[0.06, 0.55, 0.55]} />
+        <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={near ? 1.3 : 0.85} />
       </mesh>
       <mesh position={[0, 1.55, -0.2]}>
         <cylinderGeometry args={[0.045, 0.045, 1.1, 8]} />
@@ -88,7 +115,40 @@ function Terminal() {
         <octahedronGeometry args={[0.2, 0]} />
         <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.6} />
       </mesh>
-      <pointLight position={[0, 1.6, 0.6]} color={CYAN} intensity={7} distance={7} decay={2} />
+      {/* Proximity ring */}
+      <mesh position={[0, 0.04, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[1.85, 2.05, 48]} />
+        <meshStandardMaterial
+          color={CYAN}
+          emissive={CYAN}
+          emissiveIntensity={near ? 1.1 : 0.35}
+          transparent
+          opacity={near ? 0.75 : 0.35}
+        />
+      </mesh>
+      <pointLight position={[0, 1.6, 0.6]} color={CYAN} intensity={near ? 10 : 6} distance={8} decay={2} />
+    </group>
+  )
+}
+
+function ZoneLabel({ text, color, y = 1.6 }: { text: string; color: string; y?: number }) {
+  // Simple glyph bars stand in for text without font atlases.
+  return (
+    <group position={[0, y, 0]}>
+      <mesh>
+        <boxGeometry args={[1.8, 0.28, 0.06]} />
+        <meshStandardMaterial color="#0a1820" metalness={0.3} roughness={0.5} />
+      </mesh>
+      <mesh position={[0, 0, 0.04]}>
+        <boxGeometry args={[1.55, 0.12, 0.02]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.1} />
+      </mesh>
+      <mesh position={[0, 0.22, 0]}>
+        <boxGeometry args={[0.9, 0.06, 0.02]} />
+        <meshBasicMaterial color={color} transparent opacity={0.7} />
+      </mesh>
+      {/* Keep a11y/debug name in scene graph */}
+      <group name={text} />
     </group>
   )
 }
@@ -101,13 +161,19 @@ function BetaZone() {
     <group position={[BETA_CENTER[0], 0, BETA_CENTER[1]]}>
       <mesh position={[0, 0.05, 0]}>
         <cylinderGeometry args={[BETA_RADIUS, BETA_RADIUS + 0.35, 0.14, 8]} />
-        <meshStandardMaterial color={unlocked ? '#102736' : '#0c1e2a'} metalness={0.25} roughness={0.7} />
+        <meshStandardMaterial color={unlocked ? '#102736' : '#0c1e2a'} metalness={0.35} roughness={0.55} />
       </mesh>
       <mesh position={[0, 0.14, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <torusGeometry args={[BETA_RADIUS - 0.25, 0.045, 8, 64]} />
-        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 1.1 : 0.7} />
+        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 1.25 : 0.65} />
       </mesh>
-      <pointLight position={[0, 2.4, 0]} color={accent} intensity={unlocked ? 5 : 3} distance={9} decay={2} />
+      {/* Blueprint pad payoff marker */}
+      <mesh position={[0, 0.12, 0]} rotation={[-Math.PI / 2, 0, Math.PI / 4]}>
+        <ringGeometry args={[1.2, 1.45, 4]} />
+        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 0.9 : 0.35} transparent opacity={0.7} />
+      </mesh>
+      <ZoneLabel text={unlocked ? 'ZONE BETA' : 'ZONE BETA LOCKED'} color={accent} y={2.1} />
+      <pointLight position={[0, 2.4, 0]} color={accent} intensity={unlocked ? 7 : 3} distance={10} decay={2} />
     </group>
   )
 }
@@ -148,30 +214,35 @@ export function TrainingRange() {
   return (
     <>
       <color attach="background" args={[SKY]} />
-      <fog attach="fog" args={[SKY, 20, 60]} />
-      <Stars radius={90} depth={50} count={2800} factor={3.2} saturation={0} fade speed={0.6} />
+      <fog attach="fog" args={[SKY, 18, 55]} />
+      <Stars radius={90} depth={50} count={3200} factor={3.4} saturation={0} fade speed={0.55} />
 
-      <ambientLight intensity={0.55} color="#9fd9d4" />
-      <directionalLight position={[7, 12, 5]} intensity={1.15} color="#ffe3b0" />
+      <hemisphereLight args={['#8ecfc8', '#0a141d', 0.55]} />
+      <ambientLight intensity={0.28} color="#9fd9d4" />
+      <directionalLight position={[8, 14, 6]} intensity={1.35} color="#ffe3b0" castShadow={false} />
+      <directionalLight position={[-6, 4, -8]} intensity={0.35} color="#3dd6c6" />
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
         <planeGeometry args={[90, 90]} />
-        <meshStandardMaterial color="#0a141d" roughness={1} metalness={0} />
+        <meshStandardMaterial color="#081018" roughness={0.95} metalness={0.05} />
       </mesh>
       <Grid
         position={[0, 0.01, 0]}
         infiniteGrid
         cellSize={1}
-        cellThickness={0.55}
-        cellColor="#14313f"
+        cellThickness={0.45}
+        cellColor="#122a36"
         sectionSize={5}
-        sectionThickness={1}
-        sectionColor="#1e5a66"
-        fadeDistance={45}
-        fadeStrength={1.4}
+        sectionThickness={1.1}
+        sectionColor="#1f6470"
+        fadeDistance={42}
+        fadeStrength={1.5}
       />
 
       <AlphaPad />
+      <group position={[-4.2, 0, 4.2]}>
+        <ZoneLabel text="ZONE ALPHA" color={CYAN} y={1.35} />
+      </group>
       <Terminal />
       <BetaZone />
       <BetaBarrier />

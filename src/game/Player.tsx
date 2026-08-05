@@ -113,7 +113,6 @@ export function Player() {
       velY.current = 0
       grounded.current = true
     }
-    // Walking off a pad edge drops the ground out from under the player.
     if (grounded.current && p.y > gy + 0.001) {
       grounded.current = false
     }
@@ -149,24 +148,50 @@ export function Player() {
     }
   })
 
+  // Low-poly game-y silhouette: torso, limbs, visor helm (no AAA assets).
   return (
     <group>
       <group ref={bodyRef} position={[rig.playerPos.x, rig.playerPos.y, rig.playerPos.z]}>
-        <mesh position={[0, 0.72, 0]}>
-          <capsuleGeometry args={[0.32, 0.72, 6, 14]} />
-          <meshStandardMaterial color="#1c4258" emissive="#0b2b33" emissiveIntensity={0.35} roughness={0.55} metalness={0.2} />
+        {/* Legs */}
+        <mesh position={[-0.14, 0.28, 0]}>
+          <capsuleGeometry args={[0.1, 0.28, 4, 8]} />
+          <meshStandardMaterial color="#152a36" roughness={0.55} metalness={0.25} />
         </mesh>
-        <mesh position={[0, 1.1, 0.26]}>
-          <boxGeometry args={[0.34, 0.13, 0.12]} />
-          <meshStandardMaterial color="#f0a830" emissive="#f0a830" emissiveIntensity={1.3} roughness={0.4} />
+        <mesh position={[0.14, 0.28, 0]}>
+          <capsuleGeometry args={[0.1, 0.28, 4, 8]} />
+          <meshStandardMaterial color="#152a36" roughness={0.55} metalness={0.25} />
         </mesh>
-        <mesh position={[0, 0.86, -0.3]}>
-          <boxGeometry args={[0.4, 0.5, 0.18]} />
-          <meshStandardMaterial color="#12303e" roughness={0.6} metalness={0.3} />
+        {/* Torso */}
+        <mesh position={[0, 0.78, 0]}>
+          <capsuleGeometry args={[0.28, 0.42, 6, 12]} />
+          <meshStandardMaterial color="#1a3a4d" emissive="#0b2b33" emissiveIntensity={0.25} roughness={0.5} metalness={0.3} />
         </mesh>
-        <mesh position={[0, 0.9, -0.4]}>
-          <boxGeometry args={[0.3, 0.06, 0.04]} />
-          <meshStandardMaterial color="#3dd6c6" emissive="#3dd6c6" emissiveIntensity={1.1} />
+        {/* Shoulders / pack */}
+        <mesh position={[0, 0.95, -0.22]}>
+          <boxGeometry args={[0.52, 0.28, 0.22]} />
+          <meshStandardMaterial color="#0f2835" roughness={0.45} metalness={0.4} />
+        </mesh>
+        <mesh position={[0, 0.98, -0.34]}>
+          <boxGeometry args={[0.28, 0.08, 0.06]} />
+          <meshStandardMaterial color="#3dd6c6" emissive="#3dd6c6" emissiveIntensity={1.2} />
+        </mesh>
+        {/* Arms */}
+        <mesh position={[-0.38, 0.78, 0.02]} rotation={[0, 0, 0.25]}>
+          <capsuleGeometry args={[0.08, 0.32, 4, 8]} />
+          <meshStandardMaterial color="#1c4258" roughness={0.55} metalness={0.2} />
+        </mesh>
+        <mesh position={[0.38, 0.78, 0.02]} rotation={[0, 0, -0.25]}>
+          <capsuleGeometry args={[0.08, 0.32, 4, 8]} />
+          <meshStandardMaterial color="#1c4258" roughness={0.55} metalness={0.2} />
+        </mesh>
+        {/* Helm + amber visor */}
+        <mesh position={[0, 1.28, 0.02]}>
+          <sphereGeometry args={[0.22, 14, 12]} />
+          <meshStandardMaterial color="#163646" roughness={0.4} metalness={0.45} />
+        </mesh>
+        <mesh position={[0, 1.28, 0.18]}>
+          <boxGeometry args={[0.28, 0.1, 0.08]} />
+          <meshStandardMaterial color="#f0a830" emissive="#f0a830" emissiveIntensity={1.45} roughness={0.35} />
         </mesh>
       </group>
       <mesh ref={shadowRef} rotation={[-Math.PI / 2, 0, 0]}>

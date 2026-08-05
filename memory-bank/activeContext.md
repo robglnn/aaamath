@@ -1,15 +1,18 @@
 # Active Context
 
 ## Current focus
-Slice 0 vertical slice integrated; Gauntlet critic reports finalizing; preparing initial commit to origin.
+Overnight autonomy resume: progress/pedagogy wiring + pointer-lock + visual lift + adaptive θ stub + GH Pages workflow. Committing coherent wave to `main`.
 
 ## Locked decisions
-See `docs/decisions.md`.
+See `docs/decisions.md`. Standards tagging honesty: `docs/adr/004-standards-tags.md`.
 
 ## Recent changes
-- Full app scaffold + Lesson 1 content + 3D shell + lesson UI + persistence
-- `npm run build` green
+- Progress drawer re-renders on KP mastery; lesson open introduces KPs
+- Live 1PL `thetaStub` + you_do item ordering by information
+- Pointer-lock mouse-look (pitch/yaw); HUD/terminal/player visual pass
+- GitHub Actions Pages deploy workflow
 
 ## Active considerations
-- Critic PASS_WITH_GAPS expected for Slice 0 polish items (mouse look, live IRT)
-- Push to empty remote after commit
+- Enable GitHub Pages source = Actions once in repo settings if not already
+- Critic overnight report pending / PASS_WITH_GAPS expected for AAA visual bar
+- Lesson 2 pipeline still next content step

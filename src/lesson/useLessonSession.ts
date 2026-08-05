@@ -62,17 +62,43 @@ function orderedPhases(pkg: LessonPackage): LessonPhase[] {
   )
 }
 
-function itemsForPhase(pkg: LessonPackage, phase: LessonPhase | null): ContentItem[] {
+function itemsForPhase(
+  pkg: LessonPackage,
+  phase: LessonPhase | null,
+  theta?: number,
+): ContentItem[] {
   if (!phase) return []
   const ids = new Set(phase.itemIds)
-  return pkg.items.filter((item) => ids.has(item.id) || item.phase === phase.kind)
+  const items = pkg.items.filter((item) => ids.has(item.id) || item.phase === phase.kind)
+
+  // Adaptive stub: for independent / you_do, order by 1PL information near θ
+  // so stronger students see harder items earlier (still all items remain available).
+  if (phase.kind === 'you_do' && typeof theta === 'number') {
+    return [...items].sort((a, b) => {
+      const infoA = raschInfo(theta, a.irtPriors?.b ?? 0)
+      const infoB = raschInfo(theta, b.irtPriors?.b ?? 0)
+      return infoB - infoA
+    })
+  }
+  return items
+}
+
+/** Fisher information for 1PL at ability θ for item difficulty b. */
+function raschInfo(theta: number, b: number): number {
+  const z = theta - b
+  const p = 1 / (1 + Math.exp(-z))
+  return p * (1 - p)
 }
 
 function isIndependentItem(item: ContentItem): boolean {
   return item.difficulty === 'independent' || item.phase === 'you_do'
 }
 
-export function useLessonSession(pkg: LessonPackage | null, locale: Locale) {
+export function useLessonSession(
+  pkg: LessonPackage | null,
+  locale: Locale,
+  theta: number = 0,
+) {
   const phases = useMemo(() => (pkg ? orderedPhases(pkg) : []), [pkg])
   const [phaseIndex, setPhaseIndex] = useState(0)
   const [itemIndex, setItemIndex] = useState(0)
@@ -86,7 +112,10 @@ export function useLessonSession(pkg: LessonPackage | null, locale: Locale) {
 
   const phase = phases[phaseIndex] ?? null
   const phaseKind = phase?.kind ?? 'objectives'
-  const phaseItems = useMemo(() => (pkg ? itemsForPhase(pkg, phase) : []), [pkg, phase])
+  const phaseItems = useMemo(
+    () => (pkg ? itemsForPhase(pkg, phase, theta) : []),
+    [pkg, phase, theta],
+  )
   const currentItem = phaseItems[itemIndex] ?? null
 
   const masteryMet = useMemo(() => {

@@ -197,6 +197,20 @@ body,
   color: var(--teal);
 }
 
+.ability-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--teal);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-due {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+}
+
 .standards-view h3 {
   font-family: var(--font-display);
   font-size: 0.85rem;

@@ -2,9 +2,10 @@ import { useGameStore } from '@/game/store'
 
 interface HudProps {
   onOpenTerminal: () => void
+  pointerLocked?: boolean
 }
 
-export function Hud({ onOpenTerminal }: HudProps) {
+export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const nearTerminal = useGameStore((s) => s.nearTerminal)
   const hasRank = useGameStore((s) => s.hasRank)
   const hasBlueprint = useGameStore((s) => s.hasBlueprint)
@@ -18,15 +19,15 @@ export function Hud({ onOpenTerminal }: HudProps) {
   return (
     <div className="gr-hud">
       <div className="gr-hud-top">
-        {hasRank && <span className="gr-chip gr-chip-amber">◆ Riser Initiate</span>}
+        {hasRank && <span className="gr-rank">Riser Initiate</span>}
         {hasZoneBeta && (
-          <span className={`gr-chip gr-chip-cyan${activeZone === 'beta' ? ' gr-chip-live' : ''}`}>
-            Zone Beta{activeZone === 'beta' ? ' · Active' : ' Online'}
+          <span className={`gr-zone${activeZone === 'beta' ? ' gr-zone-live' : ''}`}>
+            Zone Beta{activeZone === 'beta' ? ' · Active' : ''}
           </span>
         )}
       </div>
 
-      {blueprintPlaced && <span className="gr-chip gr-chip-cyan gr-placed">Blueprint Placed</span>}
+      {blueprintPlaced && <span className="gr-status-placed">Blueprint online</span>}
 
       {nearTerminal && mode === 'explore' && (
         <button
@@ -36,7 +37,7 @@ export function Hud({ onOpenTerminal }: HudProps) {
           onClick={onOpenTerminal}
         >
           <span className="gr-prompt-key">E</span>
-          Open Terminal
+          Open Algebra Terminal
         </button>
       )}
 
@@ -45,7 +46,7 @@ export function Hud({ onOpenTerminal }: HudProps) {
           <div className="gr-buildbar" onPointerDown={(e) => e.stopPropagation()}>
             <button type="button" className="gr-btn gr-btn-primary" onClick={requestPlace}>
               Place Blueprint
-              <span className="gr-prompt-key">Enter</span>
+              <span className="gr-prompt-key">F</span>
             </button>
             <button type="button" className="gr-btn gr-btn-ghost" onClick={() => setMode('explore')}>
               Cancel
@@ -59,13 +60,17 @@ export function Hud({ onOpenTerminal }: HudProps) {
             onPointerDown={(e) => e.stopPropagation()}
             onClick={() => setMode('build')}
           >
-            ⌁ Place Blueprint
+            Place Blueprint
             <span className="gr-prompt-key">B</span>
           </button>
         )
       )}
 
-      <div className="gr-help">WASD move · Shift sprint · Space jump · Drag to orbit</div>
+      <div className="gr-help">
+        {pointerLocked
+          ? 'WASD · Shift sprint · Space jump · Esc release look'
+          : 'WASD · Shift · Space · Click look · Q/C yaw · E terminal'}
+      </div>
     </div>
   )
 }

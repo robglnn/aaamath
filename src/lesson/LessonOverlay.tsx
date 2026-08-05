@@ -14,8 +14,10 @@ interface LessonOverlayProps {
 
 export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
   const locale = useProgressStore((s) => s.blob.locale)
+  const thetaStub = useProgressStore((s) => s.blob.thetaStub)
   const recordAnswer = useProgressStore((s) => s.recordAnswer)
   const completeLessonMastery = useProgressStore((s) => s.completeLessonMastery)
+  const introduceLessonKps = useProgressStore((s) => s.introduceLessonKps)
 
   const [pkg, setPkg] = useState<LessonPackage | null>(null)
   const [loading, setLoading] = useState(true)
@@ -25,20 +27,20 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
   const [masteryDone, setMasteryDone] = useState(false)
 
   const { state, phases, submitAnswer, advance, markMasteryTriggered, isIndependentItem } =
-    useLessonSession(pkg, locale)
+    useLessonSession(pkg, locale, thetaStub)
 
   useEffect(() => {
     let cancelled = false
     void loadLesson(LESSON_ID).then((lesson) => {
-      if (!cancelled) {
-        setPkg(lesson)
-        setLoading(false)
-      }
+      if (cancelled) return
+      setPkg(lesson)
+      setLoading(false)
+      if (lesson) introduceLessonKps(lesson)
     })
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [introduceLessonKps])
 
   const handleMastery = useCallback(() => {
     if (!pkg || masteryDone) return

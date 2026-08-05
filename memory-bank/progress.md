@@ -1,33 +1,36 @@
 # Progress
 
-## What works (Slice 0)
-- Vite React TS + R3F + KaTeX SPA; `npm run dev` / `npm run build` succeed
+## What works (Slice 0 + overnight wave)
+- Vite React TS + R3F + KaTeX SPA; `npm run build` green
 - Algebra I Lesson 1 package EN/ES/PL with 5 KPs, 12 items, mastery 3/4
 - Content schema + validate/generate pipeline scripts
-- 3D training range: move, terminal, Zone Beta gate, blueprint place, touch stick
+- 3D training range: move, **pointer-lock mouse-look**, terminal, Zone Beta gate, blueprint place, touch stick
 - Lesson overlay: I/We/You phases, KaTeX, speech STT/TTS + text fallback
-- Progress: IndexedDB + localStorage, jurisdiction standards view, locale switcher
-- Docs: handoff, decisions, ADRs, CONTEXT, memory-bank, README title options
+- Progress: IndexedDB + localStorage; **KP/standards UI updates on answers/mastery**; jurisdiction view; locale switcher
+- Adaptive stub: live θ update + Rasch info ordering on independent items; spaced `nextReviewAt`
+- Deploy: GH Pages workflow on `main` → `dist/`
+- Docs: handoff, decisions, ADRs (incl. 004 standards), CONTEXT, memory-bank, gauntlet reports
 
 ## Acceptance checklist
 - [x] Lesson 1 structured EN/ES/PL + KaTeX + explicit sequence + mastery + feedback
-- [x] KPs defined, prereq-linked, standards-tagged (union approach)
-- [x] Jurisdiction selector shows standards coverage stub from KP tags
-- [x] Adaptive/spaced/mastery stubbed (IRT 1PL priors, SR fields, mastery gate)
+- [x] KPs defined, prereq-linked, standards-tagged (union / best-effort — ADR-004)
+- [x] Jurisdiction selector shows standards coverage from KP tags (live after play)
+- [x] Adaptive/spaced/mastery stubbed **and lightly live** (θ + item order + SR schedule)
 - [x] Content pipeline docs + validate/generate working example
-- [x] Gauntlet reports under `docs/gauntlet/` (PASS_WITH_GAPS)
-- [x] Fortnite-lite shell serving learning goals
+- [x] Gauntlet reports under `docs/gauntlet/`
+- [x] Fortnite-lite shell serving learning goals (pointer-lock + visual pass)
 - [x] `npm run build` green
+- [x] GH Pages workflow present (hosting enable may need one-time repo setting)
 
 ## Known gaps vs full handoff
-- Mouse-look / pointer-lock polish limited (Q/C yaw)
-- IRT adaptive item selection not live (priors stored only)
-- Standards codes are union stubs — need curriculum specialist pass for exact state codes
-- Bundle ~1.4MB JS (Three) — code-split later for mobile
-- No gh-pages deploy workflow yet
+- Visuals still short of AAA Fortnite training-range bar (procedural only)
+- Standards codes not curriculum-specialist audited
+- Bundle ~1.4MB JS (Three) — code-split later
+- No Lesson 2 yet; speech voice mapping per locale thin
+- GH Pages URL live only after Actions + Pages enabled
 
 ## Next steps
-1. Wire GitHub Pages / itch upload from `dist/`
+1. Confirm Pages deploy green on GitHub Actions
 2. Lesson 2 via pipeline stages
 3. Harden speech voice mapping per locale
 4. Expand Algebra I KP graph beyond Lesson 1 slice
