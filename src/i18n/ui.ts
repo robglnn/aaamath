@@ -59,6 +59,7 @@ export type UiKey =
   | 'theoremCompleteness'
   | 'academyAudit'
   | 'compactStandards'
+  | 'compactRecord'
   | 'houseStanding'
   | 'abilityDetail'
   | 'missionBrief'
@@ -143,6 +144,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     theoremCompleteness: 'Theorem completeness',
     academyAudit: 'Academy audit',
     compactStandards: 'Compact standards',
+    compactRecord: 'Compact record',
     houseStanding: 'House standing',
     abilityDetail: 'Ability estimate',
     missionBrief: 'Mission brief',
@@ -226,6 +228,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     theoremCompleteness: 'Completitud de teoremas',
     academyAudit: 'Auditoría de academia',
     compactStandards: 'Estándares compactos',
+    compactRecord: 'Registro del Compacto',
     houseStanding: 'Posición de la casa',
     abilityDetail: 'Estimación de habilidad',
     missionBrief: 'Briefing de misión',
@@ -309,6 +312,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     theoremCompleteness: 'Kompletność twierdzeń',
     academyAudit: 'Audyt akademii',
     compactStandards: 'Zwarte standardy',
+    compactRecord: 'Rejestr Kompaktu',
     houseStanding: 'Pozycja domu',
     abilityDetail: 'Szacunek umiejętności',
     missionBrief: 'Briefing misji',

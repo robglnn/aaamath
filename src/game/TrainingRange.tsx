@@ -7,6 +7,7 @@ import { useGameStore } from '@/game/store'
 import { Player } from '@/game/Player'
 import { BlueprintGhost } from '@/game/BlueprintGhost'
 import { RangeDecor } from '@/game/RangeDecor'
+import { AtmosphereFx } from '@/game/AtmosphereFx'
 import { TerminalScreen } from '@/game/TerminalScreen'
 import { getProcTextureKit } from '@/game/proc'
 import { ALPHA_RADIUS, BETA_CENTER, BETA_RADIUS, GATE_Z, TERMINAL_POS, groundHeight, rig } from '@/game/world'
@@ -765,6 +766,7 @@ export function TrainingRange() {
       />
 
       <RangeDecor />
+      <AtmosphereFx />
       <AlphaPad />
       <group position={[-4.2, 0, 4.2]}>
         {/* Face the pad center so the sign reads from spawn/home-plate sightlines */}

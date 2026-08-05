@@ -2,15 +2,22 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending } from 'three'
 import type { Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
-import { TERMINAL_POS } from '@/game/world'
+import { ALPHA_RADIUS, PAD_TOP, TERMINAL_POS } from '@/game/world'
 
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 const STEEL = '#1a3344'
 
+/** Alpha pad deck sits PAD_TOP above the main deck — decor feet need the local surface height. */
+function surfaceY(x: number, z: number) {
+  return x * x + z * z <= ALPHA_RADIUS * ALPHA_RADIUS ? PAD_TOP : 0
+}
+
 /**
  * Distant / mid-field set dressing for the training range.
  * Wave 5 densifies approach corridors without asset packs.
+ * Budget guardrails: <40 new meshes, zero new point lights — wave-5 pieces
+ * read via emissive/basic materials inside the existing light pools.
  */
 export function RangeDecor() {
   return (
@@ -50,23 +57,25 @@ function HorizonRing() {
 }
 
 function LightPosts() {
-  const posts: [number, number, string][] = [
-    [-9.5, 7.5, CYAN],
-    [9.5, 7.5, CYAN],
-    [-10.5, -4, AMBER],
-    [10.5, -4, AMBER],
-    [-7.5, -18, CYAN],
-    [7.5, -18, CYAN],
-    // Approach densification: terminal corridor + gate flanks
-    [-3.8, 1.2, CYAN],
-    [5.2, -1.5, CYAN],
-    [-4.5, -6.2, AMBER],
-    [4.5, -6.2, AMBER],
+  // [x, z, color, lit] — wave-5 approach posts run emissive-only to hold the
+  // mobile light count flat; the original six keep their pools.
+  const posts: [number, number, string, boolean][] = [
+    [-9.5, 7.5, CYAN, true],
+    [9.5, 7.5, CYAN, true],
+    [-10.5, -4, AMBER, true],
+    [10.5, -4, AMBER, true],
+    [-7.5, -18, CYAN, true],
+    [7.5, -18, CYAN, true],
+    // Approach densification: pad corridor + gate flanks
+    [-3.8, 1.2, CYAN, false],
+    [5.2, -1.5, CYAN, false],
+    [-4.5, -6.2, AMBER, false],
+    [4.5, -6.2, AMBER, false],
   ]
   return (
     <group>
-      {posts.map(([x, z, color], i) => (
-        <group key={i} position={[x, 0, z]}>
+      {posts.map(([x, z, color, lit], i) => (
+        <group key={i} position={[x, surfaceY(x, z), z]}>
           <mesh position={[0, 1.4, 0]}>
             <cylinderGeometry args={[0.06, 0.09, 2.8, 6]} />
             <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.4} />
@@ -75,7 +84,7 @@ function LightPosts() {
             <boxGeometry args={[0.28, 0.12, 0.28]} />
             <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.2} />
           </mesh>
-          <pointLight position={[0, 2.7, 0]} color={color} intensity={2.6} distance={6.5} decay={2} />
+          {lit && <pointLight position={[0, 2.7, 0]} color={color} intensity={2.6} distance={6.5} decay={2} />}
         </group>
       ))}
     </group>
@@ -94,7 +103,7 @@ function ApproachRails() {
   return (
     <group>
       {segments.map(([x, z, len, rot], i) => (
-        <group key={i} position={[x, 0, z]} rotation={[0, rot, 0]}>
+        <group key={i} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
           <mesh position={[0, 0.35, 0]}>
             <boxGeometry args={[0.08, 0.7, len]} />
             <meshStandardMaterial color={STEEL} metalness={0.5} roughness={0.45} />
@@ -139,7 +148,7 @@ function EnergyConduits() {
         const len = Math.hypot(dx, dz)
         const rot = Math.atan2(dx, dz)
         return (
-          <mesh key={i} position={[mx, 0.04, mz]} rotation={[0, rot, 0]}>
+          <mesh key={i} position={[mx, PAD_TOP + 0.02, mz]} rotation={[0, rot, 0]}>
             <boxGeometry args={[0.07, 0.03, len]} />
             <meshStandardMaterial
               ref={(m) => {
@@ -167,7 +176,7 @@ function HoloPillars() {
   })
   const pillars: [number, number][] = [
     [-5.6, 2.8],
-    [-5.1, 5.5],
+    [-6.3, 4.6],
     [5.8, 3.1],
   ]
   return (
@@ -188,7 +197,6 @@ function HoloPillars() {
             <torusGeometry args={[0.28, 0.035, 6, 24]} />
             <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.1} transparent opacity={0.9} />
           </mesh>
-          <pointLight position={[0, 1.4, 0]} color={AMBER} intensity={2.2} distance={4} decay={2} />
         </group>
       ))}
     </group>
@@ -196,6 +204,15 @@ function HoloPillars() {
 }
 
 function AntennaDishes() {
+  const tips = useRef<(MeshStandardMaterial | null)[]>([])
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    for (let i = 0; i < tips.current.length; i++) {
+      const m = tips.current[i]
+      // Sharp repeating blip, phase-offset per mast — reads as live hardware
+      if (m) m.emissiveIntensity = 0.5 + Math.pow(Math.max(0, Math.sin(t * 2.1 + i * 2.6)), 3) * 1.6
+    }
+  })
   const dishes: [number, number, number][] = [
     [-8.2, 0.5, 0.4],
     [8.5, -3.2, -0.5],
@@ -214,7 +231,14 @@ function AntennaDishes() {
           </mesh>
           <mesh position={[0, 2.55, 0.35]}>
             <sphereGeometry args={[0.06, 6, 6]} />
-            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.4} />
+            <meshStandardMaterial
+              ref={(m) => {
+                tips.current[i] = m
+              }}
+              color={CYAN}
+              emissive={CYAN}
+              emissiveIntensity={1.4}
+            />
           </mesh>
         </group>
       ))}

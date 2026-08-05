@@ -72,7 +72,7 @@ export default function App() {
         <aside className="progress-drawer" aria-label={ui(locale, 'houseStanding')}>
           <div className="drawer-head">
             <div>
-              <p className="drawer-eyebrow">{ui(locale, 'houseStanding')}</p>
+              <p className="drawer-eyebrow">{ui(locale, 'compactRecord')}</p>
               <h2>{ui(locale, 'progress')}</h2>
             </div>
             <button type="button" className="btn ghost" onClick={() => setProgressOpen(false)}>
