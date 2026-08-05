@@ -10,7 +10,7 @@ import { RangeDecor } from '@/game/RangeDecor'
 import { AtmosphereFx } from '@/game/AtmosphereFx'
 import { TerminalScreen } from '@/game/TerminalScreen'
 import { getProcTextureKit } from '@/game/proc'
-import { ALPHA_RADIUS, BETA_CENTER, BETA_RADIUS, GATE_Z, TERMINAL_POS, groundHeight, rig } from '@/game/world'
+import { ALPHA_RADIUS, BETA_CENTER, BETA_RADIUS, GATE_Z, PAD_TOP, TERMINAL_POS, groundHeight, rig } from '@/game/world'
 
 const SKY = '#0b1a24'
 const CYAN = '#3dd6c6'
@@ -424,8 +424,8 @@ function Terminal() {
         <octahedronGeometry args={[0.34, 0]} />
         <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.1} />
       </mesh>
-      {/* Proximity ring */}
-      <mesh ref={ringRef} position={[0, 0.04, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      {/* Proximity ring — ride Alpha pad top (terminal sits inside ALPHA_RADIUS) */}
+      <mesh ref={ringRef} position={[0, PAD_TOP + 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[1.85, 2.05, 48]} />
         <meshStandardMaterial
           ref={ringMat}
