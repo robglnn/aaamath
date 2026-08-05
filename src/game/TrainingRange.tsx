@@ -276,6 +276,7 @@ function Terminal() {
   const ringMat = useRef<MeshStandardMaterial>(null)
   const scanRef = useRef<Mesh>(null)
   const screenMat = useRef<MeshStandardMaterial>(null)
+  const ledMats = useRef<(MeshStandardMaterial | null)[]>([])
   const glowLight = useRef<PointLight>(null)
   const near = useGameStore((s) => s.nearTerminal)
   const { panel } = useMemo(() => getProcTextureKit(), [])
@@ -318,6 +319,10 @@ function Terminal() {
     if (glowLight.current) {
       glowLight.current.intensity = near ? 15 : 7
     }
+    for (let i = 0; i < ledMats.current.length; i++) {
+      const m = ledMats.current[i]
+      if (m) m.emissiveIntensity = (near ? 1.7 : 0.75) + Math.sin(t * 4.1 - i * 1.4) * 0.3
+    }
   })
 
   return (
@@ -330,6 +335,42 @@ function Terminal() {
       <mesh position={[0, 0.55, 0]}>
         <boxGeometry args={[1.35, 0.7, 0.8]} />
         <meshStandardMaterial map={panel} color="#a8d4d0" metalness={0.4} roughness={0.45} />
+      </mesh>
+      {/* Keyboard face plate + key caps */}
+      <mesh position={[0, 0.4, 0.408]}>
+        <boxGeometry args={[0.82, 0.14, 0.02]} />
+        <meshStandardMaterial color="#142a36" metalness={0.55} roughness={0.5} />
+      </mesh>
+      {([-0.24, 0, 0.24] as const).map((x, i) => (
+        <mesh key={i} position={[x, 0.4, 0.422]}>
+          <boxGeometry args={[0.18, 0.06, 0.018]} />
+          <meshStandardMaterial color="#1e3d4d" metalness={0.35} roughness={0.55} />
+        </mesh>
+      ))}
+      {/* Status LEDs — power / link / ready */}
+      {(
+        [
+          { x: 0.38, color: '#4ae88a' },
+          { x: 0.48, color: AMBER },
+          { x: 0.58, color: CYAN },
+        ] as const
+      ).map((led, i) => (
+        <mesh key={led.color} position={[led.x, 0.72, 0.412]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.018, 0.018, 0.02, 6]} />
+          <meshStandardMaterial
+            ref={(m) => {
+              ledMats.current[i] = m
+            }}
+            color={led.color}
+            emissive={led.color}
+            emissiveIntensity={0.85}
+          />
+        </mesh>
+      ))}
+      {/* Power cable into deck */}
+      <mesh position={[0.07, 0.02, -0.84]} rotation={[1.48, 0.31, 0]}>
+        <cylinderGeometry args={[0.032, 0.042, 0.54, 6]} />
+        <meshStandardMaterial color="#1a3040" metalness={0.35} roughness={0.65} />
       </mesh>
       {/* Readable screen + bezel */}
       <mesh position={[0, 1.05, 0.3]} rotation={[-0.42, 0, 0]}>
