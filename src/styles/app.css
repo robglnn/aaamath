@@ -281,12 +281,46 @@ body,
 
 .standing-card {
   margin: 0 0 1.25rem;
-  padding: 1rem 1.1rem;
+  padding: 1rem 1.1rem 0.85rem;
   border-radius: var(--radius);
   border: 1px solid rgba(251, 191, 36, 0.35);
   background:
     linear-gradient(145deg, rgba(251, 191, 36, 0.1), transparent 55%),
     var(--bg-panel-solid);
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.06);
+}
+
+.standing-hero {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.standing-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.rank-sigil {
+  flex-shrink: 0;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  color: var(--text-muted);
+  border: 2px solid rgba(148, 168, 180, 0.4);
+  background: rgba(8, 20, 28, 0.5);
+}
+
+.rank-sigil.earned {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: radial-gradient(circle at 50% 35%, rgba(251, 191, 36, 0.22), rgba(8, 20, 28, 0.5) 70%);
+  box-shadow:
+    0 0 14px rgba(251, 191, 36, 0.35),
+    inset 0 0 8px rgba(251, 191, 36, 0.18);
 }
 
 .standing-eyebrow {
@@ -299,10 +333,11 @@ body,
 
 .standing-rank {
   font-family: var(--font-display);
-  font-size: 1.15rem;
-  margin: 0.35rem 0 0.25rem;
+  font-size: 1.35rem;
+  margin: 0.3rem 0 0.2rem;
   color: var(--text);
   letter-spacing: 0.04em;
+  text-shadow: 0 0 18px rgba(251, 191, 36, 0.18);
 }
 
 .standing-meta {
@@ -311,13 +346,52 @@ body,
   color: var(--text-muted);
 }
 
-.standing-theorems {
+.standing-meter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+}
+
+.standing-meter-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.standing-meter {
+  flex: 1;
+  display: flex;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.meter-seg {
+  flex: 1;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: rgba(148, 168, 180, 0.18);
+  border: 1px solid rgba(148, 168, 180, 0.22);
+}
+
+.meter-seg.lit {
+  background: linear-gradient(90deg, var(--teal-dim), var(--teal));
+  border-color: var(--teal);
+  box-shadow: 0 0 8px var(--teal-glow);
+}
+
+.standing-count {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
   color: var(--teal);
   font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
 }
 
 .ability-detail {
-  margin-top: 0.65rem;
+  margin-top: 0.35rem;
   font-size: 0.75rem;
   color: var(--text-muted);
 }
@@ -325,6 +399,9 @@ body,
 .ability-detail summary {
   cursor: pointer;
   color: var(--text-muted);
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
 }
 
 .ability-hint {
@@ -342,10 +419,11 @@ body,
 }
 
 .review-due {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  margin-left: 0.5rem;
-  flex-basis: 100%;
+  display: inline-block;
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  color: var(--amber-dim);
+  letter-spacing: 0.03em;
 }
 
 .standards-view h3 {
@@ -371,6 +449,20 @@ body,
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--teal);
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.audit-tally {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
 }
 
 .audit-subhead {
@@ -381,11 +473,17 @@ body,
   letter-spacing: 0.06em;
 }
 
+.academy-row {
+  margin: 0 0 0.25rem;
+}
+
 .field-label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 
 .select-input,

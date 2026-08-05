@@ -1,19 +1,19 @@
 # Active Context
 
 ## Current focus
-Overnight **Gauntlet Loop** — AAA visuals / training-range bar. Wave 1 shipped (`2e6db91`); Wave 2 shipping (readable signs, decor, player, mobile/celebrate).
+Gauntlet UI loops after public-repo Pages enable. Critic largest gaps closed in `06fa2b9`. Next: optional wave4 audio/proc polish (uncommitted leftovers), then Lesson 2 pipeline.
 
 ## Locked decisions
-See `docs/decisions.md`. Standards honesty: `docs/adr/004-standards-tags.md`.
+See `docs/decisions.md`. Models for agents: `kimi-k3-max`, `cursor-grok-4.5-medium`, `composer-2.5` only.
 
 ## Recent changes
-- Wave 1: terminal objective beam, gate unlock FX, blueprint place pop, lighting
-- Wave 2: readable `Text` zone labels, RangeDecor, sky dome, HUD objective, player silhouette+anim, touch/celebrate polish
-- Live Pages: https://robglnn.github.io/aaamath/ (`base: '/aaamath/'`, Actions deploy healthy)
-- Adaptive you_do order freeze remains intact
+- Pages: Actions-only deploy, `base: '/aaamath/'`, `404.html` SPA fallback — live https://robglnn.github.io/aaamath/
+- UI brand/HUD: full-viewport composition, hero→watermark cross-fade, floating chrome
+- Lesson + progress: phase rail, mastery celebration, game-native drawer language
+- 3D range: terminal beam, gate FX (deferred past lesson), blueprint pop, wave2/3 visuals
+- Critic gap fix: localized rank/zone from package titles; gate FX explore-mode timing
 
 ## Active considerations
-- Bundle ~1.55MB after troika Text — still ok for Slice 0; code-split later
-- Procedural canvas textures kit still thin (next wave)
-- Lesson 2 not started
-- Critic wave-1 largest gap (unread signs) addressed in wave 2 — needs fresh critic verify
+- Uncommitted leftovers: `src/game/audio.ts`, BlueprintGhost audio hook, proc texture experiments, wave docs — do not treat as shipped
+- Bundle ~1.4–1.55MB; Lesson 2 not started
+- Remaining AAA gaps: chrome still somewhat webby (locale pills), procedural materials depth, Zone Beta lock billboard hierarchy vs objective

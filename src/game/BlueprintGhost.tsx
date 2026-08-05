@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending } from 'three'
 import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial, PointLight } from 'three'
+import { playBlip } from '@/game/audio'
 import { useGameStore } from '@/game/store'
 import { PAD_TOP, rig } from '@/game/world'
 
@@ -46,6 +47,7 @@ export function BlueprintGhost() {
     if (placeNonce === 0) return
     const s = useGameStore.getState()
     if (s.mode !== 'build' || s.blueprintPlaced || !s.hasBlueprint) return
+    playBlip('place')
     s.placeBlueprint([rig.ghostPos.x, PAD_TOP, rig.ghostPos.z])
   }, [placeNonce])
 

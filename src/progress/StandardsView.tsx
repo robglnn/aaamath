@@ -21,6 +21,12 @@ const JURISDICTIONS: Jurisdiction[] = [
   'MN',
 ]
 
+const SEAL_NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
+
+function sealNumeral(index: number): string {
+  return SEAL_NUMERALS[index] ?? String(index + 1)
+}
+
 export function StandardsView() {
   const locale = useProgressStore((s) => s.blob.locale)
   const jurisdiction = useProgressStore((s) => s.blob.jurisdiction)
@@ -40,8 +46,7 @@ export function StandardsView() {
   }, [])
 
   const standards = getStandardsCoverage(pkg, jurisdiction)
-  void kpStates
-  void lessonStates
+  const evidencedCount = standards.filter((row) => row.status === 'evidenced').length
 
   const lessonMastered = Boolean(pkg && lessonStates[pkg.id]?.status === 'mastered')
   const rankId = unlocks.ranks[0] ?? (lessonMastered ? pkg?.worldIntegration.unlockRankId : null)
@@ -50,15 +55,20 @@ export function StandardsView() {
 
   const dateLocale = locale === 'en' ? 'en-US' : locale === 'es' ? 'es-ES' : 'pl-PL'
 
-  const kpGlance = useMemo(() => {
-    if (!pkg) return { cleared: 0, total: 0 }
-    let cleared = 0
-    for (const kp of pkg.knowledgePoints) {
+  const kpRows = useMemo(() => {
+    if (!pkg) return []
+    return pkg.knowledgePoints.map((kp, index) => {
       const status = getKpStatus(kp.id)
-      if (status === 'mastered' || status === 'due_review') cleared += 1
-    }
-    return { cleared, total: pkg.knowledgePoints.length }
+      return {
+        kp,
+        index,
+        status,
+        cleared: status === 'mastered' || status === 'due_review',
+        nextReviewAt: kpStates[kp.id]?.nextReviewAt,
+      }
+    })
   }, [pkg, kpStates, getKpStatus])
+  const clearedCount = kpRows.filter((row) => row.cleared).length
 
   const standardStatusLabel = (status: string) => {
     if (status === 'evidenced') return ui(locale, 'standardEvidenced')
@@ -69,17 +79,31 @@ export function StandardsView() {
   return (
     <div className="standards-view">
       <section className="standing-card" aria-label={ui(locale, 'rankStanding')}>
-        <p className="standing-eyebrow">{ui(locale, 'rankStanding')}</p>
-        <h3 className="standing-rank">{rankDisplay}</h3>
-        <p className="standing-meta">
-          {lessonMastered ? ui(locale, 'lessonMasteredStanding') : ui(locale, 'houseStanding')}
-          {kpGlance.total > 0 && (
-            <span className="standing-theorems">
-              {' '}
-              · {kpGlance.cleared}/{kpGlance.total}
+        <div className="standing-hero">
+          <span className={`rank-sigil${rankUnlock ? ' earned' : ''}`} aria-hidden>
+            {rankUnlock ? '◆' : '◇'}
+          </span>
+          <div className="standing-copy">
+            <p className="standing-eyebrow">{ui(locale, 'rankStanding')}</p>
+            <h3 className="standing-rank">{rankDisplay}</h3>
+            <p className="standing-meta">
+              {lessonMastered ? ui(locale, 'lessonMasteredStanding') : ui(locale, 'houseStanding')}
+            </p>
+          </div>
+        </div>
+        {kpRows.length > 0 && (
+          <div className="standing-meter-row">
+            <span className="standing-meter-label">{ui(locale, 'theoremsTitle')}</span>
+            <div className="standing-meter" aria-hidden>
+              {kpRows.map((row) => (
+                <span key={row.kp.id} className={`meter-seg${row.cleared ? ' lit' : ''}`} />
+              ))}
+            </div>
+            <span className="standing-count">
+              {clearedCount}/{kpRows.length}
             </span>
-          )}
-        </p>
+          </div>
+        )}
         <details className="ability-detail">
           <summary>{ui(locale, 'abilityDetail')}</summary>
           <p className="ability-hint" aria-live="polite">
@@ -88,52 +112,57 @@ export function StandardsView() {
         </details>
       </section>
 
-      <label className="field-label" htmlFor="jurisdiction-select">
-        {ui(locale, 'academySelect')}
-      </label>
-      <select
-        id="jurisdiction-select"
-        className="select-input"
-        value={jurisdiction}
-        onChange={(e) => setJurisdiction(e.target.value as Jurisdiction)}
-      >
-        {JURISDICTIONS.map((j) => (
-          <option key={j} value={j}>
-            {j}
-          </option>
-        ))}
-      </select>
+      <div className="academy-row">
+        <label className="field-label" htmlFor="jurisdiction-select">
+          {ui(locale, 'academySelect')}
+        </label>
+        <select
+          id="jurisdiction-select"
+          className="select-input"
+          value={jurisdiction}
+          onChange={(e) => setJurisdiction(e.target.value as Jurisdiction)}
+        >
+          {JURISDICTIONS.map((j) => (
+            <option key={j} value={j}>
+              {j}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <h3>{ui(locale, 'theoremsTitle')}</h3>
       <p className="section-hint">{ui(locale, 'theoremCompleteness')}</p>
       {!pkg && <p className="empty-hint">{ui(locale, 'lessonUnavailable')}</p>}
-      <ul className="kp-list">
-        {pkg?.knowledgePoints.map((kp) => {
-          const status = getKpStatus(kp.id)
-          const kpState = kpStates[kp.id]
-          return (
-            <li key={kp.id} className={`kp-row status-${status}`}>
-              <div className="kp-main">
-                <span className={`status-pip status-${status}`} aria-hidden />
-                <div className="kp-title">
-                  <MathText localized={kp.title} locale={locale} />
-                </div>
+      <ul className="kp-list seal-list">
+        {kpRows.map((row) => (
+          <li key={row.kp.id} className={`kp-seal status-${row.status}`}>
+            <span className="seal-medal" aria-hidden>
+              {sealNumeral(row.index)}
+            </span>
+            <div className="kp-seal-body">
+              <div className="kp-title">
+                <MathText localized={row.kp.title} locale={locale} />
               </div>
-              <span className={`badge ${status}`}>{masteryStatusLabel(locale, status)}</span>
-              {kpState?.nextReviewAt && status === 'due_review' && (
+              {row.nextReviewAt && row.status === 'due_review' && (
                 <span className="review-due">
                   {ui(locale, 'reviewDuePrefix')}
-                  {new Date(kpState.nextReviewAt).toLocaleDateString(dateLocale)}
+                  {new Date(row.nextReviewAt).toLocaleDateString(dateLocale)}
                 </span>
               )}
-            </li>
-          )
-        })}
+            </div>
+            <span className={`badge ${row.status}`}>{masteryStatusLabel(locale, row.status)}</span>
+          </li>
+        ))}
       </ul>
 
       <details className="academy-audit">
         <summary>
           {ui(locale, 'academyAudit')} · {ui(locale, 'compactStandards')}
+          {standards.length > 0 && (
+            <span className="audit-tally">
+              {evidencedCount}/{standards.length}
+            </span>
+          )}
         </summary>
         <h4 className="audit-subhead">{ui(locale, 'standardsTitle')}</h4>
         {!pkg && <p className="empty-hint">{ui(locale, 'lessonUnavailable')}</p>}
