@@ -236,8 +236,8 @@ export function Player() {
       <group ref={bodyRef} position={[rig.playerPos.x, rig.playerPos.y, rig.playerPos.z]}>
         <group ref={torsoPivot}>
           <HeroModel kind="player" scale={1} />
-          {/* Rank ladder pips — still readable on the authored shell */}
-          <mesh geometry={geo.playerPip} position={[0, 0.87, 0.22]} scale={[1.85, 2.5, 1]}>
+          {/* Rank ladder pips — aligned to organic chest plate */}
+          <mesh geometry={geo.playerPip} position={[0, 1.05, 0.18]} scale={[1.65, 2.2, 1]}>
             <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.7} roughness={0.3} />
           </mesh>
           {/* Profile-geo shell hidden while Blender hero owns silhouette (fallback kept in tree). */}

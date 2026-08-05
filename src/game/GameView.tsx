@@ -190,7 +190,7 @@ export function GameView({ unlocked, onOpenTerminal, onOpenProgress, lessonOpen 
           outputColorSpace: SRGBColorSpace,
           powerPreference: 'high-performance',
         }}
-        camera={{ fov: 48, near: 0.1, far: 140, position: [0, 3.6, 8.4] }}
+        camera={{ fov: 46, near: 0.1, far: 140, position: [0, 3.4, 7.6] }}
       >
         <TrainingRange />
       </Canvas>

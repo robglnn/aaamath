@@ -205,20 +205,20 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    const dist = 4.85
-    const height = 2.35 + pitch * 2.0
+    // Loop 14: closer hero shoulder cam — sells organic hair/suit silhouette in first 10s
+    const dist = 4.35
+    const height = 2.15 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
-    // Closer shoulder cam — sells sculpted PBR silhouette in first 10s
-    const k = 1 - Math.exp(-delta * 7.6)
+    const k = 1 - Math.exp(-delta * 7.8)
     const cam = state.camera.position
     cam.x += (tx - cam.x) * k
     cam.y += (ty - cam.y) * k
     cam.z += (tz - cam.z) * k
     const nudge = rig.gateCelebration
     const lookX = p.x * (1 - nudge * 0.25)
-    const lookY = p.y + 1.35 + pitch * 0.6
+    const lookY = p.y + 1.28 + pitch * 0.6
     const lookZ = p.z * (1 - nudge * 0.25) + GATE_Z * nudge * 0.25
     state.camera.lookAt(lookX, lookY, lookZ)
   })
@@ -880,6 +880,9 @@ export function TrainingRange() {
       <directionalLight position={[-10, 8, -12]} intensity={0.55} color="#8ec8f0" />
       <directionalLight position={[2, 6, 8]} intensity={0.45} color="#3dd6c6" />
       <directionalLight position={[-4, 3, 6]} intensity={0.7} color="#fff2d8" />
+      {/* Loop 14: warm hero rim — sells hair/suit silhouette vs daylight fill */}
+      <directionalLight position={[4, 5, 3]} intensity={0.85} color="#ffd8a8" />
+      <directionalLight position={[-6, 4, -2]} intensity={0.55} color="#6ec8ff" />
 
       <DeckFloor />
       {/* Navigation grit only — faded, warm charcoal; no cyan section grid */}
