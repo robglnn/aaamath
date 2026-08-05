@@ -10,7 +10,7 @@ import { RangeDecor } from '@/game/RangeDecor'
 import { AtmosphereFx } from '@/game/AtmosphereFx'
 import { TerminalScreen } from '@/game/TerminalScreen'
 import { UnlockCelebrationFx } from '@/game/UnlockCelebrationFx'
-import { getProcTextureKit } from '@/game/proc'
+import { getAuthoredGeoKit, getProcTextureKit } from '@/game/proc'
 import { L2UnlockProps } from '@/game/L2UnlockProps'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
 import { ALPHA_RADIUS, BETA_CENTER, BETA_RADIUS, GATE_Z, PAD_TOP, TERMINAL_POS, groundHeight, rig } from '@/game/world'
@@ -509,6 +509,8 @@ function BetaBarrier() {
   const accent = unlocked ? CYAN : AMBER
   const groupRef = useRef<Group>(null)
   const paneMat = useRef<MeshStandardMaterial>(null)
+  // Turned gate pillars — authored lathe profile (plinth → shaft → capital)
+  const { gatePillar } = useMemo(() => getAuthoredGeoKit(), [])
 
   useFrame((state, delta) => {
     const g = groupRef.current
@@ -543,8 +545,7 @@ function BetaBarrier() {
           />
         </mesh>
         {[-2.9, 2.9].map((x) => (
-          <mesh key={x} position={[x, 0.95, 0]}>
-            <cylinderGeometry args={[0.09, 0.12, 1.9, 8]} />
+          <mesh key={x} position={[x, 0, 0]} geometry={gatePillar}>
             <meshStandardMaterial color="#3a2c12" emissive={accent} emissiveIntensity={unlocked ? 1.1 : 0.45} metalness={0.4} roughness={0.4} />
           </mesh>
         ))}

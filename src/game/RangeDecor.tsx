@@ -1,9 +1,9 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { AdditiveBlending } from 'three'
+import { AdditiveBlending, Quaternion, Vector3 } from 'three'
 import type { Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
 import { ALPHA_RADIUS, PAD_TOP, TERMINAL_POS } from '@/game/world'
-import { getProcTextureKit, makeHazardStripeTexture } from '@/game/proc'
+import { getAuthoredGeoKit, getProcTextureKit, makeHazardStripeTexture, makeSteelPlateTexture } from '@/game/proc'
 import { AuthoredProps } from '@/game/AuthoredProps'
 
 const CYAN = '#3dd6c6'
@@ -317,8 +317,37 @@ function HoloPillars() {
   )
 }
 
+const STRUT_UP = new Vector3(0, 1, 0)
+
+/** Tapered support between two local points — dish feed-strut idiom. */
+function Strut({ from, to, radius }: { from: [number, number, number]; to: [number, number, number]; radius: number }) {
+  const { mid, quat, len } = useMemo(() => {
+    const a = new Vector3(...from)
+    const b = new Vector3(...to)
+    const dir = b.clone().sub(a)
+    const len = dir.length()
+    const quat = new Quaternion().setFromUnitVectors(STRUT_UP, dir.normalize())
+    return { mid: a.add(b).multiplyScalar(0.5), quat, len }
+  }, [from, to])
+  return (
+    <mesh position={mid} quaternion={quat}>
+      <cylinderGeometry args={[radius * 0.7, radius, len, 6]} />
+      <meshStandardMaterial color="#2a4a5a" metalness={0.6} roughness={0.38} />
+    </mesh>
+  )
+}
+
+/**
+ * Wave 17 hero dishes — authored lathed paraboloid bowl with rolled rim,
+ * tripod feed struts + horn, pivot knuckle and counterweight: real silhouette
+ * language replacing the partial-sphere kitbash. Same two flank placements,
+ * same blinking feed tip, same budget class (no new lights, one shared
+ * lathe geometry, one shared steel bake).
+ */
 function AntennaDishes() {
   const tips = useRef<(MeshStandardMaterial | null)[]>([])
+  const { dish } = useMemo(() => getAuthoredGeoKit(), [])
+  const steel = useMemo(() => makeSteelPlateTexture(256), [])
   useFrame((state) => {
     const t = state.clock.elapsedTime
     for (let i = 0; i < tips.current.length; i++) {
@@ -335,25 +364,60 @@ function AntennaDishes() {
     <group>
       {dishes.map(([x, z, tilt], i) => (
         <group key={i} position={[x, 0, z]}>
-          <mesh position={[0, 1.1, 0]}>
-            <cylinderGeometry args={[0.08, 0.12, 2.2, 6]} />
+          {/* Flanged mast base */}
+          <mesh position={[0, 0.05, 0]}>
+            <cylinderGeometry args={[0.17, 0.21, 0.1, 10]} />
+            <meshStandardMaterial color="#16303e" metalness={0.55} roughness={0.45} />
+          </mesh>
+          <mesh position={[0, 1.15, 0]}>
+            <cylinderGeometry args={[0.07, 0.11, 2.3, 8]} />
             <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.4} />
           </mesh>
-          <mesh position={[0, 2.3, 0.15]} rotation={[0.85 + tilt, 0.3, 0]}>
-            <sphereGeometry args={[0.55, 10, 8, 0, Math.PI * 2, 0, Math.PI * 0.45]} />
-            <meshStandardMaterial color="#163040" metalness={0.6} roughness={0.35} side={2} />
+          {/* Pivot knuckle at the mast head */}
+          <mesh position={[0, 2.32, 0]}>
+            <sphereGeometry args={[0.1, 10, 8]} />
+            <meshStandardMaterial color="#24506a" metalness={0.6} roughness={0.35} />
           </mesh>
-          <mesh position={[0, 2.55, 0.35]}>
-            <sphereGeometry args={[0.06, 6, 6]} />
-            <meshStandardMaterial
-              ref={(m) => {
-                tips.current[i] = m
-              }}
-              color={CYAN}
-              emissive={CYAN}
-              emissiveIntensity={1.4}
-            />
-          </mesh>
+          {/* Authored dish assembly — bowl opens +Y in local space */}
+          <group position={[0, 2.42, 0.08]} rotation={[0.85 + tilt, 0.3, 0]}>
+            <mesh geometry={dish}>
+              <meshStandardMaterial map={steel} color="#a9ced4" metalness={0.58} roughness={0.36} side={2} />
+            </mesh>
+            {/* Rear hub + counterweight disc */}
+            <mesh position={[0, -0.05, 0]}>
+              <cylinderGeometry args={[0.09, 0.13, 0.12, 10]} />
+              <meshStandardMaterial color="#16303e" metalness={0.55} roughness={0.4} />
+            </mesh>
+            <mesh position={[0, -0.135, 0]}>
+              <cylinderGeometry args={[0.13, 0.13, 0.045, 12]} />
+              <meshStandardMaterial color="#1e3a4a" metalness={0.6} roughness={0.38} />
+            </mesh>
+            {/* Tripod feed struts converging on the horn */}
+            {[0, (Math.PI * 2) / 3, (Math.PI * 4) / 3].map((a) => (
+              <Strut
+                key={a}
+                from={[Math.cos(a) * 0.5, 0.17, Math.sin(a) * 0.5]}
+                to={[0, 0.62, 0]}
+                radius={0.018}
+              />
+            ))}
+            {/* Feed horn (apex toward the bowl) + blinking tip */}
+            <mesh position={[0, 0.58, 0]} rotation={[Math.PI, 0, 0]}>
+              <coneGeometry args={[0.055, 0.14, 10]} />
+              <meshStandardMaterial color="#24506a" metalness={0.6} roughness={0.35} />
+            </mesh>
+            <mesh position={[0, 0.68, 0]}>
+              <sphereGeometry args={[0.055, 8, 8]} />
+              <meshStandardMaterial
+                ref={(m) => {
+                  tips.current[i] = m
+                }}
+                color={CYAN}
+                emissive={CYAN}
+                emissiveIntensity={1.4}
+              />
+            </mesh>
+          </group>
         </group>
       ))}
     </group>

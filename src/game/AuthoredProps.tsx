@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { ALPHA_RADIUS, PAD_TOP } from '@/game/world'
-import { getProcTextureKit, makeSteelPlateTexture, makeStencilDecalTexture } from '@/game/proc'
+import { getAuthoredGeoKit, makeSteelPlateTexture, makeStencilDecalTexture } from '@/game/proc'
 
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
@@ -10,62 +10,64 @@ function surfaceY(x: number, z: number) {
   return x * x + z * z <= ALPHA_RADIUS * ALPHA_RADIUS ? PAD_TOP : 0
 }
 
-/** Multi-mesh service junction: beveled housing, rivet plate, trim strips, status LED. */
-function ServiceJunction({ x, z, rot = 0 }: { x: number; z: number; rot?: number }) {
-  const { panel, steel } = useMemo(() => {
-    const kit = getProcTextureKit()
-    return { panel: kit.panel, steel: makeSteelPlateTexture(256) }
-  }, [])
+/**
+ * Wave 17 hero prop — terminal-flank equipment rack. Carcass, blade stack,
+ * and plinth are authored bevel-extruded panels with real edge trim (not
+ * boxes); vent bezel, per-blade status strips, conduit stub, and a top
+ * status dome finish the silhouette. Replaces the wave-16 ServiceJunction
+ * at the same two vetted, off-walk-line placements.
+ */
+function EquipmentRack({ x, z, rot = 0 }: { x: number; z: number; rot?: number }) {
+  const { rackCarcass, rackBlade, rackPlinth } = useMemo(() => getAuthoredGeoKit(), [])
+  const steel = useMemo(() => makeSteelPlateTexture(256), [])
   const y = surfaceY(x, z)
 
   return (
     <group position={[x, y, z]} rotation={[0, rot, 0]}>
-      {/* Base skirt */}
-      <mesh position={[0, 0.05, 0]}>
-        <boxGeometry args={[0.95, 0.1, 0.72]} />
+      {/* Beveled plinth slab */}
+      <mesh geometry={rackPlinth} position={[0, 0.07, 0]}>
         <meshStandardMaterial color={STEEL} metalness={0.55} roughness={0.42} />
       </mesh>
-      {/* Main housing — panel-mapped with chamfer read */}
-      <mesh position={[0, 0.42, 0]}>
-        <boxGeometry args={[0.82, 0.64, 0.58]} />
-        <meshStandardMaterial map={panel} color="#8fb8b4" metalness={0.48} roughness={0.44} />
+      {/* Beveled carcass — steel plate bake reads as one stamped panel per face */}
+      <mesh geometry={rackCarcass} position={[0, 0.7, 0]}>
+        <meshStandardMaterial map={steel} color="#8fb8b4" metalness={0.48} roughness={0.44} />
       </mesh>
-      {/* Top steel service plate */}
-      <mesh position={[0, 0.76, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.7, 0.48]} />
-        <meshStandardMaterial map={steel} color="#9ec4c8" metalness={0.52} roughness={0.38} />
-      </mesh>
-      {/* Corner trim brackets */}
-      {(
-        [
-          [-0.38, 0.42, 0.26],
-          [0.38, 0.42, 0.26],
-          [-0.38, 0.42, -0.26],
-          [0.38, 0.42, -0.26],
-        ] as const
-      ).map(([tx, ty, tz], i) => (
-        <mesh key={i} position={[tx, ty, tz]}>
-          <boxGeometry args={[0.06, 0.5, 0.06]} />
-          <meshStandardMaterial color="#2a4a5a" metalness={0.6} roughness={0.35} />
-        </mesh>
+      {/* Slide-in blade stack, proud of the carcass front */}
+      {([0.52, 0.78, 1.04] as const).map((by, i) => (
+        <group key={by} position={[0, by, 0.074]}>
+          <mesh geometry={rackBlade}>
+            <meshStandardMaterial color={i === 1 ? '#26454f' : '#1e3a48'} metalness={0.5} roughness={0.42} />
+          </mesh>
+          <mesh position={[0.27, 0, 0.252]}>
+            <boxGeometry args={[0.09, 0.028, 0.012]} />
+            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.6} />
+          </mesh>
+          {i === 1 && (
+            <mesh position={[-0.28, 0, 0.252]}>
+              <boxGeometry args={[0.05, 0.045, 0.012]} />
+              <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.55} />
+            </mesh>
+          )}
+        </group>
       ))}
-      {/* Cyan status strip + amber fault tick */}
-      <mesh position={[0, 0.42, 0.3]}>
-        <boxGeometry args={[0.5, 0.08, 0.02]} />
-        <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.65} />
+      {/* Vent bezel below the blade stack */}
+      <mesh position={[0, 0.28, 0.284]}>
+        <boxGeometry args={[0.64, 0.18, 0.014]} />
+        <meshStandardMaterial color="#0a1822" metalness={0.3} roughness={0.6} />
       </mesh>
-      <mesh position={[0.28, 0.52, 0.3]}>
-        <boxGeometry args={[0.12, 0.04, 0.02]} />
-        <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.55} />
-      </mesh>
-      {/* Side conduit stub */}
-      <mesh position={[-0.48, 0.28, 0]} rotation={[0, 0, Math.PI / 2]}>
+      {/* Side conduit stub + flange ring */}
+      <mesh position={[-0.54, 0.5, 0]} rotation={[0, 0, Math.PI / 2]}>
         <cylinderGeometry args={[0.055, 0.065, 0.22, 8]} />
         <meshStandardMaterial color="#1e3a4a" metalness={0.5} roughness={0.45} />
       </mesh>
-      <mesh position={[-0.6, 0.28, 0]}>
+      <mesh position={[-0.66, 0.5, 0]}>
         <torusGeometry args={[0.07, 0.012, 6, 16]} />
         <meshStandardMaterial color="#3d6a7a" metalness={0.55} roughness={0.4} />
+      </mesh>
+      {/* Top status dome */}
+      <mesh position={[0.3, 1.31, 0]}>
+        <sphereGeometry args={[0.045, 8, 8]} />
+        <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={0.7} />
       </mesh>
     </group>
   )
@@ -139,14 +141,17 @@ function StenciledCrate({ x, z, rot = 0 }: { x: number; z: number; rot?: number 
 }
 
 /**
- * Wave 16 authored kitbash — multi-mesh mid-field props with proc decals.
- * Budget: ~38 meshes, 2 canvas bakes (shared per type), 0 lights, 0 useFrame.
+ * Authored mid-field props with proc decals. Wave 17 swaps the box-kit
+ * ServiceJunction for beveled EquipmentRacks; duct couplings and stenciled
+ * crates carry over.
+ * Budget: ~42 meshes, shared lathe/extrude geometry kit, canvas bakes shared
+ * per type, 0 lights, 0 useFrame.
  */
 export function AuthoredProps() {
   return (
     <group>
-      <ServiceJunction x={-6.8} z={-1.2} rot={0.35} />
-      <ServiceJunction x={7.1} z={-3.8} rot={-0.5} />
+      <EquipmentRack x={-6.8} z={-1.2} rot={0.35} />
+      <EquipmentRack x={7.1} z={-3.8} rot={-0.5} />
       <DuctCoupling x={-3.6} z={-5.4} rot={0.15} len={1.6} />
       <DuctCoupling x={3.8} z={-7.2} rot={-0.2} len={1.2} />
       <StenciledCrate x={-7.4} z={5.8} rot={0.6} />
