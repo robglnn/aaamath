@@ -1,0 +1,2183 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "algebra-i-01",
+  "courseId": "algebra-i",
+  "order": 1,
+  "title": {
+    "en": "Variables, Expressions, and the Language of Algebra",
+    "es": "Variables, expresiones y el lenguaje del álgebra",
+    "pl": "Zmienne, wyrażenia i język algebry"
+  },
+  "objectives": [
+    {
+      "en": "Explain what a variable represents.",
+      "es": "Explicar qué representa una variable.",
+      "pl": "Wyjaśnić, co oznacza zmienna."
+    },
+    {
+      "en": "Translate between phrases and algebraic expressions.",
+      "es": "Traducir entre frases y expresiones algebraicas.",
+      "pl": "Tłumaczyć między zwrotami a wyrażeniami algebraicznymi."
+    },
+    {
+      "en": "Evaluate expressions and distinguish them from equations.",
+      "es": "Evaluar expresiones y distinguirlas de ecuaciones.",
+      "pl": "Obliczać wyrażenia i odróżniać je od równań."
+    }
+  ],
+  "knowledgePointIds": [
+    "kp.variable.symbol",
+    "kp.translate.phrase-to-expr",
+    "kp.eval.expression",
+    "kp.distinguish.expr-vs-eq",
+    "kp.orderops.with-vars"
+  ],
+  "knowledgePoints": [
+    {
+      "id": "kp.variable.symbol",
+      "title": {
+        "en": "Variable as a symbol",
+        "es": "La variable como símbolo",
+        "pl": "Zmienna jako symbol"
+      },
+      "description": {
+        "en": "A variable is a symbol (often a letter) that represents a number or quantity that can change.",
+        "es": "Una variable es un símbolo (a menudo una letra) que representa un número o cantidad que puede cambiar.",
+        "pl": "Zmienna to symbol (często litera), który reprezentuje liczbę lub wielkość, która może się zmieniać."
+      },
+      "prerequisites": [],
+      "successCriteria": {
+        "en": "Student can identify variables and state that they stand for numbers that may change.",
+        "es": "El estudiante puede identificar variables y afirmar que representan números que pueden cambiar.",
+        "pl": "Uczeń potrafi wskazać zmienne i stwierdzić, że oznaczają liczby, które mogą się zmieniać."
+      },
+      "misconceptions": [
+        {
+          "en": "Thinking a variable is always unknown and fixed forever.",
+          "es": "Creer que una variable siempre es desconocida y fija.",
+          "pl": "Myślenie, że zmienna zawsze jest nieznana i stała."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1.2
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.translate.phrase-to-expr",
+      "title": {
+        "en": "Translate phrases to expressions",
+        "es": "Traducir frases a expresiones",
+        "pl": "Tłumaczenie zwrotów na wyrażenia"
+      },
+      "description": {
+        "en": "Map words like sum, difference, product, quotient to +, -, ×, ÷ with variables.",
+        "es": "Relacionar palabras como suma, diferencia, producto, cociente con +, -, ×, ÷ y variables.",
+        "pl": "Mapować słowa jak suma, różnica, iloczyn, iloraz na +, -, ×, ÷ ze zmiennymi."
+      },
+      "prerequisites": [
+        "kp.variable.symbol"
+      ],
+      "successCriteria": {
+        "en": "Student translates simple phrases both directions with correct operations.",
+        "es": "El estudiante traduce frases simples en ambas direcciones con operaciones correctas.",
+        "pl": "Uczeń tłumaczy proste zwroty w obie strony z poprawnymi działaniami."
+      },
+      "misconceptions": [
+        {
+          "en": "Reversing subtraction or division order.",
+          "es": "Invertir el orden de resta o división.",
+          "pl": "Odwracanie kolejności odejmowania lub dzielenia."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.4
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.eval.expression",
+      "title": {
+        "en": "Evaluate expressions",
+        "es": "Evaluar expresiones",
+        "pl": "Obliczanie wyrażeń"
+      },
+      "description": {
+        "en": "Substitute given values for variables and compute the value of an expression.",
+        "es": "Sustituir valores dados por variables y calcular el valor de una expresión.",
+        "pl": "Podstawiać dane wartości za zmienne i obliczać wartość wyrażenia."
+      },
+      "prerequisites": [
+        "kp.variable.symbol",
+        "kp.orderops.with-vars"
+      ],
+      "successCriteria": {
+        "en": "Student correctly evaluates multi-step expressions with substitution.",
+        "es": "El estudiante evalúa correctamente expresiones de varios pasos con sustitución.",
+        "pl": "Uczeń poprawnie oblicza wieloetapowe wyrażenia z podstawieniem."
+      },
+      "misconceptions": [
+        {
+          "en": "Forgetting order of operations after substituting.",
+          "es": "Olvidar el orden de operaciones tras sustituir.",
+          "pl": "Zapominanie kolejności działań po podstawieniu."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2.c",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2c",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2c",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1B",
+          "A.1C"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2c"
+        ],
+        "IL": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2c",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.3",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2c",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2c",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.1
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.distinguish.expr-vs-eq",
+      "title": {
+        "en": "Expressions vs equations",
+        "es": "Expresiones frente a ecuaciones",
+        "pl": "Wyrażenia a równania"
+      },
+      "description": {
+        "en": "An expression names a value; an equation asserts equality between two expressions.",
+        "es": "Una expresión nombra un valor; una ecuación afirma igualdad entre dos expresiones.",
+        "pl": "Wyrażenie nazywa wartość; równanie stwierdza równość dwóch wyrażeń."
+      },
+      "prerequisites": [
+        "kp.variable.symbol"
+      ],
+      "successCriteria": {
+        "en": "Student correctly classifies expressions vs equations and explains why.",
+        "es": "El estudiante clasifica correctamente expresiones vs ecuaciones y explica por qué.",
+        "pl": "Uczeń poprawnie klasyfikuje wyrażenia vs równania i wyjaśnia dlaczego."
+      },
+      "misconceptions": [
+        {
+          "en": "Calling any string with a letter an equation.",
+          "es": "Llamar ecuación a cualquier cadena con una letra.",
+          "pl": "Nazywanie równaniem każdego ciągu z literą."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.5",
+          "CCSS.MATH.CONTENT.HSA.CED.A.1"
+        ],
+        "CA": [
+          "6.EE.5",
+          "A-CED.1"
+        ],
+        "NJ": [
+          "6.EE.B.5",
+          "A-CED.A.1"
+        ],
+        "MI": [
+          "6.EE.5",
+          "HSA-CED.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.5A"
+        ],
+        "NY": [
+          "AI-A.CED.1",
+          "6.EE.5"
+        ],
+        "IL": [
+          "6.EE.B.5",
+          "A-CED.A.1"
+        ],
+        "MO": [
+          "6.EE.B.5",
+          "A.CED.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.2.1",
+          "MA.912.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.5",
+          "HSA-CED.A.1"
+        ],
+        "DC": [
+          "6.EE.B.5",
+          "A-CED.A.1"
+        ],
+        "OH": [
+          "6.EE.5",
+          "A.CED.1"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "9.2.2.2"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.8
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.orderops.with-vars",
+      "title": {
+        "en": "Order of operations with variables",
+        "es": "Orden de operaciones con variables",
+        "pl": "Kolejność działań ze zmiennymi"
+      },
+      "description": {
+        "en": "Apply order of operations after substituting values into expressions with variables.",
+        "es": "Aplicar el orden de operaciones tras sustituir valores en expresiones con variables.",
+        "pl": "Stosować kolejność działań po podstawieniu wartości do wyrażeń ze zmiennymi."
+      },
+      "prerequisites": [
+        "kp.variable.symbol"
+      ],
+      "successCriteria": {
+        "en": "Student evaluates expressions respecting parentheses, exponents, MD, AS.",
+        "es": "El estudiante evalúa respetando paréntesis, exponentes, MD y AS.",
+        "pl": "Uczeń oblicza z poszanowaniem nawiasów, potęg, MD i AS."
+      },
+      "misconceptions": [
+        {
+          "en": "Always computing left-to-right ignoring multiplication precedence.",
+          "es": "Calcular siempre de izquierda a derecha ignorando la multiplicación.",
+          "pl": "Zawsze od lewej do prawej, ignorując pierwszeństwo mnożenia."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2.c",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2c",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2c",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1B",
+          "A.1C"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2c"
+        ],
+        "IL": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2c",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.3",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2c",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2c",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    }
+  ],
+  "phases": [
+    {
+      "id": "phase.objectives",
+      "kind": "objectives",
+      "title": {
+        "en": "Mission briefing",
+        "es": "Informe de misión",
+        "pl": "Briefing misji"
+      },
+      "body": {
+        "en": "Success criteria: identify variables, translate phrases, evaluate expressions, and tell expressions from equations. Mastery unlocks a blueprint pad, Riser Initiate rank, and Zone Beta.",
+        "es": "Criterios de éxito: identificar variables, traducir frases, evaluar expresiones y distinguir expresiones de ecuaciones. El dominio desbloquea un plano, rango Iniciado y Zona Beta.",
+        "pl": "Kryteria sukcesu: wskazywać zmienne, tłumaczyć zwroty, obliczać wyrażenia i odróżniać je od równań. Mistrzostwo odblokowuje plan, rangę Inicjata i Strefę Beta."
+      },
+      "bodyLatex": [
+        "x",
+        "3x + 2",
+        "3x + 2 = 11"
+      ],
+      "itemIds": [],
+      "tutorScript": {
+        "en": "Welcome, Riser. Today you learn the language that powers Compact tech: algebra.",
+        "es": "Bienvenido, Ascendente. Hoy aprendes el lenguaje que alimenta la tecnología del Compacto: el álgebra.",
+        "pl": "Witaj, Wznoszący. Dziś uczysz się języka, który napędza technologię Kompaktu: algebry."
+      }
+    },
+    {
+      "id": "phase.i_do",
+      "kind": "i_do",
+      "title": {
+        "en": "I do — watch the model",
+        "es": "Yo hago — observa el modelo",
+        "pl": "Ja robię — obserwuj model"
+      },
+      "body": {
+        "en": "A variable is a letter standing for a number that can change. The phrase \"3 more than twice a number n\" becomes 2n+3. An expression has no equals sign; an equation does.",
+        "es": "Una variable es una letra que representa un número que puede cambiar. La frase \"3 más que el doble de un número n\" se convierte en 2n+3. Una expresión no tiene signo igual; una ecuación sí.",
+        "pl": "Zmienna to litera oznaczająca liczbę, która może się zmieniać. Zwrot \"o 3 więcej niż podwojona liczba n\" to 2n+3. Wyrażenie nie ma znaku równości; równanie ma."
+      },
+      "bodyLatex": [
+        "n",
+        "2n + 3",
+        "2n + 3 = 11"
+      ],
+      "itemIds": [
+        "item.ido.1",
+        "item.ido.2"
+      ],
+      "tutorScript": {
+        "en": "Watch: I replace words with symbols, then evaluate when a value is given. I never invent an equals sign unless the problem states equality.",
+        "es": "Observa: reemplazo palabras por símbolos y luego evalúo si dan un valor. Nunca invento un signo igual si el problema no afirma igualdad.",
+        "pl": "Patrz: zamieniam słowa na symbole, potem obliczam, gdy podano wartość. Nie dodaję znaku równości, jeśli zadanie nie stwierdza równości."
+      }
+    },
+    {
+      "id": "phase.we_do",
+      "kind": "we_do",
+      "title": {
+        "en": "We do — guided practice",
+        "es": "Hacemos — práctica guiada",
+        "pl": "Robimy — ćwiczenia z prowadzeniem"
+      },
+      "body": {
+        "en": "Answer with me. Use the feedback to correct misconceptions immediately.",
+        "es": "Responde conmigo. Usa la retroalimentación para corregir errores de inmediato.",
+        "pl": "Odpowiadaj ze mną. Użyj informacji zwrotnej, by od razu poprawić błędy."
+      },
+      "itemIds": [
+        "item.wedo.1",
+        "item.wedo.2",
+        "item.wedo.3",
+        "item.wedo.4"
+      ],
+      "tutorScript": {
+        "en": "Your turn with support. Say or type the expression, then we check together.",
+        "es": "Tu turno con apoyo. Di o escribe la expresión; luego comprobamos juntos.",
+        "pl": "Twoja kolej ze wsparciem. Powiedz lub wpisz wyrażenie, potem sprawdzimy razem."
+      }
+    },
+    {
+      "id": "phase.you_do",
+      "kind": "you_do",
+      "title": {
+        "en": "You do — mastery check",
+        "es": "Tú haces — comprobación de dominio",
+        "pl": "Ty robisz — sprawdzian mistrzostwa"
+      },
+      "body": {
+        "en": "Independent set. Mastery requires at least 3 of 4 correct.",
+        "es": "Serie independiente. El dominio exige al menos 3 de 4 correctas.",
+        "pl": "Zestaw samodzielny. Mistrzostwo wymaga co najmniej 3 z 4 poprawnych."
+      },
+      "itemIds": [
+        "item.youdo.1",
+        "item.youdo.2",
+        "item.youdo.3",
+        "item.youdo.4"
+      ],
+      "tutorScript": {
+        "en": "Show what you know. No hints beyond the success criteria.",
+        "es": "Demuestra lo que sabes. Sin pistas más allá de los criterios de éxito.",
+        "pl": "Pokaż, co umiesz. Bez podpowiedzi poza kryteriami sukcesu."
+      }
+    },
+    {
+      "id": "phase.retrieval",
+      "kind": "retrieval",
+      "title": {
+        "en": "Quick retrieval",
+        "es": "Recuperación rápida",
+        "pl": "Szybkie przypomnienie"
+      },
+      "body": {
+        "en": "Short arithmetic check that supports evaluation.",
+        "es": "Breve comprobación aritmética que apoya la evaluación.",
+        "pl": "Krótki test arytmetyczny wspierający obliczanie."
+      },
+      "itemIds": [
+        "item.retr.1",
+        "item.retr.2"
+      ],
+      "tutorScript": {
+        "en": "Keep fluency warm — Compact systems hate rusty arithmetic.",
+        "es": "Mantén la fluidez — a los sistemas del Compacto no les gusta la aritmética oxidada.",
+        "pl": "Utrzymaj biegłość — systemy Kompaktu nie lubią zardzewiałej arytmetyki."
+      }
+    },
+    {
+      "id": "phase.complete",
+      "kind": "complete",
+      "title": {
+        "en": "Rank advanced",
+        "es": "Rango avanzado",
+        "pl": "Awans rangi"
+      },
+      "body": {
+        "en": "Lesson complete. Place your blueprint pad and access Zone Beta.",
+        "es": "Lección completa. Coloca tu plano y accede a la Zona Beta.",
+        "pl": "Lekcja ukończona. Umieść swój plan i wejdź do Strefy Beta."
+      },
+      "itemIds": [],
+      "tutorScript": {
+        "en": "Well earned, Initiate. Build something worthy of the Compact.",
+        "es": "Bien ganado, Iniciado. Construye algo digno del Compacto.",
+        "pl": "Zasłużone, Inicjacie. Zbuduj coś godnego Kompaktu."
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "item.ido.1",
+      "kpIds": [
+        "kp.variable.symbol"
+      ],
+      "phase": "i_do",
+      "type": "mcq",
+      "stem": {
+        "en": "In the expression 4y + 1, what does y represent?",
+        "es": "En la expresión 4y + 1, ¿qué representa y?",
+        "pl": "W wyrażeniu 4y + 1, co oznacza y?"
+      },
+      "stemLatex": "4y + 1",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A fixed decoration",
+            "es": "Un adorno fijo",
+            "pl": "Stała ozdoba"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "y stands for a number that can change.",
+            "es": "y representa un número que puede cambiar.",
+            "pl": "y oznacza liczbę, która może się zmieniać."
+          },
+          "diagnosticTag": "label-only"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A number that can change",
+            "es": "Un número que puede cambiar",
+            "pl": "Liczbę, która może się zmieniać"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Correct — y is a variable.",
+            "es": "Correcto — y es una variable.",
+            "pl": "Poprawnie — y jest zmienną."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Always equal to 4",
+            "es": "Siempre igual a 4",
+            "pl": "Zawsze równe 4"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "4 is the coefficient; y can take other values.",
+            "es": "4 es el coeficiente; y puede tomar otros valores.",
+            "pl": "4 to współczynnik; y może przyjąć inne wartości."
+          },
+          "diagnosticTag": "coeff-confuse"
+        }
+      ],
+      "workedSolution": {
+        "en": "y is a variable: a symbol for a number that may change.",
+        "es": "y es una variable: un símbolo de un número que puede cambiar.",
+        "pl": "y jest zmienną: symbolem liczby, która może się zmieniać."
+      },
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.ido.2",
+      "kpIds": [
+        "kp.translate.phrase-to-expr",
+        "kp.distinguish.expr-vs-eq"
+      ],
+      "phase": "i_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Which is an expression (not an equation) for \"5 less than a number x\"?",
+        "es": "¿Cuál es una expresión (no ecuación) para \"5 menos que un número x\"?",
+        "pl": "Które jest wyrażeniem (nie równaniem) dla \"o 5 mniej niż liczba x\"?"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "x - 5 = 0",
+            "es": "x - 5 = 0",
+            "pl": "x - 5 = 0"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Has an equals sign — that is an equation.",
+            "es": "Tiene signo igual — es una ecuación.",
+            "pl": "Ma znak równości — to równanie."
+          },
+          "diagnosticTag": "eq-vs-expr",
+          "latex": "x - 5 = 0"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "x - 5",
+            "es": "x - 5",
+            "pl": "x - 5"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Correct — no equals sign.",
+            "es": "Correcto — sin signo igual.",
+            "pl": "Poprawnie — bez znaku równości."
+          },
+          "latex": "x - 5"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "5 - x = 5",
+            "es": "5 - x = 5",
+            "pl": "5 - x = 5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Wrong order and it is an equation.",
+            "es": "Orden incorrecto y es una ecuación.",
+            "pl": "Zła kolejność i to równanie."
+          },
+          "diagnosticTag": "reversed",
+          "latex": "5 - x = 5"
+        }
+      ],
+      "workedSolution": {
+        "en": "\"5 less than x\" is x-5, an expression.",
+        "es": "\"5 menos que x\" es x-5, una expresión.",
+        "pl": "\"o 5 mniej niż x\" to x-5, wyrażenie."
+      },
+      "workedSolutionLatex": "x - 5",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.5
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.wedo.1",
+      "kpIds": [
+        "kp.translate.phrase-to-expr"
+      ],
+      "phase": "we_do",
+      "type": "translate",
+      "stem": {
+        "en": "Translate: \"the sum of a number n and 7\".",
+        "es": "Traduce: \"la suma de un número n y 7\".",
+        "pl": "Przetłumacz: \"suma liczby n i 7\"."
+      },
+      "answer": "n+7",
+      "acceptableAnswers": [
+        "n+7",
+        "n + 7",
+        "7+n",
+        "7 + n"
+      ],
+      "workedSolution": {
+        "en": "Sum means +; write n+7.",
+        "es": "Suma significa +; escribe n+7.",
+        "pl": "Suma oznacza +; napisz n+7."
+      },
+      "workedSolutionLatex": "n + 7",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.3
+      },
+      "difficulty": "guided",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "n + 7",
+            "es": "n + 7",
+            "pl": "n + 7"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Yes — sum is addition.",
+            "es": "Sí — suma es adición.",
+            "pl": "Tak — suma to dodawanie."
+          },
+          "latex": "n + 7"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "n - 7",
+            "es": "n - 7",
+            "pl": "n - 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Sum is +, not −.",
+            "es": "Suma es +, no −.",
+            "pl": "Suma to +, nie −."
+          },
+          "diagnosticTag": "op-wrong",
+          "latex": "n - 7"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "7n",
+            "es": "7n",
+            "pl": "7n"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "That is a product, not a sum.",
+            "es": "Eso es un producto, no una suma.",
+            "pl": "To iloczyn, nie suma."
+          },
+          "diagnosticTag": "product",
+          "latex": "7n"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "n + 7 = 0",
+            "es": "n + 7 = 0",
+            "pl": "n + 7 = 0"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Do not add an equals sign.",
+            "es": "No añadas un signo igual.",
+            "pl": "Nie dodawaj znaku równości."
+          },
+          "diagnosticTag": "eq-extra",
+          "latex": "n + 7 = 0"
+        }
+      ]
+    },
+    {
+      "id": "item.wedo.2",
+      "kpIds": [
+        "kp.eval.expression",
+        "kp.orderops.with-vars"
+      ],
+      "phase": "we_do",
+      "type": "evaluate",
+      "stem": {
+        "en": "Evaluate 2x + 3 when x = 4.",
+        "es": "Evalúa 2x + 3 cuando x = 4.",
+        "pl": "Oblicz 2x + 3, gdy x = 4."
+      },
+      "stemLatex": "2x + 3,\\; x = 4",
+      "answer": "11",
+      "acceptableAnswers": [
+        "11"
+      ],
+      "workedSolution": {
+        "en": "Substitute: 2(4)+3 = 8+3 = 11.",
+        "es": "Sustituye: 2(4)+3 = 8+3 = 11.",
+        "pl": "Podstaw: 2(4)+3 = 8+3 = 11."
+      },
+      "workedSolutionLatex": "2(4) + 3 = 11",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2.c",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2c",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2c",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1B",
+          "A.1C"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2c"
+        ],
+        "IL": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2c",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.3",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2c",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2c",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0
+      },
+      "difficulty": "guided",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "11",
+            "es": "11",
+            "pl": "11"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Correct.",
+            "es": "Correcto.",
+            "pl": "Poprawnie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "14",
+            "es": "14",
+            "pl": "14"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "You may have done 2+4 first then times 3.",
+            "es": "Quizá hiciste 2+4 y luego por 3.",
+            "pl": "Możliwe, że najpierw 2+4, potem razy 3."
+          },
+          "diagnosticTag": "order-ops"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "24",
+            "es": "24",
+            "pl": "24"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Check the product carefully.",
+            "es": "Revisa el producto.",
+            "pl": "Sprawdź iloczyn."
+          },
+          "diagnosticTag": "concat"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "9",
+            "es": "9",
+            "pl": "9"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Check 2 times 4 again.",
+            "es": "Revisa 2 por 4.",
+            "pl": "Sprawdź 2 razy 4."
+          },
+          "diagnosticTag": "arith"
+        }
+      ]
+    },
+    {
+      "id": "item.wedo.3",
+      "kpIds": [
+        "kp.distinguish.expr-vs-eq"
+      ],
+      "phase": "we_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Which of these is an equation?",
+        "es": "¿Cuál de estos es una ecuación?",
+        "pl": "Które z tych jest równaniem?"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "3a + 2",
+            "es": "3a + 2",
+            "pl": "3a + 2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "No equals sign — expression.",
+            "es": "Sin signo igual — expresión.",
+            "pl": "Bez znaku równości — wyrażenie."
+          },
+          "diagnosticTag": "expr",
+          "latex": "3a + 2"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "3a + 2 = 14",
+            "es": "3a + 2 = 14",
+            "pl": "3a + 2 = 14"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Equals sign asserts equality.",
+            "es": "El signo igual afirma igualdad.",
+            "pl": "Znak równości stwierdza równość."
+          },
+          "latex": "3a + 2 = 14"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "a",
+            "es": "a",
+            "pl": "a"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Just a variable symbol.",
+            "es": "Solo un símbolo de variable.",
+            "pl": "Sam symbol zmiennej."
+          },
+          "diagnosticTag": "var"
+        }
+      ],
+      "workedSolution": {
+        "en": "Equations contain =.",
+        "es": "Las ecuaciones contienen =.",
+        "pl": "Równania zawierają =."
+      },
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.B.5",
+          "CCSS.MATH.CONTENT.HSA.CED.A.1"
+        ],
+        "CA": [
+          "6.EE.5",
+          "A-CED.1"
+        ],
+        "NJ": [
+          "6.EE.B.5",
+          "A-CED.A.1"
+        ],
+        "MI": [
+          "6.EE.5",
+          "HSA-CED.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.5A"
+        ],
+        "NY": [
+          "AI-A.CED.1",
+          "6.EE.5"
+        ],
+        "IL": [
+          "6.EE.B.5",
+          "A-CED.A.1"
+        ],
+        "MO": [
+          "6.EE.B.5",
+          "A.CED.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.2.1",
+          "MA.912.AR.2.1"
+        ],
+        "WA": [
+          "6.EE.B.5",
+          "HSA-CED.A.1"
+        ],
+        "DC": [
+          "6.EE.B.5",
+          "A-CED.A.1"
+        ],
+        "OH": [
+          "6.EE.5",
+          "A.CED.1"
+        ],
+        "MN": [
+          "6.2.3.3",
+          "9.2.2.2"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.6
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.4",
+      "kpIds": [
+        "kp.translate.phrase-to-expr"
+      ],
+      "phase": "we_do",
+      "type": "short",
+      "stem": {
+        "en": "Write an expression for \"twice a number m\".",
+        "es": "Escribe una expresión para \"el doble de un número m\".",
+        "pl": "Napisz wyrażenie dla \"podwojona liczba m\"."
+      },
+      "answer": "2m",
+      "acceptableAnswers": [
+        "2m",
+        "2*m",
+        "2 m",
+        "m*2",
+        "m2"
+      ],
+      "workedSolution": {
+        "en": "Twice means multiply by 2: 2m.",
+        "es": "El doble es multiplicar por 2: 2m.",
+        "pl": "Podwojona oznacza mnożenie przez 2: 2m."
+      },
+      "workedSolutionLatex": "2m",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.2
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.youdo.1",
+      "kpIds": [
+        "kp.variable.symbol"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Why do engineers in the Compact use variables in blueprints?",
+        "es": "¿Por qué los ingenieros del Compacto usan variables en los planos?",
+        "pl": "Dlaczego inżynierowie Kompaktu używają zmiennych w planach?"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "To represent quantities that can take different values",
+            "es": "Para representar cantidades que pueden tomar distintos valores",
+            "pl": "Aby reprezentować wielkości o różnych wartościach"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Exactly.",
+            "es": "Exacto.",
+            "pl": "Dokładnie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "To decorate formulas",
+            "es": "Para decorar fórmulas",
+            "pl": "Aby ozdobić wzory"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Variables carry meaning, not decoration.",
+            "es": "Las variables tienen significado, no decoración.",
+            "pl": "Zmienne mają znaczenie, nie są ozdobą."
+          },
+          "diagnosticTag": "decor"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Because letters are prettier than numbers",
+            "es": "Porque las letras son más bonitas",
+            "pl": "Bo litery są ładniejsze"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Utility, not aesthetics.",
+            "es": "Utilidad, no estética.",
+            "pl": "Użyteczność, nie estetyka."
+          },
+          "diagnosticTag": "aesthetic"
+        }
+      ],
+      "workedSolution": {
+        "en": "Variables stand for changeable quantities.",
+        "es": "Las variables representan cantidades cambiantes.",
+        "pl": "Zmienne oznaczają zmienne wielkości."
+      },
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.7
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.2",
+      "kpIds": [
+        "kp.translate.phrase-to-expr"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Which expression matches \"8 more than a number t\"?",
+        "es": "¿Qué expresión corresponde a \"8 más que un número t\"?",
+        "pl": "Które wyrażenie odpowiada \"o 8 więcej niż liczba t\"?"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "8t",
+            "es": "8t",
+            "pl": "8t"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "That is 8 times t.",
+            "es": "Eso es 8 veces t.",
+            "pl": "To 8 razy t."
+          },
+          "diagnosticTag": "product",
+          "latex": "8t"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "t + 8",
+            "es": "t + 8",
+            "pl": "t + 8"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "More than means add.",
+            "es": "Más que significa sumar.",
+            "pl": "Więcej niż oznacza dodawanie."
+          },
+          "latex": "t + 8"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "t - 8",
+            "es": "t - 8",
+            "pl": "t - 8"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "That is 8 less than t.",
+            "es": "Eso es 8 menos que t.",
+            "pl": "To o 8 mniej niż t."
+          },
+          "diagnosticTag": "less",
+          "latex": "t - 8"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "t + 8 = 8",
+            "es": "t + 8 = 8",
+            "pl": "t + 8 = 8"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Equation, not expression.",
+            "es": "Ecuación, no expresión.",
+            "pl": "Równanie, nie wyrażenie."
+          },
+          "diagnosticTag": "eq",
+          "latex": "t + 8 = 8"
+        }
+      ],
+      "workedSolution": {
+        "en": "\"8 more than t\" maps to t+8.",
+        "es": "\"8 más que t\" corresponde a t+8.",
+        "pl": "\"o 8 więcej niż t\" to t+8."
+      },
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.1
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.3",
+      "kpIds": [
+        "kp.eval.expression",
+        "kp.orderops.with-vars"
+      ],
+      "phase": "you_do",
+      "type": "evaluate",
+      "stem": {
+        "en": "Evaluate 5 + 3k when k = 2.",
+        "es": "Evalúa 5 + 3k cuando k = 2.",
+        "pl": "Oblicz 5 + 3k, gdy k = 2."
+      },
+      "stemLatex": "5 + 3k,\\; k = 2",
+      "answer": "11",
+      "acceptableAnswers": [
+        "11"
+      ],
+      "workedSolution": {
+        "en": "5 + 3(2) = 5 + 6 = 11.",
+        "es": "5 + 3(2) = 5 + 6 = 11.",
+        "pl": "5 + 3(2) = 5 + 6 = 11."
+      },
+      "workedSolutionLatex": "5 + 3(2) = 11",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2.c",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2c",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2c",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1B",
+          "A.1C"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2c"
+        ],
+        "IL": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2c",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.3",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2c",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2c",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.2
+      },
+      "difficulty": "independent",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "11",
+            "es": "11",
+            "pl": "11"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Correct.",
+            "es": "Correcto.",
+            "pl": "Poprawnie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "16",
+            "es": "16",
+            "pl": "16"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "(5+3)*2 is wrong order.",
+            "es": "(5+3)*2 es orden incorrecto.",
+            "pl": "(5+3)*2 to zła kolejność."
+          },
+          "diagnosticTag": "order"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "10",
+            "es": "10",
+            "pl": "10"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "You may have done 5+3+2.",
+            "es": "Quizá hiciste 5+3+2.",
+            "pl": "Możliwe 5+3+2."
+          },
+          "diagnosticTag": "add-all"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "7",
+            "es": "7",
+            "pl": "7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Multiply 3*2 first, then add 5.",
+            "es": "Multiplica 3*2 primero, luego suma 5.",
+            "pl": "Najpierw 3*2, potem +5."
+          },
+          "diagnosticTag": "partial"
+        }
+      ]
+    },
+    {
+      "id": "item.youdo.4",
+      "kpIds": [
+        "kp.distinguish.expr-vs-eq",
+        "kp.translate.phrase-to-expr"
+      ],
+      "phase": "you_do",
+      "type": "short",
+      "stem": {
+        "en": "Type an expression (not equation) for \"the product of 4 and w\".",
+        "es": "Escribe una expresión (no ecuación) para \"el producto de 4 y w\".",
+        "pl": "Wpisz wyrażenie (nie równanie) dla \"iloczyn 4 i w\"."
+      },
+      "answer": "4w",
+      "acceptableAnswers": [
+        "4w",
+        "4*w",
+        "4 w",
+        "w*4",
+        "w4"
+      ],
+      "workedSolution": {
+        "en": "Product means multiply: 4w. No equals sign.",
+        "es": "Producto significa multiplicar: 4w. Sin signo igual.",
+        "pl": "Iloczyn oznacza mnożenie: 4w. Bez znaku równości."
+      },
+      "workedSolutionLatex": "4w",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1A",
+          "A.1B"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2"
+        ],
+        "IL": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.1",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.1",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.retr.1",
+      "kpIds": [
+        "kp.orderops.with-vars"
+      ],
+      "phase": "retrieval",
+      "type": "evaluate",
+      "stem": {
+        "en": "Compute 3 × 4 + 2.",
+        "es": "Calcula 3 × 4 + 2.",
+        "pl": "Oblicz 3 × 4 + 2."
+      },
+      "stemLatex": "3 \\times 4 + 2",
+      "answer": "14",
+      "acceptableAnswers": [
+        "14"
+      ],
+      "workedSolution": {
+        "en": "Multiply first: 12 + 2 = 14.",
+        "es": "Multiplica primero: 12 + 2 = 14.",
+        "pl": "Najpierw mnożenie: 12 + 2 = 14."
+      },
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2.c",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2c",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2c",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1B",
+          "A.1C"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2c"
+        ],
+        "IL": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2c",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.3",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2c",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2c",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1.5
+      },
+      "difficulty": "intro",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "14",
+            "es": "14",
+            "pl": "14"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Correct.",
+            "es": "Correcto.",
+            "pl": "Poprawnie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "18",
+            "es": "18",
+            "pl": "18"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Left-to-right without precedence.",
+            "es": "Izquierda a derecha sin precedencia.",
+            "pl": "Od lewej bez pierwszeństwa."
+          },
+          "diagnosticTag": "ltr"
+        }
+      ]
+    },
+    {
+      "id": "item.retr.2",
+      "kpIds": [
+        "kp.eval.expression"
+      ],
+      "phase": "retrieval",
+      "type": "evaluate",
+      "stem": {
+        "en": "If p = 5, what is p + p?",
+        "es": "Si p = 5, ¿cuánto es p + p?",
+        "pl": "Jeśli p = 5, ile wynosi p + p?"
+      },
+      "stemLatex": "p + p,\\; p = 5",
+      "answer": "10",
+      "acceptableAnswers": [
+        "10"
+      ],
+      "workedSolution": {
+        "en": "5 + 5 = 10.",
+        "es": "5 + 5 = 10.",
+        "pl": "5 + 5 = 10."
+      },
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.2.c",
+          "CCSS.MATH.CONTENT.HSA.SSE.A.1"
+        ],
+        "CA": [
+          "6.EE.2c",
+          "A-SSE.1"
+        ],
+        "NJ": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MI": [
+          "6.EE.2c",
+          "HSA-SSE.A.1"
+        ],
+        "TX": [
+          "A.1B",
+          "A.1C"
+        ],
+        "NY": [
+          "AI-A.SSE.1",
+          "6.EE.2c"
+        ],
+        "IL": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.2c",
+          "A.SSE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.3",
+          "MA.912.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.2c",
+          "HSA-SSE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.2c",
+          "A-SSE.A.1"
+        ],
+        "OH": [
+          "6.EE.2c",
+          "A.SSE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1.8
+      },
+      "difficulty": "intro",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "10",
+            "es": "10",
+            "pl": "10"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Correct.",
+            "es": "Correcto.",
+            "pl": "Poprawnie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "25",
+            "es": "25",
+            "pl": "25"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "That is p times p.",
+            "es": "Eso es p por p.",
+            "pl": "To p razy p."
+          },
+          "diagnosticTag": "square"
+        }
+      ]
+    }
+  ],
+  "mastery": {
+    "minIndependentCorrect": 3,
+    "minIndependentTotal": 4,
+    "requiredKpIds": [
+      "kp.variable.symbol",
+      "kp.translate.phrase-to-expr",
+      "kp.eval.expression",
+      "kp.distinguish.expr-vs-eq",
+      "kp.orderops.with-vars"
+    ]
+  },
+  "unlocks": [
+    {
+      "id": "bp.pad.ramp",
+      "kind": "blueprint",
+      "title": {
+        "en": "Pad / ramp blueprint",
+        "es": "Plano de plataforma / rampa",
+        "pl": "Plan platformy / rampy"
+      },
+      "description": {
+        "en": "Place a training pad segment on Zone Alpha.",
+        "es": "Coloca un segmento de plataforma en la Zona Alfa.",
+        "pl": "Umieść segment platformy w Strefie Alfa."
+      }
+    },
+    {
+      "id": "rank.riser.initiate",
+      "kind": "rank",
+      "title": {
+        "en": "Riser Initiate",
+        "es": "Ascendente Iniciado",
+        "pl": "Wznoszący Inicjat"
+      },
+      "description": {
+        "en": "Rank insignia earned by Lesson 1 mastery.",
+        "es": "Insignia de rango por dominio de la Lección 1.",
+        "pl": "Odznaka rangi za mistrzostwo Lekcji 1."
+      }
+    },
+    {
+      "id": "zone.pad.beta",
+      "kind": "zone",
+      "title": {
+        "en": "Zone Beta",
+        "es": "Zona Beta",
+        "pl": "Strefa Beta"
+      },
+      "description": {
+        "en": "Access the second training pad.",
+        "es": "Accede a la segunda plataforma de entrenamiento.",
+        "pl": "Dostęp do drugiej platformy treningowej."
+      }
+    }
+  ],
+  "worldIntegration": {
+    "terminalId": "terminal.lesson1",
+    "unlockBlueprintId": "bp.pad.ramp",
+    "unlockRankId": "rank.riser.initiate",
+    "unlockZoneId": "zone.pad.beta"
+  }
+}

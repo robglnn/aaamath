@@ -1,0 +1,302 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://axiom-rising.dev/schemas/content-schema.v1.json",
+  "title": "LessonPackage",
+  "description": "Axiom Rising lesson content package (schema v1.0.0)",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "courseId",
+    "order",
+    "title",
+    "objectives",
+    "knowledgePointIds",
+    "phases",
+    "items",
+    "knowledgePoints",
+    "mastery",
+    "unlocks",
+    "worldIntegration"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^lesson\\."
+    },
+    "courseId": {
+      "type": "string"
+    },
+    "order": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "title": { "$ref": "#/definitions/LocalizedString" },
+    "objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/LocalizedString" }
+    },
+    "knowledgePointIds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/LessonPhase" }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/ContentItem" }
+    },
+    "knowledgePoints": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/KnowledgePoint" }
+    },
+    "mastery": { "$ref": "#/definitions/MasteryGate" },
+    "unlocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/UnlockDefinition" }
+    },
+    "worldIntegration": { "$ref": "#/definitions/WorldIntegration" }
+  },
+  "definitions": {
+    "Locale": {
+      "type": "string",
+      "enum": ["en", "es", "pl"]
+    },
+    "LocalizedString": {
+      "type": "object",
+      "required": ["en", "es", "pl"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "es": { "type": "string", "minLength": 1 },
+        "pl": { "type": "string", "minLength": 1 }
+      }
+    },
+    "Jurisdiction": {
+      "type": "string",
+      "enum": ["CCSS", "CA", "NJ", "MI", "TX", "NY", "IL", "MO", "FL", "WA", "DC", "OH", "MN"]
+    },
+    "StandardsMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "CCSS": { "$ref": "#/definitions/StandardsList" },
+        "CA": { "$ref": "#/definitions/StandardsList" },
+        "NJ": { "$ref": "#/definitions/StandardsList" },
+        "MI": { "$ref": "#/definitions/StandardsList" },
+        "TX": { "$ref": "#/definitions/StandardsList" },
+        "NY": { "$ref": "#/definitions/StandardsList" },
+        "IL": { "$ref": "#/definitions/StandardsList" },
+        "MO": { "$ref": "#/definitions/StandardsList" },
+        "FL": { "$ref": "#/definitions/StandardsList" },
+        "WA": { "$ref": "#/definitions/StandardsList" },
+        "DC": { "$ref": "#/definitions/StandardsList" },
+        "OH": { "$ref": "#/definitions/StandardsList" },
+        "MN": { "$ref": "#/definitions/StandardsList" }
+      }
+    },
+    "StandardsList": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "IrtPriors1PL": {
+      "type": "object",
+      "required": ["a", "b"],
+      "additionalProperties": false,
+      "properties": {
+        "a": { "type": "number", "minimum": 0 },
+        "b": { "type": "number" }
+      }
+    },
+    "SpacedRepetitionDefaults": {
+      "type": "object",
+      "required": ["initialIntervalDays", "easeFactor", "masteryThreshold"],
+      "additionalProperties": false,
+      "properties": {
+        "initialIntervalDays": { "type": "number", "minimum": 0 },
+        "easeFactor": { "type": "number", "minimum": 1 },
+        "masteryThreshold": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "KnowledgePoint": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "description",
+        "prerequisites",
+        "successCriteria",
+        "misconceptions",
+        "standards",
+        "irtPriors",
+        "srDefaults"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^kp\\." },
+        "title": { "$ref": "#/definitions/LocalizedString" },
+        "description": { "$ref": "#/definitions/LocalizedString" },
+        "prerequisites": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "successCriteria": { "$ref": "#/definitions/LocalizedString" },
+        "misconceptions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/LocalizedString" }
+        },
+        "standards": { "$ref": "#/definitions/StandardsMap" },
+        "irtPriors": { "$ref": "#/definitions/IrtPriors1PL" },
+        "srDefaults": { "$ref": "#/definitions/SpacedRepetitionDefaults" }
+      }
+    },
+    "ItemChoice": {
+      "type": "object",
+      "required": ["id", "text", "isCorrect", "feedback"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "$ref": "#/definitions/LocalizedString" },
+        "latex": { "type": "string" },
+        "isCorrect": { "type": "boolean" },
+        "diagnosticTag": { "type": "string" },
+        "feedback": { "$ref": "#/definitions/LocalizedString" }
+      }
+    },
+    "ContentItem": {
+      "type": "object",
+      "required": [
+        "id",
+        "kpIds",
+        "phase",
+        "type",
+        "stem",
+        "workedSolution",
+        "standards",
+        "irtPriors",
+        "difficulty"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "kpIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "phase": {
+          "type": "string",
+          "enum": ["objectives", "i_do", "we_do", "you_do", "retrieval", "complete"]
+        },
+        "type": {
+          "type": "string",
+          "enum": ["mcq", "short", "evaluate", "translate"]
+        },
+        "stem": { "$ref": "#/definitions/LocalizedString" },
+        "stemLatex": { "type": "string" },
+        "answer": {
+          "oneOf": [{ "type": "string" }, { "type": "number" }]
+        },
+        "acceptableAnswers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "choices": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/definitions/ItemChoice" }
+        },
+        "workedSolution": { "$ref": "#/definitions/LocalizedString" },
+        "workedSolutionLatex": { "type": "string" },
+        "standards": { "$ref": "#/definitions/StandardsMap" },
+        "irtPriors": { "$ref": "#/definitions/IrtPriors1PL" },
+        "difficulty": {
+          "type": "string",
+          "enum": ["intro", "guided", "independent"]
+        }
+      }
+    },
+    "LessonPhase": {
+      "type": "object",
+      "required": ["id", "kind", "title", "body", "itemIds", "tutorScript"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["objectives", "i_do", "we_do", "you_do", "retrieval", "complete"]
+        },
+        "title": { "$ref": "#/definitions/LocalizedString" },
+        "body": { "$ref": "#/definitions/LocalizedString" },
+        "bodyLatex": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "itemIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tutorScript": { "$ref": "#/definitions/LocalizedString" }
+      }
+    },
+    "MasteryGate": {
+      "type": "object",
+      "required": ["minIndependentCorrect", "minIndependentTotal", "requiredKpIds"],
+      "additionalProperties": false,
+      "properties": {
+        "minIndependentCorrect": { "type": "integer", "minimum": 1 },
+        "minIndependentTotal": { "type": "integer", "minimum": 1 },
+        "requiredKpIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "UnlockDefinition": {
+      "type": "object",
+      "required": ["id", "kind", "title", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["blueprint", "rank", "zone"]
+        },
+        "title": { "$ref": "#/definitions/LocalizedString" },
+        "description": { "$ref": "#/definitions/LocalizedString" }
+      }
+    },
+    "WorldIntegration": {
+      "type": "object",
+      "required": [
+        "terminalId",
+        "unlockBlueprintId",
+        "unlockRankId",
+        "unlockZoneId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "terminalId": { "type": "string" },
+        "unlockBlueprintId": { "type": "string" },
+        "unlockRankId": { "type": "string" },
+        "unlockZoneId": { "type": "string" }
+      }
+    }
+  }
+}
