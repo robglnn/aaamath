@@ -14,15 +14,22 @@
 | **3** | Authored Blender GLB heroes (player, terminal, blueprint pad, zone marker) + landscape-first gate | PASS_WITH_GAPS |
 | **4** | Camera/feel — tighter FOV, snappier follow | PASS_WITH_GAPS |
 | **5** | Compact unlock rail when many chips; landscape short-viewport help hidden | PASS_WITH_GAPS |
+| **6** | Sculpted bevel/subdiv PBR heroes + Draco GLBs | PASS_WITH_GAPS |
+| **7** | Daylight ACES lighting / sky / rim | PASS_WITH_GAPS |
+| **8** | God-ray juice + denser motes + ability pulse | PASS_WITH_GAPS |
+| **9** | Diegetic HUD / plaza floor polish + emissive boost | PASS_WITH_GAPS |
+| **10** | Panel albedo UVs + closer shoulder cam | PASS_WITH_GAPS |
 
 Refs: `docs/gauntlet/bars/` (9 source + named HUD bars)  
-Shots: `docs/gauntlet/_critic-shots/loop1-*`, `loop2-3-landscape-*`
+Shots: `docs/gauntlet/_critic-shots/loop1-*`, `loop2-3-landscape-*`, `loop6-10-*`  
+Reports: `critic-loop2-5-visual.md`, `critic-loop6-10-sculpted-pbr.md`, `builder-loop6-10-sculpted-pbr.md`
 
 ## Plateau judgment
 
-HUD + lighting + landscape UX raised first-10s game read. Absolute Fortnite PBR character still open (Blender heroes are authored kitbash GLBs, not sculpted Fortnite skins). **No more Algebra.**
+Loops 6–10 raised hero fidelity (bevel PBR + panel maps), daylight juice, and first-10s camera read. Absolute Fortnite sculpted character skins (organic proportions + baked ORM/normal) remain the open ceiling. **No more Algebra.**
 
 ## Guards held
 
-- Pages `base: '/aaamath/'`; KaTeX deferred; L1–L6 pedagogy untouched; speech + text fallback intact
+- Pages `base: '/aaamath/'`; KaTeX deferred; L1–L7 pedagogy untouched; speech + text fallback intact
 - Curriculum frozen — no L8+
+- Draco decode via gstatic; iPhone-budget GLB sizes (~28–208 kB)

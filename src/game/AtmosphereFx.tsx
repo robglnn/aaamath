@@ -3,8 +3,8 @@ import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending, BufferAttribute, BufferGeometry, CanvasTexture, DynamicDrawUsage, SRGBColorSpace } from 'three'
 import { ALPHA_RADIUS, TERMINAL_POS } from '@/game/world'
 
-const MOTE_COUNT = 28 // 16 over Alpha pad + 12 around the terminal
-const SPARKLE_COUNT = 12 // rim twinkles hugging the Alpha pad edge
+const MOTE_COUNT = 40 // denser dust for Fortnite hub juice (still cheap points)
+const SPARKLE_COUNT = 18 // rim twinkles hugging the Alpha pad edge
 const UPDATE_HZ = 30 // slow drift reads identical at half rate; halves attribute uploads
 
 // Linear-space RGB so additive blending mixes cleanly with the scene palette

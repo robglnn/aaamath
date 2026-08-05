@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current focus
-Fortnite **visual** Gauntlet complete for this mandate (5 loops). Curriculum frozen — no L8+.
+Fortnite **visual** Gauntlet loops 6–10 complete (sculpted PBR wave). Curriculum frozen — no L8+.
 
 ## Locked decisions
 - Mobile = **landscape-first** (rotate-to-play in portrait)
@@ -9,14 +9,11 @@ Fortnite **visual** Gauntlet complete for this mandate (5 loops). Curriculum fro
 - Visual spend > Algebra
 
 ## Delivered (this pass)
-- Loop 1: diegetic HUD (crest, ability wheel, zone minimap)
-- Loop 2: cinematic lighting / non-cyan grid
-- Loop 3: Blender GLB heroes in `public/models/`
-- Loop 4–5: camera feel + compact unlock rail
-- Landscape gate + landscape touch CSS
+- Loops 6–10: Blender bevel/subdiv PBR heroes (Draco), daylight ACES lighting, god-ray juice, HUD/plaza polish, panel albedo + closer cam
+- Script: `tools/blender/rebuild_heroes_pbr.py`
 
 ## Live
 https://robglnn.github.io/aaamath/
 
 ## Next
-Optional: higher-fidelity sculpted PBR heroes; no curriculum.
+Optional: organic Fortnite-grade character sculpt + baked ORM/normal packs; no curriculum.

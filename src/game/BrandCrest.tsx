@@ -52,8 +52,15 @@ export function BrandCrest({ className = '', size = 56 }: { className?: string; 
       {/* Inner gem */}
       <circle cx="32" cy="30" r="7.5" fill="url(#ar-crest-cyan)" opacity="0.95" />
       <circle cx="32" cy="30" r="3.2" fill="#e8fffb" opacity="0.85" />
-      {/* Chevron */}
+      {/* Chevron + gem highlight for diegetic rank read */}
       <path d="M26 40l6 4 6-4" fill="none" stroke="url(#ar-crest-gold)" strokeWidth="1.8" strokeLinecap="round" />
+      <path
+        d="M32 18c3 1.2 6 1.6 8 1.7v7.2c0 4.6-3.2 8.4-8 10.8-4.8-2.4-8-6.2-8-10.8v-7.2c2-0.1 5-0.5 8-1.7z"
+        fill="none"
+        stroke="#9ff5ea"
+        strokeWidth="0.9"
+        opacity="0.55"
+      />
     </svg>
   )
 }

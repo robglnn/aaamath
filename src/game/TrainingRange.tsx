@@ -20,8 +20,8 @@ import { HeroModel } from '@/game/HeroGltf'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
 import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, EPSILON_BRIDGE, EPSILON_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, ZETA_BRIDGE, ZETA_CENTER, groundHeight, rig } from '@/game/world'
 
-const SKY = '#1a2438'
-const FOG = '#2a3348'
+const SKY = '#3a5a88'
+const FOG = '#4a6280'
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
@@ -39,15 +39,17 @@ function bakeFloorMaps() {
   const SIZE = 512
   const { canvas, ctx } = makeCanvas(SIZE, SIZE)
   if (ctx) {
-    ctx.fillStyle = '#121820'
+    ctx.fillStyle = '#1a2430'
     ctx.fillRect(0, 0, SIZE, SIZE)
     const img = ctx.getImageData(0, 0, SIZE, SIZE)
     const d = img.data
     for (let i = 0; i < d.length; i += 4) {
-      const n = (Math.random() - 0.5) * 13
-      d[i] += n * 1.05
-      d[i + 1] += n * 0.95
-      d[i + 2] += n * 0.85
+      const n = (Math.random() - 0.5) * 16
+      // Warmer stone-plaza read vs pure charcoal void deck
+      d[i] = 28 + n * 1.1
+      d[i + 1] = 34 + n * 0.95
+      d[i + 2] = 42 + n * 0.85
+      d[i + 3] = 255
     }
     ctx.putImageData(img, 0, 0)
     // Wear blotches
@@ -137,17 +139,28 @@ function bakeSkyTexture(): CanvasTexture {
   const { canvas, ctx } = makeCanvas(64, 512)
   if (ctx) {
     const g = ctx.createLinearGradient(0, 0, 0, 512)
-    g.addColorStop(0, '#0a1220')
-    g.addColorStop(0.28, '#152238')
-    g.addColorStop(0.4, '#2a3d58')
-    g.addColorStop(0.46, '#6a5a48')
-    g.addColorStop(0.5, '#c4884a')
-    g.addColorStop(0.54, '#8a6a4a')
-    g.addColorStop(0.62, '#2a3040')
-    g.addColorStop(1, '#121820')
+    // Daylight hub sky — closer to Fortnite plaza refs than night void
+    g.addColorStop(0, '#5a8ec8')
+    g.addColorStop(0.22, '#7aa8d8')
+    g.addColorStop(0.38, '#a8c4e0')
+    g.addColorStop(0.48, '#d8c8a8')
+    g.addColorStop(0.52, '#f0c080')
+    g.addColorStop(0.58, '#c89860')
+    g.addColorStop(0.68, '#6a7a90')
+    g.addColorStop(1, '#2a3848')
     ctx.fillStyle = g
     ctx.fillRect(0, 0, 64, 512)
-    // Dither so the gradient doesn't band on low-end displays
+    // Soft cloud bands
+    ctx.globalAlpha = 0.18
+    for (let i = 0; i < 7; i++) {
+      const y = 90 + i * 28 + (i % 3) * 6
+      const grd = ctx.createRadialGradient(32, y, 2, 32, y, 28)
+      grd.addColorStop(0, '#ffffff')
+      grd.addColorStop(1, 'rgba(255,255,255,0)')
+      ctx.fillStyle = grd
+      ctx.fillRect(0, y - 28, 64, 56)
+    }
+    ctx.globalAlpha = 1
     const img = ctx.getImageData(0, 0, 64, 512)
     const d = img.data
     for (let i = 0; i < d.length; i += 4) {
@@ -192,13 +205,13 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    const dist = 5.9
-    const height = 2.75 + pitch * 2.2
+    const dist = 4.85
+    const height = 2.35 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
-    // Slightly snappier follow — Fortnite-ish shoulder read
-    const k = 1 - Math.exp(-delta * 7.2)
+    // Closer shoulder cam — sells sculpted PBR silhouette in first 10s
+    const k = 1 - Math.exp(-delta * 7.6)
     const cam = state.camera.position
     cam.x += (tx - cam.x) * k
     cam.y += (ty - cam.y) * k
@@ -433,10 +446,18 @@ function DeckFloor() {
   )
 }
 
-/** Gradient sky dome + additive horizon haze. Both ignore fog so the glow survives distance. */
+/** Gradient sky dome + additive horizon haze + soft god-ray wedges (no post stack). */
 function SkyAtmosphere() {
   const skyTex = useMemo(bakeSkyTexture, [])
   const horizonTex = useMemo(bakeHorizonTexture, [])
+  const rayRef = useRef<Group>(null)
+
+  useFrame((state) => {
+    if (!rayRef.current) return
+    // Slow drift so rays feel alive without costing a bloom pass
+    rayRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.08) * 0.04
+  })
+
   return (
     <>
       <mesh renderOrder={-2} frustumCulled={false}>
@@ -467,13 +488,37 @@ function SkyAtmosphere() {
         <meshBasicMaterial
           color="#ffb060"
           transparent
-          opacity={0.18}
+          opacity={0.22}
           blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
           toneMapped={false}
         />
       </mesh>
+      {/* Crepuscular ray wedges — mobile-safe additive planes aimed at sun */}
+      <group ref={rayRef} position={[28, 18, -40]} rotation={[0.35, -0.55, 0.15]}>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <mesh
+            key={i}
+            position={[0, 0, 0]}
+            rotation={[0, 0, (i - 2) * 0.18]}
+            renderOrder={-1}
+            frustumCulled={false}
+          >
+            <planeGeometry args={[4 + i * 0.6, 52]} />
+            <meshBasicMaterial
+              color="#ffe2b0"
+              transparent
+              opacity={0.045 + (i % 2) * 0.02}
+              blending={AdditiveBlending}
+              fog={false}
+              depthWrite={false}
+              toneMapped={false}
+              side={BackSide}
+            />
+          </mesh>
+        ))}
+      </group>
     </>
   )
 }
@@ -824,16 +869,17 @@ export function TrainingRange() {
   return (
     <>
       <color attach="background" args={[SKY]} />
-      <fog attach="fog" args={[FOG, 28, 78]} />
+      <fog attach="fog" args={[FOG, 36, 95]} />
       <Stars radius={90} depth={50} count={1800} factor={2.6} saturation={0.15} fade speed={0.35} />
       <SkyAtmosphere />
 
-      {/* Warm cinematic key + soft cool fill — game range, not cyan debug */}
-      <hemisphereLight args={['#c8d8f0', '#2a2218', 0.55]} />
-      <ambientLight intensity={0.28} color="#ffe8d0" />
-      <directionalLight position={[14, 18, 8]} intensity={1.85} color="#ffd4a0" castShadow={false} />
-      <directionalLight position={[-8, 6, -10]} intensity={0.35} color="#7eb8e8" />
-      <directionalLight position={[0, 10, 4]} intensity={0.25} color="#3dd6c6" />
+      {/* Fortnite-hub daylight: warm key, cool rim, soft fill — sells sculpted PBR */}
+      <hemisphereLight args={['#d8e8ff', '#3a2a18', 0.72]} />
+      <ambientLight intensity={0.38} color="#ffe8d0" />
+      <directionalLight position={[16, 22, 10]} intensity={2.35} color="#ffe0b0" castShadow={false} />
+      <directionalLight position={[-10, 8, -12]} intensity={0.55} color="#8ec8f0" />
+      <directionalLight position={[2, 6, 8]} intensity={0.45} color="#3dd6c6" />
+      <directionalLight position={[-4, 3, 6]} intensity={0.7} color="#fff2d8" />
 
       <DeckFloor />
       {/* Navigation grit only — faded, warm charcoal; no cyan section grid */}

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 import { Canvas } from '@react-three/fiber'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { ensureAudio, playBlip, setAmbient } from '@/game/audio'
 import { useGameStore } from '@/game/store'
 import type { UnlockFlags } from '@/game/store'
@@ -180,7 +181,17 @@ export function GameView({ unlocked, onOpenTerminal, onOpenProgress, lessonOpen 
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
     >
-      <Canvas dpr={[1, 1.75]} camera={{ fov: 52, near: 0.1, far: 140, position: [0, 4.2, 10.2] }}>
+      <Canvas
+        dpr={[1, 1.75]}
+        gl={{
+          antialias: true,
+          toneMapping: ACESFilmicToneMapping,
+          toneMappingExposure: 1.22,
+          outputColorSpace: SRGBColorSpace,
+          powerPreference: 'high-performance',
+        }}
+        camera={{ fov: 48, near: 0.1, far: 140, position: [0, 3.6, 8.4] }}
+      >
         <TrainingRange />
       </Canvas>
 
