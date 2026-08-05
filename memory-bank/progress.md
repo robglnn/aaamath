@@ -23,7 +23,7 @@
 - [x] GH Pages workflow present (repo currently rejects Pages enable — plan/visibility; use itch/`dist` zip)
 
 ## Known gaps vs full handoff
-- Visuals still short of AAA Fortnite training-range bar (procedural only)
+- Visuals improved (terminal beacon, gate unlock FX, place feedback, lighting) but still procedural-only, short of AAA Fortnite bar
 - Standards codes not curriculum-specialist audited
 - Bundle ~1.4MB JS (Three) — code-split later
 - No Lesson 2 yet; speech voice mapping per locale thin

@@ -10,6 +10,7 @@ See `docs/decisions.md`. Standards honesty: `docs/adr/004-standards-tags.md`.
 - Progress drawer reacts to KP mastery; lesson open introduces KPs
 - Live 1PL θ + frozen you_do Rasch order (critic gap closed)
 - Pointer-lock mouse-look; visual range/HUD/terminal/player pass
+- 3D range readability pass: terminal objective beam/diamond, Zone Beta gate unlock FX burst + path studs, blueprint place pop/flash/shockwave, lighting rebalanced (no bloom); see `docs/gauntlet/builder-ui-3d-range.md`
 - CI builds + artifacts dist; Pages deploy gated (`ENABLE_GH_PAGES`) because private repo
 
 ## Active considerations
