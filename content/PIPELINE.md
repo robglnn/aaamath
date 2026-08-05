@@ -35,6 +35,7 @@ npm run content:pipeline
 |---------|--------|-------|
 | `algebra-i-01` | Shipped in game | Variables, expressions, evaluation |
 | `algebra-i-02` | Draft on disk | Combining like terms / simplifying; pending Item Author + Critic stages (see `docs/gauntlet/builder-wave12-lesson2.md`) |
+| `algebra-i-03` | Draft on disk | Distributive property (expand, negative factors, distribute-then-combine, factor GCF); pending Critic stage + runtime wiring (see `docs/gauntlet/builder-wave20-lesson3.md`) |
 
 Cross-lesson prerequisite links use qualified refs in `prerequisites[]`, e.g. `"algebra-i-01:kp.variable.symbol"`. The validator resolves `<lesson-slug>:<kp-id>` against `content/lessons/<slug>/package.json` and **fails** if the lesson package or KP is missing. Plain `kp.*` refs must still resolve inside the same package.
 

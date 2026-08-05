@@ -14,9 +14,10 @@
 | **16** | L2 3D unlocks + kitbash fidelity + unlock FX | `5be4635` |
 | **17** | Authored lathe/extrude hero silhouettes | `df3d3b5` |
 | **18** | Terminal heroes + L2 rail/annex polish | `e023361` |
-| **19** | Authored player + mid-field ducts/masts/pane | *shipping* |
+| **19** | Authored player + mid-field ducts/masts/pane | `a85e41c` |
+| **20** | Lesson 3 Distributive Property + terminal wire | *shipping* |
 
-Critics: overnight wrap + W16–W18 → **PASS_WITH_GAPS** (gaps narrowing each wave)
+Critics: overnight wrap + W16–W19 → **PASS_WITH_GAPS**; W19 plateau → **SWITCH to curriculum**
 
 ---
 
@@ -32,6 +33,7 @@ User asked for **6+ hours** of iteration; overnight finished early at PASS_WITH_
 | 17 | Zero-network authored profile geo kit — dishes, gate pillars, equipment racks |
 | 18 | Authored terminal housing; player trim; L2 rail materialize FX; annex path lights; annex objective EN/ES/PL |
 | 19 | Full authored player silhouette (−54% meshes); flanged ducts, turned light masts, beveled barrier pane |
+| 20 | Algebra I Lesson 3 *The Distributive Property* (EN/ES/PL); terminal opens L3 after L2 mastery |
 
 ### Before → after (vs overnight wrap gaps)
 
@@ -43,20 +45,20 @@ User asked for **6+ hours** of iteration; overnight finished early at PASS_WITH_
 | Loud chrome / Beta | **Closed** — diegetic chrome; locked Beta subdued |
 
 ### Pages / pedagogy (held)
-- Live Pages deploy **green** on W17/W18 heads (`base: '/aaamath/'`)
+- Live Pages deploy **green** through W19 (`base: '/aaamath/'`)
 - KaTeX off cold load; GameView/three lazy; entry preloads react-vendor only
-- `content:validate` 2/2; celebrate = masteryDone; L1→L2 terminal resolve; adaptive freeze intact
+- `content:validate` 3/3; celebrate = masteryDone; L1→L2→L3 terminal resolve; adaptive freeze intact
 
 ### Remaining gaps vs absolute Fortnite AAA
 1. **Sculpted GLTF / PBR material response** across the whole set — profile geometry is the practical web ceiling without asset packs; not Fortnite parity
-2. Lesson 3+ curriculum
-3. Optional: placeable L2 rail build-slot; dedicated annex celebration beat
+2. L3 unlocks not yet 3D world props (content + terminal wired; props follow L2’s wave-16 pattern)
+3. Optional: placeable L2 rail build-slot; dedicated annex celebration beat; L4+
 
 ### Plateau judgment
-Further visual waves yield diminishing returns under zero-network primitive+profile constraints. Next high-value spend is **curriculum (L3)** or **true authored GLTF packs** with a deliberate mobile budget — not another particle/kitbash wave.
+**Visual AAA under zero-network profile-geo: PLATEAU** (critic-wave19: SWITCH to curriculum). Continuation shifted to L3 content. Further kitbash visual waves not recommended without an explicit GLTF/PBR art-pack mandate.
 
 ### Commits (continuation spine)
-`5be4635` W16 · `df3d3b5` W17 · `e023361` W18 · W19 pending
+`5be4635` W16 · `df3d3b5` W17 · `e023361` W18 · `a85e41c` W19 · W20 shipping
 
 ### Pedagogy
-Non-regressed throughout.
+Non-regressed throughout. Curriculum now L1–L3 validated packages; terminal progression L1→L2→L3.

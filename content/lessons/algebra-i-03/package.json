@@ -1,0 +1,2157 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "algebra-i-03",
+  "courseId": "algebra-i",
+  "order": 3,
+  "title": {
+    "en": "The Distributive Property",
+    "es": "La propiedad distributiva",
+    "pl": "Własność rozdzielności"
+  },
+  "objectives": [
+    {
+      "en": "Apply the distributive property to expand a(b + c) into ab + ac, including negative factors and leading minus signs.",
+      "es": "Aplicar la propiedad distributiva para desarrollar a(b + c) en ab + ac, incluidos factores negativos y signos menos iniciales.",
+      "pl": "Stosować własność rozdzielności, aby rozwijać a(b + c) do ab + ac, także z czynnikami ujemnymi i początkowym znakiem minus."
+    },
+    {
+      "en": "Simplify expressions by distributing first and then combining like terms.",
+      "es": "Simplificar expresiones distribuyendo primero y reduciendo términos semejantes después.",
+      "pl": "Upraszczać wyrażenia, najpierw stosując rozdzielność, a potem redukując wyrazy podobne."
+    },
+    {
+      "en": "Factor out the greatest common factor as the reverse of distributing.",
+      "es": "Extraer el máximo factor común como el proceso inverso de distribuir.",
+      "pl": "Wyłączać największy wspólny czynnik przed nawias jako operację odwrotną do rozdzielania."
+    }
+  ],
+  "knowledgePointIds": [
+    "kp.distribute.basic",
+    "kp.distribute.negative-factor",
+    "kp.distribute.then-combine",
+    "kp.factor.common"
+  ],
+  "knowledgePoints": [
+    {
+      "id": "kp.distribute.basic",
+      "title": {
+        "en": "Distribute a factor over a sum",
+        "es": "Distribuir un factor sobre una suma",
+        "pl": "Rozdzielanie czynnika względem sumy"
+      },
+      "description": {
+        "en": "A factor outside parentheses multiplies every term inside: a(b + c) = ab + ac. Expanding removes the parentheses and keeps the expression equivalent.",
+        "es": "Un factor fuera del paréntesis multiplica a cada término de adentro: a(b + c) = ab + ac. Desarrollar elimina el paréntesis y mantiene la expresión equivalente.",
+        "pl": "Czynnik przed nawiasem mnoży każdy wyraz w nawiasie: a(b + c) = ab + ac. Rozwinięcie usuwa nawias, a wyrażenie pozostaje równoważne."
+      },
+      "prerequisites": [
+        "algebra-i-02:kp.term.structure",
+        "algebra-i-01:kp.orderops.with-vars"
+      ],
+      "successCriteria": {
+        "en": "Student expands a product of a factor and a two-term sum or difference, multiplying the factor by both terms with correct signs.",
+        "es": "El estudiante desarrolla un producto de un factor por una suma o resta de dos términos, multiplicando el factor por ambos términos con los signos correctos.",
+        "pl": "Uczeń rozwija iloczyn czynnika i dwuwyrazowej sumy lub różnicy, mnożąc czynnik przez oba wyrazy z poprawnymi znakami."
+      },
+      "misconceptions": [
+        {
+          "en": "Multiplying only the first term inside the parentheses (3(x + 4) = 3x + 4).",
+          "es": "Multiplicar solo el primer término del paréntesis (3(x + 4) = 3x + 4).",
+          "pl": "Mnożenie tylko pierwszego wyrazu w nawiasie (3(x + 4) = 3x + 4)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.4
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.distribute.negative-factor",
+      "title": {
+        "en": "Distribute a negative factor",
+        "es": "Distribuir un factor negativo",
+        "pl": "Rozdzielanie czynnika ujemnego"
+      },
+      "description": {
+        "en": "A negative factor flips the sign of every term inside: -3(4 - x) = -12 + 3x. A leading minus before parentheses acts as the factor -1.",
+        "es": "Un factor negativo invierte el signo de cada término de adentro: -3(4 - x) = -12 + 3x. Un menos inicial antes del paréntesis actúa como el factor -1.",
+        "pl": "Czynnik ujemny zmienia znak każdego wyrazu w nawiasie: -3(4 - x) = -12 + 3x. Początkowy minus przed nawiasem działa jak czynnik -1."
+      },
+      "prerequisites": [
+        "kp.distribute.basic",
+        "algebra-i-02:kp.combine.constants-signed"
+      ],
+      "successCriteria": {
+        "en": "Student distributes a negative factor or a leading minus so that every term inside changes sign correctly.",
+        "es": "El estudiante distribuye un factor negativo o un menos inicial de modo que cada término de adentro cambie de signo correctamente.",
+        "pl": "Uczeń rozdziela czynnik ujemny lub początkowy minus tak, że każdy wyraz w nawiasie poprawnie zmienia znak."
+      },
+      "misconceptions": [
+        {
+          "en": "Flipping only the first sign inside the parentheses (-(2x - 7) = -2x - 7).",
+          "es": "Invertir solo el primer signo del paréntesis (-(2x - 7) = -2x - 7).",
+          "pl": "Zmiana tylko pierwszego znaku w nawiasie (-(2x - 7) = -2x - 7)."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.2
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.distribute.then-combine",
+      "title": {
+        "en": "Distribute, then combine like terms",
+        "es": "Distribuir y luego reducir términos semejantes",
+        "pl": "Najpierw rozdzielność, potem redukcja wyrazów podobnych"
+      },
+      "description": {
+        "en": "In mixed expressions, expand the parentheses first, then combine each family of like terms: 3(x + 2) + 2x becomes 3x + 6 + 2x, then 5x + 6.",
+        "es": "En expresiones mixtas, primero desarrolla el paréntesis y luego reduce cada familia de términos semejantes: 3(x + 2) + 2x se convierte en 3x + 6 + 2x y luego en 5x + 6.",
+        "pl": "W wyrażeniach mieszanych najpierw rozwiń nawias, a potem zredukuj każdą rodzinę wyrazów podobnych: 3(x + 2) + 2x staje się 3x + 6 + 2x, a następnie 5x + 6."
+      },
+      "prerequisites": [
+        "kp.distribute.basic",
+        "algebra-i-02:kp.combine.like-terms",
+        "algebra-i-02:kp.combine.constants-signed"
+      ],
+      "successCriteria": {
+        "en": "Student simplifies an expression containing both parentheses and loose terms: expand first, then combine like terms with correct signs.",
+        "es": "El estudiante simplifica una expresión con paréntesis y términos sueltos: desarrolla primero y luego reduce términos semejantes con los signos correctos.",
+        "pl": "Uczeń upraszcza wyrażenie zawierające nawias i luźne wyrazy: najpierw rozwija, potem redukuje wyrazy podobne z poprawnymi znakami."
+      },
+      "misconceptions": [
+        {
+          "en": "Combining the outside factor with a loose term before expanding (3(x + 2) + 2x read as 5(x + 2)).",
+          "es": "Combinar el factor externo con un término suelto antes de desarrollar (3(x + 2) + 2x leído como 5(x + 2)).",
+          "pl": "Łączenie czynnika zewnętrznego z luźnym wyrazem przed rozwinięciem (3(x + 2) + 2x odczytane jako 5(x + 2))."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.6
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    },
+    {
+      "id": "kp.factor.common",
+      "title": {
+        "en": "Factor out the greatest common factor",
+        "es": "Extraer el máximo factor común",
+        "pl": "Wyłączanie największego wspólnego czynnika"
+      },
+      "description": {
+        "en": "Distribution runs both ways: if every term shares a factor, pull it out front. 4x + 12 = 4(x + 3) because 4 divides both terms; check by distributing back.",
+        "es": "La distribución funciona en ambos sentidos: si todos los términos comparten un factor, sácalo afuera. 4x + 12 = 4(x + 3) porque 4 divide a ambos términos; comprueba distribuyendo de vuelta.",
+        "pl": "Rozdzielność działa w obie strony: jeśli wszystkie wyrazy mają wspólny czynnik, wyłącz go przed nawias. 4x + 12 = 4(x + 3), bo 4 dzieli oba wyrazy; sprawdź, rozdzielając z powrotem."
+      },
+      "prerequisites": [
+        "kp.distribute.basic"
+      ],
+      "successCriteria": {
+        "en": "Student rewrites a sum as a product by extracting the greatest common factor and verifies the result by expanding it back.",
+        "es": "El estudiante reescribe una suma como un producto extrayendo el máximo factor común y verifica el resultado desarrollándolo de vuelta.",
+        "pl": "Uczeń zapisuje sumę jako iloczyn, wyłączając największy wspólny czynnik, i sprawdza wynik, rozwijając go z powrotem."
+      },
+      "misconceptions": [
+        {
+          "en": "Extracting a factor that does not divide every term, leaving a wrong remainder (4x + 12 = 4(x + 4)).",
+          "es": "Extraer un factor que no divide a todos los términos, dejando un resto incorrecto (4x + 12 = 4(x + 4)).",
+          "pl": "Wyłączanie czynnika, który nie dzieli każdego wyrazu, z błędną resztą (4x + 12 = 4(x + 4))."
+        }
+      ],
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.7
+      },
+      "srDefaults": {
+        "initialIntervalDays": 1,
+        "easeFactor": 2.5,
+        "masteryThreshold": 0.8
+      }
+    }
+  ],
+  "phases": [
+    {
+      "id": "phase.objectives",
+      "kind": "objectives",
+      "title": {
+        "en": "Mission briefing",
+        "es": "Informe de misión",
+        "pl": "Briefing misji"
+      },
+      "body": {
+        "en": "Success criteria: distribute a factor over every term inside parentheses, handle negative factors, combine like terms after expanding, and factor out a common factor. Mastery unlocks a charge splitter blueprint, the Riser Expert rank, and the Zone Gamma Relay.",
+        "es": "Criterios de éxito: distribuir un factor sobre cada término del paréntesis, manejar factores negativos, reducir términos semejantes tras desarrollar y extraer un factor común. El dominio desbloquea un plano de divisor de carga, el rango Ascendente Experto y el Relé de la Zona Gamma.",
+        "pl": "Kryteria sukcesu: rozdzielać czynnik na każdy wyraz w nawiasie, obsługiwać czynniki ujemne, redukować wyrazy podobne po rozwinięciu i wyłączać wspólny czynnik. Mistrzostwo odblokowuje plan rozdzielacza ładunku, rangę Wznoszący Ekspert i Przekaźnik Strefy Gamma."
+      },
+      "bodyLatex": [
+        "a(b + c) = ab + ac",
+        "3(x + 4) = 3x + 12",
+        "4x + 12 = 4(x + 3)"
+      ],
+      "itemIds": [],
+      "tutorScript": {
+        "en": "Riser, you can compress blueprints. Now learn the reverse art: split one power cell so its charge reaches every device on the pad.",
+        "es": "Ascendente, ya sabes comprimir planos. Ahora aprende el arte inverso: divide una celda de energía para que su carga llegue a cada dispositivo de la plataforma.",
+        "pl": "Wznoszący, umiesz już kompresować plany. Teraz poznaj sztukę odwrotną: podziel jedno ogniwo tak, by jego ładunek dotarł do każdego urządzenia na platformie."
+      }
+    },
+    {
+      "id": "phase.i_do",
+      "kind": "i_do",
+      "title": {
+        "en": "I do — watch the model",
+        "es": "Yo hago — observa el modelo",
+        "pl": "Ja robię — obserwuj model"
+      },
+      "body": {
+        "en": "The factor outside touches every term inside. I write both products before I compute: 3(x + 4) = 3·x + 3·4 = 3x + 12. With a subtraction inside, the sign travels with the term: 2(3x - 1) = 6x - 2.",
+        "es": "El factor de afuera toca cada término de adentro. Escribo ambos productos antes de calcular: 3(x + 4) = 3·x + 3·4 = 3x + 12. Con una resta adentro, el signo viaja con el término: 2(3x - 1) = 6x - 2.",
+        "pl": "Czynnik zewnętrzny dotyka każdego wyrazu w nawiasie. Zapisuję oba iloczyny przed liczeniem: 3(x + 4) = 3·x + 3·4 = 3x + 12. Gdy w nawiasie jest odejmowanie, znak podróżuje z wyrazem: 2(3x - 1) = 6x - 2."
+      },
+      "bodyLatex": [
+        "3(x + 4) = 3 \\cdot x + 3 \\cdot 4 = 3x + 12",
+        "2(3x - 1) = 2 \\cdot 3x + 2 \\cdot (-1) = 6x - 2"
+      ],
+      "itemIds": [
+        "item.ido.1",
+        "item.ido.2"
+      ],
+      "tutorScript": {
+        "en": "Watch my hands: outside factor times the first term, times the second term. No term is skipped, no sign is dropped.",
+        "es": "Observa mis manos: factor externo por el primer término, por el segundo término. Ningún término se salta, ningún signo se pierde.",
+        "pl": "Patrz na moje ręce: czynnik zewnętrzny razy pierwszy wyraz, razy drugi wyraz. Żaden wyraz nie jest pominięty, żaden znak nie ginie."
+      }
+    },
+    {
+      "id": "phase.we_do",
+      "kind": "we_do",
+      "title": {
+        "en": "We do — guided practice",
+        "es": "Hacemos — práctica guiada",
+        "pl": "Robimy — ćwiczenia z prowadzeniem"
+      },
+      "body": {
+        "en": "Answer with me. Draw an arrow from the outside factor to each term inside before you multiply — the feedback will catch skipped terms and sign slips.",
+        "es": "Responde conmigo. Traza una flecha del factor externo a cada término de adentro antes de multiplicar — la retroalimentación atrapará términos saltados y errores de signo.",
+        "pl": "Odpowiadaj ze mną. Narysuj strzałkę od czynnika zewnętrznego do każdego wyrazu w nawiasie przed mnożeniem — informacja zwrotna wyłapie pominięte wyrazy i błędy znaków."
+      },
+      "itemIds": [
+        "item.wedo.1",
+        "item.wedo.2",
+        "item.wedo.3",
+        "item.wedo.4"
+      ],
+      "tutorScript": {
+        "en": "Together: every term gets the charge. Then, if loose terms are waiting, compress them the Lesson 2 way.",
+        "es": "Juntos: cada término recibe la carga. Luego, si hay términos sueltos esperando, comprímelos al estilo de la Lección 2.",
+        "pl": "Razem: każdy wyraz dostaje ładunek. A jeśli czekają luźne wyrazy, skompresuj je w stylu Lekcji 2."
+      }
+    },
+    {
+      "id": "phase.you_do",
+      "kind": "you_do",
+      "title": {
+        "en": "You do — mastery check",
+        "es": "Tú haces — comprobación de dominio",
+        "pl": "Ty robisz — sprawdzian mistrzostwa"
+      },
+      "body": {
+        "en": "Independent set. Mastery requires at least 3 of 4 correct.",
+        "es": "Serie independiente. El dominio exige al menos 3 de 4 correctas.",
+        "pl": "Zestaw samodzielny. Mistrzostwo wymaga co najmniej 3 z 4 poprawnych."
+      },
+      "itemIds": [
+        "item.youdo.1",
+        "item.youdo.2",
+        "item.youdo.3",
+        "item.youdo.4"
+      ],
+      "tutorScript": {
+        "en": "No hints now — the relay only trusts a Riser who splits charge cleanly.",
+        "es": "Sin pistas ahora — el relé solo confía en un Ascendente que divide la carga limpiamente.",
+        "pl": "Bez podpowiedzi — przekaźnik ufa tylko Wznoszącemu, który dzieli ładunek czysto."
+      }
+    },
+    {
+      "id": "phase.retrieval",
+      "kind": "retrieval",
+      "title": {
+        "en": "Quick retrieval",
+        "es": "Recuperación rápida",
+        "pl": "Szybkie przypomnienie"
+      },
+      "body": {
+        "en": "Two fast pulses: expand a sum and expand a difference.",
+        "es": "Dos pulsos rápidos: desarrolla una suma y desarrolla una resta.",
+        "pl": "Dwa szybkie impulsy: rozwiń sumę i rozwiń różnicę."
+      },
+      "itemIds": [
+        "item.retr.1",
+        "item.retr.2"
+      ],
+      "tutorScript": {
+        "en": "Reflex speed — a splitter chain fails if the first link hesitates.",
+        "es": "Velocidad de reflejo — una cadena de divisores falla si el primer eslabón duda.",
+        "pl": "Szybkość odruchu — łańcuch rozdzielaczy zawodzi, gdy pierwsze ogniwo waha się."
+      }
+    },
+    {
+      "id": "phase.complete",
+      "kind": "complete",
+      "title": {
+        "en": "Rank advanced",
+        "es": "Rango avanzado",
+        "pl": "Awans rangi"
+      },
+      "body": {
+        "en": "Lesson complete. Mount your charge splitter and walk the Zone Gamma Relay.",
+        "es": "Lección completa. Monta tu divisor de carga y recorre el Relé de la Zona Gamma.",
+        "pl": "Lekcja ukończona. Zamontuj rozdzielacz ładunku i przejdź po Przekaźniku Strefy Gamma."
+      },
+      "itemIds": [],
+      "tutorScript": {
+        "en": "Expert status earned. One cell, every device charged — expand and compress at will, Riser.",
+        "es": "Estatus de Experto ganado. Una celda, todos los dispositivos cargados — desarrolla y comprime a voluntad, Ascendente.",
+        "pl": "Status Eksperta zdobyty. Jedno ogniwo, wszystkie urządzenia naładowane — rozwijaj i kompresuj według woli, Wznoszący."
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "item.ido.1",
+      "kpIds": [
+        "kp.distribute.basic"
+      ],
+      "phase": "i_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Watch the model: 3(x + 4). Which expression is equivalent?",
+        "es": "Observa el modelo: 3(x + 4). ¿Qué expresión es equivalente?",
+        "pl": "Obserwuj model: 3(x + 4). Które wyrażenie jest równoważne?"
+      },
+      "stemLatex": "3(x + 4)",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "3x + 12",
+            "es": "3x + 12",
+            "pl": "3x + 12"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "Correct — 3 multiplies both x and 4.",
+            "es": "Correcto — 3 multiplica tanto a x como a 4.",
+            "pl": "Poprawnie — 3 mnoży zarówno x, jak i 4."
+          },
+          "latex": "3x + 12"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "3x + 4",
+            "es": "3x + 4",
+            "pl": "3x + 4"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The 3 must multiply the 4 as well: 3·4 = 12.",
+            "es": "El 3 también debe multiplicar al 4: 3·4 = 12.",
+            "pl": "3 musi też pomnożyć 4: 3·4 = 12."
+          },
+          "diagnosticTag": "partial-distribute",
+          "latex": "3x + 4"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "x + 12",
+            "es": "x + 12",
+            "pl": "x + 12"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The 3 multiplies x too: 3·x = 3x.",
+            "es": "El 3 también multiplica a la x: 3·x = 3x.",
+            "pl": "3 mnoży też x: 3·x = 3x."
+          },
+          "diagnosticTag": "skip-first",
+          "latex": "x + 12"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "3x + 7",
+            "es": "3x + 7",
+            "pl": "3x + 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "3(x + 4) multiplies; 3 + 4 adds. Keep them apart.",
+            "es": "3(x + 4) multiplica; 3 + 4 suma. No los confundas.",
+            "pl": "3(x + 4) to mnożenie; 3 + 4 to dodawanie. Nie myl ich."
+          },
+          "diagnosticTag": "factor-add",
+          "latex": "3x + 7"
+        }
+      ],
+      "workedSolution": {
+        "en": "Distribute the 3 over both terms: 3·x = 3x and 3·4 = 12, so 3x + 12.",
+        "es": "Distribuye el 3 sobre ambos términos: 3·x = 3x y 3·4 = 12, así que 3x + 12.",
+        "pl": "Rozdziel 3 na oba wyrazy: 3·x = 3x oraz 3·4 = 12, czyli 3x + 12."
+      },
+      "workedSolutionLatex": "3(x + 4) = 3 \\cdot x + 3 \\cdot 4 = 3x + 12",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.8
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.ido.2",
+      "kpIds": [
+        "kp.distribute.basic"
+      ],
+      "phase": "i_do",
+      "type": "mcq",
+      "stem": {
+        "en": "The model continues: 2(3x - 1). Which expression is equivalent?",
+        "es": "El modelo continúa: 2(3x - 1). ¿Qué expresión es equivalente?",
+        "pl": "Model kontynuuje: 2(3x - 1). Które wyrażenie jest równoważne?"
+      },
+      "stemLatex": "2(3x - 1)",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "6x - 2",
+            "es": "6x - 2",
+            "pl": "6x - 2"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "2·3x = 6x and 2·(-1) = -2. Correct.",
+            "es": "2·3x = 6x y 2·(-1) = -2. Correcto.",
+            "pl": "2·3x = 6x oraz 2·(-1) = -2. Poprawnie."
+          },
+          "latex": "6x - 2"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "6x - 1",
+            "es": "6x - 1",
+            "pl": "6x - 1"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The -1 becomes -2 after multiplying by 2.",
+            "es": "El -1 se convierte en -2 al multiplicar por 2.",
+            "pl": "-1 staje się -2 po pomnożeniu przez 2."
+          },
+          "diagnosticTag": "partial-distribute",
+          "latex": "6x - 1"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "5x - 2",
+            "es": "5x - 2",
+            "pl": "5x - 2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "2 is a factor, not an addend: it multiplies 3x to give 6x.",
+            "es": "2 es un factor, no un sumando: multiplica a 3x y da 6x.",
+            "pl": "2 jest czynnikiem, nie składnikiem: mnoży 3x i daje 6x."
+          },
+          "diagnosticTag": "factor-add",
+          "latex": "5x - 2"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "6x + 2",
+            "es": "6x + 2",
+            "pl": "6x + 2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Keep the subtraction: 2·(-1) = -2.",
+            "es": "Conserva la resta: 2·(-1) = -2.",
+            "pl": "Zachowaj odejmowanie: 2·(-1) = -2."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "6x + 2"
+        }
+      ],
+      "workedSolution": {
+        "en": "2·3x = 6x and 2·(-1) = -2, so 2(3x - 1) = 6x - 2.",
+        "es": "2·3x = 6x y 2·(-1) = -2, así que 2(3x - 1) = 6x - 2.",
+        "pl": "2·3x = 6x oraz 2·(-1) = -2, więc 2(3x - 1) = 6x - 2."
+      },
+      "workedSolutionLatex": "2(3x - 1) = 2 \\cdot 3x + 2 \\cdot (-1) = 6x - 2",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.5
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.wedo.1",
+      "kpIds": [
+        "kp.distribute.basic"
+      ],
+      "phase": "we_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Which expression is equivalent to 5(2x + 3)?",
+        "es": "¿Qué expresión es equivalente a 5(2x + 3)?",
+        "pl": "Które wyrażenie jest równoważne z 5(2x + 3)?"
+      },
+      "stemLatex": "5(2x + 3)",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "10x + 15",
+            "es": "10x + 15",
+            "pl": "10x + 15"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "5·2x = 10x and 5·3 = 15. Correct.",
+            "es": "5·2x = 10x y 5·3 = 15. Correcto.",
+            "pl": "5·2x = 10x oraz 5·3 = 15. Poprawnie."
+          },
+          "latex": "10x + 15"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "10x + 3",
+            "es": "10x + 3",
+            "pl": "10x + 3"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "5 must multiply the 3 as well: 5·3 = 15.",
+            "es": "El 5 también debe multiplicar al 3: 5·3 = 15.",
+            "pl": "5 musi też pomnożyć 3: 5·3 = 15."
+          },
+          "diagnosticTag": "partial-distribute",
+          "latex": "10x + 3"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "10x + 8",
+            "es": "10x + 8",
+            "pl": "10x + 8"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "5 multiplies the 3 — it does not add to it. 5·3 = 15.",
+            "es": "El 5 multiplica al 3 — no se suma a él. 5·3 = 15.",
+            "pl": "5 mnoży 3 — nie dodaje się do niej. 5·3 = 15."
+          },
+          "diagnosticTag": "factor-add",
+          "latex": "10x + 8"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "2x + 15",
+            "es": "2x + 15",
+            "pl": "2x + 15"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "5 multiplies 2x as well: 5·2x = 10x.",
+            "es": "El 5 también multiplica a 2x: 5·2x = 10x.",
+            "pl": "5 mnoży też 2x: 5·2x = 10x."
+          },
+          "diagnosticTag": "skip-first",
+          "latex": "2x + 15"
+        }
+      ],
+      "workedSolution": {
+        "en": "5·2x = 10x and 5·3 = 15, so 5(2x + 3) = 10x + 15.",
+        "es": "5·2x = 10x y 5·3 = 15, así que 5(2x + 3) = 10x + 15.",
+        "pl": "5·2x = 10x oraz 5·3 = 15, więc 5(2x + 3) = 10x + 15."
+      },
+      "workedSolutionLatex": "5(2x + 3) = 5 \\cdot 2x + 5 \\cdot 3 = 10x + 15",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.3
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.2",
+      "kpIds": [
+        "kp.distribute.basic"
+      ],
+      "phase": "we_do",
+      "type": "short",
+      "stem": {
+        "en": "Expand: 4(x + 3).",
+        "es": "Desarrolla: 4(x + 3).",
+        "pl": "Rozwiń: 4(x + 3)."
+      },
+      "stemLatex": "4(x + 3)",
+      "answer": "4x+12",
+      "acceptableAnswers": [
+        "4x+12",
+        "4x + 12",
+        "12+4x",
+        "12 + 4x"
+      ],
+      "workedSolution": {
+        "en": "4·x = 4x and 4·3 = 12, so 4(x + 3) = 4x + 12.",
+        "es": "4·x = 4x y 4·3 = 12, así que 4(x + 3) = 4x + 12.",
+        "pl": "4·x = 4x oraz 4·3 = 12, więc 4(x + 3) = 4x + 12."
+      },
+      "workedSolutionLatex": "4(x + 3) = 4 \\cdot x + 4 \\cdot 3 = 4x + 12",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -0.1
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.3",
+      "kpIds": [
+        "kp.distribute.negative-factor"
+      ],
+      "phase": "we_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Expand: -(2x - 7).",
+        "es": "Desarrolla: -(2x - 7).",
+        "pl": "Rozwiń: -(2x - 7)."
+      },
+      "stemLatex": "-(2x - 7)",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "-2x + 7",
+            "es": "-2x + 7",
+            "pl": "-2x + 7"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "The leading minus flips both signs: -2x and +7. Correct.",
+            "es": "El menos inicial invierte ambos signos: -2x y +7. Correcto.",
+            "pl": "Początkowy minus zmienia oba znaki: -2x oraz +7. Poprawnie."
+          },
+          "latex": "-2x + 7"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "-2x - 7",
+            "es": "-2x - 7",
+            "pl": "-2x - 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The -7 flips too: (-1)·(-7) = +7.",
+            "es": "El -7 también se invierte: (-1)·(-7) = +7.",
+            "pl": "-7 też się zmienia: (-1)·(-7) = +7."
+          },
+          "diagnosticTag": "second-sign",
+          "latex": "-2x - 7"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "2x + 7",
+            "es": "2x + 7",
+            "pl": "2x + 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The 2x keeps its minus: (-1)·2x = -2x.",
+            "es": "El 2x conserva su menos: (-1)·2x = -2x.",
+            "pl": "2x zachowuje minus: (-1)·2x = -2x."
+          },
+          "diagnosticTag": "first-sign",
+          "latex": "2x + 7"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "2x - 7",
+            "es": "2x - 7",
+            "pl": "2x - 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Dropping parentheses is not allowed — the leading minus acts on every term.",
+            "es": "No puedes soltar el paréntesis — el menos inicial actúa sobre cada término.",
+            "pl": "Nie wolno po prostu opuścić nawiasu — początkowy minus działa na każdy wyraz."
+          },
+          "diagnosticTag": "drop-minus",
+          "latex": "2x - 7"
+        }
+      ],
+      "workedSolution": {
+        "en": "-(2x - 7) = (-1)·2x + (-1)·(-7) = -2x + 7 — both signs flip.",
+        "es": "-(2x - 7) = (-1)·2x + (-1)·(-7) = -2x + 7 — ambos signos se invierten.",
+        "pl": "-(2x - 7) = (-1)·2x + (-1)·(-7) = -2x + 7 — oba znaki się zmieniają."
+      },
+      "workedSolutionLatex": "-(2x - 7) = (-1)(2x) + (-1)(-7) = -2x + 7",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.3
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.wedo.4",
+      "kpIds": [
+        "kp.distribute.then-combine",
+        "kp.distribute.basic"
+      ],
+      "phase": "we_do",
+      "type": "short",
+      "stem": {
+        "en": "Simplify: 3(x + 2) + 2x.",
+        "es": "Simplifica: 3(x + 2) + 2x.",
+        "pl": "Uprość: 3(x + 2) + 2x."
+      },
+      "stemLatex": "3(x + 2) + 2x",
+      "answer": "5x+6",
+      "acceptableAnswers": [
+        "5x+6",
+        "5x + 6",
+        "6+5x",
+        "6 + 5x"
+      ],
+      "workedSolution": {
+        "en": "Expand first: 3x + 6 + 2x. Then combine the x-terms: 3x + 2x = 5x. Result: 5x + 6.",
+        "es": "Desarrolla primero: 3x + 6 + 2x. Luego reduce los términos en x: 3x + 2x = 5x. Resultado: 5x + 6.",
+        "pl": "Najpierw rozwiń: 3x + 6 + 2x. Potem zredukuj wyrazy z x: 3x + 2x = 5x. Wynik: 5x + 6."
+      },
+      "workedSolutionLatex": "3x + 6 + 2x = (3 + 2)x + 6 = 5x + 6",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.4
+      },
+      "difficulty": "guided"
+    },
+    {
+      "id": "item.youdo.1",
+      "kpIds": [
+        "kp.distribute.basic"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Expand: 6(2x - 5).",
+        "es": "Desarrolla: 6(2x - 5).",
+        "pl": "Rozwiń: 6(2x - 5)."
+      },
+      "stemLatex": "6(2x - 5)",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "12x - 30",
+            "es": "12x - 30",
+            "pl": "12x - 30"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "6·2x = 12x and 6·(-5) = -30. Correct.",
+            "es": "6·2x = 12x y 6·(-5) = -30. Correcto.",
+            "pl": "6·2x = 12x oraz 6·(-5) = -30. Poprawnie."
+          },
+          "latex": "12x - 30"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "12x - 5",
+            "es": "12x - 5",
+            "pl": "12x - 5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "6 multiplies the -5 too: 6·(-5) = -30.",
+            "es": "El 6 también multiplica al -5: 6·(-5) = -30.",
+            "pl": "6 mnoży też -5: 6·(-5) = -30."
+          },
+          "diagnosticTag": "partial-distribute",
+          "latex": "12x - 5"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "12x + 30",
+            "es": "12x + 30",
+            "pl": "12x + 30"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Keep the subtraction: 6·(-5) = -30, not +30.",
+            "es": "Conserva la resta: 6·(-5) = -30, no +30.",
+            "pl": "Zachowaj odejmowanie: 6·(-5) = -30, nie +30."
+          },
+          "diagnosticTag": "sign-slip",
+          "latex": "12x + 30"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "8x - 30",
+            "es": "8x - 30",
+            "pl": "8x - 30"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "6 multiplies 2x: 12x, not 8x.",
+            "es": "El 6 multiplica a 2x: 12x, no 8x.",
+            "pl": "6 mnoży 2x: 12x, nie 8x."
+          },
+          "diagnosticTag": "factor-add",
+          "latex": "8x - 30"
+        }
+      ],
+      "workedSolution": {
+        "en": "6·2x = 12x and 6·(-5) = -30, so 6(2x - 5) = 12x - 30.",
+        "es": "6·2x = 12x y 6·(-5) = -30, así que 6(2x - 5) = 12x - 30.",
+        "pl": "6·2x = 12x oraz 6·(-5) = -30, więc 6(2x - 5) = 12x - 30."
+      },
+      "workedSolutionLatex": "6(2x - 5) = 6 \\cdot 2x + 6 \\cdot (-5) = 12x - 30",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.2
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.2",
+      "kpIds": [
+        "kp.distribute.negative-factor"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Expand: -3(4 - x).",
+        "es": "Desarrolla: -3(4 - x).",
+        "pl": "Rozwiń: -3(4 - x)."
+      },
+      "stemLatex": "-3(4 - x)",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "-12 + 3x",
+            "es": "-12 + 3x",
+            "pl": "-12 + 3x"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "(-3)·4 = -12 and (-3)·(-x) = +3x. Correct.",
+            "es": "(-3)·4 = -12 y (-3)·(-x) = +3x. Correcto.",
+            "pl": "(-3)·4 = -12 oraz (-3)·(-x) = +3x. Poprawnie."
+          },
+          "latex": "-12 + 3x"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "-12 - 3x",
+            "es": "-12 - 3x",
+            "pl": "-12 - 3x"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "(-3)·(-x) is positive: +3x.",
+            "es": "(-3)·(-x) es positivo: +3x.",
+            "pl": "(-3)·(-x) jest dodatnie: +3x."
+          },
+          "diagnosticTag": "second-sign",
+          "latex": "-12 - 3x"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "12 - 3x",
+            "es": "12 - 3x",
+            "pl": "12 - 3x"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "(-3)·4 is negative: -12.",
+            "es": "(-3)·4 es negativo: -12.",
+            "pl": "(-3)·4 jest ujemne: -12."
+          },
+          "diagnosticTag": "first-sign",
+          "latex": "12 - 3x"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "-12 - x",
+            "es": "-12 - x",
+            "pl": "-12 - x"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The -3 multiplies the x too: (-3)·(-x) = +3x.",
+            "es": "El -3 también multiplica a la x: (-3)·(-x) = +3x.",
+            "pl": "-3 mnoży też x: (-3)·(-x) = +3x."
+          },
+          "diagnosticTag": "partial-distribute",
+          "latex": "-12 - x"
+        }
+      ],
+      "workedSolution": {
+        "en": "(-3)·4 = -12 and (-3)·(-x) = +3x. Result: -12 + 3x.",
+        "es": "(-3)·4 = -12 y (-3)·(-x) = +3x. Resultado: -12 + 3x.",
+        "pl": "(-3)·4 = -12 oraz (-3)·(-x) = +3x. Wynik: -12 + 3x."
+      },
+      "workedSolutionLatex": "-3(4 - x) = (-3)(4) + (-3)(-x) = -12 + 3x",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.5
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.3",
+      "kpIds": [
+        "kp.distribute.then-combine"
+      ],
+      "phase": "you_do",
+      "type": "mcq",
+      "stem": {
+        "en": "Simplify: 2(3y - 1) + 4y + 5.",
+        "es": "Simplifica: 2(3y - 1) + 4y + 5.",
+        "pl": "Uprość: 2(3y - 1) + 4y + 5."
+      },
+      "stemLatex": "2(3y - 1) + 4y + 5",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "10y + 3",
+            "es": "10y + 3",
+            "pl": "10y + 3"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "6y - 2 + 4y + 5 = 10y + 3. Correct.",
+            "es": "6y - 2 + 4y + 5 = 10y + 3. Correcto.",
+            "pl": "6y - 2 + 4y + 5 = 10y + 3. Poprawnie."
+          },
+          "latex": "10y + 3"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "10y + 7",
+            "es": "10y + 7",
+            "pl": "10y + 7"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Constants: -2 + 5 = 3, not 7.",
+            "es": "Constantes: -2 + 5 = 3, no 7.",
+            "pl": "Wyrazy wolne: -2 + 5 = 3, nie 7."
+          },
+          "diagnosticTag": "const-sign",
+          "latex": "10y + 7"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "6y + 3",
+            "es": "6y + 3",
+            "pl": "6y + 3"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Combine the y-terms too: 6y + 4y = 10y.",
+            "es": "Reduce también los términos en y: 6y + 4y = 10y.",
+            "pl": "Zredukuj też wyrazy z y: 6y + 4y = 10y."
+          },
+          "diagnosticTag": "partial-combine",
+          "latex": "6y + 3"
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "7y + 6",
+            "es": "7y + 6",
+            "pl": "7y + 6"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "2 is a factor of (3y - 1), not an added term — expand first.",
+            "es": "2 es un factor de (3y - 1), no un término sumado — desarrolla primero.",
+            "pl": "2 jest czynnikiem (3y - 1), nie dodanym wyrazem — najpierw rozwiń."
+          },
+          "diagnosticTag": "factor-add",
+          "latex": "7y + 6"
+        }
+      ],
+      "workedSolution": {
+        "en": "Expand: 6y - 2. Combine: 6y + 4y = 10y and -2 + 5 = 3. Result: 10y + 3.",
+        "es": "Desarrolla: 6y - 2. Reduce: 6y + 4y = 10y y -2 + 5 = 3. Resultado: 10y + 3.",
+        "pl": "Rozwiń: 6y - 2. Zredukuj: 6y + 4y = 10y oraz -2 + 5 = 3. Wynik: 10y + 3."
+      },
+      "workedSolutionLatex": "6y - 2 + 4y + 5 = (6 + 4)y + (-2 + 5) = 10y + 3",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.7
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.youdo.4",
+      "kpIds": [
+        "kp.factor.common"
+      ],
+      "phase": "you_do",
+      "type": "short",
+      "stem": {
+        "en": "Factor out the greatest common factor: 4x + 12.",
+        "es": "Extrae el máximo factor común: 4x + 12.",
+        "pl": "Wyłącz największy wspólny czynnik: 4x + 12."
+      },
+      "stemLatex": "4x + 12",
+      "answer": "4(x+3)",
+      "acceptableAnswers": [
+        "4(x+3)",
+        "4(x + 3)",
+        "4*(x+3)",
+        "4*(x + 3)",
+        "(x+3)*4",
+        "(x + 3)*4",
+        "(x+3)4",
+        "(x + 3)4"
+      ],
+      "workedSolution": {
+        "en": "4 divides both terms: 4x = 4·x and 12 = 4·3, so 4x + 12 = 4(x + 3). Check by distributing back: 4·x + 4·3 = 4x + 12.",
+        "es": "4 divide a ambos términos: 4x = 4·x y 12 = 4·3, así que 4x + 12 = 4(x + 3). Comprueba distribuyendo de vuelta: 4·x + 4·3 = 4x + 12.",
+        "pl": "4 dzieli oba wyrazy: 4x = 4·x oraz 12 = 4·3, więc 4x + 12 = 4(x + 3). Sprawdź, rozdzielając z powrotem: 4·x + 4·3 = 4x + 12."
+      },
+      "workedSolutionLatex": "4x + 12 = 4 \\cdot x + 4 \\cdot 3 = 4(x + 3)",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": 0.8
+      },
+      "difficulty": "independent"
+    },
+    {
+      "id": "item.retr.1",
+      "kpIds": [
+        "kp.distribute.basic"
+      ],
+      "phase": "retrieval",
+      "type": "mcq",
+      "stem": {
+        "en": "Quick check: which expression equals 3(x + 2)?",
+        "es": "Comprobación rápida: ¿qué expresión es igual a 3(x + 2)?",
+        "pl": "Szybki test: które wyrażenie jest równe 3(x + 2)?"
+      },
+      "stemLatex": "3(x + 2)",
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "3x + 6",
+            "es": "3x + 6",
+            "pl": "3x + 6"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "3·x + 3·2 = 3x + 6. Correct.",
+            "es": "3·x + 3·2 = 3x + 6. Correcto.",
+            "pl": "3·x + 3·2 = 3x + 6. Poprawnie."
+          },
+          "latex": "3x + 6"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "3x + 2",
+            "es": "3x + 2",
+            "pl": "3x + 2"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The 3 multiplies the 2 as well: 3·2 = 6.",
+            "es": "El 3 también multiplica al 2: 3·2 = 6.",
+            "pl": "3 mnoży też 2: 3·2 = 6."
+          },
+          "diagnosticTag": "partial-distribute",
+          "latex": "3x + 2"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "3x + 5",
+            "es": "3x + 5",
+            "pl": "3x + 5"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "3(x + 2) multiplies; 3 + 2 adds. Different operations.",
+            "es": "3(x + 2) multiplica; 3 + 2 suma. Son operaciones distintas.",
+            "pl": "3(x + 2) to mnożenie; 3 + 2 to dodawanie. Różne działania."
+          },
+          "diagnosticTag": "factor-add",
+          "latex": "3x + 5"
+        }
+      ],
+      "workedSolution": {
+        "en": "3·x = 3x and 3·2 = 6, so 3(x + 2) = 3x + 6.",
+        "es": "3·x = 3x y 3·2 = 6, así que 3(x + 2) = 3x + 6.",
+        "pl": "3·x = 3x oraz 3·2 = 6, więc 3(x + 2) = 3x + 6."
+      },
+      "workedSolutionLatex": "3(x + 2) = 3 \\cdot x + 3 \\cdot 2 = 3x + 6",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1.2
+      },
+      "difficulty": "intro"
+    },
+    {
+      "id": "item.retr.2",
+      "kpIds": [
+        "kp.distribute.basic"
+      ],
+      "phase": "retrieval",
+      "type": "evaluate",
+      "stem": {
+        "en": "Expand: 5(y - 1).",
+        "es": "Desarrolla: 5(y - 1).",
+        "pl": "Rozwiń: 5(y - 1)."
+      },
+      "stemLatex": "5(y - 1)",
+      "answer": "5y-5",
+      "acceptableAnswers": [
+        "5y-5",
+        "5y - 5",
+        "-5+5y",
+        "-5 + 5y"
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "5y - 5",
+            "es": "5y - 5",
+            "pl": "5y - 5"
+          },
+          "isCorrect": true,
+          "feedback": {
+            "en": "5·y = 5y and 5·(-1) = -5. Correct.",
+            "es": "5·y = 5y y 5·(-1) = -5. Correcto.",
+            "pl": "5·y = 5y oraz 5·(-1) = -5. Poprawnie."
+          },
+          "latex": "5y - 5"
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "5y - 1",
+            "es": "5y - 1",
+            "pl": "5y - 1"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "The 5 multiplies the -1 as well: 5·(-1) = -5.",
+            "es": "El 5 también multiplica al -1: 5·(-1) = -5.",
+            "pl": "5 mnoży też -1: 5·(-1) = -5."
+          },
+          "diagnosticTag": "partial-distribute",
+          "latex": "5y - 1"
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "4y",
+            "es": "4y",
+            "pl": "4y"
+          },
+          "isCorrect": false,
+          "feedback": {
+            "en": "Distribute first: 5y - 5 — the 5 does not merge with the -1.",
+            "es": "Desarrolla primero: 5y - 5 — el 5 no se fusiona con el -1.",
+            "pl": "Najpierw rozwiń: 5y - 5 — 5 nie łączy się z -1."
+          },
+          "diagnosticTag": "collapse",
+          "latex": "4y"
+        }
+      ],
+      "workedSolution": {
+        "en": "5·y = 5y and 5·(-1) = -5, so 5(y - 1) = 5y - 5.",
+        "es": "5·y = 5y y 5·(-1) = -5, así que 5(y - 1) = 5y - 5.",
+        "pl": "5·y = 5y oraz 5·(-1) = -5, więc 5(y - 1) = 5y - 5."
+      },
+      "workedSolutionLatex": "5(y - 1) = 5 \\cdot y + 5 \\cdot (-1) = 5y - 5",
+      "standards": {
+        "CCSS": [
+          "CCSS.MATH.CONTENT.6.EE.A.3",
+          "CCSS.MATH.CONTENT.7.EE.A.1"
+        ],
+        "CA": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "NJ": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MI": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "TX": [
+          "A.10A",
+          "A.10D"
+        ],
+        "NY": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "IL": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "MO": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "FL": [
+          "MA.6.AR.1.4",
+          "MA.7.AR.1.1"
+        ],
+        "WA": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "DC": [
+          "6.EE.A.3",
+          "7.EE.A.1"
+        ],
+        "OH": [
+          "6.EE.3",
+          "7.EE.1"
+        ],
+        "MN": [
+          "6.2.3.2",
+          "9.2.2.1"
+        ]
+      },
+      "irtPriors": {
+        "a": 1,
+        "b": -1
+      },
+      "difficulty": "intro"
+    }
+  ],
+  "mastery": {
+    "minIndependentCorrect": 3,
+    "minIndependentTotal": 4,
+    "requiredKpIds": [
+      "kp.distribute.basic",
+      "kp.distribute.negative-factor",
+      "kp.distribute.then-combine",
+      "kp.factor.common"
+    ]
+  },
+  "unlocks": [
+    {
+      "id": "bp.relay.splitter",
+      "kind": "blueprint",
+      "title": {
+        "en": "Charge splitter blueprint",
+        "es": "Plano de divisor de carga",
+        "pl": "Plan rozdzielacza ładunku"
+      },
+      "description": {
+        "en": "A Y-splitter that feeds one pad's power cell to several devices — earned by delivering a factor to every term.",
+        "es": "Un divisor en Y que alimenta varios dispositivos desde la celda de una plataforma — ganado al entregar un factor a cada término.",
+        "pl": "Rozdzielacz Y zasilający kilka urządzeń z ogniwa jednej platformy — zdobyty przez dostarczenie czynnika do każdego wyrazu."
+      }
+    },
+    {
+      "id": "rank.riser.expert",
+      "kind": "rank",
+      "title": {
+        "en": "Riser Expert",
+        "es": "Ascendente Experto",
+        "pl": "Wznoszący Ekspert"
+      },
+      "description": {
+        "en": "Third rung of the Riser ladder, earned by Lesson 3 mastery.",
+        "es": "Tercer peldaño de la escalera del Ascendente, ganado con el dominio de la Lección 3.",
+        "pl": "Trzeci szczebel drabiny Wznoszącego, zdobyty mistrzostwem Lekcji 3."
+      }
+    },
+    {
+      "id": "zone.gamma.relay",
+      "kind": "zone",
+      "title": {
+        "en": "Zone Gamma Relay",
+        "es": "Relé de la Zona Gamma",
+        "pl": "Przekaźnik Strefy Gamma"
+      },
+      "description": {
+        "en": "A relay outpost on the approach to Zone Gamma where splitter chains are stress-tested.",
+        "es": "Un puesto de relé en la aproximación a la Zona Gamma donde se ponen a prueba las cadenas de divisores.",
+        "pl": "Placówka przekaźnikowa na podejściu do Strefy Gamma, gdzie testuje się wytrzymałość łańcuchów rozdzielaczy."
+      }
+    }
+  ],
+  "worldIntegration": {
+    "terminalId": "terminal.lesson3",
+    "unlockBlueprintId": "bp.relay.splitter",
+    "unlockRankId": "rank.riser.expert",
+    "unlockZoneId": "zone.gamma.relay"
+  },
+  "_pipelineMeta": {
+    "stage": "Integration (authored by builder wave 20)",
+    "generatedAt": "2026-08-05T13:20:00.000Z",
+    "notes": [
+      "Full authored lesson in one builder pass (all 7 pipeline stages compressed), following the algebra-i-02 package as the quality exemplar.",
+      "Cross-lesson prerequisites use qualified refs: kp.distribute.basic -> algebra-i-02:kp.term.structure + algebra-i-01:kp.orderops.with-vars; negative-factor and then-combine chain from algebra-i-02 combining KPs. The validator resolves <lesson-slug>:<kp-id> against content/lessons/<slug>/package.json and fails on missing targets.",
+      "Unlocks are declared per schema but NOT wired into the game store; terminal.lesson3 has no in-world placement yet. Runtime wiring (loadLesson registry, terminal routing, GameView flags) is a follow-up wave, mirroring the wave-13 pattern used for Lesson 2.",
+      "scripts/validate-content.ts discovers this package dynamically via readdirSync on content/lessons/ — no registry edit needed for validation."
+    ]
+  }
+}
