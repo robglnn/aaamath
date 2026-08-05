@@ -10,6 +10,6 @@ Need a static-deployable web SPA with 3D training range, KaTeX math, and fast it
 Vite + React + TypeScript + React Three Fiber / Three.js + KaTeX.
 
 ## Consequences
-- Excellent GH Pages / itch.io fit (`base: './'`)
+- GH Pages project site uses `base: '/aaamath/'`; itch.io uses `npm run build:itch` (`base: './'`)
 - Shared TS types between content scripts and app
 - Bundle size watched for mobile; drei helpers used sparingly

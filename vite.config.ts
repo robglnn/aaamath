@@ -5,9 +5,13 @@ import { fileURLToPath } from 'node:url'
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
 
+// Project Pages: https://robglnn.github.io/aaamath/
+// itch.io / relative: VITE_BASE=./ npm run build  (or npm run build:itch)
+const base = process.env.VITE_BASE ?? '/aaamath/'
+
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base,
   resolve: {
     alias: {
       '@': path.resolve(rootDir, 'src'),

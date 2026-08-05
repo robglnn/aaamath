@@ -1,9 +1,8 @@
-name: Build static (Pages-ready)
+name: Deploy GitHub Pages
 
-# Builds dist/ on every main push. Full GitHub Pages deploy needs a public repo
-# (or Pro) — private free repos return 422 for Pages. Artifact is available for
-# itch.io / manual hosting. Set repo variable ENABLE_GH_PAGES=true after making
-# the repo Pages-capable to attempt deploy-pages.
+# Builds dist/ and deploys to GitHub Pages via Actions (not branch/root).
+# Live site: https://robglnn.github.io/aaamath/
+# Repo Settings → Pages → Source must be "GitHub Actions" (never main/(root)).
 
 on:
   push:
@@ -16,7 +15,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: static-build
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -31,18 +30,13 @@ jobs:
       - run: npm ci
       - run: npm run content:validate
       - run: npm run build
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist
-          retention-days: 14
+        env:
+          VITE_BASE: /aaamath/
       - uses: actions/upload-pages-artifact@v3
-        if: ${{ vars.ENABLE_GH_PAGES == 'true' }}
         with:
           path: dist
 
   deploy:
-    if: ${{ vars.ENABLE_GH_PAGES == 'true' }}
     needs: build
     runs-on: ubuntu-latest
     environment:

@@ -6,7 +6,7 @@
 - KaTeX / react-katex
 - Zustand + idb-keyval
 - Web Speech API (browser-native)
-- Static hosting: `base: './'` for GH Pages / itch.io
+- Static hosting: default Vite `base: '/aaamath/'` for GitHub project Pages; `npm run build:itch` for relative `./`
 
 ## Commands
 ```bash
@@ -25,6 +25,7 @@ npm run content:pipeline
 - Models for agents: kimi-k3-max, cursor-grok-4.5-medium, composer-2.5 only
 
 ## Deploy notes
-- `vite build` → `dist/`
-- GitHub Pages: enable Pages from `dist` or gh-pages branch; keep relative base
-- itch.io: upload `dist` zip as HTML5 game
+- `vite build` → `dist/` + `404.html` SPA fallback
+- GitHub Pages: **Source = GitHub Actions** (workflow `.github/workflows/deploy-pages.yml`); never branch `main/(root)`
+- Live: https://robglnn.github.io/aaamath/
+- itch.io: `npm run build:itch`, zip `dist`, HTML5 entry `index.html`

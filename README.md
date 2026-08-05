@@ -33,10 +33,30 @@ Open http://localhost:5173 — WASD move, Shift sprint, Space jump; on touch use
 npm run build
 npm run preview
 ```
-- Output: `dist/` with relative `base: './'` (itch.io HTML5 zip or GitHub Pages).
+- Output: `dist/` with Vite `base: '/aaamath/'` (GitHub project Pages).
+- Also writes `dist/404.html` (SPA fallback for client routes / refresh).
 - No backend required.
-- **GitHub Pages:** workflow `.github/workflows/deploy-pages.yml` builds `dist/` on push to `main`. Requires a plan/visibility that supports Pages (private repos may 422 until public or GitHub Pro). Intended URL: `https://robglnn.github.io/aaamath/`.
-- **itch.io (reliable now):** `npm run build`, zip `dist/`, upload as HTML5; entry `index.html`.
+- Live URL: **https://robglnn.github.io/aaamath/**
+
+### GitHub Pages (required Settings)
+
+Deploy is **Actions-based** — do **not** use “Deploy from a branch.”
+
+If the site is missing or serving raw TypeScript:
+
+1. **Settings → Pages → Build and deployment → Source:** choose **GitHub Actions**  
+   - Do **NOT** select **Deploy from a branch** with `main` / `(root)` — that serves repo source, not `dist/`.
+2. **Settings → Actions → General → Workflow permissions:** **Read and write** permissions  
+   - Optionally enable **Allow GitHub Actions to create and approve pull requests** if you use that later.
+3. Push to `main` (or **Actions → Deploy GitHub Pages → Run workflow**) so `.github/workflows/deploy-pages.yml` builds and deploys.
+
+Workflow: build → `actions/upload-pages-artifact` → `actions/deploy-pages`. Artifact path is `dist/` only.
+
+### itch.io
+```bash
+npm run build:itch
+```
+Zip `dist/`, upload as HTML5; entry `index.html`. Uses relative `base: './'`.
 
 ## Content pipeline
 ```bash
