@@ -5,7 +5,7 @@ import type { Group, Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three
 import { ALPHA_RADIUS, PAD_TOP, TERMINAL_POS } from '@/game/world'
 import { getAuthoredGeoKit, getProcTextureKit, makeHazardStripeTexture, makeSteelPlateTexture } from '@/game/proc'
 import { AuthoredProps } from '@/game/AuthoredProps'
-import { HeroModel } from '@/game/HeroGltf'
+import { HeroModel, type HeroKind } from '@/game/HeroGltf'
 
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
@@ -37,6 +37,9 @@ export function RangeDecor() {
       <PlazaMidArch />
       <FloatingIslands />
       <CrystalMonolith />
+      <CrystalLamps />
+      <WaterfallLandmark />
+      <MesaCluster />
       <GroundBreakup />
       <AuthoredProps />
     </group>
@@ -44,8 +47,8 @@ export function RangeDecor() {
 }
 
 /**
- * Loop 34: Meshy-authored plaza banners (replaces primitive cloth poles).
- * Mobile-safe count — 6 instances of one Draco GLB.
+ * Loop 34/52: Meshy-authored plaza banners (replaces primitive cloth poles).
+ * Mobile-safe count — 8 instances of one Draco GLB.
  */
 function PlazaBanners() {
   const banners: [number, number, number, number][] = [
@@ -56,6 +59,9 @@ function PlazaBanners() {
     [7.2, 4.8, -0.4, 0.95],
     [-7.5, -8.5, 0.2, 0.9],
     [6.8, -9.2, -0.25, 0.9],
+    // Loop 52: mid-field flank rhythm — color punctuation between pad and gate
+    [-8.4, -2.4, 0.32, 0.92],
+    [8.8, -1.8, -0.38, 0.9],
   ]
   return (
     <group>
@@ -90,8 +96,29 @@ function GroundBreakup() {
   return (
     <group>
       <FloorPlates />
+      <PlazaFloorTiles />
       <CableTrunks />
       <HazardStripes />
+    </group>
+  )
+}
+
+/** Loop 36: Meshy plaza floor tiles along the Alpha→terminal corridor flanks. */
+function PlazaFloorTiles() {
+  const tiles: [number, number, number, number][] = [
+    // x, z, scale, rotY — off the walk diagonal, slightly proud of deck
+    [-2.8, 1.2, 1.4, 0.15],
+    [3.5, 0.8, 1.6, -0.2],
+    [-3.2, -3.5, 1.3, 0.25],
+    [4.8, -4.2, 1.5, -0.15],
+  ]
+  return (
+    <group>
+      {tiles.map(([x, z, s, rot], i) => (
+        <group key={i} position={[x, surfaceY(x, z) + 0.04, z]} rotation={[0, rot, 0]}>
+          <HeroModel kind="floor" scale={s} />
+        </group>
+      ))}
     </group>
   )
 }
@@ -472,36 +499,20 @@ function SupplyCrates() {
   const crates = useMemo(
     () =>
       [
-        [-5.2, 6.1, 0.35],
-        [-4.4, 6.6, -0.2],
-        [5.8, 5.4, 0.55],
-        [6.4, -2.2, 0.1],
-        [-6.1, -5.5, 0.4],
-        [2.8, 6.8, 0.2],
-        [-2.2, -4.8, -0.3],
-      ] as [number, number, number][],
+        [-5.2, 6.1, 0.35, 0.88],
+        [-4.4, 6.6, -0.2, 0.82],
+        [5.8, 5.4, 0.55, 0.9],
+        [6.4, -2.2, 0.1, 0.85],
+        [-6.1, -5.5, 0.4, 0.8],
+        [2.8, 6.8, 0.2, 0.78],
+      ] as [number, number, number, number][],
     [],
   )
   return (
     <group>
-      {crates.map(([x, z, rot], i) => (
-        <group key={i} position={[x, surfaceY(x, z) + 0.32, z]} rotation={[0, rot, 0]}>
-          <mesh>
-            <boxGeometry args={[0.7, 0.55, 0.7]} />
-            <meshStandardMaterial color="#152836" metalness={0.35} roughness={0.55} />
-          </mesh>
-          <mesh position={[0, 0.29, 0]}>
-            <boxGeometry args={[0.72, 0.04, 0.72]} />
-            <meshStandardMaterial
-              color={i % 2 === 0 ? CYAN : AMBER}
-              emissive={i % 2 === 0 ? CYAN : AMBER}
-              emissiveIntensity={0.45}
-            />
-          </mesh>
-          <mesh position={[0, 0, 0.36]}>
-            <boxGeometry args={[0.35, 0.08, 0.02]} />
-            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.7} />
-          </mesh>
+      {crates.map(([x, z, rot, s], i) => (
+        <group key={i} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
+          <HeroModel kind="crate" scale={s} />
         </group>
       ))}
     </group>
@@ -557,11 +568,8 @@ function DistantSpires() {
 }
 
 /**
- * Loop 27: Fortnite floating-island skyline — flat-topped rocks with tapered
- * undersides and cyan anti-grav glow cones, crystal obelisks / hovering wisp
- * lamps on top, and thin causeway silhouettes spanning two island pairs.
- * Gentle bob on one useFrame; emissive/basic only, zero new lights.
- * Budget: 5 islands x 3 meshes + 2 spans = 17.
+ * Loop 47: Meshy floating-island skyline — mix of verdant flower + rock islands.
+ * 5 Draco GLB instances; 3 flower islands pulled into first-10s shoulder cam.
  */
 function FloatingIslands() {
   const islands = useRef<(Group | null)[]>([])
@@ -572,67 +580,39 @@ function FloatingIslands() {
       if (g) g.position.y = (g.userData.y0 as number) + Math.sin(t * 0.4 + i * 1.7) * 0.18
     }
   })
-  // x, y (top surface), z, radius, crystal (true = obelisk, false = wisp lamp)
-  const rocks: [number, number, number, number, boolean][] = [
-    [-22, 6.5, -28, 3.4, true],
-    [19, 10.5, -32, 2.6, false],
-    [-13, 4.5, -22, 1.9, true],
-    [27, 8.0, -16, 2.2, false],
-    [-29, 12.5, -10, 2.8, true],
+  // kind, x, y0, z, scale, rotY
+  const rocks: [HeroKind, number, number, number, number, number][] = [
+    ['flowerIsland', -10, 7.0, -18, 1.28, 0.5],
+    ['flowerIsland', 14, 6.2, -16, 1.35, -0.4],
+    ['flowerIsland', -18, 5.5, -20, 1.22, 0.7],
+    ['island', 22, 8.5, -24, 1.0, -0.3],
+    ['island', -24, 9.0, -14, 1.18, 0.6],
   ]
   return (
     <group>
-      {rocks.map(([x, y, z, r, crystal], i) => (
+      {rocks.map(([kind, x, y0, z, s, rot], i) => (
         <group
           key={i}
           ref={(g) => {
             islands.current[i] = g
           }}
-          position={[x, y, z]}
-          userData={{ y0: y }}
+          position={[x, y0, z]}
+          rotation={[0, rot, 0]}
+          userData={{ y0 }}
         >
-          {/* Flat-topped rock, tapered 7-sided underside */}
-          <mesh position={[0, -r * 0.42, 0]}>
-            <cylinderGeometry args={[r, r * 0.3, r * 0.84, 7]} />
-            <meshStandardMaterial color="#2c3d4a" metalness={0.15} roughness={0.8} />
-          </mesh>
-          {/* Cyan anti-grav glow cone washing the underside */}
-          <mesh position={[0, -r * 1.1, 0]} rotation={[Math.PI, 0, 0]}>
-            <coneGeometry args={[r * 0.55, r * 0.7, 7]} />
-            <meshBasicMaterial color={CYAN} transparent opacity={0.28} blending={AdditiveBlending} depthWrite={false} />
-          </mesh>
-          {crystal ? (
-            <mesh position={[0, r * 0.58, 0]} rotation={[0, i * 0.7, 0]} scale={[1, 2.1, 1]}>
-              <octahedronGeometry args={[r * 0.28, 0]} />
-              <meshStandardMaterial
-                color="#134a52"
-                emissive={CYAN}
-                emissiveIntensity={0.85}
-                metalness={0.15}
-                roughness={0.22}
-                transparent
-                opacity={0.92}
-              />
-            </mesh>
-          ) : (
-            <mesh position={[0, r * 0.5, 0]}>
-              <sphereGeometry args={[r * 0.16, 10, 8]} />
-              <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.3} />
-            </mesh>
-          )}
+          <HeroModel kind={kind} scale={s} />
         </group>
       ))}
       {/* Thin causeway silhouettes between island pairs */}
-      <Strut from={[-19.6, 6.3, -26.3]} to={[-15.1, 4.7, -23.6]} radius={0.14} />
-      <Strut from={[21.1, 10.3, -29.7]} to={[25.3, 8.2, -18.1]} radius={0.12} />
+      <Strut from={[-11.2, 6.8, -17.4]} to={[12.2, 6.0, -16.2]} radius={0.14} />
+      <Strut from={[-16.8, 5.3, -19.2]} to={[-22.4, 8.8, -14.6]} radius={0.12} />
     </group>
   )
 }
 
 /**
- * Loop 27: the ringed crystal monolith — faceted octahedron stack on a
- * floating rock far behind the terminal, two tilted cyan torus rings in slow
- * orbit. Anchors the first-10s shoulder-cam skyline. Emissive only, 7 meshes.
+ * Loop 46: Meshy ringed monolith — right-skyline anchor off terminal axis so
+ * cyan rings + bloom own the first-viewport silhouette. Emissive/basic only.
  */
 function CrystalMonolith() {
   const rings = useRef<(Group | null)[]>([])
@@ -643,68 +623,111 @@ function CrystalMonolith() {
     }
   })
   return (
-    <group position={[2, 0, -42]}>
-      {/* Floating base rock + anti-grav glow */}
-      <mesh position={[0, 5.7, 0]}>
-        <cylinderGeometry args={[4.2, 1.25, 2.6, 7]} />
-        <meshStandardMaterial color="#2c3d4a" metalness={0.15} roughness={0.8} />
+    <group position={[9, 0, -19]}>
+      <HeroModel kind="monolith" scale={1.55} />
+      {/* Loop 46: Meshy bloom disc at spire tip — enlarged additive halo */}
+      <group position={[0, 17.0, -0.35]} rotation={[0.12, 0.35, 0]}>
+        <HeroModel kind="bloom" scale={2.0} />
+      </group>
+      {/* Spawn bloom halo — additive wash behind/around the spire tip */}
+      <mesh position={[0, 17.2, -0.4]}>
+        <sphereGeometry args={[3.2, 16, 12]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.38} blending={AdditiveBlending} depthWrite={false} />
       </mesh>
-      <mesh position={[0, 4.2, 0]} rotation={[Math.PI, 0, 0]}>
-        <coneGeometry args={[2.3, 2.4, 7]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.26} blending={AdditiveBlending} depthWrite={false} />
+      <mesh position={[0, 17.8, -0.8]} rotation={[0.18, 0, 0]}>
+        <planeGeometry args={[5, 5]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.16} blending={AdditiveBlending} depthWrite={false} side={2} />
       </mesh>
-      {/* Faceted crystal stack */}
-      <mesh position={[0, 12.6, 0]} rotation={[0, 0.35, 0]} scale={[1, 2.4, 1]}>
-        <octahedronGeometry args={[2.4, 0]} />
-        <meshStandardMaterial
-          color="#134a52"
-          emissive={CYAN}
-          emissiveIntensity={1.65}
-          metalness={0.15}
-          roughness={0.22}
-          transparent
-          opacity={0.92}
-        />
-      </mesh>
-      <mesh position={[0, 17.6, 0]} rotation={[0, 0.95, 0]} scale={[1, 2.2, 1]}>
-        <octahedronGeometry args={[1.5, 0]} />
-        <meshStandardMaterial
-          color="#134a52"
-          emissive={CYAN}
-          emissiveIntensity={1.85}
-          metalness={0.15}
-          roughness={0.22}
-          transparent
-          opacity={0.92}
-        />
-      </mesh>
-      <mesh position={[0, 21.4, 0]} rotation={[0, 1.5, 0]} scale={[1, 2, 1]}>
-        <octahedronGeometry args={[0.8, 0]} />
-        <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.2} transparent opacity={0.95} />
-      </mesh>
-      {/* Counter-rotating tilted orbit rings */}
+      {/* Overlay rings when Meshy mesh rings are subtle at distance */}
       <group
         ref={(g) => {
           rings.current[0] = g
         }}
-        position={[0, 11, 0]}
+        position={[0, 11.5, 0]}
       >
         <mesh rotation={[Math.PI / 2 + 0.16, 0, 0]}>
-          <torusGeometry args={[4.6, 0.07, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.65} transparent opacity={0.8} />
+          <torusGeometry args={[4.6, 0.14, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.2} transparent opacity={0.75} />
         </mesh>
       </group>
       <group
         ref={(g) => {
           rings.current[1] = g
         }}
-        position={[0, 13.8, 0]}
+        position={[0, 14.2, 0]}
       >
         <mesh rotation={[Math.PI / 2 - 0.2, 0, 0.12]}>
-          <torusGeometry args={[6.2, 0.055, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.9} transparent opacity={0.7} />
+          <torusGeometry args={[6.2, 0.13, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.4} transparent opacity={0.65} />
         </mesh>
       </group>
+    </group>
+  )
+}
+
+/** Loop 39: Meshy crystal lamps flanking Alpha pad corridor — readable in first 10s. */
+function CrystalLamps() {
+  const lamps: [number, number, number, number][] = [
+    // x, z, rotY, scale — near-banner corridor flanks
+    [-5.8, 4.2, 0.3, 0.72],
+    [6.4, 3.6, -0.35, 0.75],
+    [-7.2, -2.8, 0.45, 0.68],
+    [7.0, -3.4, -0.4, 0.7],
+    [-5.2, -5.6, 0.2, 0.65],
+    [5.6, 5.8, -0.25, 0.68],
+  ]
+  return (
+    <group>
+      {lamps.map(([x, z, rot, s], i) => (
+        <group key={i} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
+          <HeroModel kind="lamp" scale={s} />
+        </group>
+      ))}
+    </group>
+  )
+}
+
+/** Loop 48: Meshy waterfall cliff — turquoise flank landmark facing spawn cam. */
+function WaterfallLandmark() {
+  return (
+    <group position={[-16, 0, -14]} rotation={[0, -0.55, 0]}>
+      <HeroModel kind="waterfall" scale={1.35} />
+    </group>
+  )
+}
+
+/**
+ * Loop 53: Meshy mesa skyline cluster — distant buttes flanking the horizon.
+ * 2 Draco GLB instances; gentle bob for parallax life.
+ */
+function MesaCluster() {
+  const mesas = useRef<(Group | null)[]>([])
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    for (let i = 0; i < mesas.current.length; i++) {
+      const g = mesas.current[i]
+      if (g) g.position.y = (g.userData.y0 as number) + Math.sin(t * 0.32 + i * 2.1) * 0.12
+    }
+  })
+  const placements: [number, number, number, number][] = [
+    // x, y0, z, scale
+    [18, 4, -28, 1.1],
+    [-20, 5, -26, 0.95],
+  ]
+  return (
+    <group>
+      {placements.map(([x, y0, z, s], i) => (
+        <group
+          key={i}
+          ref={(g) => {
+            mesas.current[i] = g
+          }}
+          position={[x, y0, z]}
+          userData={{ y0 }}
+        >
+          <HeroModel kind="mesa" scale={s} />
+        </group>
+      ))}
     </group>
   )
 }

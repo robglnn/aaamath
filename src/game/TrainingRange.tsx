@@ -20,8 +20,8 @@ import { HeroModel } from '@/game/HeroGltf'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
 import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, EPSILON_BRIDGE, EPSILON_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, ZETA_BRIDGE, ZETA_CENTER, groundHeight, rig } from '@/game/world'
 
-const SKY = '#7aa8d8'
-const FOG = '#8aa8bc'
+const SKY = '#6eb8d8'
+const FOG = '#6a9cb0'
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
@@ -233,7 +233,7 @@ function CameraRig() {
     const fz = -Math.cos(yaw)
     // Loop 29: Fortnite shoulder framing — closer, slightly higher, look at chest
     const dist = 3.9
-    const height = 2.12 + pitch * 2.0
+    const height = 2.28 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
@@ -244,7 +244,7 @@ function CameraRig() {
     cam.z += (tz - cam.z) * k
     const nudge = rig.gateCelebration
     const lookX = p.x * (1 - nudge * 0.25)
-    const lookY = p.y + 1.14 + pitch * 0.6
+    const lookY = p.y + 1.24 + pitch * 0.6
     const lookZ = p.z * (1 - nudge * 0.25) + GATE_Z * nudge * 0.25
     state.camera.lookAt(lookX, lookY, lookZ)
   })
@@ -514,7 +514,7 @@ function SkyAtmosphere() {
         <meshBasicMaterial
           color="#ffb060"
           transparent
-          opacity={0.22}
+          opacity={0.30}
           blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
@@ -568,7 +568,7 @@ function SkyAtmosphere() {
             <meshBasicMaterial
               color="#ffe2b0"
               transparent
-              opacity={0.075 + (i % 2) * 0.03}
+              opacity={0.11 + (i % 2) * 0.03}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -591,7 +591,7 @@ function SkyAtmosphere() {
             <meshBasicMaterial
               color="#ffe8c8"
               transparent
-              opacity={0.05 + i * 0.015}
+              opacity={0.08 + i * 0.015}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -951,14 +951,14 @@ export function TrainingRange() {
   return (
     <>
       <color attach="background" args={[SKY]} />
-      <fog attach="fog" args={[FOG, 38, 108]} />
+      <fog attach="fog" args={[FOG, 42, 132]} />
       <Stars radius={90} depth={50} count={1800} factor={2.6} saturation={0.15} fade speed={0.35} />
       <SkyAtmosphere />
 
-      {/* Loops 21/25/29/35: golden-hour plaza + Meshy hero rims */}
-      <hemisphereLight args={['#fff2e0', '#6a4828', 1.12]} />
+      {/* Loops 21/25/29/35/40: golden-hour plaza + Meshy hero rims */}
+      <hemisphereLight args={['#fff2e0', '#6a4828', 1.2]} />
       <ambientLight intensity={0.62} color="#fff4e0" />
-      <directionalLight position={[16, 22, 10]} intensity={3.25} color="#ffe2a8" castShadow={false} />
+      <directionalLight position={[16, 22, 10]} intensity={3.45} color="#ffe2a8" castShadow={false} />
       <directionalLight position={[-10, 8, -12]} intensity={0.72} color="#a8d8f8" />
       <directionalLight position={[2, 6, 8]} intensity={0.7} color="#4de0d0" />
       <directionalLight position={[-4, 3, 6]} intensity={1.05} color="#fff2d8" />

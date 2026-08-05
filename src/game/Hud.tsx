@@ -530,15 +530,19 @@ export function Hud({
             title="Explore"
           >
             <svg viewBox="0 0 32 32" aria-hidden focusable="false" className="gr-ability-glyph">
-              {/* Wireframe octahedron — explore */}
-              <polygon points="16,3 28,16 16,29 4,16" fill="none" stroke="currentColor" strokeWidth="1.4" />
-              <polygon points="16,3 22,16 16,29 10,16" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.7" />
-              <line x1="4" y1="16" x2="28" y2="16" stroke="currentColor" strokeWidth="1.2" opacity="0.55" />
-              <line x1="10" y1="16" x2="16" y2="3" stroke="currentColor" strokeWidth="1" opacity="0.45" />
-              <line x1="22" y1="16" x2="16" y2="3" stroke="currentColor" strokeWidth="1" opacity="0.45" />
-              <line x1="10" y1="16" x2="16" y2="29" stroke="currentColor" strokeWidth="1" opacity="0.45" />
-              <line x1="22" y1="16" x2="16" y2="29" stroke="currentColor" strokeWidth="1" opacity="0.45" />
-              <circle cx="16" cy="16" r="2.4" fill="currentColor" opacity="0.85" />
+              {/* Chunky filled octahedron — explore */}
+              <polygon points="16,3 10,16 16,29" fill="currentColor" opacity="0.62" />
+              <polygon points="16,3 22,16 16,29" fill="currentColor" opacity="0.88" />
+              <polygon points="16,3 22,16 16,16 10,16" fill="currentColor" />
+              <circle cx="16" cy="16" r="3.6" fill="currentColor" />
+              <g className="gr-glyph-wire">
+                <polygon points="16,3 28,16 16,29 4,16" fill="none" stroke="currentColor" strokeWidth="1.1" />
+                <line x1="4" y1="16" x2="28" y2="16" stroke="currentColor" strokeWidth="0.9" />
+                <line x1="10" y1="16" x2="16" y2="3" stroke="currentColor" strokeWidth="0.8" />
+                <line x1="22" y1="16" x2="16" y2="3" stroke="currentColor" strokeWidth="0.8" />
+                <line x1="10" y1="16" x2="16" y2="29" stroke="currentColor" strokeWidth="0.8" />
+                <line x1="22" y1="16" x2="16" y2="29" stroke="currentColor" strokeWidth="0.8" />
+              </g>
             </svg>
           </button>
           <button
@@ -554,16 +558,17 @@ export function Hud({
             title={hasBlueprint && !blueprintPlaced ? 'Build' : 'Build locked'}
           >
             <svg viewBox="0 0 32 32" aria-hidden focusable="false" className="gr-ability-glyph">
-              {/* Wireframe cube — build */}
-              <polygon points="8,12 16,7 24,12 16,17" fill="none" stroke="currentColor" strokeWidth="1.4" />
-              <polygon points="8,20 16,15 24,20 16,25" fill="none" stroke="currentColor" strokeWidth="1.4" />
-              <line x1="8" y1="12" x2="8" y2="20" stroke="currentColor" strokeWidth="1.3" />
-              <line x1="16" y1="7" x2="16" y2="15" stroke="currentColor" strokeWidth="1.3" />
-              <line x1="24" y1="12" x2="24" y2="20" stroke="currentColor" strokeWidth="1.3" />
-              <line x1="8" y1="12" x2="16" y2="15" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-              <line x1="24" y1="12" x2="16" y2="15" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-              <line x1="8" y1="20" x2="16" y2="25" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-              <line x1="24" y1="20" x2="16" y2="25" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+              {/* Chunky filled cube — build */}
+              <polygon points="7,12 16,7 25,12 16,17" fill="currentColor" />
+              <polygon points="7,12 7,22 16,27 16,17" fill="currentColor" opacity="0.55" />
+              <polygon points="25,12 25,22 16,27 16,17" fill="currentColor" opacity="0.78" />
+              <g className="gr-glyph-wire">
+                <polygon points="7,12 16,7 25,12 16,17" fill="none" stroke="currentColor" strokeWidth="1.1" />
+                <polygon points="7,22 16,27 25,22 16,17" fill="none" stroke="currentColor" strokeWidth="1.1" />
+                <line x1="7" y1="12" x2="7" y2="22" stroke="currentColor" strokeWidth="1" />
+                <line x1="16" y1="7" x2="16" y2="27" stroke="currentColor" strokeWidth="1" />
+                <line x1="25" y1="12" x2="25" y2="22" stroke="currentColor" strokeWidth="1" />
+              </g>
             </svg>
           </button>
           <button
@@ -575,12 +580,18 @@ export function Hud({
             aria-label={ui(locale, 'progress')}
           >
             <svg viewBox="0 0 32 32" aria-hidden focusable="false" className="gr-ability-glyph">
-              {/* Wireframe tetrahedron — progress */}
-              <polygon points="16,5 26,24 6,24" fill="none" stroke="currentColor" strokeWidth="1.4" />
-              <line x1="16" y1="5" x2="16" y2="24" stroke="currentColor" strokeWidth="1.2" opacity="0.6" />
-              <line x1="6" y1="24" x2="21" y2="14.5" stroke="currentColor" strokeWidth="1" opacity="0.45" />
-              <line x1="26" y1="24" x2="11" y2="14.5" stroke="currentColor" strokeWidth="1" opacity="0.45" />
-              <circle cx="16" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="1.1" opacity="0.7" />
+              {/* Chunky filled tetrahedron — progress */}
+              <polygon points="6,24 16,5 26,24" fill="currentColor" opacity="0.42" />
+              <polygon points="6,24 16,5 16,24" fill="currentColor" opacity="0.68" />
+              <polygon points="26,24 16,5 16,24" fill="currentColor" opacity="0.92" />
+              <circle cx="16" cy="17.5" r="4.2" fill="currentColor" />
+              <g className="gr-glyph-wire">
+                <polygon points="16,5 26,24 6,24" fill="none" stroke="currentColor" strokeWidth="1.1" />
+                <line x1="16" y1="5" x2="16" y2="24" stroke="currentColor" strokeWidth="0.9" />
+                <line x1="6" y1="24" x2="21" y2="14.5" stroke="currentColor" strokeWidth="0.8" />
+                <line x1="26" y1="24" x2="11" y2="14.5" stroke="currentColor" strokeWidth="0.8" />
+                <circle cx="16" cy="17.5" r="4.2" fill="none" stroke="currentColor" strokeWidth="1" />
+              </g>
             </svg>
           </button>
         </nav>

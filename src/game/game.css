@@ -554,8 +554,18 @@
 
 .gr-ability svg,
 .gr-ability-glyph {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+}
+
+.gr-glyph-wire {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.gr-ability-active .gr-glyph-wire {
+  opacity: 0.62;
 }
 
 .gr-ability:hover {
@@ -641,23 +651,23 @@
 }
 
 .gr-minimap-quad {
-  opacity: 0.55;
+  opacity: 0.95;
 }
 
 .gr-minimap-quad--ne {
-  fill: rgba(96, 165, 250, 0.28);
+  fill: rgba(96, 165, 250, 0.65);
 }
 
 .gr-minimap-quad--se {
-  fill: rgba(240, 168, 48, 0.26);
+  fill: rgba(240, 168, 48, 0.62);
 }
 
 .gr-minimap-quad--sw {
-  fill: rgba(52, 211, 153, 0.24);
+  fill: rgba(52, 211, 153, 0.6);
 }
 
 .gr-minimap-quad--nw {
-  fill: rgba(167, 139, 250, 0.26);
+  fill: rgba(167, 139, 250, 0.62);
 }
 
 .gr-minimap-path {
@@ -675,7 +685,7 @@
 }
 
 .gr-minimap-disk {
-  fill: rgba(6, 16, 24, 0.62);
+  fill: rgba(6, 16, 24, 0.32);
   stroke: rgba(61, 214, 198, 0.18);
   stroke-width: 1;
 }

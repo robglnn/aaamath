@@ -8,7 +8,7 @@ const base = import.meta.env.BASE_URL
 const DRACO = 'https://www.gstatic.com/draco/versioned/decoders/1.5.7/'
 
 /** Cache-bust Meshy GLB ships so Pages clients don't keep stale primitives. */
-const MESHY_V = 'm31'
+const MESHY_V = 'm53'
 
 export const HERO_URLS = {
   player: `${base}models/riser-player.glb?v=${MESHY_V}`,
@@ -17,12 +17,24 @@ export const HERO_URLS = {
   zone: `${base}models/zone-marker.glb?v=${MESHY_V}`,
   arch: `${base}models/plaza-arch.glb?v=${MESHY_V}`,
   banner: `${base}models/plaza-banner.glb?v=${MESHY_V}`,
+  monolith: `${base}models/skyline-monolith.glb?v=${MESHY_V}`,
+  island: `${base}models/floating-island.glb?v=${MESHY_V}`,
+  flowerIsland: `${base}models/flower-island.glb?v=${MESHY_V}`,
+  waterfall: `${base}models/waterfall-cliff.glb?v=${MESHY_V}`,
+  floor: `${base}models/plaza-floor.glb?v=${MESHY_V}`,
+  bloom: `${base}models/crystal-bloom.glb?v=${MESHY_V}`,
+  lamp: `${base}models/crystal-lamp.glb?v=${MESHY_V}`,
+  crate: `${base}models/supply-crate.glb?v=${MESHY_V}`,
+  mesa: `${base}models/mesa-cluster.glb?v=${MESHY_V}`,
 } as const
 
-type HeroKind = keyof typeof HERO_URLS
+export type HeroKind = keyof typeof HERO_URLS
+
+const SKYLINE_EMISSIVE_KINDS = new Set<HeroKind>(['monolith', 'island', 'flowerIsland', 'waterfall', 'bloom', 'lamp', 'mesa'])
 
 /** Punch emissives so authored / Meshy PBR reads under ACES without a bloom pass. */
-function boostHeroMaterials(root: Object3D) {
+function boostHeroMaterials(root: Object3D, kind?: HeroKind) {
+  const skylineEmissive = kind != null && SKYLINE_EMISSIVE_KINDS.has(kind)
   root.traverse((obj) => {
     const mesh = obj as Mesh
     if (!mesh.isMesh) return
@@ -31,9 +43,11 @@ function boostHeroMaterials(root: Object3D) {
       const std = m as MeshStandardMaterial
       if (!std || std.emissiveIntensity == null) continue
       const name = (std.name || '').toLowerCase()
-      // Loop 31+: Meshy single-mesh heroes — emission maps need ACES punch
+      // Loop 31+/36: Meshy heroes — skyline props need stronger ACES punch
       if (std.emissiveMap) {
-        std.emissiveIntensity = Math.max(std.emissiveIntensity, 2.4)
+        const floor =
+          kind === 'bloom' ? 3.5 : skylineEmissive ? 3.0 : 2.4
+        std.emissiveIntensity = Math.max(std.emissiveIntensity, floor)
       }
       if (name.includes('piping')) {
         // Loop 17/28: Fortnite tech-suit cyan piping — punch emissive under ACES
@@ -79,13 +93,23 @@ function boostHeroMaterials(root: Object3D) {
         std.metalness = Math.max(std.metalness ?? 0, 0.25)
         std.roughness = Math.min(Math.max(std.roughness ?? 0.5, 0.28), 0.62)
       }
-      // Meshy textured mats: slight albedo lift so navy suit pops under golden hour
+      // Meshy textured mats: slight albedo lift so navy suit / grass pops under golden hour
       if (std.map && std.color) {
-        std.color.setRGB(
-          Math.min(1, std.color.r * 1.08),
-          Math.min(1, std.color.g * 1.08),
-          Math.min(1, std.color.b * 1.05),
-        )
+        const grassish =
+          skylineEmissive && std.color.g > std.color.r * 0.92 && std.color.g > std.color.b * 0.88
+        if (grassish) {
+          std.color.setRGB(
+            Math.min(1, std.color.r * 1.06),
+            Math.min(1, std.color.g * 1.14),
+            Math.min(1, std.color.b * 1.05),
+          )
+        } else {
+          std.color.setRGB(
+            Math.min(1, std.color.r * 1.08),
+            Math.min(1, std.color.g * 1.08),
+            Math.min(1, std.color.b * 1.05),
+          )
+        }
       }
       std.needsUpdate = true
     }
@@ -106,13 +130,13 @@ function HeroClone({
   const { scene } = useGLTF(HERO_URLS[kind], DRACO)
   const root = useMemo(() => {
     const clone = scene.clone(true)
-    boostHeroMaterials(clone)
+    boostHeroMaterials(clone, kind)
     return clone
-  }, [scene])
+  }, [scene, kind])
 
   useEffect(() => {
-    boostHeroMaterials(root)
-  }, [root])
+    boostHeroMaterials(root, kind)
+  }, [root, kind])
 
   return <primitive object={root as Object3D} scale={scale} position={position} rotation={rotation} />
 }
@@ -143,4 +167,13 @@ export function preloadHeroModels() {
   useGLTF.preload(HERO_URLS.zone, DRACO)
   useGLTF.preload(HERO_URLS.arch, DRACO)
   useGLTF.preload(HERO_URLS.banner, DRACO)
+  useGLTF.preload(HERO_URLS.monolith, DRACO)
+  useGLTF.preload(HERO_URLS.island, DRACO)
+  useGLTF.preload(HERO_URLS.flowerIsland, DRACO)
+  useGLTF.preload(HERO_URLS.waterfall, DRACO)
+  useGLTF.preload(HERO_URLS.floor, DRACO)
+  useGLTF.preload(HERO_URLS.bloom, DRACO)
+  useGLTF.preload(HERO_URLS.lamp, DRACO)
+  useGLTF.preload(HERO_URLS.crate, DRACO)
+  useGLTF.preload(HERO_URLS.mesa, DRACO)
 }
