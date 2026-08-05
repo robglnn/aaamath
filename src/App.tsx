@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { resolveTerminalLessonId } from '@/content/loadLesson'
+import { LESSON_1_ID, LESSON_2_ID, resolveTerminalLessonId } from '@/content/loadLesson'
 import { useProgressStore } from '@/progress/store'
 import { LocaleSwitcher } from '@/components/LocaleSwitcher'
 import { ui } from '@/i18n/ui'
@@ -39,7 +39,8 @@ export default function App() {
   const locale = useProgressStore((s) => s.blob.locale)
   const unlocks = useProgressStore((s) => s.blob.unlocks)
   const lessonStates = useProgressStore((s) => s.blob.lessonStates)
-  const lessonState = lessonStates['algebra-i-01']
+  const lessonState = lessonStates[LESSON_1_ID]
+  const lesson2State = lessonStates[LESSON_2_ID]
   const terminalLessonId = resolveTerminalLessonId(lessonStates)
 
   const [lessonOpen, setLessonOpen] = useState(false)
@@ -54,10 +55,18 @@ export default function App() {
   }
 
   const mastered = lessonState?.status === 'mastered'
+  const mastered2 = lesson2State?.status === 'mastered'
   const unlocked = {
     blueprint: unlocks.blueprints.includes('bp.pad.ramp') || mastered,
     rank: unlocks.ranks.includes('rank.riser.initiate') || mastered,
     zoneBeta: unlocks.zones.includes('zone.pad.beta') || mastered,
+    railBlueprint: unlocks.blueprints.includes('bp.pad.rail') || mastered2,
+    adeptRank: unlocks.ranks.includes('rank.riser.adept') || mastered2,
+    // Legacy blobs recorded the L2 zone as zone.beacon.cyan — treat it as the annex.
+    betaAnnex:
+      unlocks.zones.includes('zone.beta.annex') ||
+      unlocks.zones.includes('zone.beacon.cyan') ||
+      mastered2,
   }
 
   const openTerminal = () => {

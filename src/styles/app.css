@@ -139,8 +139,9 @@ body,
   z-index: 12;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.28rem;
   pointer-events: none;
+  opacity: 0.88;
 }
 
 .app-chrome > * {
@@ -150,14 +151,17 @@ body,
 .chrome-btn {
   min-height: var(--tap-min);
   min-width: var(--tap-min);
-  padding: 0.5rem 0.85rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  background: rgba(10, 18, 24, 0.55);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-color: rgba(45, 212, 191, 0.2);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  background: rgba(8, 16, 22, 0.38);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-color: rgba(61, 214, 198, 0.14);
+  color: rgba(200, 230, 228, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
 .btn {
@@ -228,17 +232,23 @@ body,
 .locale-btn {
   min-width: var(--tap-min);
   min-height: var(--tap-min);
-  padding: 0.35rem 0.6rem;
-  font-size: 0.8rem;
-  background: rgba(10, 18, 24, 0.55);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  padding: 0.35rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  background: rgba(8, 16, 22, 0.38);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-color: rgba(61, 214, 198, 0.12);
+  color: rgba(200, 230, 228, 0.78);
 }
 
 .locale-btn.active {
-  background: var(--teal-dim);
-  color: #042f2e;
-  border-color: var(--teal);
+  background: rgba(61, 214, 198, 0.22);
+  color: #dffcf7;
+  border-color: rgba(61, 214, 198, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(61, 214, 198, 0.15);
 }
 
 .progress-drawer {

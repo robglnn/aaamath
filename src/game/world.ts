@@ -11,6 +11,17 @@ export const BETA_RADIUS = 5
 export const GATE_Z = -8
 export const LOCKED_MIN_Z = -7.3
 
+/** L2 Zone Beta Annex — diamond side platform east of Beta (vertices on axes). */
+export const ANNEX_RADIUS = 2.6
+export const ANNEX_CENTER: [number, number] = [BETA_CENTER[0] + BETA_RADIUS + 3.3, BETA_CENTER[1]]
+/** Walkway slab bridging the Beta rim to the annex west vertex. */
+export const ANNEX_BRIDGE = {
+  x0: BETA_CENTER[0] + BETA_RADIUS - 0.5,
+  x1: ANNEX_CENTER[0] - ANNEX_RADIUS + 0.5,
+  z: BETA_CENTER[1],
+  halfWidth: 0.95,
+}
+
 export const BOUNDS = { x: 12, zMin: -20.5, zMax: 10 }
 
 export const WALK_SPEED = 4.6
@@ -29,6 +40,8 @@ export const rig = {
   playerPos: new Vector3(0, 0, 4),
   ghostPos: new Vector3(0, PAD_TOP, 0),
   jumpQueued: false,
+  /** 0–1 decaying blend toward gate during mastery unlock celebration (CameraRig reads). */
+  gateCelebration: 0,
 }
 
 export function groundHeight(
@@ -36,6 +49,7 @@ export function groundHeight(
   z: number,
   hasZoneBeta: boolean,
   blueprint: [number, number, number] | null,
+  hasBetaAnnex = false,
 ): number {
   let gy = 0
   if (x * x + z * z <= ALPHA_RADIUS * ALPHA_RADIUS) gy = PAD_TOP
@@ -43,6 +57,15 @@ export function groundHeight(
     const dx = x - BETA_CENTER[0]
     const dz = z - BETA_CENTER[1]
     if (dx * dx + dz * dz <= BETA_RADIUS * BETA_RADIUS) gy = Math.max(gy, PAD_TOP)
+  }
+  if (hasBetaAnnex) {
+    // Annex pad is a diamond (square rotated 45°): |dx| + |dz| <= R inside.
+    const dx = Math.abs(x - ANNEX_CENTER[0])
+    const dz = Math.abs(z - ANNEX_CENTER[1])
+    if (dx + dz <= ANNEX_RADIUS - 0.15) gy = Math.max(gy, PAD_TOP)
+    if (x >= ANNEX_BRIDGE.x0 && x <= ANNEX_BRIDGE.x1 && Math.abs(z - ANNEX_BRIDGE.z) <= ANNEX_BRIDGE.halfWidth) {
+      gy = Math.max(gy, PAD_TOP)
+    }
   }
   if (blueprint) {
     if (Math.abs(x - blueprint[0]) <= BLUEPRINT_HALF && Math.abs(z - blueprint[2]) <= BLUEPRINT_HALF) {

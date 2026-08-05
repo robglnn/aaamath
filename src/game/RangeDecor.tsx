@@ -4,6 +4,7 @@ import { AdditiveBlending } from 'three'
 import type { Mesh, MeshBasicMaterial, MeshStandardMaterial } from 'three'
 import { ALPHA_RADIUS, PAD_TOP, TERMINAL_POS } from '@/game/world'
 import { getProcTextureKit, makeHazardStripeTexture } from '@/game/proc'
+import { AuthoredProps } from '@/game/AuthoredProps'
 
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
@@ -32,6 +33,7 @@ export function RangeDecor() {
       <SupplyCrates />
       <DistantSpires />
       <GroundBreakup />
+      <AuthoredProps />
     </group>
   )
 }

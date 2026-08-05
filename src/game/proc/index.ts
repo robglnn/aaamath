@@ -2,6 +2,8 @@ export {
   makeNoiseFloorTexture,
   makePanelTexture,
   makeHexPadTexture,
+  makeSteelPlateTexture,
+  makeStencilDecalTexture,
   makeHazardStripeTexture,
   getProcTextureKit,
   disposeProcTextureKit,

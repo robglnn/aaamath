@@ -9,7 +9,10 @@ import { BlueprintGhost } from '@/game/BlueprintGhost'
 import { RangeDecor } from '@/game/RangeDecor'
 import { AtmosphereFx } from '@/game/AtmosphereFx'
 import { TerminalScreen } from '@/game/TerminalScreen'
+import { UnlockCelebrationFx } from '@/game/UnlockCelebrationFx'
 import { getProcTextureKit } from '@/game/proc'
+import { L2UnlockProps } from '@/game/L2UnlockProps'
+import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
 import { ALPHA_RADIUS, BETA_CENTER, BETA_RADIUS, GATE_Z, PAD_TOP, TERMINAL_POS, groundHeight, rig } from '@/game/world'
 
 const SKY = '#0b1a24'
@@ -17,62 +20,6 @@ const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 
 /* ---------- Canvas-baked textures: procedural, offline-safe, zero font/CDN fetches ---------- */
-
-function makeCanvas(w: number, h: number) {
-  const canvas = document.createElement('canvas')
-  canvas.width = w
-  canvas.height = h
-  return { canvas, ctx: canvas.getContext('2d') }
-}
-
-const labelTexCache = new Map<string, CanvasTexture>()
-
-/** Neon signage face: letter-spaced uppercase, colored glow passes + white hot core. */
-function bakeLabelTexture(text: string, color: string): CanvasTexture {
-  const key = `${text}|${color}`
-  const cached = labelTexCache.get(key)
-  if (cached) return cached
-  const W = 1024
-  const H = 256
-  const { canvas, ctx } = makeCanvas(W, H)
-  if (ctx) {
-    const stack = '"Segoe UI", system-ui, -apple-system, sans-serif'
-    const chars = [...text]
-    // Manual letter-spacing — ctx.letterSpacing is missing on older Safari
-    const measure = (size: number) => {
-      ctx.font = `700 ${size}px ${stack}`
-      const spacing = size * 0.16
-      const widths = chars.map((c) => ctx.measureText(c).width)
-      return { widths, spacing, total: widths.reduce((a, b) => a + b, 0) + spacing * (chars.length - 1) }
-    }
-    let size = 120
-    let lay = measure(size)
-    while (lay.total > W * 0.9 && size > 44) {
-      size -= 6
-      lay = measure(size)
-    }
-    const stamp = (fill: string, glowBlur: number) => {
-      ctx.font = `700 ${size}px ${stack}`
-      ctx.textBaseline = 'middle'
-      ctx.fillStyle = fill
-      ctx.shadowColor = color
-      ctx.shadowBlur = glowBlur
-      let x = (W - lay.total) / 2
-      chars.forEach((c, i) => {
-        ctx.fillText(c, x, H / 2 + size * 0.05)
-        x += lay.widths[i] + lay.spacing
-      })
-    }
-    stamp(color, 34)
-    stamp(color, 14)
-    stamp('#ffffff', 5)
-  }
-  const tex = new CanvasTexture(canvas)
-  tex.colorSpace = SRGBColorSpace
-  tex.anisotropy = 4
-  labelTexCache.set(key, tex)
-  return tex
-}
 
 let floorMaps: { map: CanvasTexture; roughnessMap: CanvasTexture } | null = null
 
@@ -228,7 +175,11 @@ function CameraRig() {
     cam.x += (tx - cam.x) * k
     cam.y += (ty - cam.y) * k
     cam.z += (tz - cam.z) * k
-    state.camera.lookAt(p.x, p.y + 1.35 + pitch * 0.6, p.z)
+    const nudge = rig.gateCelebration
+    const lookX = p.x * (1 - nudge * 0.25)
+    const lookY = p.y + 1.35 + pitch * 0.6
+    const lookZ = p.z * (1 - nudge * 0.25) + GATE_Z * nudge * 0.25
+    state.camera.lookAt(lookX, lookY, lookZ)
   })
   return null
 }
@@ -441,44 +392,6 @@ function Terminal() {
   )
 }
 
-function ZoneLabel({ text, color, y = 1.6, faceY = 0 }: { text: string; color: string; y?: number; faceY?: number }) {
-  // Canvas-baked neon face — offline-safe (troika Text pulls a CDN font at runtime)
-  const tex = useMemo(() => bakeLabelTexture(text, color), [text, color])
-  const bobRef = useRef<Group>(null)
-  const width = Math.min(4.8, Math.max(2.8, text.length * 0.3))
-  const h = width / 4
-
-  useFrame((state) => {
-    if (bobRef.current) {
-      bobRef.current.position.y = y + Math.sin(state.clock.elapsedTime * 1.25 + faceY) * 0.045
-    }
-  })
-
-  return (
-    <group rotation={[0, faceY, 0]} name={text}>
-      <group ref={bobRef} position={[0, y, 0]}>
-        {/* Backing plate */}
-        <mesh>
-          <boxGeometry args={[width + 0.4, h + 0.32, 0.07]} />
-          <meshStandardMaterial color="#08141c" metalness={0.55} roughness={0.35} />
-        </mesh>
-        {/* Baked neon face — meshBasic + toneMapped off keeps it legible from spawn */}
-        <mesh position={[0, 0, 0.05]}>
-          <planeGeometry args={[width, h]} />
-          <meshBasicMaterial map={tex} transparent toneMapped={false} depthWrite={false} />
-        </mesh>
-        {/* Accent edge strips */}
-        {[h / 2 + 0.14, -h / 2 - 0.14].map((ey) => (
-          <mesh key={ey} position={[0, ey, 0.04]}>
-            <boxGeometry args={[width + 0.4, 0.04, 0.02]} />
-            <meshBasicMaterial color={color} toneMapped={false} />
-          </mesh>
-        ))}
-      </group>
-    </group>
-  )
-}
-
 /** Procedural deck floor — canvas-baked plating + roughness variation instead of flat #0a141d. */
 function DeckFloor() {
   const { map, roughnessMap } = useMemo(bakeFloorMaps, [])
@@ -552,12 +465,12 @@ function BetaZone() {
       </mesh>
       <mesh position={[0, 0.14, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <torusGeometry args={[BETA_RADIUS - 0.25, 0.045, 8, 64]} />
-        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 1.4 : 0.65} />
+        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 1.4 : 0.42} />
       </mesh>
       {/* Blueprint pad payoff marker */}
       <mesh position={[0, 0.12, 0]} rotation={[-Math.PI / 2, 0, Math.PI / 4]}>
         <ringGeometry args={[1.2, 1.45, 4]} />
-        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 0.9 : 0.35} transparent opacity={0.7} />
+        <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 0.9 : 0.22} transparent opacity={unlocked ? 0.7 : 0.45} />
       </mesh>
       {/* Unlocked: rotating holo ring + breathing scan wave sell the payoff */}
       {unlocked && (
@@ -580,8 +493,13 @@ function BetaZone() {
           </mesh>
         </>
       )}
-      <ZoneLabel text={unlocked ? 'ZONE BETA' : 'ZONE BETA LOCKED'} color={accent} y={2.1} />
-      <pointLight position={[0, 2.6, 0]} color={accent} intensity={unlocked ? 9 : 3} distance={12} decay={2} />
+      <ZoneLabel
+        text={unlocked ? 'ZONE BETA' : 'BETA LOCKED'}
+        color={accent}
+        y={unlocked ? 2.1 : 1.55}
+        subdued={!unlocked}
+      />
+      <pointLight position={[0, 2.6, 0]} color={accent} intensity={unlocked ? 9 : 1.8} distance={12} decay={2} />
     </group>
   )
 }
@@ -603,8 +521,8 @@ function BetaBarrier() {
         // Fade the energy wall out as it sinks into the floor
         paneMat.current.opacity = Math.max(0, 0.2 * (g.position.y + 1.9) / 1.9)
       } else {
-        // Locked: gentle energy shimmer so the gate reads as a barrier, not a wall
-        paneMat.current.opacity = 0.17 + Math.sin(state.clock.elapsedTime * 2.4) * 0.05
+        // Locked: gentle energy shimmer — subdued so Terminal stays hero POI
+        paneMat.current.opacity = 0.11 + Math.sin(state.clock.elapsedTime * 2.4) * 0.03
       }
     }
   })
@@ -627,12 +545,12 @@ function BetaBarrier() {
         {[-2.9, 2.9].map((x) => (
           <mesh key={x} position={[x, 0.95, 0]}>
             <cylinderGeometry args={[0.09, 0.12, 1.9, 8]} />
-            <meshStandardMaterial color="#3a2c12" emissive={accent} emissiveIntensity={unlocked ? 1.1 : 0.7} metalness={0.4} roughness={0.4} />
+            <meshStandardMaterial color="#3a2c12" emissive={accent} emissiveIntensity={unlocked ? 1.1 : 0.45} metalness={0.4} roughness={0.4} />
           </mesh>
         ))}
         <mesh position={[0, 1.95, 0]}>
           <boxGeometry args={[6.0, 0.1, 0.2]} />
-          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 1.6 : 1.1} />
+          <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={unlocked ? 1.6 : 0.75} />
         </mesh>
       </group>
       {/* Open-door threshold glow stays behind after the wall drops */}
@@ -646,97 +564,7 @@ function BetaBarrier() {
   )
 }
 
-/** One-shot burst at the gate — deferred until explore so lesson overlay doesn't eat the beat. */
-function GateUnlockFx() {
-  const unlocked = useGameStore((s) => s.hasZoneBeta)
-  const prev = useRef<boolean | null>(null)
-  const pending = useRef(false)
-  const start = useRef(-1)
-  const ringRef = useRef<Mesh>(null)
-  const ringMat = useRef<MeshStandardMaterial>(null)
-  const beamRef = useRef<Mesh>(null)
-  const beamMat = useRef<MeshBasicMaterial>(null)
-  const lightRef = useRef<PointLight>(null)
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime
-    const mode = useGameStore.getState().mode
-
-    if (prev.current === null) {
-      prev.current = unlocked
-      return
-    }
-
-    if (unlocked !== prev.current) {
-      prev.current = unlocked
-      if (unlocked) {
-        if (mode === 'lesson') pending.current = true
-        else start.current = t
-      }
-    }
-
-    if (pending.current && mode !== 'lesson' && unlocked) {
-      pending.current = false
-      start.current = t
-    }
-    const firing = start.current >= 0
-    if (ringRef.current) ringRef.current.visible = firing
-    if (beamRef.current) beamRef.current.visible = firing
-    if (lightRef.current) lightRef.current.intensity = 0
-    if (!firing) return
-    const p = (t - start.current) / 1.5
-    if (p >= 1) {
-      start.current = -1
-      return
-    }
-    const ease = 1 - Math.pow(1 - p, 2)
-    if (ringRef.current && ringMat.current) {
-      const s = 0.6 + ease * 7
-      ringRef.current.scale.set(s, s, s)
-      ringMat.current.opacity = 0.95 * (1 - p)
-    }
-    if (beamRef.current && beamMat.current) {
-      const w = 1 + ease * 1.6
-      beamRef.current.scale.set(w, 1, w)
-      beamMat.current.opacity = 0.8 * (1 - p) * (1 - p)
-    }
-    if (lightRef.current) {
-      lightRef.current.intensity = 34 * (1 - p) * (1 - p)
-    }
-  })
-
-  return (
-    <group position={[0, 0, GATE_Z]}>
-      <mesh ref={ringRef} visible={false} position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[0.92, 1, 48]} />
-        <meshStandardMaterial
-          ref={ringMat}
-          color={CYAN}
-          emissive={CYAN}
-          emissiveIntensity={1.6}
-          transparent
-          opacity={0}
-          depthWrite={false}
-        />
-      </mesh>
-      <mesh ref={beamRef} visible={false} position={[0, 3, 0]}>
-        <cylinderGeometry args={[2.9, 2.9, 6, 24, 1, true]} />
-        <meshBasicMaterial
-          ref={beamMat}
-          color={CYAN}
-          transparent
-          opacity={0}
-          blending={AdditiveBlending}
-          depthWrite={false}
-          side={2}
-        />
-      </mesh>
-      <pointLight ref={lightRef} position={[0, 2.2, 0]} color={CYAN} intensity={0} distance={16} decay={2} />
-    </group>
-  )
-}
-
-/** Floor studs that march from the gate toward Beta once it opens — “this way” cue. */
 function GatePathLights() {
   const unlocked = useGameStore((s) => s.hasZoneBeta)
   const mats = useRef<(MeshStandardMaterial | null)[]>([])
@@ -816,8 +644,9 @@ export function TrainingRange() {
       <Terminal />
       <BetaZone />
       <BetaBarrier />
-      <GateUnlockFx />
+      <UnlockCelebrationFx />
       <GatePathLights />
+      <L2UnlockProps />
       <Player />
       <BlueprintGhost />
       <CameraRig />

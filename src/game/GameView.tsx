@@ -28,7 +28,7 @@ function isCoarsePointer(): boolean {
 }
 
 export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameViewProps) {
-  const { blueprint, rank, zoneBeta } = unlocked
+  const { blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex } = unlocked
   const pointerLocked = useGameStore((s) => s.pointerLocked)
   const [showLockHint, setShowLockHint] = useState(true)
   const [brandPhase, setBrandPhase] = useState<'reveal' | 'watermark'>('reveal')
@@ -36,8 +36,10 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
   const drag = useRef<{ id: number; x: number; y: number; moved: number } | null>(null)
 
   useEffect(() => {
-    useGameStore.getState().applyMasteryUnlocks({ blueprint, rank, zoneBeta })
-  }, [blueprint, rank, zoneBeta])
+    useGameStore
+      .getState()
+      .applyMasteryUnlocks({ blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex })
+  }, [blueprint, rank, zoneBeta, railBlueprint, adeptRank, betaAnnex])
 
   useEffect(() => {
     const toWatermark = window.setTimeout(() => setBrandPhase('watermark'), 2400)

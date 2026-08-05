@@ -50,13 +50,16 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
   const hasBlueprint = useGameStore((s) => s.hasBlueprint)
   const blueprintPlaced = useGameStore((s) => s.blueprintPlaced)
   const hasZoneBeta = useGameStore((s) => s.hasZoneBeta)
+  const hasRailBlueprint = useGameStore((s) => s.hasRailBlueprint)
+  const hasAdeptRank = useGameStore((s) => s.hasAdeptRank)
+  const hasBetaAnnex = useGameStore((s) => s.hasBetaAnnex)
   const activeZone = useGameStore((s) => s.activeZone)
   const mode = useGameStore((s) => s.mode)
   const setMode = useGameStore((s) => s.setMode)
   const requestPlace = useGameStore((s) => s.requestPlace)
 
   const [unlockFlash, setUnlockFlash] = useState<UnlockFlash>(null)
-  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta })
+  const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex })
   const prevNearTerminal = useRef(nearTerminal)
   const syncReady = useRef(false)
   const pendingFlash = useRef<UnlockFlash>(null)
@@ -86,7 +89,11 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     if (!prev.hasRank && hasRank) flash = 'rank'
     else if (!prev.hasBlueprint && hasBlueprint) flash = 'blueprint'
     else if (!prev.hasZoneBeta && hasZoneBeta) flash = 'zone'
-    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta }
+    // L2 transitions reuse the same flash card (rail → blueprint, adept → rank, annex → zone)
+    else if (!prev.hasAdeptRank && hasAdeptRank) flash = 'rank'
+    else if (!prev.hasRailBlueprint && hasRailBlueprint) flash = 'blueprint'
+    else if (!prev.hasBetaAnnex && hasBetaAnnex) flash = 'zone'
+    prevUnlocks.current = { hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex }
 
     if (!syncReady.current) {
       syncReady.current = true
@@ -101,7 +108,7 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
     }
 
     showFlash(flash)
-  }, [hasRank, hasBlueprint, hasZoneBeta, mode])
+  }, [hasRank, hasBlueprint, hasZoneBeta, hasRailBlueprint, hasAdeptRank, hasBetaAnnex, mode])
 
   useEffect(() => {
     if (mode === 'lesson' || !pendingFlash.current) return

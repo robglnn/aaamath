@@ -253,6 +253,117 @@ export function makeHexPadTexture(size = 256): CanvasTexture {
  * the rotated bands keep their angle at any pad aspect. Also usable as an
  * emissiveMap — the dark bands are near-black and emit ~nothing.
  */
+/**
+ * Brushed steel service plate: diagonal grain, rivet rows, chamfer lip, stencil ID.
+ * Tile-friendly edges for wrapping onto duct / junction boxes.
+ */
+export function makeSteelPlateTexture(size = 256): CanvasTexture {
+  const ctx = createCtx(size)
+  const rand = mulberry32(0x7c3a9)
+
+  ctx.fillStyle = '#142a38'
+  ctx.fillRect(0, 0, size, size)
+
+  // Brushed grain — diagonal micro-lines
+  ctx.strokeStyle = 'rgba(90,150,165,0.08)'
+  ctx.lineWidth = 1
+  for (let i = -size; i < size * 2; i += 3) {
+    ctx.beginPath()
+    ctx.moveTo(i, 0)
+    ctx.lineTo(i + size, size)
+    ctx.stroke()
+  }
+
+  // Chamfer frame
+  ctx.fillStyle = '#2a5a6e'
+  ctx.fillRect(0, 0, size, 3)
+  ctx.fillRect(0, 0, 3, size)
+  ctx.fillStyle = '#060e14'
+  ctx.fillRect(0, size - 3, size, 3)
+  ctx.fillRect(size - 3, 0, 3, size)
+
+  const inset = Math.round(size * 0.08)
+  const inner = size - inset * 2
+  ctx.fillStyle = '#172f3e'
+  ctx.fillRect(inset, inset, inner, inner)
+
+  // Rivet rows along top/bottom edges
+  const rivet = (x: number, y: number) => {
+    ctx.fillStyle = '#050c12'
+    ctx.beginPath()
+    ctx.arc(x + 1, y + 1, size * 0.014 + 1, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = '#3d7a8a'
+    ctx.beginPath()
+    ctx.arc(x, y, size * 0.014 + 1, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = 'rgba(180,230,235,0.35)'
+    ctx.beginPath()
+    ctx.arc(x - 0.8, y - 0.8, size * 0.005, 0, Math.PI * 2)
+    ctx.fill()
+  }
+  const rowY = inset + Math.round(size * 0.06)
+  const rowY2 = size - inset - Math.round(size * 0.06)
+  for (let x = inset + 12; x < size - inset - 8; x += Math.round(size * 0.11)) {
+    rivet(x, rowY)
+    rivet(x, rowY2)
+  }
+
+  // Stencil service ID
+  ctx.font = `700 ${Math.round(size * 0.09)}px "Segoe UI", system-ui, sans-serif`
+  ctx.fillStyle = 'rgba(61,214,198,0.55)'
+  ctx.textAlign = 'right'
+  ctx.textBaseline = 'bottom'
+  ctx.fillText('SVC-07', size - inset - 8, size - inset - 6)
+
+  speckle(ctx, rand, size, size >> 1, 'rgba(120,190,200,0.035)', 1)
+
+  return bake(ctx)
+}
+
+/**
+ * Crate / cargo stencil: hazard triangle, bar code ticks, unit number.
+ * Non-tiling — mapped 1:1 onto box faces.
+ */
+export function makeStencilDecalTexture(width = 128, height = 128): CanvasTexture {
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('proc textures: 2D canvas context unavailable')
+
+  ctx.fillStyle = 'rgba(8,18,26,0.92)'
+  ctx.fillRect(0, 0, width, height)
+
+  // Hazard chevron
+  ctx.strokeStyle = 'rgba(240,168,48,0.85)'
+  ctx.lineWidth = 3
+  ctx.beginPath()
+  ctx.moveTo(width * 0.5, height * 0.18)
+  ctx.lineTo(width * 0.72, height * 0.42)
+  ctx.lineTo(width * 0.28, height * 0.42)
+  ctx.closePath()
+  ctx.stroke()
+  ctx.fillStyle = 'rgba(240,168,48,0.12)'
+  ctx.fill()
+
+  // Bar ticks
+  ctx.fillStyle = 'rgba(61,214,198,0.5)'
+  for (let i = 0; i < 7; i++) {
+    const w = i % 3 === 0 ? 3 : 1.5
+    ctx.fillRect(width * 0.22 + i * 9, height * 0.52, w, height * 0.22)
+  }
+
+  ctx.font = `600 ${Math.round(height * 0.11)}px "Segoe UI", system-ui, sans-serif`
+  ctx.fillStyle = 'rgba(159,217,212,0.7)'
+  ctx.textAlign = 'center'
+  ctx.fillText('UNIT-42', width * 0.5, height * 0.88)
+
+  const tex = new CanvasTexture(canvas)
+  tex.colorSpace = SRGBColorSpace
+  return tex
+}
+
 export function makeHazardStripeTexture(width = 256, height = 128): CanvasTexture {
   const canvas = document.createElement('canvas')
   canvas.width = width

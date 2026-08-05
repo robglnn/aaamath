@@ -51,6 +51,7 @@ export function Player() {
   const grounded = useRef(true)
   const lastJumpNonce = useRef(0)
   const animPhase = useRef(0)
+  const hasAdeptRank = useGameStore((s) => s.hasAdeptRank)
   const { panel } = useMemo(() => getProcTextureKit(), [])
 
   useEffect(() => {
@@ -124,7 +125,7 @@ export function Player() {
     p.x += mx * speed * dt
     p.z += mz * speed * dt
 
-    const gy = groundHeight(p.x, p.z, s.hasZoneBeta, s.blueprintPosition)
+    const gy = groundHeight(p.x, p.z, s.hasZoneBeta, s.blueprintPosition, s.hasBetaAnnex)
     if (rig.jumpQueued) {
       if (grounded.current && s.mode !== 'lesson') {
         velY.current = JUMP_SPEED
@@ -252,6 +253,27 @@ export function Player() {
             <boxGeometry args={[0.08, 0.05, 0.04]} />
             <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={0.9} />
           </mesh>
+          {/* Riser Adept (L2 rank): amber second chevrons + cyan/amber dual chest mark */}
+          {hasAdeptRank && (
+            <>
+              <mesh position={[-0.36, 1.005, 0.12]}>
+                <boxGeometry args={[0.08, 0.03, 0.04]} />
+                <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.35} />
+              </mesh>
+              <mesh position={[0.36, 1.005, 0.12]}>
+                <boxGeometry args={[0.08, 0.03, 0.04]} />
+                <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.35} />
+              </mesh>
+              <mesh position={[-0.055, 0.96, 0.29]}>
+                <boxGeometry args={[0.05, 0.05, 0.04]} />
+                <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.6} />
+              </mesh>
+              <mesh position={[0.055, 0.96, 0.29]}>
+                <boxGeometry args={[0.05, 0.05, 0.04]} />
+                <meshStandardMaterial color={AMBER} emissive={AMBER} emissiveIntensity={1.6} />
+              </mesh>
+            </>
+          )}
           {/* Backpack */}
           <mesh position={[0, 0.8, -0.26]}>
             <boxGeometry args={[0.38, 0.42, 0.2]} />
