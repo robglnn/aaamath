@@ -3,51 +3,40 @@
 **Repo:** `C:\dev\aaamath` → `origin/main`  
 **Live:** https://robglnn.github.io/aaamath/  
 **Started:** 2026-08-05 ~05:36 EDT  
-**Latest:** `96b6fb3` (Lesson 2 terminal wiring)
+**Head:** `0cee751`
 
-## Status board
+## Status board (condensed)
 
-| Wave | Focus | Commit | Critic |
-|------|-------|--------|--------|
-| 1–11 | AAA visuals, load path, audio, UI | `2e6db91`…`1609f67` | overnight **PASS_WITH_GAPS** |
-| 12 | Lesson 2 content package | `cb67008` | validate PASSED |
-| 13 | Terminal opens L2 after L1 mastery | `96b6fb3` | pending |
+| Waves | Theme | Landmark commits |
+|-------|--------|------------------|
+| 1–11 | AAA visuals, audio, load architecture | `2e6db91`…`1609f67` |
+| 12–13 | Lesson 2 content + terminal wiring | `cb67008`, `96b6fb3` |
+| 14 | Speech locale voice mapping | `0cee751` |
 
-Wrap critic: `docs/gauntlet/critic-overnight-final.md`
-
-## Pedagogy
-- L1 playable; L2 playable after L1 mastery
-- Content validate: both packages PASSED
-- `celebrating = masteryDone`; you_do freeze intact
-
-## Pages
-https://robglnn.github.io/aaamath/ — Actions green; cold shell thin; KaTeX deferred
-
----
+Overnight visual critic: `docs/gauntlet/critic-overnight-final.md` → **PASS_WITH_GAPS (mandate succeeded)**
 
 ## Morning summary
 
-### Waves / commits
-13 coherent waves on `origin/main`. Visual mandate critic: **PASS_WITH_GAPS — overnight mandate succeeded.** Then Lesson 2 content + terminal wiring.
+### Waves completed
+14 coherent push waves to `origin/main` (plus CI recovery / docs). Builder≠critic reports under `docs/gauntlet/`.
 
-Key commits: `2e6db91` W1 · `ffab87d` W2 · `94d60a7` W3 · `354195a` W5 · `56480ad` W6 · `783e8f6` W8 · `7db51fa` W10 · `1609f67` W11+wrap · `cb67008` L2 content · `96b6fb3` L2 wire
+### Commits (selected spine)
+`2e6db91` W1 visuals · `ffab87d` W2 signs · `94d60a7` W3 materials · `354195a` W5 density · `56480ad` W6 motes · `783e8f6` W8 code-split · `7db51fa` W10 KaTeX defer · `1609f67` W11+wrap critic · `cb67008` L2 package · `96b6fb3` L2 wire · `0cee751` speech
 
 ### Before → after
-| Before | After |
-|--------|-------|
-| Capsule + cyan grid | Densified Valerian range, canvas signs, live terminal, motes, hazard ground |
-| No mission literacy | HUD objectives + mastery celebrate |
-| ~1.45MB monolith | Split chunks; ~20kB cold shell; KaTeX off first paint |
-| Lesson 1 only | Lesson 2 Combining Like Terms after L1 mastery |
+- Capsule/cyan-grid → densified Valerian training range (signs, proc materials, live terminal, density, motes, hazard ground, audio)
+- Monolith JS → split chunks; cold shell ~20kB; KaTeX off first paint
+- Lesson 1 only → Lesson 2 Combining Like Terms after L1 mastery
+- Thin speech → EN/ES/PL voice family selection with text fallback
 
 ### Pages health
-**Green** at https://robglnn.github.io/aaamath/
+https://robglnn.github.io/aaamath/ — **green** (Actions Deploy GitHub Pages succeeding; `base: '/aaamath/'`)
 
 ### Remaining gaps vs Fortnite AAA
-1. Authored GLTF prop/material fidelity (kitbash ceiling)
-2. L2 unlocks not yet manifested as new 3D props
-3. Unlock FX end-to-end not fully filmed
-4. Speech locale voice mapping thin
+1. Authored GLTF prop/material fidelity (procedural kitbash ceiling)
+2. L2 unlocks not yet new 3D range props
+3. Full mastery→Beta unlock FX not fully filmed in-camera
+4. Further curriculum beyond L2
 
-### Next
-Map L2 unlocks into range props; optional art-authoring pass; speech voices
+### Pedagogy
+Non-regressed: KaTeX, mastery gate, adaptive you_do freeze, EN/ES/PL, progress wiring.
