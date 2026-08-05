@@ -75,6 +75,13 @@ export type UiKey =
   | 'moveStick'
   | 'lookLeft'
   | 'lookRight'
+  | 'recruitRank'
+  | 'zoneActive'
+  | 'objectiveZoneBetaOpen'
+  | 'objectivePlaceBlueprint'
+  | 'objectiveReachTerminal'
+  | 'blueprintOnline'
+  | 'reviewDuePrefix'
 
 const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
   en: {
@@ -152,6 +159,13 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     moveStick: 'Move',
     lookLeft: 'Look L',
     lookRight: 'Look R',
+    recruitRank: 'Recruit',
+    zoneActive: 'Active',
+    objectiveZoneBetaOpen: 'Zone Beta open — explore the new pad',
+    objectivePlaceBlueprint: 'Place your blueprint pad (B)',
+    objectiveReachTerminal: 'Objective · Reach the Algebra Terminal',
+    blueprintOnline: 'Blueprint online',
+    reviewDuePrefix: 'due ',
   },
   es: {
     startLesson: 'Entrar al briefing',
@@ -228,6 +242,13 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     moveStick: 'Mover',
     lookLeft: 'Mirar I',
     lookRight: 'Mirar D',
+    recruitRank: 'Recluta',
+    zoneActive: 'Activo',
+    objectiveZoneBetaOpen: 'Zona Beta abierta — explora la nueva plataforma',
+    objectivePlaceBlueprint: 'Coloca tu plataforma de plano (B)',
+    objectiveReachTerminal: 'Objetivo · Llega al Terminal de Álgebra',
+    blueprintOnline: 'Plano en línea',
+    reviewDuePrefix: 'vence ',
   },
   pl: {
     startLesson: 'Wejdź do briefingu',
@@ -304,6 +325,13 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     moveStick: 'Ruch',
     lookLeft: 'Patrz L',
     lookRight: 'Patrz P',
+    recruitRank: 'Rekrut',
+    zoneActive: 'Aktywna',
+    objectiveZoneBetaOpen: 'Strefa Beta otwarta — eksploruj nową platformę',
+    objectivePlaceBlueprint: 'Umieść platformę planu (B)',
+    objectiveReachTerminal: 'Cel · Dotrzyj do Terminala Algebry',
+    blueprintOnline: 'Plan online',
+    reviewDuePrefix: 'do ',
   },
 }
 

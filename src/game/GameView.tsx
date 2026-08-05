@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 import { Canvas } from '@react-three/fiber'
+import { ensureAudio, playBlip, setAmbient } from '@/game/audio'
 import { useGameStore } from '@/game/store'
 import type { UnlockFlags } from '@/game/store'
 import { TrainingRange } from '@/game/TrainingRange'
@@ -55,6 +56,11 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
   }, [lessonOpen])
 
   useEffect(() => {
+    setAmbient(!lessonOpen)
+    return () => setAmbient(false)
+  }, [lessonOpen])
+
+  useEffect(() => {
     const onLockChange = () => {
       const locked = document.pointerLockElement === rootRef.current
       useGameStore.getState().setPointerLocked(locked)
@@ -74,6 +80,8 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
   }, [lessonOpen])
 
   const openTerminal = useCallback(() => {
+    ensureAudio()
+    playBlip('open')
     if (document.pointerLockElement) document.exitPointerLock()
     useGameStore.getState().setMode('lesson')
     onOpenTerminal()
@@ -116,6 +124,7 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
   }, [openTerminal, lessonOpen])
 
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    ensureAudio()
     if (lessonOpen) return
     if (e.pointerType === 'mouse' && e.button !== 0) return
     const mode = useGameStore.getState().mode
@@ -168,7 +177,13 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
       </Canvas>
 
       <div
-        className={`gr-brand${brandPhase === 'watermark' ? ' gr-brand-watermark' : ''}${lessonOpen ? ' gr-brand-hidden' : ''}`}
+        className={`gr-brand${brandPhase === 'watermark' ? ' gr-brand-hero-exit' : ''}${lessonOpen ? ' gr-brand-hidden' : ''}`}
+        aria-hidden
+      >
+        <span className="gr-brand-title">Axiom Rising</span>
+      </div>
+      <div
+        className={`gr-brand gr-brand-watermark${brandPhase === 'watermark' ? ' gr-brand-watermark-visible' : ''}${lessonOpen ? ' gr-brand-hidden' : ''}`}
         aria-hidden
       >
         <span className="gr-brand-title">Axiom Rising</span>

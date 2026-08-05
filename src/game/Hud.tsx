@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { playBlip } from '@/game/audio'
 import { useGameStore } from '@/game/store'
-import { useProgressStore } from '@/progress/store'
+import { lesson1 } from '@/content/loadLesson'
+import { pickLocalized, useProgressStore } from '@/progress/store'
 import { ui } from '@/i18n/ui'
 
 interface HudProps {
@@ -32,12 +34,14 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
 
   const [unlockFlash, setUnlockFlash] = useState<UnlockFlash>(null)
   const prevUnlocks = useRef({ hasRank, hasBlueprint, hasZoneBeta })
+  const prevNearTerminal = useRef(nearTerminal)
   const syncReady = useRef(false)
   const pendingFlash = useRef<UnlockFlash>(null)
   const flashTimer = useRef<number | null>(null)
 
   const showFlash = (flash: UnlockFlash) => {
     if (!flash) return
+    playBlip('unlock')
     if (flashTimer.current) window.clearTimeout(flashTimer.current)
     setUnlockFlash(flash)
     flashTimer.current = window.setTimeout(() => {
@@ -45,6 +49,13 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
       flashTimer.current = null
     }, FLASH_MS)
   }
+
+  useEffect(() => {
+    if (!prevNearTerminal.current && nearTerminal && mode === 'explore') {
+      playBlip('prompt')
+    }
+    prevNearTerminal.current = nearTerminal
+  }, [nearTerminal, mode])
 
   useEffect(() => {
     const prev = prevUnlocks.current
@@ -91,6 +102,17 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
           ? ui(locale, 'unlockZone')
           : ''
 
+  const rankUnlock = lesson1.unlocks.find((u) => u.id === lesson1.worldIntegration.unlockRankId)
+  const zoneUnlock = lesson1.unlocks.find((u) => u.id === lesson1.worldIntegration.unlockZoneId)
+  const rankTitle = rankUnlock ? pickLocalized(rankUnlock.title, locale) : ui(locale, 'recruitRank')
+  const zoneTitle = zoneUnlock ? pickLocalized(zoneUnlock.title, locale) : ui(locale, 'zoneUnlocked')
+
+  const objectiveText = hasZoneBeta
+    ? ui(locale, 'objectiveZoneBetaOpen')
+    : hasBlueprint && !blueprintPlaced
+      ? ui(locale, 'objectivePlaceBlueprint')
+      : ui(locale, 'objectiveReachTerminal')
+
   return (
     <div className="gr-hud">
       <div className="gr-hud-rail">
@@ -99,7 +121,7 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
             <span className="gr-rank-icon" aria-hidden>
               ◆
             </span>
-            Riser Initiate
+            {rankTitle}
           </span>
         )}
         {hasZoneBeta && (
@@ -107,22 +129,18 @@ export function Hud({ onOpenTerminal, pointerLocked = false }: HudProps) {
             className={`gr-zone${activeZone === 'beta' ? ' gr-zone-live' : ''}`}
             data-tier={activeZone === 'beta' ? 'primary' : 'secondary'}
           >
-            Zone Beta{activeZone === 'beta' ? ' · Active' : ''}
+            {zoneTitle}{activeZone === 'beta' ? ` · ${ui(locale, 'zoneActive')}` : ''}
           </span>
         )}
       </div>
 
       {mode !== 'lesson' && !nearTerminal && (
         <p className="gr-objective" role="status">
-          {hasZoneBeta
-            ? 'Zone Beta open — explore the new pad'
-            : hasBlueprint && !blueprintPlaced
-              ? 'Place your blueprint pad (B)'
-              : 'Objective · Reach the Algebra Terminal'}
+          {objectiveText}
         </p>
       )}
 
-      {blueprintPlaced && <span className="gr-status-placed">Blueprint online</span>}
+      {blueprintPlaced && <span className="gr-status-placed">{ui(locale, 'blueprintOnline')}</span>}
 
       {unlockFlash && mode !== 'lesson' && (
         <div className={`gr-unlock-flash gr-unlock-flash--${unlockFlash}`} role="status" aria-live="polite">

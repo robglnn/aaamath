@@ -607,7 +607,6 @@ function BetaBarrier() {
 /** One-shot burst at the gate — deferred until explore so lesson overlay doesn't eat the beat. */
 function GateUnlockFx() {
   const unlocked = useGameStore((s) => s.hasZoneBeta)
-  const mode = useGameStore((s) => s.mode)
   const prev = useRef<boolean | null>(null)
   const pending = useRef(false)
   const start = useRef(-1)
@@ -619,10 +618,13 @@ function GateUnlockFx() {
 
   useFrame((state) => {
     const t = state.clock.elapsedTime
+    const mode = useGameStore.getState().mode
+
     if (prev.current === null) {
       prev.current = unlocked
       return
     }
+
     if (unlocked !== prev.current) {
       prev.current = unlocked
       if (unlocked) {
@@ -630,6 +632,7 @@ function GateUnlockFx() {
         else start.current = t
       }
     }
+
     if (pending.current && mode !== 'lesson' && unlocked) {
       pending.current = false
       start.current = t

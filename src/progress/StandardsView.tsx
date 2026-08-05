@@ -3,7 +3,7 @@ import type { Jurisdiction, LessonPackage } from '@/content/types'
 import { loadLesson, LESSON_ID } from '@/content/loadLesson'
 import { MathText } from '@/lesson/MathText'
 import { ui, masteryStatusLabel } from '@/i18n/ui'
-import { useProgressStore } from '@/progress/store'
+import { pickLocalized, useProgressStore } from '@/progress/store'
 
 const JURISDICTIONS: Jurisdiction[] = [
   'CCSS',
@@ -44,7 +44,11 @@ export function StandardsView() {
   void lessonStates
 
   const lessonMastered = Boolean(pkg && lessonStates[pkg.id]?.status === 'mastered')
-  const rankLabel = unlocks.ranks[0] ?? null
+  const rankId = unlocks.ranks[0] ?? (lessonMastered ? pkg?.worldIntegration.unlockRankId : null)
+  const rankUnlock = rankId && pkg ? pkg.unlocks.find((u) => u.id === rankId) : null
+  const rankDisplay = rankUnlock ? pickLocalized(rankUnlock.title, locale) : ui(locale, 'recruitRank')
+
+  const dateLocale = locale === 'en' ? 'en-US' : locale === 'es' ? 'es-ES' : 'pl-PL'
 
   const kpGlance = useMemo(() => {
     if (!pkg) return { cleared: 0, total: 0 }
@@ -66,9 +70,7 @@ export function StandardsView() {
     <div className="standards-view">
       <section className="standing-card" aria-label={ui(locale, 'rankStanding')}>
         <p className="standing-eyebrow">{ui(locale, 'rankStanding')}</p>
-        <h3 className="standing-rank">
-          {rankLabel || (lessonMastered ? 'Riser Initiate' : 'Recruit')}
-        </h3>
+        <h3 className="standing-rank">{rankDisplay}</h3>
         <p className="standing-meta">
           {lessonMastered ? ui(locale, 'lessonMasteredStanding') : ui(locale, 'houseStanding')}
           {kpGlance.total > 0 && (
@@ -119,7 +121,10 @@ export function StandardsView() {
               </div>
               <span className={`badge ${status}`}>{masteryStatusLabel(locale, status)}</span>
               {kpState?.nextReviewAt && status === 'due_review' && (
-                <span className="review-due">due {new Date(kpState.nextReviewAt).toLocaleDateString()}</span>
+                <span className="review-due">
+                  {ui(locale, 'reviewDuePrefix')}
+                  {new Date(kpState.nextReviewAt).toLocaleDateString(dateLocale)}
+                </span>
               )}
             </li>
           )
