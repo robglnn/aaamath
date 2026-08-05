@@ -77,7 +77,9 @@ export function GameView({ unlocked, onOpenTerminal, lessonOpen = false }: GameV
     if (lessonOpen || isCoarsePointer()) return
     const el = rootRef.current
     if (!el || document.pointerLockElement === el) return
-    void el.requestPointerLock()
+    void el.requestPointerLock().catch(() => {
+      /* browser re-lock cooldown after Esc — ignore */
+    })
   }, [lessonOpen])
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type {
   ContentItem,
   LessonPackage,
@@ -62,25 +62,19 @@ function orderedPhases(pkg: LessonPackage): LessonPhase[] {
   )
 }
 
-function itemsForPhase(
-  pkg: LessonPackage,
-  phase: LessonPhase | null,
-  theta?: number,
-): ContentItem[] {
+function collectPhaseItems(pkg: LessonPackage, phase: LessonPhase | null): ContentItem[] {
   if (!phase) return []
   const ids = new Set(phase.itemIds)
-  const items = pkg.items.filter((item) => ids.has(item.id) || item.phase === phase.kind)
+  return pkg.items.filter((item) => ids.has(item.id) || item.phase === phase.kind)
+}
 
-  // Adaptive stub: for independent / you_do, order by 1PL information near θ
-  // so stronger students see harder items earlier (still all items remain available).
-  if (phase.kind === 'you_do' && typeof theta === 'number') {
-    return [...items].sort((a, b) => {
-      const infoA = raschInfo(theta, a.irtPriors?.b ?? 0)
-      const infoB = raschInfo(theta, b.irtPriors?.b ?? 0)
-      return infoB - infoA
-    })
-  }
-  return items
+/** Order independent items once by 1PL information at θ (do not re-sort mid-phase). */
+function orderByRaschInfo(items: ContentItem[], theta: number): ContentItem[] {
+  return [...items].sort((a, b) => {
+    const infoA = raschInfo(theta, a.irtPriors?.b ?? 0)
+    const infoB = raschInfo(theta, b.irtPriors?.b ?? 0)
+    return infoB - infoA
+  })
 }
 
 /** Fisher information for 1PL at ability θ for item difficulty b. */
@@ -109,13 +103,31 @@ export function useLessonSession(
   const [showSolution, setShowSolution] = useState(false)
   const [masteryTriggered, setMasteryTriggered] = useState(false)
   const [evidencedKpIds, setEvidencedKpIds] = useState<Set<string>>(() => new Set())
+  /** Frozen you_do queue — snapshot at phase entry so live θ cannot reshuffle under itemIndex. */
+  const [youDoQueue, setYouDoQueue] = useState<ContentItem[] | null>(null)
 
   const phase = phases[phaseIndex] ?? null
   const phaseKind = phase?.kind ?? 'objectives'
-  const phaseItems = useMemo(
-    () => (pkg ? itemsForPhase(pkg, phase, theta) : []),
-    [pkg, phase, theta],
-  )
+
+  useEffect(() => {
+    if (!pkg || !phase) {
+      setYouDoQueue(null)
+      return
+    }
+    if (phase.kind !== 'you_do') {
+      setYouDoQueue(null)
+      return
+    }
+    // Freeze on first enter; ignore later θ changes while still in you_do (prev stays).
+    setYouDoQueue((prev) => prev ?? orderByRaschInfo(collectPhaseItems(pkg, phase), theta))
+  }, [pkg, phase, theta])
+
+  const phaseItems = useMemo(() => {
+    if (!pkg || !phase) return []
+    if (phase.kind === 'you_do' && youDoQueue) return youDoQueue
+    return collectPhaseItems(pkg, phase)
+  }, [pkg, phase, youDoQueue])
+
   const currentItem = phaseItems[itemIndex] ?? null
 
   const masteryMet = useMemo(() => {
