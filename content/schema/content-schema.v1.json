@@ -27,7 +27,7 @@
     },
     "id": {
       "type": "string",
-      "pattern": "^lesson\\."
+      "pattern": "^(lesson\\.|algebra-)"
     },
     "courseId": {
       "type": "string"

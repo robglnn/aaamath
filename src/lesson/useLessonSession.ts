@@ -82,6 +82,7 @@ export function useLessonSession(pkg: LessonPackage | null, locale: Locale) {
   const [lastResult, setLastResult] = useState<AnswerResult | null>(null)
   const [showSolution, setShowSolution] = useState(false)
   const [masteryTriggered, setMasteryTriggered] = useState(false)
+  const [evidencedKpIds, setEvidencedKpIds] = useState<Set<string>>(() => new Set())
 
   const phase = phases[phaseIndex] ?? null
   const phaseKind = phase?.kind ?? 'objectives'
@@ -90,12 +91,13 @@ export function useLessonSession(pkg: LessonPackage | null, locale: Locale) {
 
   const masteryMet = useMemo(() => {
     if (!pkg) return false
-    const { minIndependentCorrect, minIndependentTotal } = pkg.mastery
-    return (
+    const { minIndependentCorrect, minIndependentTotal, requiredKpIds } = pkg.mastery
+    const countOk =
       independentCorrect >= minIndependentCorrect &&
       independentTotal >= minIndependentTotal
-    )
-  }, [pkg, independentCorrect, independentTotal])
+    const kpOk = requiredKpIds.every((id) => evidencedKpIds.has(id))
+    return countOk && kpOk
+  }, [pkg, independentCorrect, independentTotal, evidencedKpIds])
 
   const isComplete = phaseKind === 'complete' || (masteryMet && phaseKind === 'you_do')
 
@@ -105,16 +107,26 @@ export function useLessonSession(pkg: LessonPackage | null, locale: Locale) {
 
       let correct = false
       let feedback = ''
+      const solution = currentItem.workedSolution[locale] || currentItem.workedSolution.en
+      const useChoices = Boolean(choiceId && currentItem.choices?.length)
 
-      if (currentItem.type === 'mcq' && currentItem.choices) {
+      if (useChoices && currentItem.choices) {
         const choice = currentItem.choices.find((c) => c.id === choiceId)
         correct = Boolean(choice?.isCorrect)
         feedback = choice ? choice.feedback[locale] || choice.feedback.en : ''
       } else {
         correct = checkShortAnswer(currentItem, rawAnswer)
-        feedback = correct
-          ? currentItem.workedSolution[locale] || currentItem.workedSolution.en
-          : currentItem.workedSolution[locale] || currentItem.workedSolution.en
+        if (correct) {
+          feedback = solution
+        } else {
+          const hint =
+            locale === 'es'
+              ? 'No del todo. Revisa la solución trabajada: '
+              : locale === 'pl'
+                ? 'Nie do końca. Sprawdź rozwiązanie: '
+                : 'Not quite. Check the worked solution: '
+          feedback = hint + solution
+        }
       }
 
       const result: AnswerResult = { correct, feedback, choiceId }
@@ -124,7 +136,14 @@ export function useLessonSession(pkg: LessonPackage | null, locale: Locale) {
 
       if (isIndependentItem(currentItem)) {
         setIndependentTotal((n) => n + 1)
-        if (correct) setIndependentCorrect((n) => n + 1)
+        if (correct) {
+          setIndependentCorrect((n) => n + 1)
+          setEvidencedKpIds((prev) => {
+            const next = new Set(prev)
+            for (const kpId of currentItem.kpIds) next.add(kpId)
+            return next
+          })
+        }
       }
 
       return result

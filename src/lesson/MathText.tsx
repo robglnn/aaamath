@@ -21,10 +21,14 @@ export function MathText({
 }: MathTextProps) {
   const content = text ?? (localized ? pickLocalized(localized, locale) : '')
 
+  // Prefer prose + LaTeX twin so instruction verbs are not dropped (gauntlet seam fix).
   if (latex?.trim()) {
     const MathComponent = block ? BlockMath : InlineMath
+    const prose = content.trim()
+    const latexOnly = !prose || prose === latex.trim()
     return (
       <span className={className}>
+        {!latexOnly && <span className="math-prose">{prose} </span>}
         <MathComponent math={latex} />
       </span>
     )

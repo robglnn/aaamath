@@ -206,7 +206,8 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
               <MathText localized={currentItem.stem} locale={locale} latex={currentItem.stemLatex} />
             </div>
 
-            {currentItem.type === 'mcq' && currentItem.choices && (
+            {/* Render choices whenever authored — dual-mode items must not lose diagnostic distractors */}
+            {currentItem.choices && currentItem.choices.length > 0 ? (
               <div className="choice-grid">
                 {currentItem.choices.map((choice) => (
                   <button
@@ -220,47 +221,48 @@ export function LessonOverlay({ onClose, onMastered }: LessonOverlayProps) {
                   </button>
                 ))}
               </div>
-            )}
-
-            {(currentItem.type === 'short' ||
-              currentItem.type === 'evaluate' ||
-              currentItem.type === 'translate') && (
-              <div className="short-answer-row">
-                <label className="sr-only" htmlFor="lesson-answer">
-                  {ui(locale, 'yourAnswer')}
-                </label>
-                <input
-                  id="lesson-answer"
-                  className="text-input"
-                  type="text"
-                  inputMode="text"
-                  autoComplete="off"
-                  value={shortAnswer}
-                  onChange={(e) => setShortAnswer(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !lastResult) handleSubmit()
-                  }}
-                  disabled={Boolean(lastResult)}
-                  placeholder={ui(locale, 'yourAnswer')}
-                />
-                <button
-                  type="button"
-                  className="btn secondary"
-                  onClick={() => void handleListen()}
-                  disabled={listening || Boolean(lastResult)}
-                  title={canSTT() ? ui(locale, 'listen') : ui(locale, 'micUnavailable')}
-                >
-                  {listening ? ui(locale, 'listening') : ui(locale, 'listen')}
-                </button>
-                <button
-                  type="button"
-                  className="btn primary"
-                  onClick={() => handleSubmit()}
-                  disabled={!shortAnswer.trim() || Boolean(lastResult)}
-                >
-                  {ui(locale, 'submit')}
-                </button>
-              </div>
+            ) : (
+              (currentItem.type === 'short' ||
+                currentItem.type === 'evaluate' ||
+                currentItem.type === 'translate' ||
+                currentItem.type === 'mcq') && (
+                <div className="short-answer-row">
+                  <label className="sr-only" htmlFor="lesson-answer">
+                    {ui(locale, 'yourAnswer')}
+                  </label>
+                  <input
+                    id="lesson-answer"
+                    className="text-input"
+                    type="text"
+                    inputMode="text"
+                    autoComplete="off"
+                    value={shortAnswer}
+                    onChange={(e) => setShortAnswer(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !lastResult) handleSubmit()
+                    }}
+                    disabled={Boolean(lastResult)}
+                    placeholder={ui(locale, 'yourAnswer')}
+                  />
+                  <button
+                    type="button"
+                    className="btn secondary"
+                    onClick={() => void handleListen()}
+                    disabled={listening || Boolean(lastResult)}
+                    title={canSTT() ? ui(locale, 'listen') : ui(locale, 'micUnavailable')}
+                  >
+                    {listening ? ui(locale, 'listening') : ui(locale, 'listen')}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn primary"
+                    onClick={() => handleSubmit()}
+                    disabled={!shortAnswer.trim() || Boolean(lastResult)}
+                  >
+                    {ui(locale, 'submit')}
+                  </button>
+                </div>
+              )
             )}
 
             {micError && <p className="feedback incorrect">{micError}</p>}

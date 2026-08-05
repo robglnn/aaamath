@@ -76,8 +76,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -167,8 +167,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -259,8 +259,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1B",
-          "A.1C"
+          "A.10B",
+          "A.10D"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -350,8 +350,8 @@
           "HSA-CED.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.5A"
+          "A.10A",
+          "A.2A"
         ],
         "NY": [
           "AI-A.CED.1",
@@ -413,8 +413,8 @@
       ],
       "successCriteria": {
         "en": "Student evaluates expressions respecting parentheses, exponents, MD, AS.",
-        "es": "El estudiante evalúa respetando paréntesis, exponentes, MD y AS.",
-        "pl": "Uczeń oblicza z poszanowaniem nawiasów, potęg, MD i AS."
+        "es": "El estudiante evalúa respetando paréntesis, exponentes, multiplicación/división y suma/resta.",
+        "pl": "Uczeń oblicza z poszanowaniem nawiasów, potęg, mnożenia/dzielenia oraz dodawania/odejmowania."
       },
       "misconceptions": [
         {
@@ -441,8 +441,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1B",
-          "A.1C"
+          "A.10B",
+          "A.10D"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -719,8 +719,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -847,8 +847,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -932,8 +932,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -1081,8 +1081,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1B",
-          "A.1C"
+          "A.10B",
+          "A.10D"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -1267,8 +1267,8 @@
           "HSA-CED.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.5A"
+          "A.10A",
+          "A.2A"
         ],
         "NY": [
           "AI-A.CED.1",
@@ -1353,8 +1353,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -1476,8 +1476,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -1618,8 +1618,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -1702,8 +1702,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1B",
-          "A.1C"
+          "A.10B",
+          "A.10D"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -1850,8 +1850,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1A",
-          "A.1B"
+          "A.10A",
+          "A.10B"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -1932,8 +1932,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1B",
-          "A.1C"
+          "A.10B",
+          "A.10D"
         ],
         "NY": [
           "AI-A.SSE.1",
@@ -2045,8 +2045,8 @@
           "HSA-SSE.A.1"
         ],
         "TX": [
-          "A.1B",
-          "A.1C"
+          "A.10B",
+          "A.10D"
         ],
         "NY": [
           "AI-A.SSE.1",
