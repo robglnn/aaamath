@@ -45,7 +45,7 @@ export type LocoKind = 'playerWalk' | 'playerRun' | 'playerJump' | 'playerCrawl'
 const SKYLINE_EMISSIVE_KINDS = new Set<HeroKind>(['monolith', 'island', 'flowerIsland', 'waterfall', 'bloom', 'lamp', 'mesa'])
 
 /** Punch emissives so authored / Meshy PBR reads under ACES without a bloom pass. */
-function boostHeroMaterials(root: Object3D, kind?: HeroKind) {
+export function boostHeroMaterials(root: Object3D, kind?: HeroKind) {
   const skylineEmissive = kind != null && SKYLINE_EMISSIVE_KINDS.has(kind)
   root.traverse((obj) => {
     const mesh = obj as Mesh

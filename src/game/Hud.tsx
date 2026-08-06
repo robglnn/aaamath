@@ -637,7 +637,7 @@ export function Hud({
 
       <p className="gr-help" aria-hidden={pointerLocked}>
         {pointerLocked
-          ? 'WASD · Shift sprint · Ctrl crawl · Space jump · Esc release look'
+          ? 'WASD · Shift sprint · Ctrl/C crawl · Space jump · Esc release look'
           : 'WASD · Shift · Space · Click look · Q/C yaw · E terminal'}
       </p>
     </div>

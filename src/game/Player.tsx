@@ -59,7 +59,9 @@ export function Player() {
   const animPhase = useRef(0)
   const locoRef = useRef<LocoState>('idle')
   const [locoState, setLocoState] = useState<LocoState>('idle')
-  const crawlHeld = useRef(false)
+  // C doubles as keyboard-yaw fallback while unlocked (GameView), so it only
+  // crawls when pointer-locked; Ctrl crawls in every mode.
+  const crawlKey = useRef({ ctrl: false, c: false })
   const hasAdeptRank = useGameStore((s) => s.hasAdeptRank)
   const hasExpertRank = useGameStore((s) => s.hasExpertRank)
   const hasOperatorRank = useGameStore((s) => s.hasOperatorRank)
@@ -84,23 +86,25 @@ export function Player() {
         rig.jumpQueued = true
         e.preventDefault()
       }
-      if (e.code === 'ControlLeft' || e.code === 'ControlRight' || e.code === 'KeyC') {
-        crawlHeld.current = true
+      if (e.code === 'ControlLeft' || e.code === 'ControlRight') {
+        crawlKey.current.ctrl = true
+      }
+      if (e.code === 'KeyC' && useGameStore.getState().pointerLocked) {
+        crawlKey.current.c = true
       }
     }
     const up = (e: KeyboardEvent) => {
       keys.current[e.code] = false
-      if (e.code === 'ControlLeft' || e.code === 'ControlRight' || e.code === 'KeyC') {
-        crawlHeld.current = !!(
-          keys.current['ControlLeft'] ||
-          keys.current['ControlRight'] ||
-          keys.current['KeyC']
-        )
+      if (e.code === 'ControlLeft' || e.code === 'ControlRight') {
+        crawlKey.current.ctrl = false
+      }
+      if (e.code === 'KeyC') {
+        crawlKey.current.c = false
       }
     }
     const clear = () => {
       keys.current = {}
-      crawlHeld.current = false
+      crawlKey.current = { ctrl: false, c: false }
     }
     window.addEventListener('keydown', down)
     window.addEventListener('keyup', up)
@@ -138,7 +142,8 @@ export function Player() {
       iy /= mag
     }
 
-    const crawling = grounded.current && (crawlHeld.current || s.touchCrawl)
+    const crawling =
+      grounded.current && (crawlKey.current.ctrl || crawlKey.current.c || s.touchCrawl)
     const sprinting =
       !crawling &&
       s.canSprint &&
