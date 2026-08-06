@@ -30,6 +30,16 @@
 | **53** | Meshy mesa cluster (×2) | PASS_WITH_GAPS |
 | **54** | God-ray / multi-sun juice | PASS_WITH_GAPS |
 | **55** | Minimap disk transparency / pizza | PASS_WITH_GAPS |
+| **56** | Meshy wall module enclosure | PASS_WITH_GAPS |
+| **57** | Corner + railing modules | PASS_WITH_GAPS |
+| **58** | Dense floor tiles | PASS_WITH_GAPS |
+| **59** | Walk/run loco clips | PASS_WITH_GAPS |
+| **60** | Jump/crawl + crawl input | PASS_WITH_GAPS |
+| **61** | Dead-center monolith hero | PASS_WITH_GAPS |
+| **62** | God-ray punch | PASS_WITH_GAPS |
+| **63** | Verdant island/waterfall | PASS_WITH_GAPS |
+| **64** | Short-landscape HUD scale | PASS_WITH_GAPS |
+| **65** | Odd-aspect HUD + polish | PASS_WITH_GAPS |
 
 Refs: `docs/gauntlet/bars/` (9 source + named HUD bars)  
 Shots: `docs/gauntlet/_critic-shots/loop36-55-*`, `loop46-52-*`, `loop36-45-*`  
@@ -44,3 +54,5 @@ Loops 36–55 replaced primitive skyline kitbash with **Meshy-authored** monolit
 - Pages `base: '/aaamath/'`; KaTeX deferred; L1–L7 pedagogy untouched; speech + text fallback intact
 - Curriculum frozen — no L8+
 - Draco decode via gstatic; Meshy cache `?v=m53`
+
+

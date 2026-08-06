@@ -41,7 +41,120 @@ export function RangeDecor() {
       <WaterfallLandmark />
       <MesaCluster />
       <GroundBreakup />
+      <PlazaEnclosure />
       <AuthoredProps />
+    </group>
+  )
+}
+
+/**
+ * Loops 56-58: training-yard enclosure — Meshy wall / corner / railing modules
+ * tiled into a readable perimeter so the first 10s is a paved yard, not props
+ * on a blank plane. Walk path spawn (0,4) → terminal (2.5,-3.5) → gate (0,-8)
+ * stays clear; the south side opens at the gate lane, framed by two bastion
+ * towers behind the plaza arch, and the rear keeps a spawn-side entrance.
+ * Every placement is checked against the L2-L6 lesson-yard keep-outs
+ * (Beta r5 at (0,-15); Delta/Epsilon squares at (±7.6,-9.1); Zeta hex at
+ * (9.2,0)) so unlock pads never grow through a wall.
+ * Budget: 12 walls + 4 corners + 6 railings = 22 clones of 3 Draco GLBs
+ * (plus 14 floor tiles in GroundBreakup → 36 total).
+ */
+function PlazaEnclosure() {
+  return (
+    <group>
+      <WallRing />
+      <RailingRing />
+    </group>
+  )
+}
+
+/**
+ * Enclosure module scales — retune once wall-module / wall-corner /
+ * railing-barrier GLB dims are verified post-ship. Targets at these scales:
+ * wall ≈ 3m long × 2.6m tall, corner ≈ bastion pylon, railing ≈ 2.4m × 1.1m.
+ */
+const WALL_SCALE = 1.3
+const CORNER_SCALE = 1.35
+const RAIL_SCALE = 1.1
+
+/**
+ * Loops 56-57: wall runs + corner bastions. West run hugs x=-9.2 between the
+ * Epsilon yard rim (z −6.55) and the NW light post; the east line at x=+9.2
+ * breaks around the L6 Zeta Mirror Yard (x 6.6–11.8, z −3–3) so its bridge
+ * entrance stays walkable; the rear run at z=+8.4 leaves a spawn-side
+ * entrance chained by railings. South corners stand at (±3.5, −8.4) as gate
+ * towers framing the plaza arch — Delta/Epsilon yards (x ±5.0–10.2,
+ * z −6.5–−11.7) own the SE/SW quadrants, so no perimeter can run there.
+ * rotY assumes the wall module's long axis is local X — verify post-ship.
+ */
+function WallRing() {
+  // x, z, rotY
+  const walls: [number, number, number][] = [
+    // West run (6) — full flank, dish at (-8.2, 0.5) reads as a wall-side bay
+    [-9.2, -5.1, Math.PI / 2],
+    [-9.2, -2.94, Math.PI / 2],
+    [-9.2, -0.78, Math.PI / 2],
+    [-9.2, 1.38, Math.PI / 2],
+    [-9.2, 3.54, Math.PI / 2],
+    [-9.2, 5.7, Math.PI / 2],
+    // East run (2) — pockets clear of Zeta (z −3…3), Delta (z < −6.5), NE post
+    [9.2, -4.8, -Math.PI / 2],
+    [9.2, 4.5, -Math.PI / 2],
+    // Rear run (4) — spawn-side entrance stays open between x ±4.8–7.1 rails
+    [-3.6, 8.4, 0],
+    [-1.2, 8.4, 0],
+    [1.2, 8.4, 0],
+    [3.6, 8.4, 0],
+  ]
+  // x, z, rotY — rear bastions on the yard's north angles; south pair are the
+  // gate towers behind the arch (gate lane |x| < ~2.5 stays open)
+  const corners: [number, number, number][] = [
+    [-8.2, 7.8, Math.PI],
+    [8.2, 7.8, -Math.PI / 2],
+    [-3.5, -8.4, Math.PI / 2],
+    [3.5, -8.4, -Math.PI / 2],
+  ]
+  return (
+    <group>
+      {walls.map(([x, z, rot], i) => (
+        <group key={`w${i}`} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
+          <HeroModel kind="wall" scale={WALL_SCALE} />
+        </group>
+      ))}
+      {corners.map(([x, z, rot], i) => (
+        <group key={`c${i}`} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
+          <HeroModel kind="wallCorner" scale={CORNER_SCALE} />
+        </group>
+      ))}
+    </group>
+  )
+}
+
+/**
+ * Loop 57: low railing barriers — two pairs extend the ApproachRails idiom
+ * down the gate lane toward the corner towers (walk line x ≈ 2.5→0 stays
+ * inside the rails), and a rear pair edges the spawn-side entrance between
+ * the rear wall run and the corner bastions. All runs along local X.
+ */
+function RailingRing() {
+  // x, z, rotY
+  const rails: [number, number, number][] = [
+    // Gate-lane pairs — clear of floor tile D, hazard stripes, light posts
+    [-3.6, -5.8, 0],
+    [3.6, -5.8, 0],
+    [-3.6, -7.2, 0],
+    [3.6, -7.2, 0],
+    // Rear entrance edges — chain the rear wall run (ends x ±4.8) to the bastions
+    [-5.9, 8.4, 0],
+    [5.9, 8.4, 0],
+  ]
+  return (
+    <group>
+      {rails.map(([x, z, rot], i) => (
+        <group key={i} position={[x, surfaceY(x, z), z]} rotation={[0, rot, 0]}>
+          <HeroModel kind="railing" scale={RAIL_SCALE} />
+        </group>
+      ))}
     </group>
   )
 }
@@ -74,11 +187,14 @@ function PlazaBanners() {
   )
 }
 
-/** Loop 34: Meshy mid-field stone arch — plaza depth between spawn and terminal. */
+/**
+ * Loop 34 / 61: Meshy mid-field stone arch — shifted off the walk axis so the
+ * dead-center skyline slot belongs to CrystalMonolith, not terracotta arch.
+ */
 function PlazaMidArch() {
   return (
-    <group position={[0.8, 0, -6.5]} rotation={[0, 0.08, 0]}>
-      <HeroModel kind="arch" scale={1.05} />
+    <group position={[-4.8, 0, -5.6]} rotation={[0, 0.42, 0]}>
+      <HeroModel kind="arch" scale={0.92} />
     </group>
   )
 }
@@ -103,7 +219,13 @@ function GroundBreakup() {
   )
 }
 
-/** Loop 36: Meshy plaza floor tiles along the Alpha→terminal corridor flanks. */
+/**
+ * Loop 36/58: Meshy plaza floor tiles — densified 4 → 14 so the spawn→terminal
+ * →gate corridor reads as paved yard, not blank deck. Tiles sit slightly proud
+ * of deck (+0.04) and keep ≥ ~2.2m mutual spacing so coplanar faces never
+ * z-fight; pairs under the flank banners are deliberate (poles planted on
+ * pavement). Walk lane itself stays walkable — tiles are flat pavement.
+ */
 function PlazaFloorTiles() {
   const tiles: [number, number, number, number][] = [
     // x, z, scale, rotY — off the walk diagonal, slightly proud of deck
@@ -111,6 +233,20 @@ function PlazaFloorTiles() {
     [3.5, 0.8, 1.6, -0.2],
     [-3.2, -3.5, 1.3, 0.25],
     [4.8, -4.2, 1.5, -0.15],
+    // Loop 58: spawn landing + corridor chain toward the terminal
+    [0, 4.6, 1.4, 0.05],
+    [0.4, 1.9, 1.45, -0.06],
+    [1.6, -1.4, 1.5, 0.06],
+    [-0.2, -3.4, 1.45, -0.04],
+    // Loop 58: gate lane + threshold paving toward Beta (south edge of the
+    // last tile tucks under the Beta pad rim when L2 unlocks — reads as laid pavement)
+    [-1.4, -5.9, 1.4, 0.1],
+    [0.3, -7.5, 1.5, -0.08],
+    [0.4, -9.9, 1.5, 0.04],
+    // Loop 58: pad-rim infill — banner poles land on pavement
+    [-4.6, 3.4, 1.4, 0.28],
+    [4.9, 2.9, 1.4, -0.22],
+    [-5.0, -1.6, 1.35, 0.18],
   ]
   return (
     <group>
@@ -568,8 +704,8 @@ function DistantSpires() {
 }
 
 /**
- * Loop 47: Meshy floating-island skyline — mix of verdant flower + rock islands.
- * 5 Draco GLB instances; 3 flower islands pulled into first-10s shoulder cam.
+ * Loop 47 / 63: Meshy floating-island skyline — verdant flower cluster pulled
+ * into first-10s shoulder cam; distant rock islands hold the far horizon.
  */
 function FloatingIslands() {
   const islands = useRef<(Group | null)[]>([])
@@ -582,9 +718,10 @@ function FloatingIslands() {
   })
   // kind, x, y0, z, scale, rotY
   const rocks: [HeroKind, number, number, number, number, number][] = [
-    ['flowerIsland', -10, 7.0, -18, 1.28, 0.5],
-    ['flowerIsland', 14, 6.2, -16, 1.35, -0.4],
-    ['flowerIsland', -18, 5.5, -20, 1.22, 0.7],
+    // Loop 63: hero verdant cluster — center-left skyline, readable flower tops
+    ['flowerIsland', -2.5, 5.2, -11.5, 1.62, 0.18],
+    ['flowerIsland', 4.8, 4.6, -10.8, 1.55, -0.22],
+    ['flowerIsland', -7.2, 5.8, -13.2, 1.48, 0.55],
     ['island', 22, 8.5, -24, 1.0, -0.3],
     ['island', -24, 9.0, -14, 1.18, 0.6],
   ]
@@ -603,16 +740,16 @@ function FloatingIslands() {
           <HeroModel kind={kind} scale={s} />
         </group>
       ))}
-      {/* Thin causeway silhouettes between island pairs */}
-      <Strut from={[-11.2, 6.8, -17.4]} to={[12.2, 6.0, -16.2]} radius={0.14} />
-      <Strut from={[-16.8, 5.3, -19.2]} to={[-22.4, 8.8, -14.6]} radius={0.12} />
+      {/* Thin causeway silhouettes between near flower cluster */}
+      <Strut from={[-3.8, 5.0, -11.0]} to={[4.2, 4.4, -10.4]} radius={0.12} />
+      <Strut from={[-6.8, 5.5, -12.6]} to={[-2.2, 5.0, -11.2]} radius={0.1} />
     </group>
   )
 }
 
 /**
- * Loop 46: Meshy ringed monolith — right-skyline anchor off terminal axis so
- * cyan rings + bloom own the first-viewport silhouette. Emissive/basic only.
+ * Loop 46 / 61: Meshy ringed monolith — dead-center walk-axis skyline hero so
+ * cyan rings + bloom beat the terracotta arch in first-viewport shoulder cam.
  */
 function CrystalMonolith() {
   const rings = useRef<(Group | null)[]>([])
@@ -623,42 +760,42 @@ function CrystalMonolith() {
     }
   })
   return (
-    <group position={[9, 0, -19]}>
-      <HeroModel kind="monolith" scale={1.55} />
-      {/* Loop 46: Meshy bloom disc at spire tip — enlarged additive halo */}
-      <group position={[0, 17.0, -0.35]} rotation={[0.12, 0.35, 0]}>
-        <HeroModel kind="bloom" scale={2.0} />
+    <group position={[0.2, 0, -21.5]}>
+      <HeroModel kind="monolith" scale={1.88} />
+      {/* Loop 46/61: Meshy bloom disc at spire tip — enlarged additive halo */}
+      <group position={[0, 20.5, -0.2]} rotation={[0.08, 0.12, 0]}>
+        <HeroModel kind="bloom" scale={2.35} />
       </group>
       {/* Spawn bloom halo — additive wash behind/around the spire tip */}
-      <mesh position={[0, 17.2, -0.4]}>
-        <sphereGeometry args={[3.2, 16, 12]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.38} blending={AdditiveBlending} depthWrite={false} />
+      <mesh position={[0, 20.6, -0.25]}>
+        <sphereGeometry args={[3.8, 16, 12]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.44} blending={AdditiveBlending} depthWrite={false} />
       </mesh>
-      <mesh position={[0, 17.8, -0.8]} rotation={[0.18, 0, 0]}>
-        <planeGeometry args={[5, 5]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.16} blending={AdditiveBlending} depthWrite={false} side={2} />
+      <mesh position={[0, 21.2, -0.5]} rotation={[0.12, 0, 0]}>
+        <planeGeometry args={[6.2, 6.2]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.2} blending={AdditiveBlending} depthWrite={false} side={2} />
       </mesh>
       {/* Overlay rings when Meshy mesh rings are subtle at distance */}
       <group
         ref={(g) => {
           rings.current[0] = g
         }}
-        position={[0, 11.5, 0]}
+        position={[0, 13.8, 0]}
       >
         <mesh rotation={[Math.PI / 2 + 0.16, 0, 0]}>
-          <torusGeometry args={[4.6, 0.14, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.2} transparent opacity={0.75} />
+          <torusGeometry args={[5.4, 0.16, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.6} transparent opacity={0.82} />
         </mesh>
       </group>
       <group
         ref={(g) => {
           rings.current[1] = g
         }}
-        position={[0, 14.2, 0]}
+        position={[0, 17.0, 0]}
       >
         <mesh rotation={[Math.PI / 2 - 0.2, 0, 0.12]}>
-          <torusGeometry args={[6.2, 0.13, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.4} transparent opacity={0.65} />
+          <torusGeometry args={[7.2, 0.15, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.8} transparent opacity={0.72} />
         </mesh>
       </group>
     </group>
@@ -687,11 +824,16 @@ function CrystalLamps() {
   )
 }
 
-/** Loop 48: Meshy waterfall cliff — turquoise flank landmark facing spawn cam. */
+/** Loop 48 / 63: Meshy waterfall cliff — turquoise flank pulled into first-10s band. */
 function WaterfallLandmark() {
   return (
-    <group position={[-16, 0, -14]} rotation={[0, -0.55, 0]}>
-      <HeroModel kind="waterfall" scale={1.35} />
+    <group position={[-9.5, 0, -8.2]} rotation={[0, -0.35, 0]}>
+      <HeroModel kind="waterfall" scale={1.58} />
+      {/* Loop 63: mist veil — additive turquoise read without new lights */}
+      <mesh position={[0.6, 4.2, 0.8]} rotation={[0, 0.2, 0]}>
+        <planeGeometry args={[3.2, 5.5]} />
+        <meshBasicMaterial color="#7ee8dc" transparent opacity={0.14} blending={AdditiveBlending} depthWrite={false} side={2} />
+      </mesh>
     </group>
   )
 }

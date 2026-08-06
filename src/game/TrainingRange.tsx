@@ -231,9 +231,9 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    // Loop 29: Fortnite shoulder framing — closer, slightly higher, look at chest
-    const dist = 3.9
-    const height = 2.28 + pitch * 2.0
+    // Loop 29 / 61: Fortnite shoulder framing — lift look so skyline hero owns center
+    const dist = 3.75
+    const height = 2.42 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
@@ -244,7 +244,7 @@ function CameraRig() {
     cam.z += (tz - cam.z) * k
     const nudge = rig.gateCelebration
     const lookX = p.x * (1 - nudge * 0.25)
-    const lookY = p.y + 1.24 + pitch * 0.6
+    const lookY = p.y + 1.38 + pitch * 0.6
     const lookZ = p.z * (1 - nudge * 0.25) + GATE_Z * nudge * 0.25
     state.camera.lookAt(lookX, lookY, lookZ)
   })
@@ -509,12 +509,12 @@ function SkyAtmosphere() {
         <sphereGeometry args={[6.5, 16, 16]} />
         <meshBasicMaterial color="#ffd8a0" fog={false} depthWrite={false} toneMapped={false} />
       </mesh>
-      <mesh position={[42, 28, -55]} renderOrder={-1} frustumCulled={false} scale={2.4}>
+      <mesh position={[42, 28, -55]} renderOrder={-1} frustumCulled={false} scale={2.6}>
         <sphereGeometry args={[6.5, 12, 12]} />
         <meshBasicMaterial
           color="#ffb060"
           transparent
-          opacity={0.30}
+          opacity={0.42}
           blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
@@ -526,12 +526,12 @@ function SkyAtmosphere() {
         <sphereGeometry args={[3.8, 12, 12]} />
         <meshBasicMaterial color="#ffe8c8" fog={false} depthWrite={false} toneMapped={false} />
       </mesh>
-      <mesh position={[-28, 22, -48]} renderOrder={-1} frustumCulled={false} scale={2.1}>
+      <mesh position={[-28, 22, -48]} renderOrder={-1} frustumCulled={false} scale={2.3}>
         <sphereGeometry args={[3.8, 10, 10]} />
         <meshBasicMaterial
           color="#ffc878"
           transparent
-          opacity={0.18}
+          opacity={0.26}
           blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
@@ -542,33 +542,33 @@ function SkyAtmosphere() {
         <sphereGeometry args={[2.6, 10, 10]} />
         <meshBasicMaterial color="#fff0d8" fog={false} depthWrite={false} toneMapped={false} />
       </mesh>
-      <mesh position={[12, 32, -62]} renderOrder={-1} frustumCulled={false} scale={1.9}>
+      <mesh position={[12, 32, -62]} renderOrder={-1} frustumCulled={false} scale={2.1}>
         <sphereGeometry args={[2.6, 8, 8]} />
         <meshBasicMaterial
           color="#ffd090"
           transparent
-          opacity={0.14}
+          opacity={0.22}
           blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
           toneMapped={false}
         />
       </mesh>
-      {/* Crepuscular ray wedges — mobile-safe additive planes aimed at sun */}
-      <group ref={rayRef} position={[28, 18, -40]} rotation={[0.35, -0.55, 0.15]}>
-        {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+      {/* Loop 62: crepuscular ray wedges — denser fan, higher opacity, longer streaks */}
+      <group ref={rayRef} position={[24, 20, -38]} rotation={[0.38, -0.48, 0.12]}>
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
           <mesh
             key={i}
             position={[0, 0, 0]}
-            rotation={[0, 0, (i - 3) * 0.15]}
+            rotation={[0, 0, (i - 4) * 0.12]}
             renderOrder={-1}
             frustumCulled={false}
           >
-            <planeGeometry args={[4 + i * 0.55, 52]} />
+            <planeGeometry args={[5.2 + i * 0.65, 68]} />
             <meshBasicMaterial
               color="#ffe2b0"
               transparent
-              opacity={0.11 + (i % 2) * 0.03}
+              opacity={0.18 + (i % 2) * 0.05 + (i % 3 === 0 ? 0.04 : 0)}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -579,19 +579,42 @@ function SkyAtmosphere() {
         ))}
       </group>
       {/* Secondary ray fan from tertiary sun */}
-      <group position={[-18, 16, -38]} rotation={[0.28, 0.42, -0.12]}>
-        {[0, 1, 2].map((i) => (
+      <group position={[-16, 15, -36]} rotation={[0.32, 0.38, -0.1]}>
+        {[0, 1, 2, 3, 4].map((i) => (
           <mesh
             key={`b-${i}`}
-            rotation={[0, 0, (i - 1) * 0.2]}
+            rotation={[0, 0, (i - 2) * 0.16]}
             renderOrder={-1}
             frustumCulled={false}
           >
-            <planeGeometry args={[3 + i * 0.5, 38]} />
+            <planeGeometry args={[4 + i * 0.55, 48]} />
             <meshBasicMaterial
               color="#ffe8c8"
               transparent
-              opacity={0.08 + i * 0.015}
+              opacity={0.12 + i * 0.025}
+              blending={AdditiveBlending}
+              fog={false}
+              depthWrite={false}
+              toneMapped={false}
+              side={BackSide}
+            />
+          </mesh>
+        ))}
+      </group>
+      {/* Loop 62: tertiary fan from primary sun — cross-streak drama */}
+      <group position={[32, 14, -44]} rotation={[0.22, -0.62, 0.08]}>
+        {[0, 1, 2].map((i) => (
+          <mesh
+            key={`c-${i}`}
+            rotation={[0, 0, (i - 1) * 0.22]}
+            renderOrder={-1}
+            frustumCulled={false}
+          >
+            <planeGeometry args={[3.5 + i * 0.4, 42]} />
+            <meshBasicMaterial
+              color="#fff0d0"
+              transparent
+              opacity={0.14 + i * 0.03}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}

@@ -90,6 +90,7 @@ export const ZETA_BRIDGE = {
 export const BOUNDS = { x: 12, zMin: -20.5, zMax: 10 }
 
 export const WALK_SPEED = 4.6
+export const CRAWL_SPEED = 2.1
 export const SPRINT_SPEED = 8.2
 export const JUMP_SPEED = 8.4
 export const GRAVITY = 24

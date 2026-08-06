@@ -14,6 +14,7 @@ const YAW_STEP = 48
 export function TouchControls() {
   const [coarse] = useState(detectCoarsePointer)
   const locale = useProgressStore((s) => s.blob.locale)
+  const touchCrawl = useGameStore((s) => s.touchCrawl)
   const baseRef = useRef<HTMLDivElement>(null)
   const knobRef = useRef<HTMLDivElement>(null)
   const activeId = useRef<number | null>(null)
@@ -129,6 +130,25 @@ export function TouchControls() {
         }}
       >
         {ui(locale, 'jump')}
+      </button>
+
+      <button
+        type="button"
+        className={`gr-crawl${touchCrawl ? ' is-active' : ''}`}
+        aria-label={ui(locale, 'crawl')}
+        aria-pressed={touchCrawl}
+        onPointerDown={(e) => {
+          e.stopPropagation()
+          e.currentTarget.setPointerCapture(e.pointerId)
+          useGameStore.getState().setTouchCrawl(true)
+        }}
+        onPointerUp={(e) => {
+          e.stopPropagation()
+          useGameStore.getState().setTouchCrawl(false)
+        }}
+        onPointerCancel={() => useGameStore.getState().setTouchCrawl(false)}
+      >
+        {ui(locale, 'crawl')}
       </button>
     </>
   )

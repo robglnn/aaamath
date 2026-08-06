@@ -55,6 +55,7 @@ export interface GameState {
   stickX: number
   stickY: number
   touchSprint: boolean
+  touchCrawl: boolean
   jumpNonce: number
   placeNonce: number
   setMode: (mode: GameMode) => void
@@ -65,6 +66,7 @@ export interface GameState {
   setPointerLocked: (locked: boolean) => void
   setStick: (x: number, y: number) => void
   setTouchSprint: (sprint: boolean) => void
+  setTouchCrawl: (crawl: boolean) => void
   requestJump: () => void
   requestPlace: () => void
   applyMasteryUnlocks: (unlocks: UnlockFlags) => void
@@ -107,6 +109,7 @@ export const useGameStore = create<GameState>()((set) => ({
   stickX: 0,
   stickY: 0,
   touchSprint: false,
+  touchCrawl: false,
   jumpNonce: 0,
   placeNonce: 0,
   setMode: (mode) => set({ mode }),
@@ -122,6 +125,7 @@ export const useGameStore = create<GameState>()((set) => ({
   setPointerLocked: (pointerLocked) => set({ pointerLocked }),
   setStick: (stickX, stickY) => set({ stickX, stickY }),
   setTouchSprint: (touchSprint) => set({ touchSprint }),
+  setTouchCrawl: (touchCrawl) => set({ touchCrawl }),
   requestJump: () => set((s) => ({ jumpNonce: s.jumpNonce + 1 })),
   requestPlace: () => set((s) => ({ placeNonce: s.placeNonce + 1 })),
   applyMasteryUnlocks: (unlocks) =>

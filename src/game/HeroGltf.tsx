@@ -1,4 +1,5 @@
-import { Suspense, useEffect, useMemo } from 'react'
+import { Component, Suspense, useEffect, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import { useGLTF } from '@react-three/drei'
 import type { Mesh, MeshStandardMaterial, Object3D } from 'three'
 
@@ -8,7 +9,7 @@ const base = import.meta.env.BASE_URL
 const DRACO = 'https://www.gstatic.com/draco/versioned/decoders/1.5.7/'
 
 /** Cache-bust Meshy GLB ships so Pages clients don't keep stale primitives. */
-const MESHY_V = 'm53'
+const MESHY_V = 'm65'
 
 export const HERO_URLS = {
   player: `${base}models/riser-player.glb?v=${MESHY_V}`,
@@ -26,9 +27,20 @@ export const HERO_URLS = {
   lamp: `${base}models/crystal-lamp.glb?v=${MESHY_V}`,
   crate: `${base}models/supply-crate.glb?v=${MESHY_V}`,
   mesa: `${base}models/mesa-cluster.glb?v=${MESHY_V}`,
+  // Loops 56-58: modular training-yard enclosure kit
+  wall: `${base}models/wall-module.glb?v=${MESHY_V}`,
+  wallCorner: `${base}models/wall-corner.glb?v=${MESHY_V}`,
+  railing: `${base}models/railing-barrier.glb?v=${MESHY_V}`,
+  // Loops 59-60: Meshy-rigged locomotion clips (walk/run free with rig; jump/crawl animate)
+  playerWalk: `${base}models/riser-player-walk.glb?v=${MESHY_V}`,
+  playerRun: `${base}models/riser-player-run.glb?v=${MESHY_V}`,
+  playerJump: `${base}models/riser-player-jump.glb?v=${MESHY_V}`,
+  playerCrawl: `${base}models/riser-player-crawl.glb?v=${MESHY_V}`,
 } as const
 
 export type HeroKind = keyof typeof HERO_URLS
+
+export type LocoKind = 'playerWalk' | 'playerRun' | 'playerJump' | 'playerCrawl'
 
 const SKYLINE_EMISSIVE_KINDS = new Set<HeroKind>(['monolith', 'island', 'flowerIsland', 'waterfall', 'bloom', 'lamp', 'mesa'])
 
@@ -46,7 +58,9 @@ function boostHeroMaterials(root: Object3D, kind?: HeroKind) {
       // Loop 31+/36: Meshy heroes — skyline props need stronger ACES punch
       if (std.emissiveMap) {
         const floor =
-          kind === 'bloom' ? 3.5 : skylineEmissive ? 3.0 : 2.4
+          kind === 'bloom' ? 3.5
+            : kind === 'flowerIsland' ? 3.4
+              : skylineEmissive ? 3.0 : 2.4
         std.emissiveIntensity = Math.max(std.emissiveIntensity, floor)
       }
       if (name.includes('piping')) {
@@ -99,10 +113,13 @@ function boostHeroMaterials(root: Object3D, kind?: HeroKind) {
           skylineEmissive && std.color.g > std.color.r * 0.92 && std.color.g > std.color.b * 0.88
         if (grassish) {
           std.color.setRGB(
-            Math.min(1, std.color.r * 1.06),
-            Math.min(1, std.color.g * 1.14),
-            Math.min(1, std.color.b * 1.05),
+            Math.min(1, std.color.r * 1.08),
+            Math.min(1, std.color.g * (kind === 'flowerIsland' ? 1.24 : 1.14)),
+            Math.min(1, std.color.b * 1.06),
           )
+          if (kind === 'flowerIsland' && std.emissiveIntensity != null) {
+            std.emissiveIntensity = Math.max(std.emissiveIntensity, 1.2)
+          }
         } else {
           std.color.setRGB(
             Math.min(1, std.color.r * 1.08),
@@ -141,6 +158,27 @@ function HeroClone({
   return <primitive object={root as Object3D} scale={scale} position={position} rotation={rotation} />
 }
 
+/**
+ * Fail-soft guard for GLBs wired before the Meshy ship lands: a 404 or parse
+ * failure rejects the suspense promise, which would otherwise unmount the
+ * whole canvas. Catch it once per kind and render nothing instead.
+ */
+class HeroErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+
+  componentDidCatch(err: unknown) {
+    console.warn('[HeroModel] GLB failed to load — hiding prop:', err)
+  }
+
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
+
 /** Authored Blender PBR GLB (Draco); Suspense fallback keeps profile-geo parent visible until ready. */
 export function HeroModel({
   kind,
@@ -154,9 +192,11 @@ export function HeroModel({
   rotation?: [number, number, number]
 }) {
   return (
-    <Suspense fallback={null}>
-      <HeroClone kind={kind} scale={scale} position={position} rotation={rotation} />
-    </Suspense>
+    <HeroErrorBoundary>
+      <Suspense fallback={null}>
+        <HeroClone kind={kind} scale={scale} position={position} rotation={rotation} />
+      </Suspense>
+    </HeroErrorBoundary>
   )
 }
 
@@ -176,4 +216,11 @@ export function preloadHeroModels() {
   useGLTF.preload(HERO_URLS.lamp, DRACO)
   useGLTF.preload(HERO_URLS.crate, DRACO)
   useGLTF.preload(HERO_URLS.mesa, DRACO)
+  useGLTF.preload(HERO_URLS.wall, DRACO)
+  useGLTF.preload(HERO_URLS.wallCorner, DRACO)
+  useGLTF.preload(HERO_URLS.railing, DRACO)
+  useGLTF.preload(HERO_URLS.playerWalk, DRACO)
+  useGLTF.preload(HERO_URLS.playerRun, DRACO)
+  useGLTF.preload(HERO_URLS.playerJump, DRACO)
+  useGLTF.preload(HERO_URLS.playerCrawl, DRACO)
 }

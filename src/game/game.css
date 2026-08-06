@@ -1235,6 +1235,109 @@
   transform: scale(0.94);
 }
 
+
+.gr-crawl {
+  position: absolute;
+  right: max(108px, calc(env(safe-area-inset-right) + 96px));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(180, 140, 255, 0.45);
+  background: rgba(11, 26, 36, 0.5);
+  color: #d4c2ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: inherit;
+  pointer-events: auto;
+  touch-action: none;
+  cursor: pointer;
+  z-index: 6;
+}
+
+.gr-crawl:active,
+.gr-crawl.is-active {
+  background: rgba(180, 140, 255, 0.28);
+  transform: scale(0.96);
+}
+
+/* Loops 64-65: odd aspect / short landscape — keep HUD on-screen via clamp scale */
+.gr-hud {
+  --gr-hud-scale: clamp(0.72, calc(100vh / 390), 1);
+}
+
+@media (orientation: landscape) and (max-height: 420px) {
+  .gr-stick {
+    width: calc(120px * var(--gr-hud-scale, 1));
+    height: calc(120px * var(--gr-hud-scale, 1));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: max(10px, env(safe-area-inset-left));
+  }
+  .gr-jump {
+    width: calc(64px * var(--gr-hud-scale, 1));
+    height: calc(64px * var(--gr-hud-scale, 1));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    right: max(10px, env(safe-area-inset-right));
+  }
+  .gr-sprint {
+    bottom: max(78px, calc(env(safe-area-inset-bottom) + 70px));
+    right: max(10px, env(safe-area-inset-right));
+    min-height: 40px;
+    font-size: 9px;
+  }
+  .gr-crawl {
+    bottom: max(8px, env(safe-area-inset-bottom));
+    right: max(82px, calc(env(safe-area-inset-right) + 74px));
+    min-height: 40px;
+    font-size: 9px;
+  }
+  .gr-minimap {
+    width: 64px;
+    height: 64px;
+    right: max(86px, calc(env(safe-area-inset-right) + 78px));
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .gr-ability-wheel {
+    bottom: max(8px, calc(env(safe-area-inset-bottom) + 4px));
+    gap: 6px;
+  }
+  .gr-ability {
+    width: 40px;
+    height: 40px;
+  }
+  .gr-look-cluster {
+    left: max(110px, calc(env(safe-area-inset-left) + 100px));
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .gr-buildbtn,
+  .gr-buildbar,
+  .gr-prompt {
+    bottom: max(64px, calc(env(safe-area-inset-bottom) + 56px));
+  }
+  .gr-hud-rail {
+    top: max(2.6rem, calc(env(safe-area-inset-top) + 2.2rem));
+    max-width: min(200px, 28vw);
+  }
+  .gr-objective {
+    font-size: 9px;
+    max-width: min(320px, 42vw);
+    padding: 6px 10px;
+  }
+}
+
+@media (orientation: landscape) and (min-aspect-ratio: 2.6/1) {
+  .gr-minimap {
+    right: max(120px, calc(env(safe-area-inset-right) + 108px));
+  }
+  .gr-ability-wheel {
+    transform: scale(0.92);
+    transform-origin: left bottom;
+  }
+}
+
 /* ---------- Landscape-first mobile (Fortnite HUD bar) ---------- */
 
 .gr-rotate-gate {

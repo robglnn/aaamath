@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import type { Group, Mesh, MeshBasicMaterial } from 'three'
 import { getAuthoredGeoKit, getProcTextureKit } from '@/game/proc'
-import { HeroModel } from '@/game/HeroGltf'
+import { PlayerLoco, type LocoState } from '@/game/PlayerLoco'
 import { useGameStore } from '@/game/store'
 import {
   BOUNDS,
+  CRAWL_SPEED,
   GRAVITY,
   JUMP_SPEED,
   LOCKED_MIN_Z,
@@ -56,6 +57,9 @@ export function Player() {
   const grounded = useRef(true)
   const lastJumpNonce = useRef(0)
   const animPhase = useRef(0)
+  const locoRef = useRef<LocoState>('idle')
+  const [locoState, setLocoState] = useState<LocoState>('idle')
+  const crawlHeld = useRef(false)
   const hasAdeptRank = useGameStore((s) => s.hasAdeptRank)
   const hasExpertRank = useGameStore((s) => s.hasExpertRank)
   const hasOperatorRank = useGameStore((s) => s.hasOperatorRank)
@@ -80,12 +84,23 @@ export function Player() {
         rig.jumpQueued = true
         e.preventDefault()
       }
+      if (e.code === 'ControlLeft' || e.code === 'ControlRight' || e.code === 'KeyC') {
+        crawlHeld.current = true
+      }
     }
     const up = (e: KeyboardEvent) => {
       keys.current[e.code] = false
+      if (e.code === 'ControlLeft' || e.code === 'ControlRight' || e.code === 'KeyC') {
+        crawlHeld.current = !!(
+          keys.current['ControlLeft'] ||
+          keys.current['ControlRight'] ||
+          keys.current['KeyC']
+        )
+      }
     }
     const clear = () => {
       keys.current = {}
+      crawlHeld.current = false
     }
     window.addEventListener('keydown', down)
     window.addEventListener('keyup', up)
@@ -123,13 +138,15 @@ export function Player() {
       iy /= mag
     }
 
+    const crawling = grounded.current && (crawlHeld.current || s.touchCrawl)
     const sprinting =
+      !crawling &&
       s.canSprint &&
       (k['ShiftLeft'] === true ||
         k['ShiftRight'] === true ||
         s.touchSprint ||
         mag > 0.92)
-    const speed = sprinting ? SPRINT_SPEED : WALK_SPEED
+    const speed = crawling ? CRAWL_SPEED : sprinting ? SPRINT_SPEED : WALK_SPEED
 
     const yaw = s.playerYaw
     const fx = -Math.sin(yaw)
@@ -173,6 +190,15 @@ export function Player() {
 
     const zone = s.hasZoneBeta && p.z < GATE_Z - 0.5 ? 'beta' : 'alpha'
     if (zone !== s.activeZone) s.setZone(zone)
+
+    let loco: LocoState = 'idle'
+    if (!grounded.current) loco = 'jump'
+    else if (crawling) loco = 'crawl'
+    else if (mag > 0.05 && s.mode !== 'lesson') loco = sprinting ? 'run' : 'walk'
+    if (locoRef.current !== loco) {
+      locoRef.current = loco
+      setLocoState(loco)
+    }
 
     const body = bodyRef.current
     if (body) {
@@ -235,7 +261,7 @@ export function Player() {
     <group>
       <group ref={bodyRef} position={[rig.playerPos.x, rig.playerPos.y, rig.playerPos.z]}>
         <group ref={torsoPivot}>
-          <HeroModel kind="player" scale={1} />
+          <PlayerLoco state={locoState} />
           {/* Rank ladder pips — aligned to organic chest plate */}
           <mesh geometry={geo.playerPip} position={[0, 1.05, 0.18]} scale={[1.65, 2.2, 1]}>
             <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.7} roughness={0.3} />

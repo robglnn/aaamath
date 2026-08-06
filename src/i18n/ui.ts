@@ -73,6 +73,7 @@ export type UiKey =
   | 'theoremsTitle'
   | 'sprint'
   | 'jump'
+  | 'crawl'
   | 'moveStick'
   | 'lookLeft'
   | 'lookRight'
@@ -165,6 +166,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     theoremsTitle: 'Theorems',
     sprint: 'Sprint',
     jump: 'Jump',
+    crawl: 'Crawl',
     moveStick: 'Move',
     lookLeft: 'Look L',
     lookRight: 'Look R',
@@ -256,6 +258,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     theoremsTitle: 'Teoremas',
     sprint: 'Sprint',
     jump: 'Saltar',
+    crawl: 'Gatear',
     moveStick: 'Mover',
     lookLeft: 'Mirar I',
     lookRight: 'Mirar D',
@@ -347,6 +350,7 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     theoremsTitle: 'Twierdzenia',
     sprint: 'Sprint',
     jump: 'Skok',
+    crawl: 'Pelzaj',
     moveStick: 'Ruch',
     lookLeft: 'Patrz L',
     lookRight: 'Patrz P',
