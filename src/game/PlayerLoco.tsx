@@ -103,10 +103,14 @@ function LocoBody({ state }: { state: LocoState }) {
       const fade =
         (currentRef.current === 'walk' || currentRef.current === 'run') &&
         (state === 'walk' || state === 'run')
-          ? 0.28
-          : state === 'jump'
-            ? 0.12
-            : 0.22
+          ? 0.34
+          : currentRef.current === 'idle' || state === 'idle'
+            ? 0.3
+            : state === 'crawl' || currentRef.current === 'crawl'
+              ? 0.26
+              : state === 'jump'
+                ? 0.14
+                : 0.24
       next.crossFadeFrom(prev, fade, false)
     }
     next.play()

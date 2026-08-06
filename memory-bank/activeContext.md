@@ -1,22 +1,23 @@
 # Active Context
 
 ## Current focus
-Fortnite visual Gauntlet loops 66–75 shipped (white-rect kill + liked player restore + AAA polish). Curriculum frozen.
+Ship Fortnite visual Gauntlet loops 76–95, then L1–L3 pedagogy perfection loops 96–105.
 
 ## Locked decisions
 - Mobile landscape-first
 - Meshy for new env/character meshes (not Rodin)
-- MESHY_V=m67
-- Player style = loop-31 remesh re-rigged (not drifted t-pose remesh)
-- White-rect durable fix = `stripMeshyHelpers()` (Meshy Icosphere bone helper)
+- MESHY_V=m67 (no new GLBs in 76–95)
+- Player style = loop-31 remesh re-rigged
+- White-rect durable fix = `stripMeshyHelpers()`
+- Loops 96–105: deepen L1–L3 only — no L8+ sprawl
 
-## Delivered (this pass)
-- White rectangle removed (Icosphere + chest pip)
-- Liked athletic Meshy player + walk/run/jump/crawl
-- Skyline / verdant / god-ray / floor density / loco crossfade
+## Delivered (76–95)
+- Cloud deck / god-rays / skyline / verdant / HUD juice / audio stingers
+- Wider enclosure for skyline FOV
+- Landscape critic shots confirm no white rect
 
 ## Live
 https://robglnn.github.io/aaamath/
 
 ## Next
-Confirm Pages deploy green for m67 GLBs; optional critic A/B vs bars.
+Commit+Pages for 76–95 → L1–L3 perfection loops 96–105.

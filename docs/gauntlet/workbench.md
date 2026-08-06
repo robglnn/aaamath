@@ -50,19 +50,39 @@
 | **73** | Floor density continuity | PASS_WITH_GAPS |
 | **74** | Spawn verify (no white rect) | PASS |
 | **75** | Ship m67 + Pages | PASS_WITH_GAPS |
+| **76** | Horizon cloud deck | PASS_WITH_GAPS |
+| **77** | God-ray cinematic punch | PASS_WITH_GAPS |
+| **78** | Skyline monolith hero | PASS_WITH_GAPS |
+| **79** | Verdant first-10s | PASS_WITH_GAPS |
+| **80** | Ray-volume golden motes | PASS_WITH_GAPS |
+| **81** | Warm fog banding | PASS_WITH_GAPS |
+| **82** | Floor power seal | PASS_WITH_GAPS |
+| **83** | Ability dock juice | PASS_WITH_GAPS |
+| **84** | Crest gold punch | PASS_WITH_GAPS |
+| **85** | Minimap saturation | PASS_WITH_GAPS |
+| **86** | Unlock stinger audio | PASS_WITH_GAPS |
+| **87** | Character rim lights | PASS_WITH_GAPS |
+| **88** | Loco crossfade polish | PASS_WITH_GAPS |
+| **89** | Sky bake golden-hour | PASS_WITH_GAPS |
+| **90** | Banner presence | PASS_WITH_GAPS |
+| **91** | Waterfall / mesa frame | PASS_WITH_GAPS |
+| **92** | World continuity (walls wider) | PASS_WITH_GAPS |
+| **93** | Terminal hologram juice | PASS_WITH_GAPS |
+| **94** | Landscape verify shots | PASS |
+| **95** | Ship Pages | PASS_WITH_GAPS |
 
-Refs: `docs/gauntlet/bars/` (9 source + named HUD bars)  
-Shots: `docs/gauntlet/_critic-shots/loop66-75-spawn.png`, `loop66-white-rect-fixed.png`  
-Reports: `builder-loop66-75.md`, `critic-loop66-75.md`
+Refs: `docs/gauntlet/bars/`  
+Shots: `loop76-95-spawn-phone.png`, `loop76-95-spawn-desktop.png`  
+Reports: `builder-loop76-95.md`, `critic-loop76-95.md`
 
 ## Plateau judgment
 
-Loops 66–75 killed the white-rect regression (Meshy `Icosphere` helper), restored the preferred loop-31 athletic Meshy player under loco clips, and punched skyline / verdant / god-ray / pavement continuity. Absolute Fortnite bars still win on NPC density — but first-10s no longer has a white blob and the hero silhouette matches the liked pre-loco era. **Still no Algebra.**
+Loops 76–95 punched floating-city clouds, god-rays, skyline tip, verdant flanks, diegetic HUD juice, and opened the enclosure so landscape FOV isn’t a green canyon. First-10s closer to Fortnite bars; NPC density still the absolute gap. **Visual wave complete — next: L1–L3 pedagogy perfection (96–105).**
 
 ## Guards held
 
-- Pages `base: '/aaamath/'`; KaTeX deferred; L1–L7 pedagogy untouched; speech + text fallback intact
-- Curriculum frozen — no L8+
-- Draco decode via gstatic; Meshy cache `?v=m67`
+- Pages `base: '/aaamath/'`; KaTeX deferred; speech + text fallback intact
+- Liked loop-31 player + loco; `stripMeshyHelpers()`; no white Icosphere
+- Draco decode via gstatic; Meshy cache `?v=m67` (no new GLBs this wave)
 
 

@@ -3,15 +3,16 @@ import { useFrame } from '@react-three/fiber'
 import { AdditiveBlending, BufferAttribute, BufferGeometry, CanvasTexture, DynamicDrawUsage, SRGBColorSpace } from 'three'
 import { ALPHA_RADIUS, TERMINAL_POS } from '@/game/world'
 
-const MOTE_COUNT = 58 // loop 30: denser swirl near Alpha pad (still cheap points)
-const SPARKLE_COUNT = 18 // rim twinkles hugging the Alpha pad edge
-const ORBIT_COUNT = 10 // orbiting math-symbol spark trails near Alpha pad
+const MOTE_COUNT = 78 // loop 80: denser swirl + god-ray volume amber motes
+const SPARKLE_COUNT = 22 // rim twinkles hugging the Alpha pad edge
+const ORBIT_COUNT = 12 // orbiting math-symbol spark trails near Alpha pad
 const UPDATE_HZ = 30 // slow drift reads identical at half rate; halves attribute uploads
 
 // Linear-space RGB so additive blending mixes cleanly with the scene palette
 const CYAN: [number, number, number] = [0.24, 0.84, 0.78]
 const AMBER: [number, number, number] = [0.94, 0.66, 0.19]
 const PALE: [number, number, number] = [0.72, 0.94, 0.9]
+const GOLD: [number, number, number] = [1.0, 0.82, 0.42]
 
 interface Mote {
   base: [number, number, number]
@@ -94,20 +95,26 @@ function buildAtmosphere(): AtmosphereKit {
     let by: number
     let bz: number
     let color: [number, number, number]
-    if (i < 20) {
+    if (i < 22) {
       // Alpha pad air volume: annulus so the spawn sightline stays clear
       const r = rand(1.2, ALPHA_RADIUS - 0.7)
       const a = Math.random() * Math.PI * 2
       bx = Math.cos(a) * r
       bz = Math.sin(a) * r
       by = rand(0.4, 2.9)
-      color = Math.random() < 0.75 ? CYAN : Math.random() < 0.6 ? PALE : AMBER
-    } else {
+      color = Math.random() < 0.7 ? CYAN : Math.random() < 0.55 ? PALE : AMBER
+    } else if (i < 48) {
       // Terminal haze: tighter box around the kiosk, slightly taller column
       bx = TERMINAL_POS[0] + rand(-1.9, 1.9)
       bz = TERMINAL_POS[2] + rand(-1.9, 1.9)
       by = rand(0.6, 3.6)
-      color = Math.random() < 0.65 ? CYAN : AMBER
+      color = Math.random() < 0.6 ? CYAN : AMBER
+    } else {
+      // Loop 80: god-ray volume — golden amber dust drifting in sun shafts
+      bx = rand(4, 28)
+      by = rand(2.5, 14)
+      bz = rand(-42, -12)
+      color = Math.random() < 0.65 ? GOLD : AMBER
     }
     const jitter = (lo: number, hi: number): [number, number, number] => [rand(lo, hi), rand(lo, hi), rand(lo, hi)]
     motes.push({
@@ -234,8 +241,8 @@ export function AtmosphereFx() {
       const m = kit.motes[i]
       const sa = t * m.freq[0] + m.phase[0]
       // Subtle swirl offset for Alpha-pad motes
-      const swirlX = i < 20 ? Math.cos(sa * m.swirl) * 0.22 : 0
-      const swirlZ = i < 20 ? Math.sin(sa * m.swirl) * 0.22 : 0
+      const swirlX = i < 22 ? Math.cos(sa * m.swirl) * 0.22 : i >= 48 ? Math.cos(sa * 0.4) * 0.35 : 0
+      const swirlZ = i < 22 ? Math.sin(sa * m.swirl) * 0.22 : i >= 48 ? Math.sin(sa * 0.35) * 0.45 : 0
       mp[i * 3] = m.base[0] + Math.sin(sa) * m.amp[0] + swirlX
       mp[i * 3 + 1] = m.base[1] + Math.sin(t * m.freq[1] + m.phase[1]) * m.amp[1]
       mp[i * 3 + 2] = m.base[2] + Math.cos(t * m.freq[2] + m.phase[2]) * m.amp[2] + swirlZ
@@ -283,11 +290,11 @@ export function AtmosphereFx() {
       <points geometry={kit.motesGeo} frustumCulled={false}>
         <pointsMaterial
           map={kit.tex}
-          size={0.3}
+          size={0.34}
           sizeAttenuation
           vertexColors
           transparent
-          opacity={0.58}
+          opacity={0.64}
           blending={AdditiveBlending}
           depthWrite={false}
         />

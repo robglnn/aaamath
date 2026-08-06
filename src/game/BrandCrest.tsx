@@ -20,7 +20,7 @@ export function BrandCrest({ className = '', size = 56 }: { className?: string; 
           <stop offset="100%" stopColor="#3dd6c6" />
         </linearGradient>
         <filter id="ar-crest-glow" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="2.8" result="b" />
+          <feGaussianBlur stdDeviation="3.4" result="b" />
           <feMerge>
             <feMergeNode in="b" />
             <feMergeNode in="b" />
@@ -28,7 +28,7 @@ export function BrandCrest({ className = '', size = 56 }: { className?: string; 
           </feMerge>
         </filter>
         <filter id="ar-crest-wing-glow" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="3.2" result="wg" />
+          <feGaussianBlur stdDeviation="3.8" result="wg" />
           <feMerge>
             <feMergeNode in="wg" />
             <feMergeNode in="SourceGraphic" />

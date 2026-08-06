@@ -50,8 +50,8 @@
 }
 
 .gr-brand-hero-crest {
-  filter: drop-shadow(0 0 22px rgba(240, 168, 48, 0.55)) drop-shadow(0 0 8px rgba(61, 214, 198, 0.35));
-  animation: gr-crest-pulse 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 28px rgba(240, 168, 48, 0.72)) drop-shadow(0 0 12px rgba(61, 214, 198, 0.45));
+  animation: gr-crest-pulse 2.0s ease-in-out infinite;
 }
 
 .gr-brand:not(.gr-brand-watermark):not(.gr-brand-hero-exit) {
@@ -82,7 +82,8 @@
 
 .gr-brand-mark-crest {
   flex-shrink: 0;
-  filter: drop-shadow(0 0 16px rgba(240, 168, 48, 0.5)) drop-shadow(0 0 6px rgba(61, 214, 198, 0.3));
+  filter: drop-shadow(0 0 22px rgba(240, 168, 48, 0.68)) drop-shadow(0 0 10px rgba(61, 214, 198, 0.42));
+  animation: gr-crest-pulse 2.2s ease-in-out infinite;
 }
 
 .gr-brand-mark-meta {
@@ -514,17 +515,19 @@
   gap: 14px;
   pointer-events: auto;
   z-index: 7;
-  padding: 10px 18px 8px;
+  padding: 12px 22px 10px;
   border-radius: 28px;
   background:
-    radial-gradient(ellipse 80% 120% at 50% 100%, rgba(61, 214, 198, 0.12), transparent 70%),
-    rgba(6, 14, 22, 0.45);
-  border: 1px solid rgba(61, 214, 198, 0.22);
+    radial-gradient(ellipse 80% 120% at 50% 100%, rgba(61, 214, 198, 0.2), transparent 70%),
+    radial-gradient(ellipse 60% 80% at 50% 0%, rgba(240, 168, 48, 0.08), transparent 65%),
+    rgba(6, 14, 22, 0.52);
+  border: 1px solid rgba(61, 214, 198, 0.38);
   box-shadow:
-    0 0 28px rgba(61, 214, 198, 0.1),
-    inset 0 0 20px rgba(61, 214, 198, 0.04);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+    0 0 36px rgba(61, 214, 198, 0.18),
+    0 0 64px rgba(240, 168, 48, 0.08),
+    inset 0 0 24px rgba(61, 214, 198, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .gr-ability {
@@ -532,21 +535,21 @@
   height: 54px;
   min-width: 48px;
   min-height: 48px;
-  /* Loop 24: hex-leaning circular slots (Fortnite ability bar juice) */
+  /* Loop 24/83: hex-leaning circular slots (Fortnite ability bar juice) */
   clip-path: polygon(30% 4%, 70% 4%, 96% 50%, 70% 96%, 30% 96%, 4% 50%);
   border-radius: 0;
-  border: 1.5px solid rgba(61, 214, 198, 0.55);
+  border: 1.5px solid rgba(61, 214, 198, 0.7);
   background:
-    radial-gradient(circle at 50% 35%, rgba(61, 214, 198, 0.22), transparent 60%),
-    rgba(8, 18, 26, 0.78);
+    radial-gradient(circle at 50% 35%, rgba(61, 214, 198, 0.32), transparent 60%),
+    rgba(8, 18, 26, 0.82);
   color: #9ff0e6;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow:
-    0 0 18px rgba(61, 214, 198, 0.16),
-    inset 0 0 14px rgba(61, 214, 198, 0.08);
+    0 0 22px rgba(61, 214, 198, 0.28),
+    inset 0 0 16px rgba(61, 214, 198, 0.12);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s, color 0.15s;
@@ -556,47 +559,48 @@
 .gr-ability-glyph {
   width: 26px;
   height: 26px;
+  filter: drop-shadow(0 0 4px rgba(61, 214, 198, 0.55));
 }
 
 .gr-glyph-wire {
-  opacity: 0;
+  opacity: 0.28;
   pointer-events: none;
   transition: opacity 0.15s ease;
 }
 
 .gr-ability-active .gr-glyph-wire {
-  opacity: 0.62;
+  opacity: 0.85;
 }
 
 .gr-ability:hover {
-  border-color: rgba(61, 214, 198, 0.75);
-  box-shadow: 0 0 22px rgba(61, 214, 198, 0.28);
+  border-color: rgba(61, 214, 198, 0.9);
+  box-shadow: 0 0 28px rgba(61, 214, 198, 0.4);
 }
 
 .gr-ability-active {
-  border-color: rgba(240, 168, 48, 0.95);
+  border-color: rgba(240, 168, 48, 1);
   color: #ffe6a0;
   box-shadow:
-    0 0 32px rgba(240, 168, 48, 0.48),
-    0 0 56px rgba(240, 168, 48, 0.2),
-    inset 0 0 18px rgba(240, 168, 48, 0.14);
-  transform: translateY(-5px) scale(1.08);
-  animation: gr-ability-pulse 1.8s ease-in-out infinite;
+    0 0 38px rgba(240, 168, 48, 0.58),
+    0 0 68px rgba(240, 168, 48, 0.28),
+    inset 0 0 22px rgba(240, 168, 48, 0.18);
+  transform: translateY(-6px) scale(1.1);
+  animation: gr-ability-pulse 1.6s ease-in-out infinite;
 }
 
 @keyframes gr-ability-pulse {
   0%,
   100% {
     box-shadow:
-      0 0 26px rgba(240, 168, 48, 0.35),
-      0 0 40px rgba(240, 168, 48, 0.12),
-      inset 0 0 14px rgba(240, 168, 48, 0.1);
+      0 0 30px rgba(240, 168, 48, 0.42),
+      0 0 48px rgba(240, 168, 48, 0.16),
+      inset 0 0 16px rgba(240, 168, 48, 0.12);
   }
   50% {
     box-shadow:
-      0 0 42px rgba(240, 168, 48, 0.62),
-      0 0 64px rgba(240, 168, 48, 0.24),
-      inset 0 0 20px rgba(240, 168, 48, 0.18);
+      0 0 48px rgba(240, 168, 48, 0.72),
+      0 0 78px rgba(240, 168, 48, 0.32),
+      inset 0 0 24px rgba(240, 168, 48, 0.22);
   }
 }
 
@@ -655,39 +659,39 @@
 }
 
 .gr-minimap-quad--ne {
-  fill: rgba(96, 165, 250, 0.65);
+  fill: rgba(96, 185, 255, 0.78);
 }
 
 .gr-minimap-quad--se {
-  fill: rgba(240, 168, 48, 0.62);
+  fill: rgba(255, 178, 48, 0.76);
 }
 
 .gr-minimap-quad--sw {
-  fill: rgba(52, 211, 153, 0.6);
+  fill: rgba(52, 230, 160, 0.74);
 }
 
 .gr-minimap-quad--nw {
-  fill: rgba(167, 139, 250, 0.62);
+  fill: rgba(180, 145, 255, 0.76);
 }
 
 .gr-minimap-path {
   fill: none;
-  stroke: rgba(61, 214, 198, 0.22);
-  stroke-width: 1.2;
+  stroke: rgba(61, 214, 198, 0.38);
+  stroke-width: 1.4;
   stroke-dasharray: 3 2;
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 .gr-minimap-ring {
   fill: none;
-  stroke: rgba(61, 214, 198, 0.55);
-  stroke-width: 2.4;
+  stroke: rgba(61, 214, 198, 0.72);
+  stroke-width: 2.6;
 }
 
 .gr-minimap-disk {
-  fill: rgba(6, 16, 24, 0.32);
-  stroke: rgba(61, 214, 198, 0.18);
-  stroke-width: 1;
+  fill: rgba(6, 16, 24, 0.28);
+  stroke: rgba(61, 214, 198, 0.28);
+  stroke-width: 1.2;
 }
 
 .gr-minimap-zone {

@@ -125,11 +125,16 @@ export function playBlip(kind: BlipKind): void {
       blipTone(c, bus, 196, t, 0.12, 0.45, 'triangle')
       blipNoise(c, bus, t + 0.02, 0.09, 0.12)
       blipTone(c, bus, 392, t + 0.06, 0.1, 0.22)
+      blipTone(c, bus, 523, t + 0.14, 0.14, 0.2)
       break
     case 'unlock':
-      blipTone(c, bus, 440, t, 0.07, 0.32)
-      blipTone(c, bus, 554, t + 0.06, 0.07, 0.28)
-      blipTone(c, bus, 659, t + 0.12, 0.12, 0.26)
+      // Loop 86: richer Fortnite-style unlock arpeggio (still cheap synth)
+      blipTone(c, bus, 440, t, 0.08, 0.34)
+      blipTone(c, bus, 554, t + 0.055, 0.08, 0.3)
+      blipTone(c, bus, 659, t + 0.11, 0.1, 0.28)
+      blipTone(c, bus, 880, t + 0.18, 0.16, 0.26)
+      blipTone(c, bus, 1175, t + 0.28, 0.2, 0.18, 'triangle')
+      blipNoise(c, bus, t + 0.02, 0.06, 0.06)
       break
   }
 }

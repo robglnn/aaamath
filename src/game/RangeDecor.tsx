@@ -73,44 +73,36 @@ function PlazaEnclosure() {
  * railing-barrier GLB dims are verified post-ship. Targets at these scales:
  * wall ≈ 3m long × 2.6m tall, corner ≈ bastion pylon, railing ≈ 2.4m × 1.1m.
  */
-const WALL_SCALE = 1.3
-const CORNER_SCALE = 1.35
-const RAIL_SCALE = 1.1
+const WALL_SCALE = 1.18
+const CORNER_SCALE = 1.22
+const RAIL_SCALE = 1.05
 
 /**
- * Loops 56-57: wall runs + corner bastions. West run hugs x=-9.2 between the
- * Epsilon yard rim (z −6.55) and the NW light post; the east line at x=+9.2
- * breaks around the L6 Zeta Mirror Yard (x 6.6–11.8, z −3–3) so its bridge
- * entrance stays walkable; the rear run at z=+8.4 leaves a spawn-side
- * entrance chained by railings. South corners stand at (±3.5, −8.4) as gate
- * towers framing the plaza arch — Delta/Epsilon yards (x ±5.0–10.2,
- * z −6.5–−11.7) own the SE/SW quadrants, so no perimeter can run there.
- * rotY assumes the wall module's long axis is local X — verify post-ship.
+ * Loops 56-57 / 92: wall runs + corner bastions. West/east pushed wider so
+ * landscape FOV keeps skyline + cloud deck in the upper third (not a green
+ * shipping-container canyon).
  */
 function WallRing() {
   // x, z, rotY
   const walls: [number, number, number][] = [
-    // West run (6) — full flank, dish at (-8.2, 0.5) reads as a wall-side bay
-    [-9.2, -5.1, Math.PI / 2],
-    [-9.2, -2.94, Math.PI / 2],
-    [-9.2, -0.78, Math.PI / 2],
-    [-9.2, 1.38, Math.PI / 2],
-    [-9.2, 3.54, Math.PI / 2],
-    [-9.2, 5.7, Math.PI / 2],
-    // East run (2) — pockets clear of Zeta (z −3…3), Delta (z < −6.5), NE post
-    [9.2, -4.8, -Math.PI / 2],
-    [9.2, 4.5, -Math.PI / 2],
-    // Rear run (4) — MUST sit behind shoulder cam (~z 7.5–8 when player at z=4).
-    // Prior z=8.4 put camera inside wall thickness → cyan crystal cavern FAIL.
-    [-3.6, 12.2, 0],
-    [-1.2, 12.2, 0],
-    [1.2, 12.2, 0],
-    [3.6, 12.2, 0],
+    // West run — fewer near-spawn segments; x pushed out for skyline peek
+    [-11.4, -5.1, Math.PI / 2],
+    [-11.4, -2.4, Math.PI / 2],
+    [-11.4, 0.6, Math.PI / 2],
+    [-11.4, 3.8, Math.PI / 2],
+    // East run — clear of Zeta, wider for verdant / mesa peek
+    [11.4, -4.8, -Math.PI / 2],
+    [11.4, 4.2, -Math.PI / 2],
+    // Rear run — behind shoulder cam
+    [-3.6, 12.8, 0],
+    [-1.2, 12.8, 0],
+    [1.2, 12.8, 0],
+    [3.6, 12.8, 0],
   ]
   // x, z, rotY — rear bastions well behind cam; south pair are gate towers
   const corners: [number, number, number][] = [
-    [-8.2, 11.6, Math.PI],
-    [8.2, 11.6, -Math.PI / 2],
+    [-10.2, 12.2, Math.PI],
+    [10.2, 12.2, -Math.PI / 2],
     [-3.5, -8.4, Math.PI / 2],
     [3.5, -8.4, -Math.PI / 2],
   ]
@@ -165,16 +157,15 @@ function RailingRing() {
  */
 function PlazaBanners() {
   const banners: [number, number, number, number][] = [
-    // x, z, rotY, scale — near-pad flanks readable in first 10s shoulder cam
-    [-4.6, 3.8, 0.25, 1],
-    [5.0, 3.4, -0.3, 1],
-    [-6.8, 5.2, 0.35, 0.95],
-    [7.2, 4.8, -0.4, 0.95],
+    // Loop 90: pull banners into first-10s flanks — crest presence vs bars
+    [-4.2, 3.2, 0.25, 1.12],
+    [4.6, 2.8, -0.3, 1.12],
+    [-6.2, 4.6, 0.35, 1.05],
+    [6.6, 4.2, -0.4, 1.05],
     [-7.5, -8.5, 0.2, 0.9],
     [6.8, -9.2, -0.25, 0.9],
-    // Loop 52: mid-field flank rhythm — color punctuation between pad and gate
-    [-8.4, -2.4, 0.32, 0.92],
-    [8.8, -1.8, -0.38, 0.9],
+    [-7.8, -2.0, 0.32, 0.98],
+    [8.2, -1.4, -0.38, 0.96],
   ]
   return (
     <group>
@@ -724,12 +715,12 @@ function FloatingIslands() {
   })
   // kind, x, y0, z, scale, rotY
   const rocks: [HeroKind, number, number, number, number, number][] = [
-    // Loop 70: verdant flower islands — closer / larger in first-10s skyline band
-    ['flowerIsland', -10.2, 6.6, -18.8, 1.32, 0.18],
-    ['flowerIsland', 11.4, 6.2, -17.8, 1.28, -0.22],
-    ['flowerIsland', -15.2, 7.0, -20.5, 1.2, 0.55],
-    ['island', 20, 8.2, -23, 1.05, -0.3],
-    ['island', -22, 8.6, -13, 1.22, 0.6],
+    // Loop 79: verdant flower islands — tighter into first-10s skyline band
+    ['flowerIsland', -9.4, 6.2, -16.8, 1.48, 0.18],
+    ['flowerIsland', 10.6, 5.8, -15.8, 1.42, -0.22],
+    ['flowerIsland', -14.2, 6.6, -18.8, 1.32, 0.55],
+    ['island', 18.5, 7.8, -21.5, 1.12, -0.3],
+    ['island', -20.5, 8.2, -12.2, 1.28, 0.6],
   ]
   return (
     <group>
@@ -767,39 +758,39 @@ function CrystalMonolith() {
   return (
     // Hotfix post-critic FAIL: silhouette on walk axis — not viewport occlusion.
     // Bloom GLB is ~16m lateral; scale 2.35 at tip filled spawn as crystal cavern.
-    <group position={[0.6, 0, -23.2]}>
-      <HeroModel kind="monolith" scale={1.78} />
-      <group position={[0, 18.4, -0.2]} rotation={[0.08, 0.12, 0]}>
-        <HeroModel kind="bloom" scale={0.92} />
+    <group position={[0.4, 0, -21.6]}>
+      <HeroModel kind="monolith" scale={1.95} />
+      <group position={[0, 19.6, -0.2]} rotation={[0.08, 0.12, 0]}>
+        <HeroModel kind="bloom" scale={1.08} />
       </group>
-      <mesh position={[0, 18.6, -0.25]}>
-        <sphereGeometry args={[2.5, 16, 12]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.36} blending={AdditiveBlending} depthWrite={false} />
+      <mesh position={[0, 19.8, -0.25]}>
+        <sphereGeometry args={[2.9, 16, 12]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.42} blending={AdditiveBlending} depthWrite={false} />
       </mesh>
-      <mesh position={[0, 19.0, -0.5]} rotation={[0.12, 0, 0]}>
-        <planeGeometry args={[4.0, 4.0]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.16} blending={AdditiveBlending} depthWrite={false} side={2} />
+      <mesh position={[0, 20.2, -0.5]} rotation={[0.12, 0, 0]}>
+        <planeGeometry args={[4.8, 4.8]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.22} blending={AdditiveBlending} depthWrite={false} side={2} />
       </mesh>
       <group
         ref={(g) => {
           rings.current[0] = g
         }}
-        position={[0, 12.4, 0]}
+        position={[0, 13.0, 0]}
       >
         <mesh rotation={[Math.PI / 2 + 0.16, 0, 0]}>
-          <torusGeometry args={[4.6, 0.15, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.7} transparent opacity={0.82} />
+          <torusGeometry args={[5.0, 0.16, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={3.2} transparent opacity={0.88} />
         </mesh>
       </group>
       <group
         ref={(g) => {
           rings.current[1] = g
         }}
-        position={[0, 15.4, 0]}
+        position={[0, 16.2, 0]}
       >
         <mesh rotation={[Math.PI / 2 - 0.2, 0, 0.12]}>
-          <torusGeometry args={[6.0, 0.14, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.9} transparent opacity={0.72} />
+          <torusGeometry args={[6.5, 0.15, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.4} transparent opacity={0.78} />
         </mesh>
       </group>
     </group>
@@ -831,12 +822,12 @@ function CrystalLamps() {
 /** Loop 48 / 63: Meshy waterfall cliff — turquoise flank pulled into first-10s band. */
 function WaterfallLandmark() {
   return (
-    <group position={[-13.2, 0, -15.2]} rotation={[0, -0.35, 0]}>
-      <HeroModel kind="waterfall" scale={1.52} />
-      {/* Loop 63/70: mist veil — additive turquoise read without new lights */}
+    <group position={[-11.8, 0, -13.6]} rotation={[0, -0.35, 0]}>
+      <HeroModel kind="waterfall" scale={1.68} />
+      {/* Loop 91: mist veil — additive turquoise read without new lights */}
       <mesh position={[0.6, 4.2, 0.8]} rotation={[0, 0.2, 0]}>
-        <planeGeometry args={[3.4, 5.8]} />
-        <meshBasicMaterial color="#7ee8dc" transparent opacity={0.18} blending={AdditiveBlending} depthWrite={false} side={2} />
+        <planeGeometry args={[3.8, 6.4]} />
+        <meshBasicMaterial color="#7ee8dc" transparent opacity={0.26} blending={AdditiveBlending} depthWrite={false} side={2} />
       </mesh>
     </group>
   )
@@ -856,9 +847,9 @@ function MesaCluster() {
     }
   })
   const placements: [number, number, number, number][] = [
-    // x, y0, z, scale
-    [18, 4, -28, 1.1],
-    [-20, 5, -26, 0.95],
+    // Loop 91: mesas pulled into first-10s horizon flanks
+    [16.5, 3.6, -24.5, 1.22],
+    [-18.5, 4.4, -23.0, 1.08],
   ]
   return (
     <group>

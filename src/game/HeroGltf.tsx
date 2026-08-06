@@ -98,9 +98,9 @@ export function boostHeroMaterials(root: Object3D, kind?: HeroKind) {
       // Loop 31+/36: Meshy heroes — skyline props need stronger ACES punch
       if (std.emissiveMap) {
         const floor =
-          kind === 'bloom' ? 3.5
-            : kind === 'flowerIsland' ? 3.4
-              : skylineEmissive ? 3.0 : 2.4
+          kind === 'bloom' ? 4.2
+            : kind === 'flowerIsland' ? 4.0
+              : skylineEmissive ? 3.4 : 2.4
         std.emissiveIntensity = Math.max(std.emissiveIntensity, floor)
       }
       if (name.includes('piping')) {

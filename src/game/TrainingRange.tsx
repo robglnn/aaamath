@@ -20,8 +20,9 @@ import { HeroModel } from '@/game/HeroGltf'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
 import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, EPSILON_BRIDGE, EPSILON_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, ZETA_BRIDGE, ZETA_CENTER, groundHeight, rig } from '@/game/world'
 
-const SKY = '#5eb8c8'
-const FOG = '#5a9888'
+// Loop 81: warmer gold-teal depth banding — Fortnite floating-plaza refs
+const SKY = '#6ab8c4'
+const FOG = '#6a9078'
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
@@ -81,9 +82,9 @@ function bakeFloorMaps() {
         ctx.fill()
       }
     }
-    // Soft geometric seal etch — brighter cyan for plaza read (loop 23)
-    ctx.strokeStyle = 'rgba(61, 214, 198, 0.22)'
-    ctx.lineWidth = 2.5
+    // Loop 82: plaza power-seal etch — brighter cyan + gold for underfoot fantasy
+    ctx.strokeStyle = 'rgba(61, 214, 198, 0.38)'
+    ctx.lineWidth = 3.2
     ctx.beginPath()
     ctx.arc(SIZE / 2, SIZE / 2, 48, 0, Math.PI * 2)
     ctx.stroke()
@@ -97,9 +98,9 @@ function bakeFloorMaps() {
     }
     ctx.closePath()
     ctx.stroke()
-    // Inner star etch
-    ctx.strokeStyle = 'rgba(240, 168, 48, 0.14)'
-    ctx.lineWidth = 1.5
+    // Inner star etch — gold charged
+    ctx.strokeStyle = 'rgba(240, 168, 48, 0.28)'
+    ctx.lineWidth = 2.0
     ctx.beginPath()
     for (let i = 0; i < 8; i++) {
       const a = (i / 8) * Math.PI * 2 - Math.PI / 2
@@ -111,6 +112,13 @@ function bakeFloorMaps() {
     }
     ctx.closePath()
     ctx.stroke()
+    // Soft fill under seal so it reads at spawn shoulder distance
+    const seal = ctx.createRadialGradient(SIZE / 2, SIZE / 2, 8, SIZE / 2, SIZE / 2, 78)
+    seal.addColorStop(0, 'rgba(61, 214, 198, 0.14)')
+    seal.addColorStop(0.55, 'rgba(240, 168, 48, 0.06)')
+    seal.addColorStop(1, 'rgba(0,0,0,0)')
+    ctx.fillStyle = seal
+    ctx.fillRect(SIZE / 2 - 80, SIZE / 2 - 80, 160, 160)
   }
   const map = new CanvasTexture(canvas)
   map.colorSpace = SRGBColorSpace
@@ -165,26 +173,26 @@ function bakeSkyTexture(): CanvasTexture {
   const { canvas, ctx } = makeCanvas(64, 512)
   if (ctx) {
     const g = ctx.createLinearGradient(0, 0, 0, 512)
-    // Loop 35: golden-hour value/saturation lift toward floating-island refs
-    g.addColorStop(0, '#6ab8e0')
-    g.addColorStop(0.18, '#8ecfe0')
-    g.addColorStop(0.32, '#c8e0d8')
-    g.addColorStop(0.44, '#f0d8a0')
-    g.addColorStop(0.52, '#ffc878')
-    g.addColorStop(0.58, '#e8a858')
-    g.addColorStop(0.72, '#6a9088')
-    g.addColorStop(1, '#3a5048')
+    // Loop 89: richer golden-hour — anxious/excited first-10s sky energy
+    g.addColorStop(0, '#5aa8e8')
+    g.addColorStop(0.16, '#88c8e8')
+    g.addColorStop(0.28, '#b8dce0')
+    g.addColorStop(0.4, '#f4d8a0')
+    g.addColorStop(0.5, '#ffc060')
+    g.addColorStop(0.58, '#f09848')
+    g.addColorStop(0.7, '#789888')
+    g.addColorStop(1, '#3a4840')
     ctx.fillStyle = g
     ctx.fillRect(0, 0, 64, 512)
-    // Soft cloud bands
-    ctx.globalAlpha = 0.18
-    for (let i = 0; i < 7; i++) {
-      const y = 90 + i * 28 + (i % 3) * 6
-      const grd = ctx.createRadialGradient(32, y, 2, 32, y, 28)
+    // Soft cloud bands — denser near horizon for floating-city read
+    ctx.globalAlpha = 0.26
+    for (let i = 0; i < 10; i++) {
+      const y = 78 + i * 24 + (i % 3) * 8
+      const grd = ctx.createRadialGradient(32, y, 1, 32, y, 32)
       grd.addColorStop(0, '#ffffff')
       grd.addColorStop(1, 'rgba(255,255,255,0)')
       ctx.fillStyle = grd
-      ctx.fillRect(0, y - 28, 64, 56)
+      ctx.fillRect(0, y - 32, 64, 64)
     }
     ctx.globalAlpha = 1
     const img = ctx.getImageData(0, 0, 64, 512)
@@ -231,10 +239,10 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    // Loop 69: shoulder framing — lift look / lower pitch bias so monolith tip
-    // sits in the upper third of first-10s skyline (not buried under HUD).
-    const dist = 3.95
-    const height = 2.48 + pitch * 2.0
+    // Loop 78: shoulder framing — tip skyline hero into upper third; slight
+    // height lift sells floating-city clouds under the horizon.
+    const dist = 3.88
+    const height = 2.58 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
@@ -245,7 +253,7 @@ function CameraRig() {
     cam.z += (tz - cam.z) * k
     const nudge = rig.gateCelebration
     const lookX = p.x * (1 - nudge * 0.25)
-    const lookY = p.y + 1.42 + pitch * 0.55
+    const lookY = p.y + 1.5 + pitch * 0.55
     const lookZ = p.z * (1 - nudge * 0.25) + GATE_Z * nudge * 0.25
     state.camera.lookAt(lookX, lookY, lookZ)
   })
@@ -323,13 +331,13 @@ function Terminal() {
       const widen = near ? 1.28 : 1 + Math.sin(t * 1.4) * 0.06
       beam.scale.x = widen
       beam.scale.z = widen
-      beamMat.current.opacity = (near ? 0.3 : 0.15) + Math.sin(t * 2.2) * 0.045
+      beamMat.current.opacity = (near ? 0.42 : 0.2) + Math.sin(t * 2.2) * 0.055
     }
     if (ringRef.current && ringMat.current) {
       const pulse = near ? 1 + Math.sin(t * 3.4) * 0.1 : 1
       ringRef.current.scale.set(pulse, pulse, pulse)
-      ringMat.current.emissiveIntensity = near ? 1.5 : 0.4
-      ringMat.current.opacity = near ? 0.85 : 0.35
+      ringMat.current.emissiveIntensity = near ? 2.2 : 0.55
+      ringMat.current.opacity = near ? 0.95 : 0.42
     }
     if (scanRef.current) {
       const cycle = (t % 1.7) / 1.7
@@ -468,7 +476,7 @@ function DeckFloor() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
       <planeGeometry args={[90, 90]} />
-      <meshStandardMaterial map={map} roughnessMap={roughnessMap} roughness={0.68} metalness={0.22} color="#c8b8a8" />
+      <meshStandardMaterial map={map} roughnessMap={roughnessMap} roughness={0.64} metalness={0.26} color="#d4c4b0" />
     </mesh>
   )
 }
@@ -478,11 +486,19 @@ function SkyAtmosphere() {
   const skyTex = useMemo(bakeSkyTexture, [])
   const horizonTex = useMemo(bakeHorizonTexture, [])
   const rayRef = useRef<Group>(null)
+  const cloudRef = useRef<Group>(null)
 
   useFrame((state) => {
-    if (!rayRef.current) return
-    // Slow drift so rays feel alive without costing a bloom pass
-    rayRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.08) * 0.04
+    const t = state.clock.elapsedTime
+    if (rayRef.current) {
+      // Slow drift so rays feel alive without costing a bloom pass
+      rayRef.current.rotation.z = Math.sin(t * 0.08) * 0.04
+    }
+    if (cloudRef.current) {
+      // Loop 76: gentle cloud parallax under skyline
+      cloudRef.current.rotation.y = t * 0.012
+      cloudRef.current.position.y = 5.5 + Math.sin(t * 0.15) * 0.4
+    }
   })
 
   return (
@@ -497,7 +513,7 @@ function SkyAtmosphere() {
           map={horizonTex}
           color="#e8b070"
           transparent
-          opacity={0.42}
+          opacity={0.52}
           blending={AdditiveBlending}
           side={BackSide}
           fog={false}
@@ -505,34 +521,60 @@ function SkyAtmosphere() {
           toneMapped={false}
         />
       </mesh>
+      {/* Loop 76: floating-city cloud deck — raised so billows peek above walls */}
+      <group ref={cloudRef} position={[0, 5.5, -26]} renderOrder={-1}>
+        {[
+          [0, 0, 0, 42, 5.2],
+          [-22, 0.8, 6, 26, 4.2],
+          [24, 0.4, 4, 28, 4.4],
+          [-8, 1.6, -8, 32, 4.8],
+          [12, 0.9, -6, 24, 4.0],
+          [-30, 0.4, -2, 20, 3.4],
+          [32, 0.7, 4, 18, 3.2],
+          [0, 2.2, 8, 36, 3.6],
+        ].map(([x, y, z, rx, ry], i) => (
+          <mesh key={i} position={[x, y, z]} scale={[rx, ry, rx * 0.55]} frustumCulled={false}>
+            <sphereGeometry args={[1, 12, 8]} />
+            <meshBasicMaterial
+              color={i % 2 === 0 ? '#fff6e8' : '#ffe8c8'}
+              transparent
+              opacity={0.28 + (i % 3) * 0.05}
+              blending={AdditiveBlending}
+              fog={false}
+              depthWrite={false}
+              toneMapped={false}
+            />
+          </mesh>
+        ))}
+      </group>
       {/* Primary sun disc — warm golden plaza key */}
       <mesh position={[42, 28, -55]} renderOrder={-1} frustumCulled={false}>
-        <sphereGeometry args={[6.5, 16, 16]} />
+        <sphereGeometry args={[7.2, 16, 16]} />
         <meshBasicMaterial color="#ffd8a0" fog={false} depthWrite={false} toneMapped={false} />
       </mesh>
-      <mesh position={[42, 28, -55]} renderOrder={-1} frustumCulled={false} scale={2.6}>
-        <sphereGeometry args={[6.5, 12, 12]} />
+      <mesh position={[42, 28, -55]} renderOrder={-1} frustumCulled={false} scale={3.0}>
+        <sphereGeometry args={[7.2, 12, 12]} />
         <meshBasicMaterial
           color="#ffb060"
           transparent
-          opacity={0.42}
+          opacity={0.52}
           blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
           toneMapped={false}
         />
       </mesh>
-      {/* Loop 29: secondary + tertiary suns — multi-sun Fortnite plaza refs */}
+      {/* Loop 29/77: secondary + tertiary suns — multi-sun Fortnite plaza refs */}
       <mesh position={[-28, 22, -48]} renderOrder={-1} frustumCulled={false}>
-        <sphereGeometry args={[3.8, 12, 12]} />
+        <sphereGeometry args={[4.2, 12, 12]} />
         <meshBasicMaterial color="#ffe8c8" fog={false} depthWrite={false} toneMapped={false} />
       </mesh>
-      <mesh position={[-28, 22, -48]} renderOrder={-1} frustumCulled={false} scale={2.3}>
-        <sphereGeometry args={[3.8, 10, 10]} />
+      <mesh position={[-28, 22, -48]} renderOrder={-1} frustumCulled={false} scale={2.6}>
+        <sphereGeometry args={[4.2, 10, 10]} />
         <meshBasicMaterial
           color="#ffc878"
           transparent
-          opacity={0.26}
+          opacity={0.34}
           blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
@@ -540,36 +582,36 @@ function SkyAtmosphere() {
         />
       </mesh>
       <mesh position={[12, 32, -62]} renderOrder={-1} frustumCulled={false}>
-        <sphereGeometry args={[2.6, 10, 10]} />
+        <sphereGeometry args={[3.0, 10, 10]} />
         <meshBasicMaterial color="#fff0d8" fog={false} depthWrite={false} toneMapped={false} />
       </mesh>
-      <mesh position={[12, 32, -62]} renderOrder={-1} frustumCulled={false} scale={2.1}>
-        <sphereGeometry args={[2.6, 8, 8]} />
+      <mesh position={[12, 32, -62]} renderOrder={-1} frustumCulled={false} scale={2.4}>
+        <sphereGeometry args={[3.0, 8, 8]} />
         <meshBasicMaterial
           color="#ffd090"
           transparent
-          opacity={0.22}
+          opacity={0.3}
           blending={AdditiveBlending}
           fog={false}
           depthWrite={false}
           toneMapped={false}
         />
       </mesh>
-      {/* Loop 62: crepuscular ray wedges — denser fan, higher opacity, longer streaks */}
-      <group ref={rayRef} position={[24, 20, -38]} rotation={[0.38, -0.48, 0.12]}>
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+      {/* Loop 77: crepuscular ray wedges — lifted into upper FOV above walls */}
+      <group ref={rayRef} position={[18, 26, -32]} rotation={[0.48, -0.42, 0.1]}>
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
           <mesh
             key={i}
             position={[0, 0, 0]}
-            rotation={[0, 0, (i - 4) * 0.12]}
+            rotation={[0, 0, (i - 5) * 0.105]}
             renderOrder={-1}
             frustumCulled={false}
           >
-            <planeGeometry args={[5.2 + i * 0.65, 68]} />
+            <planeGeometry args={[6.2 + i * 0.75, 88]} />
             <meshBasicMaterial
               color="#ffe2b0"
               transparent
-              opacity={0.24 + (i % 2) * 0.06 + (i % 3 === 0 ? 0.05 : 0)}
+              opacity={0.36 + (i % 2) * 0.08 + (i % 3 === 0 ? 0.07 : 0)}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -581,18 +623,18 @@ function SkyAtmosphere() {
       </group>
       {/* Secondary ray fan from tertiary sun */}
       <group position={[-16, 15, -36]} rotation={[0.32, 0.38, -0.1]}>
-        {[0, 1, 2, 3, 4].map((i) => (
+        {[0, 1, 2, 3, 4, 5].map((i) => (
           <mesh
             key={`b-${i}`}
-            rotation={[0, 0, (i - 2) * 0.16]}
+            rotation={[0, 0, (i - 2.5) * 0.14]}
             renderOrder={-1}
             frustumCulled={false}
           >
-            <planeGeometry args={[4 + i * 0.55, 48]} />
+            <planeGeometry args={[4.4 + i * 0.55, 56]} />
             <meshBasicMaterial
               color="#ffe8c8"
               transparent
-              opacity={0.16 + i * 0.03}
+              opacity={0.2 + i * 0.035}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -602,20 +644,42 @@ function SkyAtmosphere() {
           </mesh>
         ))}
       </group>
-      {/* Loop 62: tertiary fan from primary sun — cross-streak drama */}
+      {/* Loop 77: tertiary fan + plaza midfield wash */}
       <group position={[32, 14, -44]} rotation={[0.22, -0.62, 0.08]}>
-        {[0, 1, 2].map((i) => (
+        {[0, 1, 2, 3].map((i) => (
           <mesh
             key={`c-${i}`}
-            rotation={[0, 0, (i - 1) * 0.22]}
+            rotation={[0, 0, (i - 1.5) * 0.18]}
             renderOrder={-1}
             frustumCulled={false}
           >
-            <planeGeometry args={[3.5 + i * 0.4, 42]} />
+            <planeGeometry args={[3.8 + i * 0.45, 48]} />
             <meshBasicMaterial
               color="#fff0d0"
               transparent
-              opacity={0.18 + i * 0.035}
+              opacity={0.22 + i * 0.04}
+              blending={AdditiveBlending}
+              fog={false}
+              depthWrite={false}
+              toneMapped={false}
+              side={BackSide}
+            />
+          </mesh>
+        ))}
+      </group>
+      <group position={[6, 12, -22]} rotation={[0.45, -0.15, 0.05]}>
+        {[0, 1, 2, 3].map((i) => (
+          <mesh
+            key={`d-${i}`}
+            rotation={[0, 0, (i - 1.5) * 0.18]}
+            renderOrder={-1}
+            frustumCulled={false}
+          >
+            <planeGeometry args={[3.6 + i * 0.5, 42]} />
+            <meshBasicMaterial
+              color="#ffd8a0"
+              transparent
+              opacity={0.14 + i * 0.03}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -975,37 +1039,39 @@ export function TrainingRange() {
   return (
     <>
       <color attach="background" args={[SKY]} />
-      <fog attach="fog" args={[FOG, 38, 118]} />
-      <Stars radius={90} depth={50} count={1800} factor={2.6} saturation={0.15} fade speed={0.35} />
+      {/* Loop 81: warmer fog banding — near soft, far sells floating depth */}
+      <fog attach="fog" args={[FOG, 32, 108]} />
+      <Stars radius={90} depth={50} count={2000} factor={2.8} saturation={0.22} fade speed={0.38} />
       <SkyAtmosphere />
 
-      {/* Loops 21/25/29/35/40/70: golden-hour + verdant rim */}
-      <hemisphereLight args={['#fff2e0', '#4a6838', 1.28]} />
-      <ambientLight intensity={0.66} color="#fff4e0" />
-      <directionalLight position={[16, 22, 10]} intensity={3.55} color="#ffe2a8" castShadow={false} />
-      <directionalLight position={[-10, 8, -12]} intensity={0.78} color="#a8d8f8" />
-      <directionalLight position={[2, 6, 8]} intensity={0.78} color="#4de0d0" />
-      <directionalLight position={[-4, 3, 6]} intensity={1.1} color="#fff2d8" />
-      {/* Warm/cool hero rims — sells Meshy suit + cyan emission maps */}
-      <directionalLight position={[4, 5, 3]} intensity={1.3} color="#ffd8a8" />
-      <directionalLight position={[-6, 4, -2]} intensity={0.92} color="#6ec8ff" />
-      <directionalLight position={[0, 8, -4]} intensity={0.6} color="#fff6e8" />
-      {/* Loop 70: soft verdant fill so flower islands / mesa grass pop */}
-      <directionalLight position={[-8, 6, -18]} intensity={0.55} color="#88e0a0" />
+      {/* Loops 21/25/29/35/40/70/87: golden-hour + verdant + shoulder rim */}
+      <hemisphereLight args={['#fff4e4', '#4a6838', 1.36]} />
+      <ambientLight intensity={0.7} color="#fff4e0" />
+      <directionalLight position={[16, 22, 10]} intensity={3.75} color="#ffe2a8" castShadow={false} />
+      <directionalLight position={[-10, 8, -12]} intensity={0.82} color="#a8d8f8" />
+      <directionalLight position={[2, 6, 8]} intensity={0.82} color="#4de0d0" />
+      <directionalLight position={[-4, 3, 6]} intensity={1.18} color="#fff2d8" />
+      {/* Loop 87: warm/cool hero rims under shoulder cam — suit presence */}
+      <directionalLight position={[4, 5, 3]} intensity={1.55} color="#ffd8a8" />
+      <directionalLight position={[-6, 4, -2]} intensity={1.12} color="#6ec8ff" />
+      <directionalLight position={[0, 8, -4]} intensity={0.72} color="#fff6e8" />
+      <directionalLight position={[3, 2.4, 5]} intensity={0.85} color="#ffe0b0" />
+      {/* Loop 70/79: soft verdant fill so flower islands / mesa grass pop */}
+      <directionalLight position={[-8, 6, -18]} intensity={0.72} color="#88e0a0" />
 
       <DeckFloor />
-      {/* Navigation grit only — faded, warm charcoal; no cyan section grid */}
+      {/* Loop 92: navigation grit — fade further so plaza reads continuous */}
       <Grid
         position={[0, 0.01, 0]}
         infiniteGrid
         cellSize={2}
-        cellThickness={0.28}
+        cellThickness={0.22}
         cellColor="#1a222c"
         sectionSize={10}
-        sectionThickness={0.55}
+        sectionThickness={0.42}
         sectionColor="#2a3340"
-        fadeDistance={28}
-        fadeStrength={2.2}
+        fadeDistance={22}
+        fadeStrength={2.6}
       />
 
       <RangeDecor />
