@@ -3,6 +3,7 @@ import { useAnimations, useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { LoopOnce, LoopRepeat } from 'three'
 import type { Group, Object3D } from 'three'
+import { SkeletonUtils } from 'three-stdlib'
 import { HERO_URLS, type LocoKind } from '@/game/HeroGltf'
 
 const DRACO = 'https://www.gstatic.com/draco/versioned/decoders/1.5.7/'
@@ -34,7 +35,7 @@ function LocoClip({
   idleHold: boolean
 }) {
   const { scene, animations } = useGLTF(HERO_URLS[kind], DRACO)
-  const root = useMemo(() => scene.clone(true), [scene])
+  const root = useMemo(() => SkeletonUtils.clone(scene) as Object3D, [scene])
   const group = useRef<Group>(null)
   const { actions, mixer } = useAnimations(animations, root)
   const actionName = animations[0]?.name
@@ -70,7 +71,7 @@ function LocoClip({
 
   return (
     <group ref={group} visible={active}>
-      <primitive object={root as Object3D} />
+      <primitive object={root} />
     </group>
   )
 }

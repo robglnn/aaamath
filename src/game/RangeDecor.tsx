@@ -100,17 +100,17 @@ function WallRing() {
     // East run (2) — pockets clear of Zeta (z −3…3), Delta (z < −6.5), NE post
     [9.2, -4.8, -Math.PI / 2],
     [9.2, 4.5, -Math.PI / 2],
-    // Rear run (4) — spawn-side entrance stays open between x ±4.8–7.1 rails
-    [-3.6, 8.4, 0],
-    [-1.2, 8.4, 0],
-    [1.2, 8.4, 0],
-    [3.6, 8.4, 0],
+    // Rear run (4) — MUST sit behind shoulder cam (~z 7.5–8 when player at z=4).
+    // Prior z=8.4 put camera inside wall thickness → cyan crystal cavern FAIL.
+    [-3.6, 12.2, 0],
+    [-1.2, 12.2, 0],
+    [1.2, 12.2, 0],
+    [3.6, 12.2, 0],
   ]
-  // x, z, rotY — rear bastions on the yard's north angles; south pair are the
-  // gate towers behind the arch (gate lane |x| < ~2.5 stays open)
+  // x, z, rotY — rear bastions well behind cam; south pair are gate towers
   const corners: [number, number, number][] = [
-    [-8.2, 7.8, Math.PI],
-    [8.2, 7.8, -Math.PI / 2],
+    [-8.2, 11.6, Math.PI],
+    [8.2, 11.6, -Math.PI / 2],
     [-3.5, -8.4, Math.PI / 2],
     [3.5, -8.4, -Math.PI / 2],
   ]
@@ -144,9 +144,9 @@ function RailingRing() {
     [3.6, -5.8, 0],
     [-3.6, -7.2, 0],
     [3.6, -7.2, 0],
-    // Rear entrance edges — chain the rear wall run (ends x ±4.8) to the bastions
-    [-5.9, 8.4, 0],
-    [5.9, 8.4, 0],
+    // Rear entrance edges — match pushed-back rear wall run
+    [-5.9, 12.2, 0],
+    [5.9, 12.2, 0],
   ]
   return (
     <group>
@@ -718,10 +718,11 @@ function FloatingIslands() {
   })
   // kind, x, y0, z, scale, rotY
   const rocks: [HeroKind, number, number, number, number, number][] = [
-    // Loop 63: hero verdant cluster — center-left skyline, readable flower tops
-    ['flowerIsland', -2.5, 5.2, -11.5, 1.62, 0.18],
-    ['flowerIsland', 4.8, 4.6, -10.8, 1.55, -0.22],
-    ['flowerIsland', -7.2, 5.8, -13.2, 1.48, 0.55],
+    // Loop 63→hotfix: keep verdant identity but as SKYLINE — not frustum-fill
+    // (prior z≈−11 / scale≈1.6 read as cyan crystal cavern in first-10s)
+    ['flowerIsland', -11.5, 7.2, -20.5, 1.22, 0.18],
+    ['flowerIsland', 12.8, 6.8, -19.2, 1.18, -0.22],
+    ['flowerIsland', -16.5, 7.6, -22.0, 1.12, 0.55],
     ['island', 22, 8.5, -24, 1.0, -0.3],
     ['island', -24, 9.0, -14, 1.18, 0.6],
   ]
@@ -740,9 +741,8 @@ function FloatingIslands() {
           <HeroModel kind={kind} scale={s} />
         </group>
       ))}
-      {/* Thin causeway silhouettes between near flower cluster */}
-      <Strut from={[-3.8, 5.0, -11.0]} to={[4.2, 4.4, -10.4]} radius={0.12} />
-      <Strut from={[-6.8, 5.5, -12.6]} to={[-2.2, 5.0, -11.2]} radius={0.1} />
+      <Strut from={[-12.2, 7.0, -20.0]} to={[11.8, 6.6, -19.0]} radius={0.1} />
+      <Strut from={[-15.8, 7.4, -21.4]} to={[-10.8, 7.0, -20.2]} radius={0.09} />
     </group>
   )
 }
@@ -760,42 +760,41 @@ function CrystalMonolith() {
     }
   })
   return (
-    <group position={[0.2, 0, -21.5]}>
-      <HeroModel kind="monolith" scale={1.88} />
-      {/* Loop 46/61: Meshy bloom disc at spire tip — enlarged additive halo */}
-      <group position={[0, 20.5, -0.2]} rotation={[0.08, 0.12, 0]}>
-        <HeroModel kind="bloom" scale={2.35} />
+    // Hotfix post-critic FAIL: silhouette on walk axis — not viewport occlusion.
+    // Bloom GLB is ~16m lateral; scale 2.35 at tip filled spawn as crystal cavern.
+    <group position={[1.2, 0, -24.5]}>
+      <HeroModel kind="monolith" scale={1.62} />
+      <group position={[0, 17.2, -0.2]} rotation={[0.08, 0.12, 0]}>
+        <HeroModel kind="bloom" scale={0.85} />
       </group>
-      {/* Spawn bloom halo — additive wash behind/around the spire tip */}
-      <mesh position={[0, 20.6, -0.25]}>
-        <sphereGeometry args={[3.8, 16, 12]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.44} blending={AdditiveBlending} depthWrite={false} />
+      <mesh position={[0, 17.4, -0.25]}>
+        <sphereGeometry args={[2.2, 16, 12]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.32} blending={AdditiveBlending} depthWrite={false} />
       </mesh>
-      <mesh position={[0, 21.2, -0.5]} rotation={[0.12, 0, 0]}>
-        <planeGeometry args={[6.2, 6.2]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.2} blending={AdditiveBlending} depthWrite={false} side={2} />
+      <mesh position={[0, 17.8, -0.5]} rotation={[0.12, 0, 0]}>
+        <planeGeometry args={[3.6, 3.6]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.14} blending={AdditiveBlending} depthWrite={false} side={2} />
       </mesh>
-      {/* Overlay rings when Meshy mesh rings are subtle at distance */}
       <group
         ref={(g) => {
           rings.current[0] = g
         }}
-        position={[0, 13.8, 0]}
+        position={[0, 11.6, 0]}
       >
         <mesh rotation={[Math.PI / 2 + 0.16, 0, 0]}>
-          <torusGeometry args={[5.4, 0.16, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.6} transparent opacity={0.82} />
+          <torusGeometry args={[4.2, 0.14, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.4} transparent opacity={0.78} />
         </mesh>
       </group>
       <group
         ref={(g) => {
           rings.current[1] = g
         }}
-        position={[0, 17.0, 0]}
+        position={[0, 14.4, 0]}
       >
         <mesh rotation={[Math.PI / 2 - 0.2, 0, 0.12]}>
-          <torusGeometry args={[7.2, 0.15, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.8} transparent opacity={0.72} />
+          <torusGeometry args={[5.6, 0.13, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.7} transparent opacity={0.68} />
         </mesh>
       </group>
     </group>
@@ -827,8 +826,8 @@ function CrystalLamps() {
 /** Loop 48 / 63: Meshy waterfall cliff — turquoise flank pulled into first-10s band. */
 function WaterfallLandmark() {
   return (
-    <group position={[-9.5, 0, -8.2]} rotation={[0, -0.35, 0]}>
-      <HeroModel kind="waterfall" scale={1.58} />
+    <group position={[-14.5, 0, -16.5]} rotation={[0, -0.35, 0]}>
+      <HeroModel kind="waterfall" scale={1.4} />
       {/* Loop 63: mist veil — additive turquoise read without new lights */}
       <mesh position={[0.6, 4.2, 0.8]} rotation={[0, 0.2, 0]}>
         <planeGeometry args={[3.2, 5.5]} />

@@ -231,9 +231,9 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    // Loop 29 / 61: Fortnite shoulder framing — lift look so skyline hero owns center
-    const dist = 3.75
-    const height = 2.42 + pitch * 2.0
+    // Loop 29 / 61 / hotfix: shoulder framing — skyline peek without cavern occlusion
+    const dist = 3.85
+    const height = 2.32 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
@@ -244,7 +244,7 @@ function CameraRig() {
     cam.z += (tz - cam.z) * k
     const nudge = rig.gateCelebration
     const lookX = p.x * (1 - nudge * 0.25)
-    const lookY = p.y + 1.38 + pitch * 0.6
+    const lookY = p.y + 1.28 + pitch * 0.6
     const lookZ = p.z * (1 - nudge * 0.25) + GATE_Z * nudge * 0.25
     state.camera.lookAt(lookX, lookY, lookZ)
   })
