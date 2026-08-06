@@ -20,8 +20,8 @@ import { HeroModel } from '@/game/HeroGltf'
 import { ZoneLabel, makeCanvas } from '@/game/ZoneLabel'
 import { ALPHA_RADIUS, ANNEX_BRIDGE, ANNEX_CENTER, BETA_CENTER, BETA_RADIUS, DELTA_BRIDGE, DELTA_CENTER, EPSILON_BRIDGE, EPSILON_CENTER, GAMMA_BRIDGE, GAMMA_CENTER, GATE_Z, PAD_TOP, TERMINAL_POS, ZETA_BRIDGE, ZETA_CENTER, groundHeight, rig } from '@/game/world'
 
-const SKY = '#6eb8d8'
-const FOG = '#6a9cb0'
+const SKY = '#5eb8c8'
+const FOG = '#5a9888'
 const CYAN = '#3dd6c6'
 const AMBER = '#f0a830'
 const VIOLET = '#b48cff'
@@ -166,14 +166,14 @@ function bakeSkyTexture(): CanvasTexture {
   if (ctx) {
     const g = ctx.createLinearGradient(0, 0, 0, 512)
     // Loop 35: golden-hour value/saturation lift toward floating-island refs
-    g.addColorStop(0, '#7ab0e8')
-    g.addColorStop(0.2, '#9ec8f0')
-    g.addColorStop(0.35, '#d0d8e8')
-    g.addColorStop(0.46, '#f0d8a0')
+    g.addColorStop(0, '#6ab8e0')
+    g.addColorStop(0.18, '#8ecfe0')
+    g.addColorStop(0.32, '#c8e0d8')
+    g.addColorStop(0.44, '#f0d8a0')
     g.addColorStop(0.52, '#ffc878')
     g.addColorStop(0.58, '#e8a858')
-    g.addColorStop(0.7, '#8a9ab0')
-    g.addColorStop(1, '#4a5868')
+    g.addColorStop(0.72, '#6a9088')
+    g.addColorStop(1, '#3a5048')
     ctx.fillStyle = g
     ctx.fillRect(0, 0, 64, 512)
     // Soft cloud bands
@@ -231,9 +231,10 @@ function CameraRig() {
     const p = rig.playerPos
     const fx = -Math.sin(yaw)
     const fz = -Math.cos(yaw)
-    // Loop 29 / 61 / hotfix: shoulder framing — skyline peek without cavern occlusion
-    const dist = 3.85
-    const height = 2.32 + pitch * 2.0
+    // Loop 69: shoulder framing — lift look / lower pitch bias so monolith tip
+    // sits in the upper third of first-10s skyline (not buried under HUD).
+    const dist = 3.95
+    const height = 2.48 + pitch * 2.0
     const tx = p.x - fx * dist
     const ty = p.y + height
     const tz = p.z - fz * dist
@@ -244,7 +245,7 @@ function CameraRig() {
     cam.z += (tz - cam.z) * k
     const nudge = rig.gateCelebration
     const lookX = p.x * (1 - nudge * 0.25)
-    const lookY = p.y + 1.28 + pitch * 0.6
+    const lookY = p.y + 1.42 + pitch * 0.55
     const lookZ = p.z * (1 - nudge * 0.25) + GATE_Z * nudge * 0.25
     state.camera.lookAt(lookX, lookY, lookZ)
   })
@@ -568,7 +569,7 @@ function SkyAtmosphere() {
             <meshBasicMaterial
               color="#ffe2b0"
               transparent
-              opacity={0.18 + (i % 2) * 0.05 + (i % 3 === 0 ? 0.04 : 0)}
+              opacity={0.24 + (i % 2) * 0.06 + (i % 3 === 0 ? 0.05 : 0)}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -591,7 +592,7 @@ function SkyAtmosphere() {
             <meshBasicMaterial
               color="#ffe8c8"
               transparent
-              opacity={0.12 + i * 0.025}
+              opacity={0.16 + i * 0.03}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -614,7 +615,7 @@ function SkyAtmosphere() {
             <meshBasicMaterial
               color="#fff0d0"
               transparent
-              opacity={0.14 + i * 0.03}
+              opacity={0.18 + i * 0.035}
               blending={AdditiveBlending}
               fog={false}
               depthWrite={false}
@@ -974,21 +975,23 @@ export function TrainingRange() {
   return (
     <>
       <color attach="background" args={[SKY]} />
-      <fog attach="fog" args={[FOG, 42, 132]} />
+      <fog attach="fog" args={[FOG, 38, 118]} />
       <Stars radius={90} depth={50} count={1800} factor={2.6} saturation={0.15} fade speed={0.35} />
       <SkyAtmosphere />
 
-      {/* Loops 21/25/29/35/40: golden-hour plaza + Meshy hero rims */}
-      <hemisphereLight args={['#fff2e0', '#6a4828', 1.2]} />
-      <ambientLight intensity={0.62} color="#fff4e0" />
-      <directionalLight position={[16, 22, 10]} intensity={3.45} color="#ffe2a8" castShadow={false} />
-      <directionalLight position={[-10, 8, -12]} intensity={0.72} color="#a8d8f8" />
-      <directionalLight position={[2, 6, 8]} intensity={0.7} color="#4de0d0" />
-      <directionalLight position={[-4, 3, 6]} intensity={1.05} color="#fff2d8" />
+      {/* Loops 21/25/29/35/40/70: golden-hour + verdant rim */}
+      <hemisphereLight args={['#fff2e0', '#4a6838', 1.28]} />
+      <ambientLight intensity={0.66} color="#fff4e0" />
+      <directionalLight position={[16, 22, 10]} intensity={3.55} color="#ffe2a8" castShadow={false} />
+      <directionalLight position={[-10, 8, -12]} intensity={0.78} color="#a8d8f8" />
+      <directionalLight position={[2, 6, 8]} intensity={0.78} color="#4de0d0" />
+      <directionalLight position={[-4, 3, 6]} intensity={1.1} color="#fff2d8" />
       {/* Warm/cool hero rims — sells Meshy suit + cyan emission maps */}
-      <directionalLight position={[4, 5, 3]} intensity={1.25} color="#ffd8a8" />
-      <directionalLight position={[-6, 4, -2]} intensity={0.88} color="#6ec8ff" />
-      <directionalLight position={[0, 8, -4]} intensity={0.55} color="#fff6e8" />
+      <directionalLight position={[4, 5, 3]} intensity={1.3} color="#ffd8a8" />
+      <directionalLight position={[-6, 4, -2]} intensity={0.92} color="#6ec8ff" />
+      <directionalLight position={[0, 8, -4]} intensity={0.6} color="#fff6e8" />
+      {/* Loop 70: soft verdant fill so flower islands / mesa grass pop */}
+      <directionalLight position={[-8, 6, -18]} intensity={0.55} color="#88e0a0" />
 
       <DeckFloor />
       {/* Navigation grit only — faded, warm charcoal; no cyan section grid */}
@@ -1001,8 +1004,8 @@ export function TrainingRange() {
         sectionSize={10}
         sectionThickness={0.55}
         sectionColor="#2a3340"
-        fadeDistance={36}
-        fadeStrength={1.8}
+        fadeDistance={28}
+        fadeStrength={2.2}
       />
 
       <RangeDecor />

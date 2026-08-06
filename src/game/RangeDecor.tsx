@@ -247,6 +247,12 @@ function PlazaFloorTiles() {
     [-4.6, 3.4, 1.4, 0.28],
     [4.9, 2.9, 1.4, -0.22],
     [-5.0, -1.6, 1.35, 0.18],
+    // Loop 73: densify mid-yard continuity — fill holodeck gaps between corridor + flanks
+    [2.2, 3.2, 1.35, -0.12],
+    [-1.8, -0.6, 1.3, 0.2],
+    [5.2, -1.2, 1.35, -0.18],
+    [-4.2, -5.2, 1.3, 0.14],
+    [3.1, -6.4, 1.35, -0.1],
   ]
   return (
     <group>
@@ -718,13 +724,12 @@ function FloatingIslands() {
   })
   // kind, x, y0, z, scale, rotY
   const rocks: [HeroKind, number, number, number, number, number][] = [
-    // Loop 63→hotfix: keep verdant identity but as SKYLINE — not frustum-fill
-    // (prior z≈−11 / scale≈1.6 read as cyan crystal cavern in first-10s)
-    ['flowerIsland', -11.5, 7.2, -20.5, 1.22, 0.18],
-    ['flowerIsland', 12.8, 6.8, -19.2, 1.18, -0.22],
-    ['flowerIsland', -16.5, 7.6, -22.0, 1.12, 0.55],
-    ['island', 22, 8.5, -24, 1.0, -0.3],
-    ['island', -24, 9.0, -14, 1.18, 0.6],
+    // Loop 70: verdant flower islands — closer / larger in first-10s skyline band
+    ['flowerIsland', -10.2, 6.6, -18.8, 1.32, 0.18],
+    ['flowerIsland', 11.4, 6.2, -17.8, 1.28, -0.22],
+    ['flowerIsland', -15.2, 7.0, -20.5, 1.2, 0.55],
+    ['island', 20, 8.2, -23, 1.05, -0.3],
+    ['island', -22, 8.6, -13, 1.22, 0.6],
   ]
   return (
     <group>
@@ -762,39 +767,39 @@ function CrystalMonolith() {
   return (
     // Hotfix post-critic FAIL: silhouette on walk axis — not viewport occlusion.
     // Bloom GLB is ~16m lateral; scale 2.35 at tip filled spawn as crystal cavern.
-    <group position={[1.2, 0, -24.5]}>
-      <HeroModel kind="monolith" scale={1.62} />
-      <group position={[0, 17.2, -0.2]} rotation={[0.08, 0.12, 0]}>
-        <HeroModel kind="bloom" scale={0.85} />
+    <group position={[0.6, 0, -23.2]}>
+      <HeroModel kind="monolith" scale={1.78} />
+      <group position={[0, 18.4, -0.2]} rotation={[0.08, 0.12, 0]}>
+        <HeroModel kind="bloom" scale={0.92} />
       </group>
-      <mesh position={[0, 17.4, -0.25]}>
-        <sphereGeometry args={[2.2, 16, 12]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.32} blending={AdditiveBlending} depthWrite={false} />
+      <mesh position={[0, 18.6, -0.25]}>
+        <sphereGeometry args={[2.5, 16, 12]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.36} blending={AdditiveBlending} depthWrite={false} />
       </mesh>
-      <mesh position={[0, 17.8, -0.5]} rotation={[0.12, 0, 0]}>
-        <planeGeometry args={[3.6, 3.6]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.14} blending={AdditiveBlending} depthWrite={false} side={2} />
+      <mesh position={[0, 19.0, -0.5]} rotation={[0.12, 0, 0]}>
+        <planeGeometry args={[4.0, 4.0]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.16} blending={AdditiveBlending} depthWrite={false} side={2} />
       </mesh>
       <group
         ref={(g) => {
           rings.current[0] = g
         }}
-        position={[0, 11.6, 0]}
+        position={[0, 12.4, 0]}
       >
         <mesh rotation={[Math.PI / 2 + 0.16, 0, 0]}>
-          <torusGeometry args={[4.2, 0.14, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.4} transparent opacity={0.78} />
+          <torusGeometry args={[4.6, 0.15, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={2.7} transparent opacity={0.82} />
         </mesh>
       </group>
       <group
         ref={(g) => {
           rings.current[1] = g
         }}
-        position={[0, 14.4, 0]}
+        position={[0, 15.4, 0]}
       >
         <mesh rotation={[Math.PI / 2 - 0.2, 0, 0.12]}>
-          <torusGeometry args={[5.6, 0.13, 6, 48]} />
-          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.7} transparent opacity={0.68} />
+          <torusGeometry args={[6.0, 0.14, 6, 48]} />
+          <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.9} transparent opacity={0.72} />
         </mesh>
       </group>
     </group>
@@ -826,12 +831,12 @@ function CrystalLamps() {
 /** Loop 48 / 63: Meshy waterfall cliff — turquoise flank pulled into first-10s band. */
 function WaterfallLandmark() {
   return (
-    <group position={[-14.5, 0, -16.5]} rotation={[0, -0.35, 0]}>
-      <HeroModel kind="waterfall" scale={1.4} />
-      {/* Loop 63: mist veil — additive turquoise read without new lights */}
+    <group position={[-13.2, 0, -15.2]} rotation={[0, -0.35, 0]}>
+      <HeroModel kind="waterfall" scale={1.52} />
+      {/* Loop 63/70: mist veil — additive turquoise read without new lights */}
       <mesh position={[0.6, 4.2, 0.8]} rotation={[0, 0.2, 0]}>
-        <planeGeometry args={[3.2, 5.5]} />
-        <meshBasicMaterial color="#7ee8dc" transparent opacity={0.14} blending={AdditiveBlending} depthWrite={false} side={2} />
+        <planeGeometry args={[3.4, 5.8]} />
+        <meshBasicMaterial color="#7ee8dc" transparent opacity={0.18} blending={AdditiveBlending} depthWrite={false} side={2} />
       </mesh>
     </group>
   )

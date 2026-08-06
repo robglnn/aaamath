@@ -267,11 +267,8 @@ export function Player() {
       <group ref={bodyRef} position={[rig.playerPos.x, rig.playerPos.y, rig.playerPos.z]}>
         <group ref={torsoPivot}>
           <PlayerLoco state={locoState} />
-          {/* Rank ladder pips — aligned to organic chest plate */}
-          <mesh geometry={geo.playerPip} position={[0, 1.05, 0.18]} scale={[1.65, 2.2, 1]}>
-            <meshStandardMaterial color={CYAN} emissive={CYAN} emissiveIntensity={1.7} roughness={0.3} />
-          </mesh>
-          {/* Profile-geo shell hidden while Blender hero owns silhouette (fallback kept in tree). */}
+          {/* Profile-geo shell + chest pip hidden while Meshy hero owns silhouette.
+              (Always-on chest pip blew out as a white/cyan rect in front of loco.) */}
           <group visible={false}>
           <mesh geometry={geo.playerTorso} position={[0, 0.8, 0]}>
             <meshStandardMaterial map={torsoPanel} color={BODY} {...MAT_BODY} />

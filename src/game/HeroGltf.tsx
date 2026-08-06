@@ -9,7 +9,7 @@ const base = import.meta.env.BASE_URL
 const DRACO = 'https://www.gstatic.com/draco/versioned/decoders/1.5.7/'
 
 /** Cache-bust Meshy GLB ships so Pages clients don't keep stale primitives. */
-const MESHY_V = 'm65'
+const MESHY_V = 'm67'
 
 export const HERO_URLS = {
   player: `${base}models/riser-player.glb?v=${MESHY_V}`,
@@ -44,8 +44,48 @@ export type LocoKind = 'playerWalk' | 'playerRun' | 'playerJump' | 'playerCrawl'
 
 const SKYLINE_EMISSIVE_KINDS = new Set<HeroKind>(['monolith', 'island', 'flowerIsland', 'waterfall', 'bloom', 'lamp', 'mesa'])
 
+/**
+ * Meshy rig GLBs carry a material-less Icosphere bone-display helper that
+ * renders as a solid white blob under ACES. Drop it (and similar unbound
+ * helpers) before the scene hits the canvas.
+ */
+export function stripMeshyHelpers(root: Object3D) {
+  const drop: Object3D[] = []
+  root.traverse((obj) => {
+    const mesh = obj as {
+      isSkinnedMesh?: boolean
+      isMesh?: boolean
+      name?: string
+      material?: unknown
+      geometry?: { attributes?: { position?: { count?: number } } }
+    }
+    if (!mesh.isMesh) return
+    const name = (mesh.name || '').toLowerCase()
+    const verts = mesh.geometry?.attributes?.position?.count ?? 9999
+    const mats = mesh.material
+    const noMat = mats == null || (Array.isArray(mats) && mats.length === 0)
+    // Never drop the primary skinned character (large vert count).
+    if (mesh.isSkinnedMesh && verts >= 500) return
+    const isHelper =
+      name.includes('ico') ||
+      name.includes('helper') ||
+      name.includes('bound') ||
+      name.includes('collision') ||
+      (name.includes('sphere') && verts < 200) ||
+      (noMat && verts < 200)
+    if (isHelper) drop.push(obj)
+  })
+  for (const obj of drop) {
+    obj.removeFromParent()
+    obj.visible = false
+  }
+}
+
 /** Punch emissives so authored / Meshy PBR reads under ACES without a bloom pass. */
 export function boostHeroMaterials(root: Object3D, kind?: HeroKind) {
+  if (kind === 'player' || kind === 'playerWalk' || kind === 'playerRun' || kind === 'playerJump' || kind === 'playerCrawl') {
+    stripMeshyHelpers(root)
+  }
   const skylineEmissive = kind != null && SKYLINE_EMISSIVE_KINDS.has(kind)
   root.traverse((obj) => {
     const mesh = obj as Mesh
@@ -114,11 +154,11 @@ export function boostHeroMaterials(root: Object3D, kind?: HeroKind) {
         if (grassish) {
           std.color.setRGB(
             Math.min(1, std.color.r * 1.08),
-            Math.min(1, std.color.g * (kind === 'flowerIsland' ? 1.24 : 1.14)),
+            Math.min(1, std.color.g * (kind === 'flowerIsland' ? 1.32 : 1.18)),
             Math.min(1, std.color.b * 1.06),
           )
           if (kind === 'flowerIsland' && std.emissiveIntensity != null) {
-            std.emissiveIntensity = Math.max(std.emissiveIntensity, 1.2)
+            std.emissiveIntensity = Math.max(std.emissiveIntensity, 1.55)
           }
         } else {
           std.color.setRGB(

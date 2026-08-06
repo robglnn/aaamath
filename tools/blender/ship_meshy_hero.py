@@ -125,6 +125,26 @@ def ship(
     if not meshes:
         raise RuntimeError(f"No mesh in {in_path}")
 
+    # Drop Meshy/rig helper meshes (material-less Icosphere etc.) before scale/join —
+    # they ship as solid white blobs in-engine.
+    helpers = []
+    for o in list(meshes):
+        n = (o.name or "").lower()
+        is_helper_name = any(k in n for k in ("ico", "helper", "bound", "collision"))
+        tiny = o.type == "MESH" and len(o.data.vertices) < 200
+        unbound = o.type == "MESH" and len(o.vertex_groups) == 0
+        if is_helper_name and (tiny or unbound):
+            helpers.append(o)
+    for o in helpers:
+        print(f"STRIP helper {o.name} v={len(o.data.vertices)}")
+        bpy.data.objects.remove(o, do_unlink=True)
+        if o in objs:
+            objs.remove(o)
+        if o in meshes:
+            meshes.remove(o)
+    if not meshes:
+        raise RuntimeError(f"No mesh left after helper strip in {in_path}")
+
     _scale_to_height(objs, height)
 
     if join and len(meshes) > 1:

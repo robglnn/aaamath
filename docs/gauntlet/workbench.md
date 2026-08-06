@@ -40,19 +40,29 @@
 | **63** | Verdant island/waterfall | PASS_WITH_GAPS |
 | **64** | Short-landscape HUD scale | PASS_WITH_GAPS |
 | **65** | Odd-aspect HUD + polish | PASS_WITH_GAPS |
+| **66** | Kill white rect (Meshy Icosphere helper) | PASS |
+| **67** | Restore liked loop-31 player style | PASS_WITH_GAPS |
+| **68** | Rebind walk/run/jump/crawl to liked mesh | PASS_WITH_GAPS |
+| **69** | Skyline monolith hero punch | PASS_WITH_GAPS |
+| **70** | Verdant saturation / flower islands | PASS_WITH_GAPS |
+| **71** | God-ray opacity punch | PASS_WITH_GAPS |
+| **72** | Loco crossfade polish | PASS_WITH_GAPS |
+| **73** | Floor density continuity | PASS_WITH_GAPS |
+| **74** | Spawn verify (no white rect) | PASS |
+| **75** | Ship m67 + Pages | PASS_WITH_GAPS |
 
 Refs: `docs/gauntlet/bars/` (9 source + named HUD bars)  
-Shots: `docs/gauntlet/_critic-shots/loop36-55-*`, `loop46-52-*`, `loop36-45-*`  
-Reports: `builder-loop36-55-meshy-skyline.md`, `critic-loop36-45-skyline.md`, `critic-loop36-55-final.md`
+Shots: `docs/gauntlet/_critic-shots/loop66-75-spawn.png`, `loop66-white-rect-fixed.png`  
+Reports: `builder-loop66-75.md`, `critic-loop66-75.md`
 
 ## Plateau judgment
 
-Loops 36–55 replaced primitive skyline kitbash with **Meshy-authored** monolith / islands / waterfall / mesa / bloom / lamps / crates / floor tiles, then composition-tuned so the ringed cyan monolith sits on the right skyline (not buried behind the arch). Verdant flower islands + waterfall enter the first-10s band; HUD glyphs are filled; minimap pizza less occluded. Absolute Fortnite bars still win on NPC density / Multiversal skyline saturation — but first-10s is materially more Meshy-world than tip `0235b23`. **Still no Algebra.**
+Loops 66–75 killed the white-rect regression (Meshy `Icosphere` helper), restored the preferred loop-31 athletic Meshy player under loco clips, and punched skyline / verdant / god-ray / pavement continuity. Absolute Fortnite bars still win on NPC density — but first-10s no longer has a white blob and the hero silhouette matches the liked pre-loco era. **Still no Algebra.**
 
 ## Guards held
 
 - Pages `base: '/aaamath/'`; KaTeX deferred; L1–L7 pedagogy untouched; speech + text fallback intact
 - Curriculum frozen — no L8+
-- Draco decode via gstatic; Meshy cache `?v=m53`
+- Draco decode via gstatic; Meshy cache `?v=m67`
 
 

@@ -4,7 +4,7 @@ import { useAnimations, useGLTF } from '@react-three/drei'
 import { LoopOnce, LoopRepeat, Vector3 } from 'three'
 import type { AnimationClip, Object3D } from 'three'
 import { SkeletonUtils } from 'three-stdlib'
-import { boostHeroMaterials, HERO_URLS, HeroModel } from '@/game/HeroGltf'
+import { boostHeroMaterials, HERO_URLS, HeroModel, stripMeshyHelpers } from '@/game/HeroGltf'
 
 const DRACO = 'https://www.gstatic.com/draco/versioned/decoders/1.5.7/'
 
@@ -51,6 +51,7 @@ function LocoBody({ state }: { state: LocoState }) {
     // SkeletonUtils: plain scene.clone() leaves SkinnedMesh bound to the source
     // skeleton, so the mesh would freeze at bind pose while cloned bones move.
     const root = SkeletonUtils.clone(walk.scene) as Object3D
+    stripMeshyHelpers(root)
     boostHeroMaterials(root, 'player')
     const hips = root.getObjectByName('Hips')
     const rest = hips ? hips.position.clone() : new Vector3(0, 1.12, -0.05)
@@ -98,7 +99,15 @@ function LocoBody({ state }: { state: LocoState }) {
     }
     const prev = actions[CLIP_OF[currentRef.current]]
     if (prev && prev !== next) {
-      next.crossFadeFrom(prev, 0.18, false)
+      // Loop 72: longer crossfade under shoulder cam — walk↔run/crawl less snap
+      const fade =
+        (currentRef.current === 'walk' || currentRef.current === 'run') &&
+        (state === 'walk' || state === 'run')
+          ? 0.28
+          : state === 'jump'
+            ? 0.12
+            : 0.22
+      next.crossFadeFrom(prev, fade, false)
     }
     next.play()
     currentRef.current = state
