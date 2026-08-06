@@ -2,18 +2,15 @@
 
 ## What works
 - Live Pages https://robglnn.github.io/aaamath/
-- L1–L7 EN/ES/PL (curriculum frozen)
-- Meshy enclosure walls/corners/rails + floor density (loops 56–58)
-- PlayerLoco walk/sprint/jump/crawl on **liked loop-31** mesh (loops 66–68)
-- White-rect Icosphere helper stripped (loop 66)
-- Skyline monolith / verdant / god-ray / density polish (69–73)
-- HUD odd/short landscape survival (64–65)
-- Cache ?v=m67
+- L1–L7 EN/ES/PL packaged
+- Visual Gauntlet through loop 95 (cloud/god-ray/skyline/HUD juice)
+- L1–L3 perfection pass: misconceptions, mastery KP chips, mission track, KaTeX validator
+- Player loco walk/sprint/jump/crawl on liked mesh; no white Icosphere
 
 ## Remaining gaps
-- Absolute Fortnite NPC density / Multiversal skins
-- Verdant / god-ray still under cinematic Fortnite ceiling
-- Meshy Icosphere reappears on Blender re-export (runtime strip holds)
+- Absolute Fortnite NPC density
+- Adaptive/spaced still stub-level (surfaced, not full engine)
+- L4–L7 dual-mode evaluate+choices warnings
 
 ## Next
-Pages deploy verification for loops 66–75 ship.
+Pages verify for 96–105 ship; optional L4–L7 dual-mode cleanup later.

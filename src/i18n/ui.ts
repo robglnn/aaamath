@@ -91,6 +91,14 @@ export type UiKey =
   | 'reviewDuePrefix'
   | 'rotateToPlay'
   | 'rotateToPlayHint'
+  | 'kpStillNeeded'
+  | 'kpClearedAll'
+  | 'lessonTrack'
+  | 'reviewDueCount'
+  | 'adaptiveHint'
+  | 'phaseIDoHint'
+  | 'phaseWeDoHint'
+  | 'phaseYouDoHint'
 
 const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
   en: {
@@ -109,11 +117,19 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     progress: 'House standing',
     jurisdiction: 'Academy',
     phaseObjectives: 'Brief',
-    phaseIDo: 'I do',
-    phaseWeDo: 'We do',
-    phaseYouDo: 'You do',
+    phaseIDo: 'I model',
+    phaseWeDo: 'We try',
+    phaseYouDo: 'You clear',
     phaseRetrieval: 'Recall',
     phaseComplete: 'Cleared',
+    phaseIDoHint: 'Watch the worked model — then answer the check.',
+    phaseWeDoHint: 'Guided reps with coach feedback.',
+    phaseYouDoHint: 'Solo clearance — prove every required theorem.',
+    kpStillNeeded: 'Still needed',
+    kpClearedAll: 'All required theorems evidenced',
+    lessonTrack: 'Mission track',
+    reviewDueCount: 'Reviews due',
+    adaptiveHint: 'Ability estimate steers You-clear item order',
     correct: 'Nailed it',
     incorrect: 'Not yet',
     yourAnswer: 'Your answer',
@@ -201,11 +217,19 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     progress: 'Posición de la casa',
     jurisdiction: 'Academia',
     phaseObjectives: 'Brief',
-    phaseIDo: 'Yo hago',
-    phaseWeDo: 'Hacemos',
-    phaseYouDo: 'Tú haces',
+    phaseIDo: 'Yo demuestro',
+    phaseWeDo: 'Probamos',
+    phaseYouDo: 'Tú despejas',
     phaseRetrieval: 'Recuerdo',
     phaseComplete: 'Superado',
+    phaseIDoHint: 'Mira el modelo resuelto — luego responde el chequeo.',
+    phaseWeDoHint: 'Repeticiones guiadas con feedback del coach.',
+    phaseYouDoHint: 'Autorización en solitario — prueba cada teorema requerido.',
+    kpStillNeeded: 'Aún faltan',
+    kpClearedAll: 'Todos los teoremas requeridos evidenciados',
+    lessonTrack: 'Ruta de misión',
+    reviewDueCount: 'Repasos pendientes',
+    adaptiveHint: 'La estimación de habilidad ordena los retos de Tú despejas',
     correct: 'Acertado',
     incorrect: 'Aún no',
     yourAnswer: 'Tu respuesta',
@@ -293,11 +317,19 @@ const UI_STRINGS: Record<Locale, Record<UiKey, string>> = {
     progress: 'Pozycja domu',
     jurisdiction: 'Akademia',
     phaseObjectives: 'Brief',
-    phaseIDo: 'Ja robię',
-    phaseWeDo: 'Robimy',
-    phaseYouDo: 'Ty robisz',
+    phaseIDo: 'Ja modeluję',
+    phaseWeDo: 'Próbujemy',
+    phaseYouDo: 'Ty zaliczasz',
     phaseRetrieval: 'Przypomnienie',
     phaseComplete: 'Zaliczone',
+    phaseIDoHint: 'Zobacz wzorcowe rozwiązanie — potem odpowiedz na sprawdzenie.',
+    phaseWeDoHint: 'Prowadzone powtórki z feedbackiem trenera.',
+    phaseYouDoHint: 'Solo clearance — udowodnij każde wymagane twierdzenie.',
+    kpStillNeeded: 'Jeszcze potrzebne',
+    kpClearedAll: 'Wszystkie wymagane twierdzenia udowodnione',
+    lessonTrack: 'Ścieżka misji',
+    reviewDueCount: 'Powtórki do zrobienia',
+    adaptiveHint: 'Szacunek umiejętności ustawia kolejność wyzwań Ty zaliczasz',
     correct: 'Trafione',
     incorrect: 'Jeszcze nie',
     yourAnswer: 'Twoja odpowiedź',

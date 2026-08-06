@@ -7,6 +7,7 @@ import { useLessonSession } from '@/lesson/useLessonSession'
 import { ui, phaseLabel, unlockKindLabel } from '@/i18n/ui'
 import { pickLocalized, useProgressStore } from '@/progress/store'
 import { canSTT, canTTS, listenOnce, speak } from '@/speech/webSpeech'
+import { playBlip } from '@/game/audio'
 
 interface LessonOverlayProps {
   lessonId: string
@@ -92,6 +93,7 @@ export function LessonOverlay({ lessonId, onClose, onMastered }: LessonOverlayPr
     const raw = choiceId ?? shortAnswer
     const result = submitAnswer(raw, choiceId)
     if (!result || !pkg) return
+    playBlip(result.correct ? 'unlock' : 'prompt')
 
     recordAnswer({
       item: state.currentItem,
@@ -151,7 +153,7 @@ export function LessonOverlay({ lessonId, onClose, onMastered }: LessonOverlayPr
     )
   }
 
-  const { phase, phaseKind, currentItem, lastResult, showSolution, independentCorrect, independentTotal } =
+  const { phase, phaseKind, currentItem, lastResult, showSolution, independentCorrect, independentTotal, evidencedKpIds } =
     state
   const masteryReq = pkg.mastery
   // Unlock cards only on real mastery (critic gap); still allow exit when complete without mastery.
@@ -168,6 +170,18 @@ export function LessonOverlay({ lessonId, onClose, onMastered }: LessonOverlayPr
     100,
     Math.round((independentCorrect / Math.max(masteryReq.minIndependentCorrect, 1)) * 100),
   )
+  const pendingKpTitles = masteryReq.requiredKpIds
+    .filter((id) => !evidencedKpIds.has(id))
+    .map((id) => pkg.knowledgePoints.find((kp) => kp.id === id))
+    .filter((kp): kp is NonNullable<typeof kp> => Boolean(kp))
+  const phaseCoachHint =
+    phaseKind === 'i_do'
+      ? ui(locale, 'phaseIDoHint')
+      : phaseKind === 'we_do'
+        ? ui(locale, 'phaseWeDoHint')
+        : phaseKind === 'you_do'
+          ? ui(locale, 'phaseYouDoHint')
+          : ''
   const railPct =
     phases.length > 1
       ? Math.round(
@@ -249,6 +263,7 @@ export function LessonOverlay({ lessonId, onClose, onMastered }: LessonOverlayPr
         {teachFocus && (
           <section className="lesson-section focus-panel">
             <p className="focus-eyebrow">{phaseLabel(locale, phaseKind)}</p>
+            {phaseCoachHint && <p className="phase-coach-hint">{phaseCoachHint}</p>}
             <h2>{pickLocalized(phase.title, locale)}</h2>
             <div className="math-focus">
               <MathText localized={phase.body} locale={locale} />
@@ -290,6 +305,22 @@ export function LessonOverlay({ lessonId, onClose, onMastered }: LessonOverlayPr
               {ui(locale, 'independentScore')} · {independentTotal}/{masteryReq.minIndependentTotal}
               {needed > 0 ? ` · ${needed}` : ''}
             </p>
+            <div className="mastery-kp-row" aria-live="polite">
+              {pendingKpTitles.length === 0 ? (
+                <span className="mastery-kp-all">{ui(locale, 'kpClearedAll')}</span>
+              ) : (
+                <>
+                  <span className="mastery-kp-label">{ui(locale, 'kpStillNeeded')}</span>
+                  <ul className="mastery-kp-chips">
+                    {pendingKpTitles.map((kp) => (
+                      <li key={kp.id} className="mastery-kp-chip">
+                        <MathText localized={kp.title} locale={locale} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
             {state.masteryMet && <p className="mastery-unlocked">{ui(locale, 'masteryUnlocked')}</p>}
           </div>
         )}
@@ -298,6 +329,7 @@ export function LessonOverlay({ lessonId, onClose, onMastered }: LessonOverlayPr
           <section className="item-panel focus-panel" aria-label={ui(locale, 'challengeFocus')}>
             <div className="item-panel-head">
               <p className="focus-eyebrow">{ui(locale, 'challengeFocus')}</p>
+              {phaseCoachHint && <p className="phase-coach-hint">{phaseCoachHint}</p>}
               {phase && (
                 <button
                   type="button"

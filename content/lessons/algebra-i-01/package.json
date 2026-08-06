@@ -56,6 +56,11 @@
           "en": "Thinking a variable is always unknown and fixed forever.",
           "es": "Creer que una variable siempre es desconocida y fija.",
           "pl": "Myślenie, że zmienna zawsze jest nieznana i stała."
+        },
+        {
+          "en": "Thinking a letter always means a specific number (like a = 1).",
+          "es": "Creer que una letra siempre significa un número concreto (como a = 1).",
+          "pl": "Myślenie, że litera zawsze oznacza konkretną liczbę (np. a = 1)."
         }
       ],
       "standards": {
@@ -147,6 +152,11 @@
           "en": "Reversing subtraction or division order.",
           "es": "Invertir el orden de resta o división.",
           "pl": "Odwracanie kolejności odejmowania lub dzielenia."
+        },
+        {
+          "en": "Reversing the order: writing 5 − n for \"n less than 5\".",
+          "es": "Invertir el orden: escribir 5 − n para \"n menos que 5\".",
+          "pl": "Odwracanie kolejności: pisanie 5 − n dla „n mniej niż 5”."
         }
       ],
       "standards": {
@@ -239,6 +249,11 @@
           "en": "Forgetting order of operations after substituting.",
           "es": "Olvidar el orden de operaciones tras sustituir.",
           "pl": "Zapominanie kolejności działań po podstawieniu."
+        },
+        {
+          "en": "Substituting but forgetting to multiply: treating 3x as 3 + x.",
+          "es": "Sustituir pero olvidar multiplicar: tratar 3x como 3 + x.",
+          "pl": "Podstawianie bez mnożenia: traktowanie 3x jak 3 + x."
         }
       ],
       "standards": {
@@ -330,6 +345,11 @@
           "en": "Calling any string with a letter an equation.",
           "es": "Llamar ecuación a cualquier cadena con una letra.",
           "pl": "Nazywanie równaniem każdego ciągu z literą."
+        },
+        {
+          "en": "Calling any statement with a letter an equation.",
+          "es": "Llamar ecuación a cualquier frase con una letra.",
+          "pl": "Nazywanie równaniem każdego wyrażenia z literą."
         }
       ],
       "standards": {
@@ -421,6 +441,11 @@
           "en": "Always computing left-to-right ignoring multiplication precedence.",
           "es": "Calcular siempre de izquierda a derecha ignorando la multiplicación.",
           "pl": "Zawsze od lewej do prawej, ignorując pierwszeństwo mnożenia."
+        },
+        {
+          "en": "Doing left-to-right always, ignoring exponents/parentheses.",
+          "es": "Ir siempre de izquierda a derecha, ignorando potencias/paréntesis.",
+          "pl": "Zawsze od lewej do prawej, ignorując potęgi/nawiasy."
         }
       ],
       "standards": {
@@ -887,7 +912,8 @@
         "a": 1,
         "b": -0.5
       },
-      "difficulty": "intro"
+      "difficulty": "intro",
+      "stemLatex": "x + 5"
     },
     {
       "id": "item.wedo.1",
@@ -895,7 +921,7 @@
         "kp.translate.phrase-to-expr"
       ],
       "phase": "we_do",
-      "type": "translate",
+      "type": "mcq",
       "stem": {
         "en": "Translate: \"the sum of a number n and 7\".",
         "es": "Traduce: \"la suma de un número n y 7\".",
@@ -998,9 +1024,9 @@
           },
           "isCorrect": false,
           "feedback": {
-            "en": "Sum is +, not −.",
-            "es": "Suma es +, no −.",
-            "pl": "Suma to +, nie −."
+            "en": "n−7 subtracts 7 from n. “7 more than n” means add: n+7.",
+            "es": "n−7 resta 7 de n. “7 más que n” significa sumar: n+7.",
+            "pl": "n−7 odejmuje 7 od n. „7 więcej niż n” oznacza dodawanie: n+7."
           },
           "diagnosticTag": "op-wrong",
           "latex": "n - 7"
@@ -1037,7 +1063,8 @@
           "diagnosticTag": "eq-extra",
           "latex": "n + 7 = 0"
         }
-      ]
+      ],
+      "stemLatex": "n + 7"
     },
     {
       "id": "item.wedo.2",
@@ -1046,7 +1073,7 @@
         "kp.orderops.with-vars"
       ],
       "phase": "we_do",
-      "type": "evaluate",
+      "type": "mcq",
       "stem": {
         "en": "Evaluate 2x + 3 when x = 4.",
         "es": "Evalúa 2x + 3 cuando x = 4.",
@@ -1307,7 +1334,8 @@
         "a": 1,
         "b": -0.6
       },
-      "difficulty": "guided"
+      "difficulty": "guided",
+      "stemLatex": "2x = 10"
     },
     {
       "id": "item.wedo.4",
@@ -1393,7 +1421,8 @@
         "a": 1,
         "b": -0.2
       },
-      "difficulty": "guided"
+      "difficulty": "guided",
+      "stemLatex": "3 + 2 \\times 4"
     },
     {
       "id": "item.youdo.1",
@@ -1516,7 +1545,8 @@
         "a": 1,
         "b": -0.7
       },
-      "difficulty": "independent"
+      "difficulty": "independent",
+      "stemLatex": "y"
     },
     {
       "id": "item.youdo.2",
@@ -1540,9 +1570,9 @@
           },
           "isCorrect": false,
           "feedback": {
-            "en": "That is 8 times t.",
-            "es": "Eso es 8 veces t.",
-            "pl": "To 8 razy t."
+            "en": "3−m reverses the phrase. “3 less than m” is m−3.",
+            "es": "3−m invierte la frase. “3 menos que m” es m−3.",
+            "pl": "3−m odwraca zwrot. „3 mniej niż m” to m−3."
           },
           "diagnosticTag": "product",
           "latex": "8t"
@@ -1658,7 +1688,8 @@
         "a": 1,
         "b": 0.1
       },
-      "difficulty": "independent"
+      "difficulty": "independent",
+      "stemLatex": "m - 3"
     },
     {
       "id": "item.youdo.3",
@@ -1667,7 +1698,7 @@
         "kp.orderops.with-vars"
       ],
       "phase": "you_do",
-      "type": "evaluate",
+      "type": "mcq",
       "stem": {
         "en": "Evaluate 5 + 3k when k = 2.",
         "es": "Evalúa 5 + 3k cuando k = 2.",
@@ -1890,7 +1921,8 @@
         "a": 1,
         "b": 0
       },
-      "difficulty": "independent"
+      "difficulty": "independent",
+      "stemLatex": "(2 + 3) \\times x"
     },
     {
       "id": "item.retr.1",
@@ -1898,7 +1930,7 @@
         "kp.orderops.with-vars"
       ],
       "phase": "retrieval",
-      "type": "evaluate",
+      "type": "mcq",
       "stem": {
         "en": "Compute 3 × 4 + 2.",
         "es": "Calcula 3 × 4 + 2.",
@@ -2011,7 +2043,7 @@
         "kp.eval.expression"
       ],
       "phase": "retrieval",
-      "type": "evaluate",
+      "type": "mcq",
       "stem": {
         "en": "If p = 5, what is p + p?",
         "es": "Si p = 5, ¿cuánto es p + p?",
@@ -2110,9 +2142,9 @@
           },
           "isCorrect": false,
           "feedback": {
-            "en": "That is p times p.",
-            "es": "Eso es p por p.",
-            "pl": "To p razy p."
+            "en": "Left-to-right without order of operations misses the multiply-first step.",
+            "es": "De izquierda a derecha sin orden de operaciones olvida multiplicar primero.",
+            "pl": "Od lewej do prawej bez kolejności działań pomija mnożenie najpierw."
           },
           "diagnosticTag": "square"
         }

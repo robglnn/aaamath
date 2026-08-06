@@ -57,6 +57,11 @@
           "en": "Treating the coefficient and the variable as two separate terms.",
           "es": "Tratar el coeficiente y la variable como dos términos separados.",
           "pl": "Traktowanie współczynnika i zmiennej jako dwóch osobnych wyrazów."
+        },
+        {
+          "en": "Splitting a term like 3xy into separate 3, x, and y terms.",
+          "es": "Separar un término como 3xy en 3, x e y por separado.",
+          "pl": "Rozdzielanie wyrazu 3xy na osobne 3, x i y."
         }
       ],
       "standards": {
@@ -148,6 +153,11 @@
           "en": "Adding exponents or variable parts when combining (3x + 2x = 5x^2).",
           "es": "Sumar exponentes o partes variables al reducir (3x + 2x = 5x^2).",
           "pl": "Dodawanie wykładników lub części zmiennych przy redukcji (3x + 2x = 5x^2)."
+        },
+        {
+          "en": "Adding coefficients of unlike terms (3x + 2y → 5xy).",
+          "es": "Sumar coeficientes de términos distintos (3x + 2y → 5xy).",
+          "pl": "Dodawanie współczynników różnych wyrazów (3x + 2y → 5xy)."
         }
       ],
       "standards": {
@@ -239,6 +249,11 @@
           "en": "Dropping the minus sign when combining constants (2 - 5 combined as +3).",
           "es": "Perder el signo menos al reducir constantes (2 - 5 reducido como +3).",
           "pl": "Gubienie minusa przy redukcji wyrazów wolnych (2 - 5 zredukowane jako +3)."
+        },
+        {
+          "en": "Dropping the sign when combining constants (−4 + 9 → −13).",
+          "es": "Perder el signo al combinar constantes (−4 + 9 → −13).",
+          "pl": "Gubienie znaku przy łączeniu stałych (−4 + 9 → −13)."
         }
       ],
       "standards": {
@@ -331,6 +346,11 @@
           "en": "Merging unlike terms into one (2x + 3y = 5xy).",
           "es": "Fusionar términos no semejantes en uno solo (2x + 3y = 5xy).",
           "pl": "Łączenie wyrazów niepodobnych w jeden (2x + 3y = 5xy)."
+        },
+        {
+          "en": "Combining x and y terms because both are variables.",
+          "es": "Combinar términos en x e y solo porque ambos son variables.",
+          "pl": "Łączenie wyrazów x i y, bo obie są zmiennymi."
         }
       ],
       "standards": {
@@ -957,7 +977,8 @@
         "a": 1,
         "b": -0.4
       },
-      "difficulty": "guided"
+      "difficulty": "guided",
+      "stemLatex": "3x + 2x"
     },
     {
       "id": "item.wedo.2",
@@ -1929,7 +1950,7 @@
         "kp.combine.like-terms"
       ],
       "phase": "retrieval",
-      "type": "evaluate",
+      "type": "mcq",
       "stem": {
         "en": "Combine: 7n + n.",
         "es": "Reduce: 7n + n.",

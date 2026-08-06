@@ -33,6 +33,7 @@ export interface LessonSessionState {
   independentTotal: number
   masteryMet: boolean
   answeredItemIds: Set<string>
+  evidencedKpIds: Set<string>
   lastResult: AnswerResult | null
   showSolution: boolean
   isComplete: boolean
@@ -223,6 +224,7 @@ export function useLessonSession(
     independentTotal,
     masteryMet: masteryMet || masteryTriggered,
     answeredItemIds,
+    evidencedKpIds,
     lastResult,
     showSolution,
     isComplete: isComplete || masteryTriggered,

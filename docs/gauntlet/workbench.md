@@ -75,9 +75,22 @@ Refs: `docs/gauntlet/bars/`
 Shots: `loop76-95-spawn-phone.png`, `loop76-95-spawn-desktop.png`  
 Reports: `builder-loop76-95.md`, `critic-loop76-95.md`
 
+| **96** | L1 content polish | PASS_WITH_GAPS |
+| **97** | L2 content polish | PASS_WITH_GAPS |
+| **98** | L3 content polish | PASS_WITH_GAPS |
+| **99** | Lesson UX Fortnite juice | PASS_WITH_GAPS |
+| **100** | Mastery KP clarity | PASS_WITH_GAPS |
+| **101** | Progress / standards L1–L3 | PASS_WITH_GAPS |
+| **102** | Spaced / adaptive stubs | PASS_WITH_GAPS |
+| **103** | Pipeline KaTeX validation | PASS |
+| **104** | Terminal / unlock fantasy | PASS_WITH_GAPS |
+| **105** | Ship Pages | PASS_WITH_GAPS |
+
+Reports: `builder-loop96-105.md`, `critic-loop96-105.md`
+
 ## Plateau judgment
 
-Loops 76–95 punched floating-city clouds, god-rays, skyline tip, verdant flanks, diegetic HUD juice, and opened the enclosure so landscape FOV isn’t a green canyon. First-10s closer to Fortnite bars; NPC density still the absolute gap. **Visual wave complete — next: L1–L3 pedagogy perfection (96–105).**
+Loops 76–95 punched floating-city first-10s. Loops 96–105 deepened L1–L3: misconceptions, I/We/You clarity, mastery KP chips, house-standing mission track, KaTeX validator, terminal/celebrate unlock fantasy. **No L8+ sprawl.** Absolute adaptive engine still stub-honest.
 
 ## Guards held
 

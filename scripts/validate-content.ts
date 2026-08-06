@@ -6,6 +6,7 @@
 
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join, resolve } from 'node:path'
+import katex from 'katex'
 import type {
   ContentItem,
   LessonPackage,
@@ -13,6 +14,14 @@ import type {
   Locale,
   LocalizedString,
 } from '../src/content/types.ts'
+
+function checkLatexCompiles(tex: string, path: string): void {
+  try {
+    katex.renderToString(tex, { throwOnError: true, strict: 'ignore' })
+  } catch (err) {
+    fail(`${path}: KaTeX failed — ${(err as Error).message}`)
+  }
+}
 
 const LOCALES: Locale[] = ['en', 'es', 'pl']
 const PHASE_KINDS: LessonPhaseKind[] = [
@@ -226,13 +235,26 @@ function validateItems(pkg: LessonPackage, kpIds: Set<string>): Map<string, Cont
       for (const choice of item.choices) {
         isLocalizedString(choice.text, `items[${item.id}].choices[${choice.id}].text`)
         isLocalizedString(choice.feedback, `items[${item.id}].choices[${choice.id}].feedback`)
+        if (!choice.isCorrect && !choice.diagnosticTag) {
+          warn(`Item ${item.id} choice ${choice.id}: wrong choice missing diagnosticTag`)
+        }
       }
+    } else if (item.choices?.length) {
+      // Loop 103: dual-mode should be explicit mcq once choices are authored
+      warn(`Item ${item.id}: has choices but type is ${item.type} (prefer type mcq)`)
     }
 
     if (item.type === 'short' || item.type === 'evaluate' || item.type === 'translate') {
       if (item.answer === undefined && !item.acceptableAnswers?.length) {
         fail(`Item ${item.id}: ${item.type} requires answer or acceptableAnswers`)
       }
+    }
+
+    if (!item.stemLatex && !/\$/.test(item.stem.en)) {
+      warn(`Item ${item.id}: no stemLatex / inline $math$ — KaTeX fidelity weaker`)
+    }
+    for (const tex of [item.stemLatex, item.workedSolutionLatex, ...(item.choices ?? []).map((c) => c.latex)]) {
+      if (tex) checkLatexCompiles(tex, `items[${item.id}]`)
     }
 
     if (item.phase === 'you_do' && item.difficulty !== 'independent') {

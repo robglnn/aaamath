@@ -1,9 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Jurisdiction, LessonPackage } from '@/content/types'
-import { loadLesson, LESSON_ID } from '@/content/loadLesson'
+import {
+  LESSON_1_ID,
+  LESSON_2_ID,
+  LESSON_3_ID,
+  LESSONS,
+  loadLesson,
+  resolveTerminalLessonId,
+} from '@/content/loadLesson'
 import { MathText } from '@/lesson/MathText'
 import { ui, masteryStatusLabel } from '@/i18n/ui'
 import { pickLocalized, useProgressStore } from '@/progress/store'
+
+const CORE_TRACK = [LESSON_1_ID, LESSON_2_ID, LESSON_3_ID] as const
 
 const JURISDICTIONS: Jurisdiction[] = [
   'CCSS',
@@ -40,35 +49,74 @@ export function StandardsView() {
   const resetProgress = useProgressStore((s) => s.resetProgress)
 
   const [pkg, setPkg] = useState<LessonPackage | null>(null)
+  const terminalLessonId = resolveTerminalLessonId(lessonStates)
 
   useEffect(() => {
-    void loadLesson(LESSON_ID).then(setPkg)
-  }, [])
+    void loadLesson(terminalLessonId).then(setPkg)
+  }, [terminalLessonId])
 
   const standards = getStandardsCoverage(pkg, jurisdiction)
   const evidencedCount = standards.filter((row) => row.status === 'evidenced').length
 
   const lessonMastered = Boolean(pkg && lessonStates[pkg.id]?.status === 'mastered')
-  const rankId = unlocks.ranks[0] ?? (lessonMastered ? pkg?.worldIntegration.unlockRankId : null)
-  const rankUnlock = rankId && pkg ? pkg.unlocks.find((u) => u.id === rankId) : null
+  const rankId = unlocks.ranks.at(-1) ?? (lessonMastered ? pkg?.worldIntegration.unlockRankId : null)
+  const rankUnlock = rankId
+    ? Object.values(LESSONS)
+        .flatMap((lesson) => lesson.unlocks)
+        .find((u) => u.id === rankId)
+    : null
   const rankDisplay = rankUnlock ? pickLocalized(rankUnlock.title, locale) : ui(locale, 'recruitRank')
 
   const dateLocale = locale === 'en' ? 'en-US' : locale === 'es' ? 'es-ES' : 'pl-PL'
 
+  const trackRows = useMemo(
+    () =>
+      CORE_TRACK.map((id, index) => {
+        const lesson = LESSONS[id]
+        const status = lessonStates[id]?.status ?? 'locked'
+        return {
+          id,
+          index,
+          title: lesson ? pickLocalized(lesson.title, locale) : id,
+          status,
+          active: id === terminalLessonId,
+        }
+      }),
+    [lessonStates, locale, terminalLessonId],
+  )
+
   const kpRows = useMemo(() => {
-    if (!pkg) return []
-    return pkg.knowledgePoints.map((kp, index) => {
-      const status = getKpStatus(kp.id)
-      return {
-        kp,
-        index,
-        status,
-        cleared: status === 'mastered' || status === 'due_review',
-        nextReviewAt: kpStates[kp.id]?.nextReviewAt,
+    // Loop 101: surface KPs across L1–L3 so house standing shows covered theorems, not only L1.
+    const seen = new Set<string>()
+    const rows: {
+      kp: LessonPackage['knowledgePoints'][number]
+      index: number
+      status: ReturnType<typeof getKpStatus>
+      cleared: boolean
+      nextReviewAt?: string
+      lessonId: string
+    }[] = []
+    for (const id of CORE_TRACK) {
+      const lesson = LESSONS[id]
+      if (!lesson) continue
+      for (const kp of lesson.knowledgePoints) {
+        if (seen.has(kp.id)) continue
+        seen.add(kp.id)
+        const status = getKpStatus(kp.id)
+        rows.push({
+          kp,
+          index: rows.length,
+          status,
+          cleared: status === 'mastered' || status === 'due_review',
+          nextReviewAt: kpStates[kp.id]?.nextReviewAt,
+          lessonId: id,
+        })
       }
-    })
-  }, [pkg, kpStates, getKpStatus])
+    }
+    return rows
+  }, [kpStates, getKpStatus])
   const clearedCount = kpRows.filter((row) => row.cleared).length
+  const dueReviewCount = Object.values(kpStates).filter((kp) => kp.status === 'due_review').length
 
   const standardStatusLabel = (status: string) => {
     if (status === 'evidenced') return ui(locale, 'standardEvidenced')
@@ -104,12 +152,35 @@ export function StandardsView() {
             </span>
           </div>
         )}
-        <details className="ability-detail">
+        <details className="ability-detail" open>
           <summary>{ui(locale, 'abilityDetail')}</summary>
           <p className="ability-hint" aria-live="polite">
-            θ ≈ {thetaStub.toFixed(2)}
+            θ ≈ {thetaStub.toFixed(2)} · {ui(locale, 'adaptiveHint')}
           </p>
+          {dueReviewCount > 0 && (
+            <p className="review-due-tally">
+              {ui(locale, 'reviewDueCount')}: {dueReviewCount}
+            </p>
+          )}
         </details>
+      </section>
+
+      <section className="lesson-track" aria-label={ui(locale, 'lessonTrack')}>
+        <h3>{ui(locale, 'lessonTrack')}</h3>
+        <ol className="lesson-track-list">
+          {trackRows.map((row) => (
+            <li
+              key={row.id}
+              className={`lesson-track-item status-${row.status}${row.active ? ' is-active' : ''}`}
+            >
+              <span className="lesson-track-num" aria-hidden>
+                {sealNumeral(row.index)}
+              </span>
+              <span className="lesson-track-title">{row.title}</span>
+              <span className="lesson-track-status">{row.status.replace('_', ' ')}</span>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <div className="academy-row">
